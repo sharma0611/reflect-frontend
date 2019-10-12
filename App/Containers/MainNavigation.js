@@ -5,7 +5,7 @@ import React from 'react'
 import { Image, StyleSheet } from 'react-native'
 import { createSwitchNavigator } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
-import { createMaterialTopTabNavigator } from 'react-navigation-tabs'
+import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { Images, Colors, Metrics, AppStyles, Fonts } from 'Themes'
 import { modalFriendlyTransition } from './transitions'
 import { isIphoneX } from 'Themes/Metrics'
@@ -31,23 +31,18 @@ const styles = StyleSheet.create({
     activeIcon: {
         opacity: 1,
         tintColor: Colors.BrandM,
-        maxHeight: 40,
         resizeMode: 'contain'
     },
     inactiveIcon: {
         opacity: 0.35,
         tintColor: Colors.GreyM,
-        maxHeight: 40,
         resizeMode: 'contain'
     },
     tabBarStyle: {
         backgroundColor: Colors.WhiteM,
-        height: isIphoneX() ? 85 : 60,
-        paddingTop: Metrics.padding.normal / 2,
-        paddingBottom: isIphoneX() ? Metrics.padding.medium : Metrics.padding.small,
         borderTopWidth: 1,
-        justifyContent: 'space-between',
-        borderTopColor: Colors.FrostL
+        borderTopColor: Colors.FrostL,
+        paddingTop: 15
     }
 })
 
@@ -85,7 +80,7 @@ const JournalsStack = createStackNavigator(
     }
 )
 
-const Tabs = createMaterialTopTabNavigator(
+const Tabs = createBottomTabNavigator(
     {
         Journals: JournalsStack,
         Home: HomeStack,
@@ -117,9 +112,6 @@ const Tabs = createMaterialTopTabNavigator(
         tabBarOptions: {
             style: styles.tabBarStyle,
             tabStyle: styles.tabBarTab,
-            indicatorStyle: {
-                height: 0
-            },
             showIcon: true,
             showLabel: false
         },
