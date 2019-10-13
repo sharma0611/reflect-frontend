@@ -26,6 +26,7 @@ import SettingsScreen from './SettingsScreen'
 import OnboardingScreen from './OnboardingScreen'
 import MoodCalendarScreen from './MoodCalendarScreen'
 import JournalReviewScreen from './JournalReviewScreen'
+import DailyGoalsScreen from './DailyGoalsScreen'
 
 const styles = StyleSheet.create({
     activeIcon: {
