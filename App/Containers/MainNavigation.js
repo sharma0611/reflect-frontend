@@ -26,6 +26,7 @@ import OnboardingScreen from './OnboardingScreen'
 import MoodCalendarScreen from './MoodCalendarScreen'
 import JournalReviewScreen from './JournalReviewScreen'
 import DailyGoalsScreen from './DailyGoalsScreen'
+import GoalSelectScreen from './GoalSelectScreen'
 
 const styles = StyleSheet.create({
     activeIcon: {
@@ -135,6 +136,16 @@ const PaywallStack = createStackNavigator(
     }
 )
 
+const GoalsStack = createStackNavigator(
+    {
+        DailyGoals: DailyGoalsScreen,
+        GoalSelect: GoalSelectScreen
+    },
+    {
+        ...modalFriendlyTransition
+    }
+)
+
 const LoggedInStack = createStackNavigator(
     {
         Tabs: {
@@ -155,8 +166,8 @@ const LoggedInStack = createStackNavigator(
         JournalReview: {
             screen: JournalReviewScreen
         },
-        DailyGoals: {
-            screen: DailyGoalsScreen
+        Goals: {
+            screen: GoalsStack
         },
         WebView
     },

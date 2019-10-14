@@ -30,7 +30,7 @@ class DailyGoalsScreen extends React.Component<Props, State> {
                     <Section pb={2} mt={2}>
                         <SectionTitle>Goal Categories</SectionTitle>
                     </Section>
-                    <GoalCategories />
+                    <GoalCategories date={date} />
                     <Section mt={2}>
                         <SectionTitle>My Recent Goals</SectionTitle>
                         <RecentGoalsCard date={date} />

@@ -27,7 +27,39 @@ const PUBLIC_CATEGORIES = [PRODUCTIVITY, MINDFULNESS, MENTAL, PHYSICAL, SOCIAL]
 
 const PAYWALL_CATEGORIES = [GRATITUDE, MOTIVATION, MANTRAS, STRESS, HOPE]
 
-const GOAL_CATEGORIES = [FAMILY, FRIENDS]
+const GOAL_CATEGORIES = [FAMILY, FRIENDS, PRODUCTIVITY]
+
+const GOALS_COPY = {
+    [FAMILY]: [
+        'Start a family book club.',
+        'Call a relative',
+        'Call a relative',
+        'Call a relative',
+        'Call a relative',
+        'Call a relative',
+        'Call a relative',
+        'Have a device-free family dinner'
+    ],
+    [FRIENDS]: [
+        'Smile at a friend today!',
+        'Make a handmade gift for a friend.',
+        'Make a handmade gift for a friend.',
+        'Make a handmade gift for a friend.',
+        'Make a handmade gift for a friend.',
+        'Hold a candlelit dinnery party.',
+        'Have a sleepover.'
+    ],
+    [PRODUCTIVITY]: [
+        'Go to bed at 10PM.',
+        'Clear my room.',
+        'Make a handmade gift for a friend.',
+        'Make a handmade gift for a friend.',
+        'Make a handmade gift for a friend.',
+        'Make a handmade gift for a friend.',
+        'Have a good attitude.',
+        'Wake up at 6AM.'
+    ]
+}
 
 const PROMPTS_COPY = {
     POSITIVE: [
@@ -638,7 +670,8 @@ const CATEGORY_COLORS = {
 
 const CATEGORY_SUBTITLES = {
     [FAMILY]: 'Value those who matter the most.',
-    [FRIENDS]: 'Build a stronger connection.'
+    [FRIENDS]: 'Build a stronger connection.',
+    [PRODUCTIVITY]: 'Grow into the right habits.'
 }
 
 const CATEGORY_ICONS = {
@@ -730,6 +763,10 @@ class Prompts {
 
     static getPromptsForCategory(category) {
         return PROMPTS_COPY[category]
+    }
+
+    static getGoalsForCategory(category) {
+        return GOALS_COPY[category]
     }
 
     static getCategoryColor(category) {

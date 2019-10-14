@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import { Metrics, Colors } from 'Themes'
+import { Metrics } from 'Themes'
 import T from 'Components/T'
 import V from 'Components/V'
 import TouchableCard from 'Components/TouchableCard'
@@ -11,8 +11,8 @@ export const CATEGORY_CARD_HEIGHT = Metrics.screenHeight * 0.24
 
 const GoalCategoryCard = ({ category, ...rest }) => {
     const { title, subtitle, color } = category
-    const { navigation } = rest
-    const onPress = () => navigation.navigate('Paywall')
+    const { navigation, date } = rest
+    const onPress = () => navigation.navigate('GoalSelect', { category, date })
     return (
         <TouchableCard
             bg={color}
