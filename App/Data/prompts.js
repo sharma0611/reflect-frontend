@@ -19,9 +19,15 @@ const STRESS = 'Stress'
 const MANTRAS = 'Mantras'
 const HOPE = 'Hope'
 
+// daily goals
+const FAMILY = 'Family'
+const FRIENDS = 'Friends'
+
 const PUBLIC_CATEGORIES = [PRODUCTIVITY, MINDFULNESS, MENTAL, PHYSICAL, SOCIAL]
 
 const PAYWALL_CATEGORIES = [GRATITUDE, MOTIVATION, MANTRAS, STRESS, HOPE]
+
+const GOAL_CATEGORIES = [FAMILY, FRIENDS]
 
 const PROMPTS_COPY = {
     POSITIVE: [
@@ -624,7 +630,15 @@ const CATEGORY_COLORS = {
     [MANTRAS]: 'GreenD',
     [STRESS]: 'TealM',
     [HOPE]: 'OceanM',
-    [DAILY_REFLECTION]: 'NavyM'
+    [DAILY_REFLECTION]: 'NavyM',
+    // daily goals
+    [FAMILY]: 'GreenM',
+    [FRIENDS]: 'GreyBlue'
+}
+
+const CATEGORY_SUBTITLES = {
+    [FAMILY]: 'Value those who matter the most.',
+    [FRIENDS]: 'Build a stronger connection.'
 }
 
 const CATEGORY_ICONS = {
@@ -682,22 +696,35 @@ class Prompts {
     static getPaywallCategories() {
         return PAYWALL_CATEGORIES
     }
+    static getGoalCategories() {
+        return GOAL_CATEGORIES
+    }
 
     static getAllCategories() {
         let publicCategories = this.getPublicCategories()
-        let paywallCategories = this.getPaywallCategories()
+        // let paywallCategories = this.getPaywallCategories()
         publicCategories = publicCategories.map(title => {
             const color = CATEGORY_COLORS[title]
             const renderIcon = CATEGORY_ICONS[title]
             return { title, color, renderIcon, paywall: false }
         })
-        paywallCategories = paywallCategories.map(title => {
-            const color = CATEGORY_COLORS[title]
-            const renderIcon = CATEGORY_ICONS[title]
-            return { title, color, renderIcon, paywall: true }
-        })
+        // paywallCategories = paywallCategories.map(title => {
+        //     const color = CATEGORY_COLORS[title]
+        //     const renderIcon = CATEGORY_ICONS[title]
+        //     return { title, color, renderIcon, paywall: true }
+        // })
         // const allCategories = publicCategories.concat(paywallCategories)
         // return allCategories
+        return publicCategories
+    }
+
+    static getAllGoalCategories() {
+        let publicCategories = this.getGoalCategories()
+        publicCategories = publicCategories.map(title => {
+            const color = CATEGORY_COLORS[title]
+            const subtitle = CATEGORY_SUBTITLES[title]
+            return { title, color, subtitle, paywall: false }
+        })
         return publicCategories
     }
 

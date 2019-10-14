@@ -4,12 +4,14 @@ import { StyleSheet, Image, ScrollView } from 'react-native'
 import { AppStyles, Metrics, Images, Colors } from 'Themes'
 import T from 'Components/T'
 import V from 'Components/V'
-import JournalPromptsCard from 'Modules/JournalPromptsCard'
 import Screen from 'Components/Screen'
 import Section from 'Components/Section'
 import Header, { HEADER_HEIGHT } from 'Components/Header'
 import AsModal from 'HOC/AsModal'
 import Analytics from 'Controllers/AnalyticsController'
+import SectionTitle from 'Components/SectionTitle'
+import GoalCategories from 'Modules/GoalCategories'
+import RecentGoalsCard from 'Modules/RecentGoalsCard'
 
 type Props = {}
 
@@ -21,12 +23,20 @@ class DailyGoalsScreen extends React.Component<Props, State> {
     }
 
     render() {
+        const { date } = this.props.navigation.state.params
         return (
-            <Screen pt={HEADER_HEIGHT}>
+            <Screen pt={HEADER_HEIGHT} pb={0}>
                 <ScrollView>
-                    <Section></Section>
+                    <Section pb={2} mt={2}>
+                        <SectionTitle>Goal Categories</SectionTitle>
+                    </Section>
+                    <GoalCategories />
+                    <Section mt={2}>
+                        <SectionTitle>My Recent Goals</SectionTitle>
+                        <RecentGoalsCard date={date} />
+                    </Section>
                 </ScrollView>
-                <Header title={'Daily Goals'} bg={Colors.GreenL} white={true} />
+                <Header title={'Daily Goals'} bg={'GreenL'} white={true} />
             </Screen>
         )
     }

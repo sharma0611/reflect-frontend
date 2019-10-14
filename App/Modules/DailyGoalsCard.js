@@ -1,13 +1,15 @@
 // @flow
 import React from 'react'
 import { TouchableWithoutFeedback, Platform, StyleSheet, TextInput, Image } from 'react-native'
+import Touchable from 'Components/Touchable'
 import { Images, Colors, Fonts } from 'Themes'
 import Card from 'Components/Card'
 import T from 'Components/T'
 import V from 'Components/V'
 import MongoController from 'Controllers/MongoController'
+import EntypoIcon from 'react-native-vector-icons/Entypo'
 // import Analytics from 'Controllers/AnalyticsController'
-import { NavigationEvents } from 'react-navigation'
+import { NavigationEvents, withNavigation } from 'react-navigation'
 
 type CheckboxProps = {
     checked: boolean,
@@ -203,6 +205,7 @@ class DailyGoalsCard extends React.Component<Props, State> {
 
     render() {
         const { goals } = this.state
+        const { date } = this.props
         if (Platform.OS === 'android') {
             return null
         }
@@ -218,13 +221,20 @@ class DailyGoalsCard extends React.Component<Props, State> {
                 </T>
                 {goals.map(({ _id, text, completed, focus, idx }) => (
                     <Goal
-                        key={idx}
+                        key={`${_id}${idx}`}
                         {...{ text, completed, focus }}
                         onChangeText={text => this.onChangeText(text, idx)}
                         onPressEnter={() => this.onPressEnter(idx)}
                         onPressDelete={() => this.onPressDelete(idx)}
                     />
                 ))}
+                <V pabs style={{ top: 10, right: 10 }}>
+                    <Touchable
+                        onPress={() => this.props.navigation.navigate('DailyGoals', { date })}
+                    >
+                        <EntypoIcon name="circle-with-plus" size={30} color={Colors.WhiteM} />
+                    </Touchable>
+                </V>
             </Card>
         )
     }
@@ -248,4 +258,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default DailyGoalsCard
+export default withNavigation(DailyGoalsCard)

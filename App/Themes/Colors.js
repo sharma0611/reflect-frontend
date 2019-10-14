@@ -52,7 +52,7 @@ const colors = {
 
     // Daily Goals
     GreenL: '#22BC92',
-    GreenM: '#21d06f',
+    GreenM: '#75B72F',
     GreenD: '#19b35e',
 
     NavyM: '#4275E6',
@@ -92,6 +92,8 @@ const colors = {
     SkyL: '#5ca3ff',
     SkyM: '#47C7E8',
     SkyD: '#247beb',
+
+    GreyBlue: '#2F8CB7',
 
     // Daily Mood
     BlueL: '#25B3DD',

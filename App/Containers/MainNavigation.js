@@ -6,9 +6,8 @@ import { Image, StyleSheet } from 'react-native'
 import { createSwitchNavigator } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
-import { Images, Colors, Metrics, AppStyles, Fonts } from 'Themes'
+import { Images, Colors, AppStyles, Fonts } from 'Themes'
 import { modalFriendlyTransition } from './transitions'
-import { isIphoneX } from 'Themes/Metrics'
 
 // Components
 import V from 'Components/V'
@@ -155,6 +154,9 @@ const LoggedInStack = createStackNavigator(
         },
         JournalReview: {
             screen: JournalReviewScreen
+        },
+        DailyGoals: {
+            screen: DailyGoalsScreen
         },
         WebView
     },

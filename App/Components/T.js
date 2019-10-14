@@ -66,6 +66,7 @@ const T = ({
     flex,
     as,
     emphasis,
+    thinTitle,
     overrideStyle, // TO DO: figure out if style is what we want here instead... it breaks a snapshot test though so check that out too
     ...rest
 }: Props) => {
@@ -94,6 +95,7 @@ const T = ({
         link && styles.link,
         ta && { textAlign: ta },
         emphasis && Fonts.style.emphasis,
+        thinTitle && Fonts.style.thinTitle,
         strong && Fonts.style.strong,
         space(rest),
         overrideStyle && overrideStyle
