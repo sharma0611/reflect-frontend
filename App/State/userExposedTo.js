@@ -98,6 +98,7 @@ export class UserExposedToContainer extends Container<UserExposedToStateType>
         this._onExposedTo('hasPro')
         Analytics.unlockPro()
     }
+
     lockPro = () => {
         this._onUnexposedTo('hasPro')
         Analytics.lockPro()

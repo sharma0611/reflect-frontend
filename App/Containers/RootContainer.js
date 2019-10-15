@@ -15,6 +15,9 @@ import setDefaultReflectionTime from '../Apollo/interface/setDefaultReflectionTi
 import withState from 'State'
 import { bootstrapData } from 'State/bootstrapableContainer'
 import LoadingSpinner from 'Components/LoadingSpinner'
+import Purchases from 'react-native-purchases'
+import AppConfig from 'Config/AppConfig'
+import userExposedToContainer from 'State/userExposedTo'
 
 function getActiveRouteName(navigationState) {
     if (!navigationState) {
@@ -65,6 +68,35 @@ class RootContainer extends Component {
     }
     bootstrapData = async () => {
         await bootstrapData()
+        try {
+            // online
+            const { data } = await loginUser()
+            let {
+                loginUser: {
+                    userUuid,
+                    reflectionPush: { reflectionTimeHour, reflectionTimeMin }
+                }
+            } = data
+            if (reflectionTimeHour == null) {
+                await setDefaultReflectionTime()
+            }
+            PushNotification.cancelAllLocalNotifications()
+            PushNotification.setApplicationIconBadgeNumber(0)
+            Purchases.setDebugLogsEnabled(true)
+            Purchases.setup('AsrJhdgHqgRWbbrENjMfQrpPAKarCQQb', userUuid)
+            try {
+                const purchaserInfo = await Purchases.getPurchaserInfo()
+                if (typeof purchaserInfo.entitlements.active.pro !== 'undefined') {
+                    userExposedToContainer.unlockPro()
+                } else {
+                    userExposedToContainer.lockPro()
+                }
+            } catch (e) {
+                // Error fetching purchaser info
+            }
+        } catch {
+            // offline
+        }
         this.setState({ loaded: true })
     }
 

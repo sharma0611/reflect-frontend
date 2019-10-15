@@ -16,6 +16,8 @@ import Prompts from 'Data/prompts'
 import Carousel from 'react-native-snap-carousel'
 import Touchable from 'Components/Touchable'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
+import AsyncStorageController from 'Controllers/AsyncStorageController'
+import withState from 'State'
 
 type Props = {}
 
@@ -37,10 +39,11 @@ class GoalSelectScreen extends React.Component<Props, State> {
         }
     }
 
-    loadData = () => {
+    loadData = async () => {
         const { category } = this.props.navigation.state.params
         let goals = Prompts.getGoalsForCategory(category.title)
-        this.setState({ goals })
+        const dailySkips = await AsyncStorageController.getDailySkips()
+        this.setState({ goals, dailySkips })
     }
 
     componentDidMount() {
@@ -55,20 +58,33 @@ class GoalSelectScreen extends React.Component<Props, State> {
     )
 
     next = async () => {
-        const cardIndex = this.state.cardIndex + 1
-        if (this._scrollRef) {
-            // this._scrollRef.scrollTo({ x: cardIndex * SNAP_INTERVAL, y: 0, animated: true })
-            this._scrollRef.scrollToIndex({ index: cardIndex })
+        if (this.state.dailySkips === 0 && !this.props.hasPro) {
+            this.props.navigation.navigate('Paywall')
+        } else {
+            const cardIndex = this.state.cardIndex + 1
+            if (this._scrollRef) {
+                // this._scrollRef.scrollTo({ x: cardIndex * SNAP_INTERVAL, y: 0, animated: true })
+                this._scrollRef.scrollToIndex({ index: cardIndex })
+            }
+            if (!this.props.hasPro) {
+                const dailySkips = await AsyncStorageController.decrementDailySkips()
+                await this.setState({ cardIndex, dailySkips })
+            } else {
+                await this.setState({ cardIndex })
+            }
         }
-        await this.setState({ cardIndex })
     }
 
     back = async () => {
-        const cardIndex = this.state.cardIndex - 1
-        if (this._scrollRef && cardIndex >= 0) {
-            // this._scrollRef.scrollTo({ x: cardIndex * SNAP_INTERVAL, y: 0, animated: true })
-            this._scrollRef.scrollToIndex({ index: cardIndex })
-            await this.setState({ cardIndex })
+        if (!this.props.hasPro) {
+            this.props.navigation.navigate('Paywall')
+        } else {
+            const cardIndex = this.state.cardIndex - 1
+            if (this._scrollRef && cardIndex >= 0) {
+                // this._scrollRef.scrollTo({ x: cardIndex * SNAP_INTERVAL, y: 0, animated: true })
+                this._scrollRef.scrollToIndex({ index: cardIndex })
+                await this.setState({ cardIndex })
+            }
         }
     }
 
@@ -84,7 +100,7 @@ class GoalSelectScreen extends React.Component<Props, State> {
         const color = Prompts.getCategoryColor(category.title)
         return (
             <Screen pt={HEADER_HEIGHT} pb={0}>
-                <V ai="center" flex={2} jc="center">
+                <V ai="center" flex={2} jc="center" pointerEvents="">
                     <V style={{ height: CATEGORY_CARD_HEIGHT + Metrics.padding.small }}>
                         <FlatList
                             ref={ref => (this._scrollRef = ref)}
@@ -104,7 +120,6 @@ class GoalSelectScreen extends React.Component<Props, State> {
                                     CENTERING_MARGIN,
                                 marginBottom: Metrics.padding.small
                             }}
-                            style={{ height: 300 }}
                             contentOffset={{
                                 y: 0,
                                 x: cardIndex * SNAP_INTERVAL
@@ -116,7 +131,12 @@ class GoalSelectScreen extends React.Component<Props, State> {
                 </V>
                 <V flex={1} row ai="flex-start" jc="space-around" px={4}>
                     <Touchable onPress={this.back} style={styles.buttonColumn}>
-                        <V ai="center" jc="center" style={styles.button} bg={color}>
+                        <V
+                            ai="center"
+                            jc="center"
+                            style={styles.button}
+                            bg={this.props.hasPro ? color : 'GreyM'}
+                        >
                             <EntypoIcon name="chevron-thin-left" size={30} color={Colors.WhiteM} />
                         </V>
                     </Touchable>
@@ -127,7 +147,16 @@ class GoalSelectScreen extends React.Component<Props, State> {
                     </Touchable>
                     <V ai="center" style={styles.buttonColumn}>
                         <Touchable onPress={this.next}>
-                            <V ai="center" jc="center" style={styles.button} bg={color}>
+                            <V
+                                ai="center"
+                                jc="center"
+                                style={styles.button}
+                                bg={
+                                    !this.props.hasPro && this.state.dailySkips === 0
+                                        ? 'GreyM'
+                                        : color
+                                }
+                            >
                                 <EntypoIcon
                                     name="chevron-thin-right"
                                     size={30}
@@ -135,12 +164,24 @@ class GoalSelectScreen extends React.Component<Props, State> {
                                 />
                             </V>
                         </Touchable>
-                        <V bg={color} m={2} ai="center" jc="center" style={styles.dailySkipCounter}>
-                            <T heading color="WhiteM" pt={1}>
-                                3
-                            </T>
-                        </V>
-                        <SectionTitle>Daily Skips</SectionTitle>
+                        {!this.props.hasPro && (
+                            <V ai="center">
+                                <V
+                                    m={2}
+                                    ai="center"
+                                    jc="center"
+                                    style={styles.dailySkipCounter}
+                                    bg={this.state.dailySkips === 0 ? 'GreyM' : color}
+                                >
+                                    <T heading color="WhiteM" pt={1}>
+                                        {this.state.dailySkips}
+                                    </T>
+                                </V>
+                                <T heading color="GreyM">
+                                    Daily Skips
+                                </T>
+                            </V>
+                        )}
                     </V>
                 </V>
                 <Header
@@ -174,4 +215,5 @@ const styles = StyleSheet.create({
     }
 })
 
-export default AsModal(GoalSelectScreen, {}, true)
+const GoalSelectScreenModal = AsModal(GoalSelectScreen, {}, true)
+export default withState(GoalSelectScreenModal, 'userExposedTo')
