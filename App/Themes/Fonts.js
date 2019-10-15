@@ -122,7 +122,7 @@ const style = {
     },
     thinTitle: {
         fontFamily: type.thinTitle,
-        fontWeight: '400'
+        fontWeight: '300'
     }
 }
 

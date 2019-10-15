@@ -32,13 +32,18 @@ const GOAL_CATEGORIES = [FAMILY, FRIENDS, PRODUCTIVITY]
 const GOALS_COPY = {
     [FAMILY]: [
         'Start a family book club.',
-        'Call a relative',
-        'Call a relative',
-        'Call a relative',
-        'Call a relative',
-        'Call a relative',
-        'Call a relative',
-        'Have a device-free family dinner'
+        'Call a aj relative',
+        'Call a rlative',
+        'Call a reative',
+        'Call a relaive',
+        'Call  relative',
+        'Call relative',
+        'Have evice-free family dinner',
+        'Have evicefree family dinner',
+        'Have evicefree family inner',
+        'Have evicefre family inner',
+        'Have evicefre family inne',
+        'ave evicefre family inne'
     ],
     [FRIENDS]: [
         'Smile at a friend today!',

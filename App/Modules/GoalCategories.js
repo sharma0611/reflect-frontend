@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { ScrollView } from 'react-native'
+import { ScrollView, Animated } from 'react-native'
 import { Metrics } from 'Themes'
 import V from 'Components/V'
 import GoalCategoryCard, { CATEGORY_CARD_WIDTH } from './GoalCategoryCard'
@@ -9,16 +9,6 @@ import { withNavigation } from 'react-navigation'
 
 const CATEGORY_MARGIN = 2
 const SNAP_INTERVAL = CATEGORY_CARD_WIDTH + Metrics.padding.scale[CATEGORY_MARGIN]
-export const calculateProgress = (scroll: number, height: number) => {
-    let progress
-    progress = parseFloat(scroll) / parseFloat(height) || 0
-    if (progress < 0) {
-        progress = 0
-    } else if (progress > 1) {
-        progress = 1
-    }
-    return progress
-}
 
 class GoalCategories extends React.Component<*> {
     renderCategory = (category, index) => {
@@ -30,10 +20,11 @@ class GoalCategories extends React.Component<*> {
     }
 
     handleScroll = event => {
-        const index = calculateProgress(
-            SNAP_INTERVAL - Metrics.padding.medium / 2,
-            event.nativeEvent.contentOffset.x
-        )
+        let index = event.nativeEvent.contentOffset.x / (SNAP_INTERVAL - Metrics.padding.medium)
+        if (index < 0) {
+            index = 0
+        }
+        this.props.setHeaderColor(index)
     }
 
     render() {
@@ -43,7 +34,17 @@ class GoalCategories extends React.Component<*> {
                 horizontal
                 snapToAlignment="start"
                 decelerationRate={0}
-                onScroll={this.handleScroll}
+                onScroll={Animated.event(
+                    [
+                        {
+                            nativeEvent: { contentOffset: { x: this.props.HeaderColor } }
+                        }
+                    ],
+                    { listener: this.handleScroll }, //Added listener
+                    {
+                        useNativeDriver: true
+                    }
+                )}
                 scrollEventThrottle={10}
                 snapToInterval={SNAP_INTERVAL}
                 showsHorizontalScrollIndicator={false}

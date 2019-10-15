@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Animated } from 'react-native'
 import { AppStyles, Metrics, Colors, Images } from 'Themes'
 import T from 'Components/T'
 import V from 'Components/V'
@@ -16,15 +16,24 @@ type State = {}
 
 class Header extends React.Component<Props, State> {
     render() {
-        const { title, white, onClose, ...rest } = this.props
+        const { title, white, onClose, animatedColor, ...rest } = this.props
         const titleColor = white ? 'WhiteM' : 'GreyL'
+
+        let C = animatedColor ? Animated.View : V
+
         return (
             <V row pabs p={1} style={{ width: Metrics.screenWidth }} jc="flex-end">
                 {!!title && (
                     <V pabs pt={3} pl={3} style={styles.headerWrapper}>
-                        <V pabs style={styles.headerBackground} {...rest} />
+                        <C
+                            style={[
+                                styles.headerBackground,
+                                animatedColor && { backgroundColor: animatedColor }
+                            ]}
+                            {...rest}
+                        />
                         <V style={AppStyles.bringToFront}>
-                            <T titleS emphasis color={titleColor}>
+                            <T titleS thinTitle color={titleColor}>
                                 {title}
                             </T>
                         </V>
@@ -60,6 +69,7 @@ const styles = StyleSheet.create({
     headerBackground: {
         width: Metrics.screenWidth,
         height: HEADER_HEIGHT,
+        position: 'absolute',
         backgroundColor: Colors.WhiteM,
         ...AppStyles.dropShadow.normal,
         shadowOpacity: 0.17

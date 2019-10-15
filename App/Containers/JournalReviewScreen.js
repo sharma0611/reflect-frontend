@@ -1,8 +1,5 @@
 // @flow
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import { Colors } from 'Themes'
-import V from 'Components/V'
 import AsModal from 'HOC/AsModal'
 import Header, { HEADER_HEIGHT } from 'Components/Header'
 import Screen from 'Components/Screen'
