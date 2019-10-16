@@ -5,19 +5,15 @@ import { AppStyles, Metrics, Images, Colors } from 'Themes'
 import T from 'Components/T'
 import V from 'Components/V'
 import Screen from 'Components/Screen'
-import Section from 'Components/Section'
 import Header, { HEADER_HEIGHT } from 'Components/Header'
 import AsModal from 'HOC/AsModal'
-import Analytics from 'Controllers/AnalyticsController'
-import SectionTitle from 'Components/SectionTitle'
-import GoalCategories from 'Modules/GoalCategories'
 import GoalCard, { CATEGORY_CARD_WIDTH, CATEGORY_CARD_HEIGHT } from 'Modules/GoalCard'
 import Prompts from 'Data/prompts'
-import Carousel from 'react-native-snap-carousel'
 import Touchable from 'Components/Touchable'
 import EntypoIcon from 'react-native-vector-icons/Entypo'
 import AsyncStorageController from 'Controllers/AsyncStorageController'
 import withState from 'State'
+import MongoController from 'Controllers/MongoController'
 
 type Props = {}
 
@@ -26,8 +22,7 @@ type State = {}
 const CATEGORY_MARGIN = 5
 const SNAP_INTERVAL = CATEGORY_CARD_WIDTH + Metrics.padding.scale[CATEGORY_MARGIN]
 
-const CENTERING_MARGIN =
-    (Metrics.screenWidth - CATEGORY_CARD_WIDTH - 2 * Metrics.padding.scale[CATEGORY_MARGIN]) / 2
+const CENTERING_MARGIN = (Metrics.screenWidth - CATEGORY_CARD_WIDTH) / 2
 
 class GoalSelectScreen extends React.Component<Props, State> {
     constructor(props) {
@@ -39,15 +34,32 @@ class GoalSelectScreen extends React.Component<Props, State> {
         }
     }
 
-    loadData = async () => {
+    addGoal = async goal => {
+        const { date } = this.props.navigation.state.params
+        let currDayGoals = await MongoController.fetchDailyGoals(date)
+        currDayGoals.push({
+            idx: currDayGoals.length,
+            completed: false,
+            text: goal
+        })
+        await MongoController.setDailyGoals(date, currDayGoals)
+        this.props.navigation.goBack(null)
+    }
+
+    loadData = () => {
         const { category } = this.props.navigation.state.params
         let goals = Prompts.getGoalsForCategory(category.title)
+        this.setState({ goals })
+    }
+
+    loadAsyncData = async () => {
         const dailySkips = await AsyncStorageController.getDailySkips()
-        this.setState({ goals, dailySkips })
+        this.setState({ dailySkips })
     }
 
     componentDidMount() {
         this.loadData()
+        this.loadAsyncData()
         // Analytics.openJournalCategory(category)
     }
 
@@ -59,7 +71,7 @@ class GoalSelectScreen extends React.Component<Props, State> {
 
     next = async () => {
         if (this.state.dailySkips === 0 && !this.props.hasPro) {
-            this.props.navigation.navigate('Paywall')
+            this.props.navigation.navigate('Paywall', { goBack: true })
         } else {
             const cardIndex = this.state.cardIndex + 1
             if (this._scrollRef) {
@@ -77,7 +89,7 @@ class GoalSelectScreen extends React.Component<Props, State> {
 
     back = async () => {
         if (!this.props.hasPro) {
-            this.props.navigation.navigate('Paywall')
+            this.props.navigation.navigate('Paywall', { goBack: true })
         } else {
             const cardIndex = this.state.cardIndex - 1
             if (this._scrollRef && cardIndex >= 0) {
@@ -98,27 +110,23 @@ class GoalSelectScreen extends React.Component<Props, State> {
         const { date, category } = this.props.navigation.state.params
         const cardIndex = 1
         const color = Prompts.getCategoryColor(category.title)
+        const snapOffsets = this.state.goals.map((val, index) => index * SNAP_INTERVAL)
         return (
             <Screen pt={HEADER_HEIGHT} pb={0}>
-                <V ai="center" flex={2} jc="center" pointerEvents="">
+                <V ai="center" flex={2} jc="center">
                     <V style={{ height: CATEGORY_CARD_HEIGHT + Metrics.padding.small }}>
                         <FlatList
                             ref={ref => (this._scrollRef = ref)}
                             horizontal
                             snapToAlignment="start"
-                            decelerationRate={0}
-                            snapToInterval={SNAP_INTERVAL}
+                            decelerationRate="fast"
+                            pagingEnabled={true}
                             showsHorizontalScrollIndicator={false}
                             onEndReached={this.handleLoadMore}
                             onEndThreshold={0.15}
+                            snapToOffsets={snapOffsets}
                             contentContainerStyle={{
-                                marginLeft:
-                                    Metrics.padding.scale[CATEGORY_MARGIN] + CENTERING_MARGIN,
-                                paddingRight:
-                                    Metrics.padding.medium +
-                                    Metrics.padding.scale[CATEGORY_MARGIN] +
-                                    CENTERING_MARGIN,
-                                marginBottom: Metrics.padding.small
+                                marginLeft: CENTERING_MARGIN
                             }}
                             contentOffset={{
                                 y: 0,
@@ -140,7 +148,10 @@ class GoalSelectScreen extends React.Component<Props, State> {
                             <EntypoIcon name="chevron-thin-left" size={30} color={Colors.WhiteM} />
                         </V>
                     </Touchable>
-                    <Touchable style={styles.buttonColumn}>
+                    <Touchable
+                        style={styles.buttonColumn}
+                        onPress={() => this.addGoal(this.state.goals[this.state.cardIndex])}
+                    >
                         <V ai="center" jc="center" style={styles.button} bg={color}>
                             <EntypoIcon name="plus" size={30} color={Colors.WhiteM} />
                         </V>

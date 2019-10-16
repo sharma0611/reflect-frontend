@@ -43,14 +43,17 @@ const colors = {
     RedXl: '#FFEAEF',
     RedL: '#f0777a',
     RedM: '#e15054',
-    RedD: '#cc373a',
+    RedD: '#B72F45',
     RedError: '#ff003b',
 
     GoldL: '#fcd877',
     GoldM: '#ffc71a',
     GoldD: '#eeb417',
 
+    BrownM: '#B9621D',
+
     // Daily Goals
+    OliveGreen: '#779D1A',
     GreenL: '#22BC92',
     GreenM: '#75B72F',
     GreenD: '#19b35e',
@@ -64,7 +67,7 @@ const colors = {
 
     PurpleL: '#9679ff',
     PurpleM: '#784fff',
-    PurpleD: '#5f39ed',
+    PurpleD: '#842FB7',
 
     OceanL: '#76e4e8',
     OceanM: '#3dd2d7',
