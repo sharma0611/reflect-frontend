@@ -5,7 +5,7 @@ const NAME = 'NAME'
 const DAILY_SKIPS = 'DAILY_SKIPS'
 const DAILY_SKIPS_LAST_SEEN = 'DAILY_SKIPS_LAST_SEEN'
 
-const NUM_DAILY_SKIPS = 3
+const NUM_DAILY_SKIPS = 5
 
 class AsyncStorageController {
     clear = async () => {

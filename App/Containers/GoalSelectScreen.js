@@ -113,7 +113,7 @@ class GoalSelectScreen extends React.Component<Props, State> {
         const snapOffsets = this.state.goals.map((val, index) => index * SNAP_INTERVAL)
         return (
             <Screen pt={HEADER_HEIGHT} pb={0}>
-                <V ai="center" flex={2} jc="center">
+                <V ai="center" flex={2} jc="center" pointerEvents="none">
                     <V style={{ height: CATEGORY_CARD_HEIGHT + Metrics.padding.small }}>
                         <FlatList
                             ref={ref => (this._scrollRef = ref)}
