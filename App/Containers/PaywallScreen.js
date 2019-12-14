@@ -81,9 +81,9 @@ class PaywallScreen extends React.Component<Props, State> {
     bootstrapData = async () => {
         try {
             const entitlements = await Purchases.getEntitlements()
-            this.setState({ entitlements, loaded: true })
+            // this.setState({ entitlements, loaded: true })
         } catch {
-            this.setState({ offline: true })
+            // this.setState({ offline: true, loaded: true })
         }
     }
 
@@ -92,9 +92,9 @@ class PaywallScreen extends React.Component<Props, State> {
     }
 
     renderPaywallContent() {
-        if (!this.state.loaded && !this.state.offline) {
+        if (!this.state.loaded) {
             return <LoadingSpinner />
-        } else if (this.state.loaded) {
+        } else if (this.state.loaded && !this.state.offline) {
             let monthlyPriceString, yearlyPriceString
             let {
                 pro: {
@@ -119,8 +119,8 @@ class PaywallScreen extends React.Component<Props, State> {
                         )}
                         {ValueProp(
                             'calendar',
-                            'Progress Report',
-                            'Get full mood history and analytics'
+                            'Daily Goals',
+                            'Get full access to our collection of daily goals for healthy habit forming'
                         )}
                     </Section>
                     <Section>

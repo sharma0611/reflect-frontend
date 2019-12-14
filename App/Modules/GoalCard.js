@@ -19,7 +19,7 @@ const GoalCard = ({ goal, color, date, ...rest }) => {
             height={CATEGORY_CARD_HEIGHT}
         >
             <V flex={1} pr={1} pb={1} jc="flex-start">
-                <T color="WhiteM" titleL thinTitle>
+                <T color="WhiteM" titleM thinTitle>
                     {goal}
                 </T>
             </V>

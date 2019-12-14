@@ -14,6 +14,7 @@ import EntypoIcon from 'react-native-vector-icons/Entypo'
 import AsyncStorageController from 'Controllers/AsyncStorageController'
 import withState from 'State'
 import MongoController from 'Controllers/MongoController'
+import LoadingSpinner from 'Components/LoadingSpinner'
 
 type Props = {}
 
@@ -27,9 +28,8 @@ const CENTERING_MARGIN = (Metrics.screenWidth - CATEGORY_CARD_WIDTH) / 2
 class GoalSelectScreen extends React.Component<Props, State> {
     constructor(props) {
         super(props)
-        const cardIndex = 1
         this.state = {
-            cardIndex,
+            loading: true,
             goals: []
         }
     }
@@ -53,8 +53,10 @@ class GoalSelectScreen extends React.Component<Props, State> {
     }
 
     loadAsyncData = async () => {
+        const { category } = this.props.navigation.state.params
         const dailySkips = await AsyncStorageController.getDailySkips()
-        this.setState({ dailySkips })
+        const cardIndex = await AsyncStorageController.getCardIndex(category.title)
+        this.setState({ dailySkips, loading: false, cardIndex, initialCardIndex: cardIndex })
     }
 
     componentDidMount() {
@@ -70,6 +72,7 @@ class GoalSelectScreen extends React.Component<Props, State> {
     )
 
     next = async () => {
+        const { category } = this.props.navigation.state.params
         if (this.state.dailySkips === 0 && !this.props.hasPro) {
             this.props.navigation.navigate('Paywall', { goBack: true })
         } else {
@@ -77,17 +80,19 @@ class GoalSelectScreen extends React.Component<Props, State> {
             if (this._scrollRef) {
                 // this._scrollRef.scrollTo({ x: cardIndex * SNAP_INTERVAL, y: 0, animated: true })
                 this._scrollRef.scrollToIndex({ index: cardIndex })
-            }
-            if (!this.props.hasPro) {
-                const dailySkips = await AsyncStorageController.decrementDailySkips()
-                await this.setState({ cardIndex, dailySkips })
-            } else {
-                await this.setState({ cardIndex })
+                if (!this.props.hasPro) {
+                    const dailySkips = await AsyncStorageController.decrementDailySkips()
+                    await this.setState({ cardIndex, dailySkips })
+                } else {
+                    await this.setState({ cardIndex })
+                }
+                await AsyncStorageController.setCardIndex(category.title, cardIndex)
             }
         }
     }
 
     back = async () => {
+        const { category } = this.props.navigation.state.params
         if (!this.props.hasPro) {
             this.props.navigation.navigate('Paywall', { goBack: true })
         } else {
@@ -96,6 +101,7 @@ class GoalSelectScreen extends React.Component<Props, State> {
                 // this._scrollRef.scrollTo({ x: cardIndex * SNAP_INTERVAL, y: 0, animated: true })
                 this._scrollRef.scrollToIndex({ index: cardIndex })
                 await this.setState({ cardIndex })
+                await AsyncStorageController.setCardIndex(category.title, cardIndex)
             }
         }
     }
@@ -108,9 +114,13 @@ class GoalSelectScreen extends React.Component<Props, State> {
 
     render() {
         const { date, category } = this.props.navigation.state.params
-        const cardIndex = 1
         const color = Prompts.getCategoryColor(category.title)
         const snapOffsets = this.state.goals.map((val, index) => index * SNAP_INTERVAL)
+
+        if (this.state.loading) {
+            return <LoadingSpinner />
+        }
+
         return (
             <Screen pt={HEADER_HEIGHT} pb={0}>
                 <V ai="center" flex={2} jc="center" pointerEvents="none">
@@ -130,7 +140,7 @@ class GoalSelectScreen extends React.Component<Props, State> {
                             }}
                             contentOffset={{
                                 y: 0,
-                                x: cardIndex * SNAP_INTERVAL
+                                x: this.state.initialCardIndex * SNAP_INTERVAL
                             }}
                             data={this.state.goals}
                             renderItem={({ item }) => this.renderItem(item, color)}

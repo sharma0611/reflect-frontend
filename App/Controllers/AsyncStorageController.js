@@ -4,8 +4,10 @@ import AsyncStorage from '@react-native-community/async-storage'
 const NAME = 'NAME'
 const DAILY_SKIPS = 'DAILY_SKIPS'
 const DAILY_SKIPS_LAST_SEEN = 'DAILY_SKIPS_LAST_SEEN'
+const GOAL_CATEGORY_INDEX = '_GOAL_CATEGORY_INDEX'
 
 const NUM_DAILY_SKIPS = 5
+const INITIAL_CARD_INDEX = 1
 
 class AsyncStorageController {
     clear = async () => {
@@ -44,6 +46,21 @@ class AsyncStorageController {
             dailySkips = await this.getItem(DAILY_SKIPS)
         }
         return dailySkips
+    }
+
+    getCardIndex = async category => {
+        const categoryKey = category + GOAL_CATEGORY_INDEX
+        const cardIndex = await this.getItem(categoryKey)
+        if (cardIndex) {
+            return cardIndex
+        } else {
+            return INITIAL_CARD_INDEX
+        }
+    }
+
+    setCardIndex = async (category, cardIndex) => {
+        const categoryKey = category + GOAL_CATEGORY_INDEX
+        await this.setItem(categoryKey, cardIndex)
     }
 
     decrementDailySkips = async () => {
