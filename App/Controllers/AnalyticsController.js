@@ -77,6 +77,10 @@ class Tracking {
         this._trackWithProperties('Open Category', { category })
     }
 
+    openGoalCategory = category => {
+        this._trackWithProperties('Open Goal Category', { category })
+    }
+
     selectMonthlySubscription = () => {
         this._track('Select monthly subscription')
     }
@@ -129,6 +133,10 @@ class Tracking {
         const b = moment()
         const daysAgo = b.diff(a, 'days')
         this._trackWithProperties('Press Daily Reflection', { 'Days Ago': daysAgo })
+    }
+
+    openDailyGoalsScreen = () => {
+        this._track('Open Daily Goals Screen')
     }
 
     pressDailyGoals = date => {

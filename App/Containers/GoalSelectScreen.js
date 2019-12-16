@@ -7,6 +7,7 @@ import V from 'Components/V'
 import Screen from 'Components/Screen'
 import Header, { HEADER_HEIGHT } from 'Components/Header'
 import AsModal from 'HOC/AsModal'
+import Analytics from 'Controllers/AnalyticsController'
 import GoalCard, { CATEGORY_CARD_WIDTH, CATEGORY_CARD_HEIGHT } from 'Modules/GoalCard'
 import Prompts from 'Data/prompts'
 import Touchable from 'Components/Touchable'
@@ -60,9 +61,10 @@ class GoalSelectScreen extends React.Component<Props, State> {
     }
 
     componentDidMount() {
+        const { category } = this.props.navigation.state.params
         this.loadData()
         this.loadAsyncData()
-        // Analytics.openJournalCategory(category)
+        Analytics.openGoalCategory(category)
     }
 
     renderItem = (goal, color) => (

@@ -26,6 +26,10 @@ class DailyGoalsScreen extends React.Component<Props, State> {
         }
     }
 
+    componentDidMount() {
+        Analytics.openDailyGoalsScreen()
+    }
+
     render() {
         const categories = Prompts.getAllGoalCategories()
         const categoryColors = categories.map(category => Colors.getColor(category.color))

@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* ReflectAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ReflectAppTests.m */; };
-		08540893E4A74B6EAA6C0F41 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DAE798F739A4A118D8D8D65 /* Ionicons.ttf */; };
-		111FC7516285428ABC8B9D00 /* Avenir-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 25B57462F196452DBE24A288 /* Avenir-Medium.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -18,29 +16,13 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* ReflectAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ReflectAppTests.m */; };
-		3332A28728A74AAD9D9DFBF3 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F7D7A0992A744E5B6EEEA2C /* Feather.ttf */; };
 		40B965702355A0EE00FBE6AB /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40B9656F2355A0EE00FBE6AB /* StoreKit.framework */; };
-		47EF6450643943D0865BF901 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5DCD60B12AFD4FCCA56E4F52 /* MaterialCommunityIcons.ttf */; };
-		55825E30489B4D77B7F3955B /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FE0FC19428C44AA489CAB366 /* FontAwesome.ttf */; };
-		65A1D395CBCD4194AE0BEDB9 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6C7D7A845E5E4BF587B7F274 /* Entypo.ttf */; };
-		660B583FDC074B3EA4401290 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F06D40381EE432F8428358F /* FontAwesome5_Solid.ttf */; };
-		804E778ABF6446C48976B3C8 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F08A60E078C84B6F87A8BC99 /* FontAwesome5_Regular.ttf */; };
-		900ABC6C21604B2AAEC4014C /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1D44B34DAE24932AE882052 /* SimpleLineIcons.ttf */; };
+		40CA60DE23A6F13E00F2E474 /* Bariol-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 169ECBB68D9F43B5B65E1049 /* Bariol-Regular.ttf */; };
+		40CA60DF23A6F13E00F2E474 /* Ubuntu.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F04B9D819004E3081E137F8 /* Ubuntu.ttf */; };
 		9172750D3AD9124F029A1827 /* libPods-ReflectApp-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7DF6341E25AF653C8721EB /* libPods-ReflectApp-tvOS.a */; };
-		9FB8F3B8E8A74308BB1462C4 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58D3B9721B0142E78CF703E5 /* AntDesign.ttf */; };
-		A77DFC21B95E48D1A5DF4504 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0DC1C90A9D2140BFAF803786 /* Fontisto.ttf */; };
-		AB2CF41C2D4744DE8F30FD4E /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B0CE9FB11D54662B24FD957 /* Foundation.ttf */; };
-		AC9DF19A322E4E5195624C21 /* Bariol-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 169ECBB68D9F43B5B65E1049 /* Bariol-Regular.ttf */; };
-		B31F70604E4B4BB495233D9A /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2FA6B3198BCD4B919ED62BC9 /* Zocial.ttf */; };
-		B6A7390D7AF64607B197EB51 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 223A98038AE141FBB28858BB /* MaterialIcons.ttf */; };
-		BE9A67DE24694AAEBC63E571 /* Avenir-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9CBF45B554C48D091D3EAB1 /* Avenir-Book.ttf */; };
 		D9F71EE62528A082194525F7 /* libPods-ReflectApp-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F2578D10CFD054D595F4832D /* libPods-ReflectApp-tvOSTests.a */; };
-		DBC04621700B4188B316CB06 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3E92D25A5F14AA587E09960 /* Octicons.ttf */; };
-		DC45C451727E4A9D8B693BD2 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D9C25B1832B45E88A673AF0 /* EvilIcons.ttf */; };
 		E1CA9160D183D3B55C1D72AD /* libPods-ReflectAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A6103052DA8034F3DA7C48 /* libPods-ReflectAppTests.a */; };
-		E6439082FEA74CA6AE5A37E1 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 861AABB69CD346F5809A4329 /* FontAwesome5_Brands.ttf */; };
 		E665C55C71B0B7F288393578 /* libPods-ReflectApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F12D3243DBAC798B8482671 /* libPods-ReflectApp.a */; };
-		F5F10BBF151B423999D0388B /* Ubuntu.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F04B9D819004E3081E137F8 /* Ubuntu.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -415,28 +397,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40CA60DE23A6F13E00F2E474 /* Bariol-Regular.ttf in Resources */,
+				40CA60DF23A6F13E00F2E474 /* Ubuntu.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				BE9A67DE24694AAEBC63E571 /* Avenir-Book.ttf in Resources */,
-				111FC7516285428ABC8B9D00 /* Avenir-Medium.ttf in Resources */,
-				AC9DF19A322E4E5195624C21 /* Bariol-Regular.ttf in Resources */,
-				F5F10BBF151B423999D0388B /* Ubuntu.ttf in Resources */,
-				9FB8F3B8E8A74308BB1462C4 /* AntDesign.ttf in Resources */,
-				65A1D395CBCD4194AE0BEDB9 /* Entypo.ttf in Resources */,
-				DC45C451727E4A9D8B693BD2 /* EvilIcons.ttf in Resources */,
-				3332A28728A74AAD9D9DFBF3 /* Feather.ttf in Resources */,
-				55825E30489B4D77B7F3955B /* FontAwesome.ttf in Resources */,
-				E6439082FEA74CA6AE5A37E1 /* FontAwesome5_Brands.ttf in Resources */,
-				804E778ABF6446C48976B3C8 /* FontAwesome5_Regular.ttf in Resources */,
-				660B583FDC074B3EA4401290 /* FontAwesome5_Solid.ttf in Resources */,
-				A77DFC21B95E48D1A5DF4504 /* Fontisto.ttf in Resources */,
-				AB2CF41C2D4744DE8F30FD4E /* Foundation.ttf in Resources */,
-				08540893E4A74B6EAA6C0F41 /* Ionicons.ttf in Resources */,
-				47EF6450643943D0865BF901 /* MaterialCommunityIcons.ttf in Resources */,
-				B6A7390D7AF64607B197EB51 /* MaterialIcons.ttf in Resources */,
-				DBC04621700B4188B316CB06 /* Octicons.ttf in Resources */,
-				900ABC6C21604B2AAEC4014C /* SimpleLineIcons.ttf in Resources */,
-				B31F70604E4B4BB495233D9A /* Zocial.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -811,11 +775,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = ReflectApp/ReflectApp.entitlements;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = M6M42763Y4;
 				INFOPLIST_FILE = ReflectApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.2.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -834,10 +799,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = ReflectApp/ReflectApp.entitlements;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = M6M42763Y4;
 				INFOPLIST_FILE = ReflectApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.2.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

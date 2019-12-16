@@ -32,18 +32,19 @@ const styles = StyleSheet.create({
     activeIcon: {
         opacity: 1,
         tintColor: Colors.BrandM,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
+        height: 30
     },
     inactiveIcon: {
         opacity: 0.35,
         tintColor: Colors.GreyM,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
+        height: 30
     },
     tabBarStyle: {
         backgroundColor: Colors.WhiteM,
         borderTopWidth: 1,
-        borderTopColor: Colors.FrostL,
-        paddingTop: 15
+        borderTopColor: Colors.FrostL
     }
 })
 

@@ -7349,6 +7349,13 @@ toidentifier@1.0.0:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
 
+top-level-await@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/top-level-await/-/top-level-await-1.1.0.tgz#b67105a391601279b2b9b9436c2e0ad10f61aee0"
+  integrity sha1-tnEFo5FgEnmyublDbC4K0Q9hruA=
+  dependencies:
+    semver "^5.3.0"
+
 tough-cookie@^2.3.3, tough-cookie@^2.3.4:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/tough-cookie/-/tough-cookie-2.5.0.tgz#cd9fb2a0aa1d5a12b473bd9fb96fa3dcff65ade2"

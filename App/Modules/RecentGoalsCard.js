@@ -53,7 +53,7 @@ class RecentGoalsCard extends React.Component<Props, State> {
             <V pb={5}>
                 <Card bg="WhiteM" p={2} mt={2}>
                     {this.state.recentGoals.map((goal, index) => (
-                        <V>
+                        <V key={goal.text}>
                             <Touchable onPress={() => this.addGoal(goal)}>
                                 <V jc="space-between" ai="center" row p={2}>
                                     <T color="GreyD">{goal.text}</T>
