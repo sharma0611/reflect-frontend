@@ -245,6 +245,21 @@ class MongoController {
         })
     }
 
+    fetchRecentGoals = () => {
+        return new Promise((resolve, reject) => {
+            const db = this.dailyGoalsDb
+            db.find({})
+                .limit(50)
+                .sort({ date: -1, idx: 1 })
+                .exec((err, docs) => {
+                    if (err) {
+                        reject(err)
+                    }
+                    resolve(docs)
+                })
+        })
+    }
+
     setDailyGoals = (date: Date, goals: Array<Goal>) => {
         return new Promise.all(goals.map(goal => this.setDailyGoal(date, goal)))
     }

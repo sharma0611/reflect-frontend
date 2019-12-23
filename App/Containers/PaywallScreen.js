@@ -80,11 +80,10 @@ class PaywallScreen extends React.Component<Props, State> {
 
     bootstrapData = async () => {
         try {
-            let entitlements
-            entitlements = await Purchases.getEntitlements()
-            this.setState({ entitlements, loaded: true })
+            const entitlements = await Purchases.getEntitlements()
+            // this.setState({ entitlements, loaded: true })
         } catch {
-            this.setState({ offline: true })
+            // this.setState({ offline: true, loaded: true })
         }
     }
 
@@ -93,9 +92,9 @@ class PaywallScreen extends React.Component<Props, State> {
     }
 
     renderPaywallContent() {
-        if (!this.state.loaded && !this.state.offline) {
+        if (!this.state.loaded) {
             return <LoadingSpinner />
-        } else if (this.state.loaded) {
+        } else if (this.state.loaded && !this.state.offline) {
             let monthlyPriceString, yearlyPriceString
             let {
                 pro: {
@@ -120,8 +119,8 @@ class PaywallScreen extends React.Component<Props, State> {
                         )}
                         {ValueProp(
                             'calendar',
-                            'Progress Report',
-                            'Get full mood history and analytics'
+                            'Daily Goals',
+                            'Get full access to our collection of daily goals for healthy habit forming'
                         )}
                     </Section>
                     <Section>
@@ -202,8 +201,11 @@ class PaywallScreen extends React.Component<Props, State> {
         } else if (this.state.offline) {
             return (
                 <V p={4}>
-                    <T heading>
-                        Connection Error! Please check that you have an internet connection!
+                    <T heading color="GreyM" p={2}>
+                        Connection Error!
+                    </T>
+                    <T heading color="GreyM" p={2}>
+                        Please check that you have an internet connection!
                     </T>
                 </V>
             )
@@ -211,10 +213,21 @@ class PaywallScreen extends React.Component<Props, State> {
     }
 
     render() {
+        let goBack
+        try {
+            goBack = this.props.navigation.state.params.goBack
+        } catch {
+            goBack = null
+        }
         return (
             <Screen pt={HEADER_HEIGHT} bg="transparent">
                 {this.renderPaywallContent()}
-                <Header title={'Unlock self growth'} bg="BrandM" white />
+                <Header
+                    title={'Unlock self growth'}
+                    bg="BrandM"
+                    white
+                    onClose={goBack ? () => this.props.navigation.goBack(null) : null}
+                />
             </Screen>
         )
     }

@@ -1,8 +1,6 @@
 // @flow
 import React from 'react'
-import T from 'Components/T'
 import V from 'Components/V'
-import { TouchableOpacity } from 'react-native'
 import Screen from 'Components/Screen'
 import Section from 'Components/Section'
 import DailyReflectionCard from 'Modules/DailyReflectionCard'
@@ -21,6 +19,7 @@ import Analytics from 'Controllers/AnalyticsController'
 import FAIcon from 'react-native-vector-icons/FontAwesome'
 import { Colors } from 'Themes'
 import Touchable from 'Components/Touchable'
+import SocialBar from 'Modules/SocialBar'
 
 class HomeScreen extends React.Component<*> {
     state = {
@@ -73,6 +72,7 @@ class HomeScreen extends React.Component<*> {
                 <ShareButton sharedVia="HomeScreen" />
                 <FeedbackButton />
                 <TextFounderButton />
+                <SocialBar />
             </Section>
         )
     }

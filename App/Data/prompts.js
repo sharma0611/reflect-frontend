@@ -19,9 +19,391 @@ const STRESS = 'Stress'
 const MANTRAS = 'Mantras'
 const HOPE = 'Hope'
 
+// daily goals
+const FAMILY = 'Family'
+const FRIENDS = 'Friends'
+const SCHOOL = 'School'
+const CAREER = 'Career'
+const FINANCIAL = 'Financial'
+
 const PUBLIC_CATEGORIES = [PRODUCTIVITY, MINDFULNESS, MENTAL, PHYSICAL, SOCIAL]
 
 const PAYWALL_CATEGORIES = [GRATITUDE, MOTIVATION, MANTRAS, STRESS, HOPE]
+
+const GOAL_CATEGORIES = [FAMILY, FRIENDS, PRODUCTIVITY, SCHOOL, CAREER, PHYSICAL, FINANCIAL]
+
+const GOALS_COPY = {
+    [FAMILY]: [
+        'Have a device-free dinner',
+        'Start a family book club',
+        'Call or visit an elder in my family',
+        'Try a new family recipe',
+        'Plan a family night',
+        'Take a family portrait to hang on the wall',
+        'Plan a fun family day',
+        'Explore somewhere new with my family',
+        'Find out my roots and make a family tree',
+        'Have a game night with my family',
+        'Share old family stories',
+        'Look through old family photos together',
+        'Create daily family rituals',
+        'Start saving up for a special family vacation',
+        'Be physically active with my family',
+        'Take a class together. Like a cooking, gardening or art class',
+        'Start the day by eating breakfast with my family',
+        'Start a vegetable garden with my family',
+        'Show support for a family member’s goals or ambitions',
+        'Organize a volunteering trip with my family',
+        'Forgive and make amends with a family member',
+        'Donate unused clothes & toys',
+        'Share a positive experience with my family',
+        'Call a relative and tell them how much I love & appreciate them',
+        'Play a team sport with my family',
+        'Learn a new card game with my family & play together',
+        'Choose a charity to donate to together',
+        'Plan a special family occasion',
+        'Hug a family member',
+        'Have a technology-free conversation with a family member',
+        'Go on a bike ride with my family',
+        'Make time for one-on-one time with a family member',
+        'Plant a tree with my family',
+        'Go for a picnic with my family',
+        'Start a family journey journal',
+        'Include every family member in a meal preparation & cleanup',
+        'Call or visit a family member I have not seen in a while',
+        'Watch home videos with my family',
+        'Pray or meditate with my family',
+        'Go camping as a family',
+        'Schedule a moment to spend quality time with a family member',
+        'Hold a family council meeting',
+        'Allow my family members to have some ‘me’ time',
+        'Do a community service project with my family',
+        'Treat my family to a meal',
+        'Carpool with a family member to work or school',
+        'Be patient with my family',
+        'Solve a problem through a talk instead of an argument',
+        'Show gratitude to a family member about something they have done well.',
+        'Tell a family member something I have never told them'
+    ],
+
+    [FRIENDS]: [
+        'Call an old friend and catch up',
+        'Compliment a friend for something they have recently achieved',
+        'Make a conscious effort to smile',
+        'Surprise a friend with a gift',
+        'Tell a close friend or relative how much I love & appreciate them',
+        'Explore a new place',
+        'Share a secret with a friend',
+        'Prank call a friend',
+        'Watch a movie with a friend',
+        'Make a handmade gift for a friend',
+        'Help a friend with a school or work project',
+        'Schedule a time of the day to meet a friend',
+        'Introduce myself to someone new',
+        'Think of a shared memory that makes me laugh and text it to a friend',
+        'Write a thank you note to a friend for something they have done for me',
+        'Be kind to everyone for a day',
+        'Make a plan to meet up with a friend I have not seen in a while',
+        'Take 15 minutes to send a funny postcard to a friend',
+        'Forgive someone',
+        'Finish a puzzle with a friend',
+        'Plan a surprise party for a friend',
+        'Push a friend out of their comfort zone',
+        'Listen to a friend’s problems and offer emotional support',
+        'Have a sleepover with friends',
+        'Attend a social activity',
+        'Write a short poem for my partner or friend',
+        'Try Karaoke or sing with friends',
+        'Commit to being patient in any situation for the day',
+        'Talk about my biggest motivations with a friend',
+        'Make a card for a friend and send it to them with a handwritten note',
+        'Have a conversation with someone I know and make it all about them',
+        'Start a conversation with someone new at a local coffee shop',
+        'Have a dance party with friends',
+        'Play a confession game with friends',
+        'Set a goal with a friend and commit to accomplishing it',
+        'Share a tradition with a friend',
+        'Use my lunch break to meet up with an old friend and catch up',
+        'Socialize with my work friend after work hours',
+        'Give my friends some space',
+        'Have a bonfire with friends',
+        'Get involved in a club with a friend',
+        'Go camping with friends',
+        'Say hello to a neighbor I do not usually talk to',
+        'Consider a matching tattoo with my best friend',
+        'Have a device-free meal with friends',
+        'Try a new experience with a friend',
+        'Talk about something that makes me uncomfortable with a friend',
+        'Offer to help a friend with something they might need',
+        'Encourage my friend’s dreams or passions',
+        'Get to know a work friend’s hobbies and interests'
+    ],
+
+    [PRODUCTIVITY]: [
+        'Start a blog on an interest I have',
+        'Go to bed earlier today',
+        'Meditate for 5 minutes',
+        'Clear my room',
+        'Make a schedule for any activities in the next month',
+        'Make a to-do list for the day',
+        'Schedule time for myself today',
+        'Pick one task and then do it',
+        'Wake up earlier tomorrow. Set an alarm now',
+        'Make a healthy recipe',
+        'Start a journal about my productivity successes',
+        'Breathe deeply for a few minutes, focus on my breaths',
+        'Have a good attitude towards everything today',
+        'Avoid conflict for the day',
+        'Learn a new skill',
+        'Try to cut costs',
+        'Stay positive',
+        'Write about my latest dream',
+        'Be grateful and write a list of small things I appreciate',
+        'Use my time wisely today',
+        'Write down what is important to me',
+        'Restructure my priorities',
+        'Establish a morning routine',
+        'Create a plan for today',
+        'Take a cold shower',
+        'Start learning a foreign language',
+        'Smile at a stranger today & see their reaction',
+        'Create a vision board today',
+        'State each goal as a positive statement',
+        'Create a list of things I want to accomplish this week',
+        'Have some quiet time alone',
+        'Break a bad habit for the day',
+        'Do not complain today',
+        'Take a 10 to 30 minute power nap',
+        'Create an inspiration board',
+        'Do something kind for myself',
+        'Enroll in an online course',
+        'Do a task I have been procrastinating',
+        'Give myself a moment to clear my head',
+        'Cut down distractions like social media',
+        'Say ‘No’ when necessary',
+        'Consciously improve my posture for the day',
+        'Use my commuting time to do something productive',
+        'Keep my emails in check. Organize them into folders/reduce the emails in my inbox',
+        'Arrive 5 minutes early to everything today',
+        'Try to find a productivity coach',
+        'Write down my progress & achievements that I have earned so far',
+        'Focus on one goal at a time',
+        'Get rid of a motivation killer',
+        'Focus on what I can control and have a plan for the rest'
+    ],
+
+    [SCHOOL]: [
+        'Go to all of my classes today',
+        'Review my class notes of the day',
+        'Ask at least one question in each class',
+        'Create a studying schedule for the week',
+        'Do not allow the bad habits of my classmate(s) affect my school performance',
+        'Write notes on my classes today',
+        'Finish the homework I have due tonight',
+        'Take time off schoolwork to write a journal and clear my mind',
+        'Check out a new club or extra-curricular at school today',
+        'Sign up for a course that I am very interested in',
+        'Get to all my classes on time',
+        'Go to my teacher’s office hours',
+        'Tidy and clean up my study space',
+        'Walk or bike to school today',
+        'Take advantage of a resource I have not used before',
+        'Get a head start on my next project',
+        'Add a difficult book to my reading list',
+        'Find an internship. Make a list of places to apply to',
+        'Participate in an after-school club event or activity',
+        'Write down all important due dates on my calendar',
+        'Find a good study spot',
+        'Set a goal for the grades I want to achieve in each class',
+        'Sign up for an extra challenging course',
+        'Plan a trip as a reward after exams',
+        'Turn off my phone when I start studying',
+        'Sign up for an intramural sport',
+        'Read a book that was not assigned as a class reading',
+        'Try to befriend a professor or teacher',
+        'Write down 5 motivational words or phrases to read before start studying',
+        'Bring a lunch from home to school',
+        'Set up deadlines for the week',
+        'Practice a class presentation in front of a mirror',
+        'Ask for feedback from a professor or teacher to know how I can improve',
+        'Create a study group for at least one of my classes',
+        'Offer to help one of my classmates who needs it',
+        'Take a 10 min break after every hour of working',
+        'Write down 5 S.M.A.R.T. goals for the school year',
+        'Identify 3 strengths and weaknesses I experience while studying',
+        'Consider studying abroad',
+        'Spend less time watching TV or browsing social media',
+        'Ask someone who inspires me on LinkedIn to go for a coffee chat',
+        'Find out what my lowest class average is and create a study plan that will help me improve it',
+        'Pack healthy study snacks for the day',
+        'Try to find and apply for available scholarships',
+        'Buy a planner to write down all my due dates on',
+        'Break down my big upcoming tasks into smaller more manageable ones',
+        'Find a new study spot',
+        'Brainstorm ideas about an upcoming project I have',
+        'Set up a sleeping time and waking up time that will give me at least 7 hours of sleep',
+        'Ask for help when I need it'
+    ],
+
+    [CAREER]: [
+        'Keep work my place tidy and clean',
+        'Show up to work earlier than usual',
+        'Walk or bike to work',
+        'Review my resume and make improvements',
+        'Get immediate feedback on my work',
+        'Research a business competitor',
+        'Ask for help when I need it',
+        'Consider taking a leadership training course',
+        `Say 'No' when necessary`,
+        'Manage conflict more efficiently',
+        'Focus on what I can control for the day',
+        'Consciously improve my body language today',
+        'Find a mentor or become a mentor',
+        'Learn how to use a new tool that will be helpful for my career',
+        'Strengthen one professional relationship today',
+        'Set up deadlines for the week',
+        'Have a coffee chat with someone that inspires me at work',
+        'Speak at least once in every meeting',
+        'Dress up more than usual for work',
+        'Practice a presentation in front of a mirror',
+        'Improve time management by scheduling my week and month',
+        'Think of a creative way to solve an existing problem',
+        'Expand my knowledge in the field I am working in',
+        'Find a new challenge in my role',
+        'Identify 5 professional strengths and weaknesses',
+        'Ask for a promotion',
+        'Get feedback from my boss to know how I can improve',
+        'Create 5 S.M.A.R.T. goals for next work week',
+        'Identify the next milestone in my career and find out what I need to achieve it',
+        'Learn what other departments in my business do',
+        'Write down a few words or phrases that reflect my workplace and business',
+        'Consciously turn negative work thoughts into positive ones',
+        'Take action towards a goal I have been wanting to meet',
+        'Make an effort to improve my team collaboration',
+        'Pay extra attention to detail in the work I do today',
+        'Consider changing my current job',
+        'Ask for more responsibility from my boss',
+        'Offer help to someone on my team who needs it',
+        'Ask for a raise',
+        'Write down my current responsibilities and the ones I would wish to have',
+        'Take advantage of a work resource I have not used before',
+        'Brainstorm a new business idea',
+        'Start building my personal brand',
+        'Make an effort to maintain eye-contact',
+        'Take deep breaths whenever a stressful situation arises today',
+        'Bring a lunch from home',
+        'Reward myself when achieving a goal',
+        'Develop a long-term career plan',
+        'Participate in work social activities',
+        'Show appreciation towards a coworker for a successful project.'
+    ],
+
+    [PHYSICAL]: [
+        'Visit a historical monument in my city',
+        'Get a new haircut',
+        'Take the stairs instead of the elevator',
+        'Move my body, walk or exercise for 20 minutes or longer',
+        'Sit in the sun or outside for 5 minutes',
+        'Eat less sugar',
+        'Drink a glass of water before each meal',
+        'Schedule a time to exercise',
+        'Do not drink caffeine after 2:00 p.m',
+        'Look up at the stars tonight',
+        'Do a full body stretch',
+        'Try out veganism for one day',
+        'Set up a workout routine or schedule',
+        'Get a personal trainer',
+        'Eat smaller food portions and spread them through my day',
+        'Get or use a reusable bag today',
+        'Go out visit the local park & walk in nature',
+        'Do not eat junk food today',
+        'Increase the amount of fruits & vegetables I would normally eat today',
+        'Watch the sunrise or sunset',
+        'Visit a gallery or museum',
+        'Learn how to cook a new dish for dinner',
+        'Throw away unwanted things or gift them',
+        'Rearrange a furniture in my room',
+        'Take a hot bath',
+        'Go see live music',
+        'Go for a night-time/early morning run',
+        'Develop a skincare routine',
+        'Go swimming',
+        'Get a massage',
+        'Drink at least 2 liters of water today',
+        'Consciously improve my posture for the day',
+        'Breathe deeply for a few minutes, focus on my breaths',
+        'Go on a hike/long walk',
+        'Try a High-Intensity Interval Training workout routine',
+        'Learn a new Yoga pose',
+        'Hold a 30 seconds-long plank',
+        'Ask for a salad instead of fries',
+        'Add some lemon & apple cider vinegar to my water',
+        'Focus on breathing when working out',
+        'Go on a bike ride',
+        'Try to solve a Rubiks cube',
+        'Do some household tasks',
+        'Do at least one pull-up',
+        'Try geocaching',
+        'Go to an Open Mic night',
+        'Try to learn how to juggle',
+        'Do not drink any carbonated drinks today',
+        'Sleep at least 7 hours tonight',
+        'Start tracking my fitness accomplishments.'
+    ],
+
+    [FINANCIAL]: [
+        'Spend less than I made today',
+        'Start an emergency fund',
+        'Study and research new investment opportunities',
+        'Write out a monthly budget for living, food, transportation, etc',
+        'Cut spending in one of my budget categories',
+        'Add savings as part of my monthly budget',
+        'Start tracking my expenses',
+        'Setup auto pay for my credit card',
+        'Eliminate one expensive, addictive habit',
+        'Check my credit score',
+        'Calculate my net worth',
+        'Open up a savings account',
+        'Pay off some existing debt',
+        'Set up a debt payment plan',
+        'Setup auto pay for my bills',
+        'Get my taxes done',
+        'Start a retirement savings plan',
+        'Contact an investment advisor and ask them for financial advice',
+        'Create an automatic transfer for long-term savings',
+        'Invest in a skill to better my career and improve my income',
+        'Plan a budget-friendly trip',
+        'Meet with a financial planner',
+        'Set up a credit card with rewards I will actually use',
+        'Discuss finances with my partner, a close friend or a family member',
+        'Join a "Mastermind Group"',
+        'Brainstorm some side hustle ideas',
+        'Sell something I do not need anymore',
+        'Signup for a personal finance class',
+        'Signup for an investing class',
+        'Prioritize all of my current expenses and cut the least important one',
+        'Spend money on a memorable experience rather than something material',
+        'Create a financial calendar with all the important due dates',
+        'Use only cash for the day',
+        'Take a minute to check on my financial transactions of the day',
+        'Banish negative thoughts about money',
+        'Get a money buddy to pick up good habits from',
+        'Consider asking for a raise',
+        'Calculate the cost per use of something I consider buying today',
+        'Consider buying insurance',
+        'Check on and rebalance my investment portfolio. ',
+        'Adjust my spending habits',
+        'Avoid any unnecessary purchase today',
+        'Set up a checking and savings account',
+        'Be more self-aware with money',
+        'Start an automated investing program',
+        'Work towards feeling financially secure',
+        'Invest into a new hobby',
+        'Create my retirement plan',
+        'Minimize recreation funds',
+        'Identify my personal financial priorities'
+    ]
+}
 
 const PROMPTS_COPY = {
     POSITIVE: [
@@ -223,14 +605,14 @@ const PROMPTS_COPY = {
         'What is a mistake people often make about me?',
         'Do I enjoy being alone?',
         'What are my favourite memories from childhood?',
-        'How much do I think I know about yourself?',
+        'How much do I think I know about myself?',
         'Would I live in the medieval times?',
         'What is the best compliment I have ever received?',
         'What is the hardest thing to do in life?',
         'Do I believe in God?',
         'What existed before the universe was created?',
         'What is the craziest experience you have ever witnessed?',
-        'What is your favourite quote?',
+        'What is my favourite quote?',
         'What is someone/something that you envy?',
         'What do I need today?',
         'Can I spot a liar? ',
@@ -277,7 +659,7 @@ const PROMPTS_COPY = {
         'If I could redo life, would I? Why?',
         'What would I say to my child self?',
         'Am I replaceable?',
-        'How would I describe yourself in one word?',
+        'How would I describe myself in one word?',
         'What century do I think I would most belong in?',
         'Would I sacrifice myself for a stranger?',
         'What do I want my final words to be?',
@@ -306,7 +688,7 @@ const PROMPTS_COPY = {
         'Am I a confident person? What make me feel confident?',
         'What do I see when I look in the mirror?',
         'What is my best intellectual quality?',
-        'What is the bravest thing I have ever done in your life?',
+        'What is the bravest thing I have ever done in my life?',
         'How much can I trust myself?',
         'What is a common experience for people that I have never experienced?',
         'How impulsive am I?',
@@ -549,7 +931,7 @@ const PROMPTS_COPY = {
         'How do I start a conversation? How do I continue one?',
         'What do I think about celebrities?',
         "Do other people's negative emotions affect me?",
-        'Do I often compare yourself to others? What comparisons do I make?',
+        'Do I often compare myself to others? What comparisons do I make?',
         'Have I ever stuck up for someone? What was the situation?',
         'Have I ever met a famous person? Describe the experience.',
         'Would I rather have a brother or a sister?',
@@ -572,7 +954,7 @@ const PROMPTS_COPY = {
         'How do I encourage others?',
         'What is something I really like talking about?',
         'Do I enjoy small talks? What about them do or don’t I enjoy?',
-        'What are some of my favorite memories with your family?',
+        'What are some of my favorite memories with my family?',
         'When was a time I was happy for a friend?',
         'When was the last time I received a recognition or praise? What was it?',
         'What do I think is not properly managed in society?',
@@ -597,7 +979,7 @@ const PROMPTS_COPY = {
         'Do I like my given name? Why, or why not?',
         'Which of my habits do other people consider weird?',
         'What is my biggest turn-off in a guy or a girl? Why?',
-        'Am I willing to share my phone password with your romantic partner, why or why not?',
+        'Am I willing to share my phone password with my romantic partner, why or why not?',
         'Do I believe that people of the opposite sex can be the best of friends?',
         'Am I missing someone right now? How would I describe that person?',
         'Am I scared to love? Why might that be?',
@@ -624,7 +1006,24 @@ const CATEGORY_COLORS = {
     [MANTRAS]: 'GreenD',
     [STRESS]: 'TealM',
     [HOPE]: 'OceanM',
-    [DAILY_REFLECTION]: 'NavyM'
+    [DAILY_REFLECTION]: 'NavyM',
+    // daily goals
+    [FAMILY]: 'GreenM',
+    [FRIENDS]: 'GreyBlue',
+    [SCHOOL]: 'PurpleD',
+    [CAREER]: 'RedD',
+    [PHYSICAL]: 'BrownM',
+    [FINANCIAL]: 'OliveGreen'
+}
+
+const CATEGORY_SUBTITLES = {
+    [FAMILY]: 'Value those who matter the most.',
+    [FRIENDS]: 'Build a stronger connection.',
+    [PRODUCTIVITY]: 'Grow into the right habits.',
+    [SCHOOL]: 'Set myself up for success.',
+    [CAREER]: 'Feel self-fullfilled in my work.',
+    [PHYSICAL]: 'A healthy mind needs a healthy body.',
+    [FINANCIAL]: 'Feel good about my finances.'
 }
 
 const CATEGORY_ICONS = {
@@ -682,27 +1081,44 @@ class Prompts {
     static getPaywallCategories() {
         return PAYWALL_CATEGORIES
     }
+    static getGoalCategories() {
+        return GOAL_CATEGORIES
+    }
 
     static getAllCategories() {
         let publicCategories = this.getPublicCategories()
-        let paywallCategories = this.getPaywallCategories()
+        // let paywallCategories = this.getPaywallCategories()
         publicCategories = publicCategories.map(title => {
             const color = CATEGORY_COLORS[title]
             const renderIcon = CATEGORY_ICONS[title]
             return { title, color, renderIcon, paywall: false }
         })
-        paywallCategories = paywallCategories.map(title => {
-            const color = CATEGORY_COLORS[title]
-            const renderIcon = CATEGORY_ICONS[title]
-            return { title, color, renderIcon, paywall: true }
-        })
+        // paywallCategories = paywallCategories.map(title => {
+        //     const color = CATEGORY_COLORS[title]
+        //     const renderIcon = CATEGORY_ICONS[title]
+        //     return { title, color, renderIcon, paywall: true }
+        // })
         // const allCategories = publicCategories.concat(paywallCategories)
         // return allCategories
         return publicCategories
     }
 
+    static getAllGoalCategories() {
+        let publicCategories = this.getGoalCategories()
+        publicCategories = publicCategories.map(title => {
+            const color = CATEGORY_COLORS[title]
+            const subtitle = CATEGORY_SUBTITLES[title]
+            return { title, color, subtitle, paywall: false }
+        })
+        return publicCategories
+    }
+
     static getPromptsForCategory(category) {
         return PROMPTS_COPY[category]
+    }
+
+    static getGoalsForCategory(category) {
+        return GOALS_COPY[category]
     }
 
     static getCategoryColor(category) {

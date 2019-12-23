@@ -119,6 +119,10 @@ const style = {
     emphasis: {
         fontFamily: type.emphasis,
         fontWeight: '400'
+    },
+    thinTitle: {
+        fontFamily: type.thinTitle,
+        fontWeight: '300'
     }
 }
 

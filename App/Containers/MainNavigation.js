@@ -6,9 +6,8 @@ import { Image, StyleSheet } from 'react-native'
 import { createSwitchNavigator } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
-import { Images, Colors, Metrics, AppStyles, Fonts } from 'Themes'
+import { Images, Colors, AppStyles, Fonts } from 'Themes'
 import { modalFriendlyTransition } from './transitions'
-import { isIphoneX } from 'Themes/Metrics'
 
 // Components
 import V from 'Components/V'
@@ -26,23 +25,26 @@ import SettingsScreen from './SettingsScreen'
 import OnboardingScreen from './OnboardingScreen'
 import MoodCalendarScreen from './MoodCalendarScreen'
 import JournalReviewScreen from './JournalReviewScreen'
+import DailyGoalsScreen from './DailyGoalsScreen'
+import GoalSelectScreen from './GoalSelectScreen'
 
 const styles = StyleSheet.create({
     activeIcon: {
         opacity: 1,
         tintColor: Colors.BrandM,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
+        height: 30
     },
     inactiveIcon: {
         opacity: 0.35,
         tintColor: Colors.GreyM,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
+        height: 30
     },
     tabBarStyle: {
         backgroundColor: Colors.WhiteM,
         borderTopWidth: 1,
-        borderTopColor: Colors.FrostL,
-        paddingTop: 15
+        borderTopColor: Colors.FrostL
     }
 })
 
@@ -135,6 +137,16 @@ const PaywallStack = createStackNavigator(
     }
 )
 
+const GoalsStack = createStackNavigator(
+    {
+        DailyGoals: DailyGoalsScreen,
+        GoalSelect: GoalSelectScreen
+    },
+    {
+        ...modalFriendlyTransition
+    }
+)
+
 const LoggedInStack = createStackNavigator(
     {
         Tabs: {
@@ -154,6 +166,9 @@ const LoggedInStack = createStackNavigator(
         },
         JournalReview: {
             screen: JournalReviewScreen
+        },
+        Goals: {
+            screen: GoalsStack
         },
         WebView
     },
