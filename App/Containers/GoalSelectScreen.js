@@ -64,7 +64,7 @@ class GoalSelectScreen extends React.Component<Props, State> {
         const { category } = this.props.navigation.state.params
         this.loadData()
         this.loadAsyncData()
-        Analytics.openGoalCategory(category)
+        Analytics.openGoalCategory(category.title)
     }
 
     renderItem = (goal, color) => (
