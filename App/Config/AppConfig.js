@@ -22,7 +22,7 @@ class AppConfig {
         this.APP_VERSION = __DEV__ ? 'DEV' : await DeviceInfo.getVersion()
         this.BUILD_VERSION = __DEV__ ? 'DEV' : await DeviceInfo.getBuildNumber()
         this.BUNDLE_IDENTIFIER = __DEV__ ? 'DEV' : DeviceInfo.getBundleId()
-        this.DEVICE_ID = __DEV__ ? 'DEV' : DeviceInfo.getUniqueId()
+        this.DEVICE_ID = __DEV__ ? 'DEV' : await DeviceInfo.getUniqueId()
     }
 }
 
