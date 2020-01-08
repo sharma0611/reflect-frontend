@@ -47,6 +47,7 @@ class HomeScreen extends React.Component<*> {
     loadData = async () => {
         const name = await AsyncStorageController.getName()
         await this.setState({ name })
+        // AsyncStorageController.clear()
     }
 
     // Sections

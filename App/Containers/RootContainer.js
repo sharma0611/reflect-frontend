@@ -18,6 +18,7 @@ import LoadingSpinner from 'Components/LoadingSpinner'
 import Purchases from 'react-native-purchases'
 import AppConfig from 'Config/AppConfig'
 import userExposedToContainer from 'State/userExposedTo'
+import { AppearanceProvider } from 'react-native-appearance'
 
 function getActiveRouteName(navigationState) {
     if (!navigationState) {
@@ -125,14 +126,16 @@ class RootContainer extends Component {
 
     render() {
         return (
-            <V flex={1} bg="WhiteM">
-                <StatusBar barStyle="dark-content" />
-                {this.state.loaded && this.props.loaded ? (
-                    this.renderAppContainer()
-                ) : (
-                    <LoadingSpinner />
-                )}
-            </V>
+            <AppearanceProvider>
+                <V flex={1} bg="WhiteM">
+                    <StatusBar barStyle="dark-content" />
+                    {this.state.loaded && this.props.loaded ? (
+                        this.renderAppContainer()
+                    ) : (
+                        <LoadingSpinner />
+                    )}
+                </V>
+            </AppearanceProvider>
         )
     }
 }

@@ -14,6 +14,7 @@ import { localToUtcTime, utcToLocalTime } from 'utils'
 import Section from 'Components/Section'
 import { PRIVACY_POLICY_URL, TERMS_OF_USE_URL } from 'Data/urls'
 import Touchable from 'Components/Touchable'
+import { Appearance } from 'react-native-appearance'
 
 type Props = {}
 
@@ -142,6 +143,7 @@ class SettingsScreen extends React.Component<Props, State> {
                             reflectionTime.setHours(hours)
                             reflectionTime.setMinutes(minutes)
                         }
+                        const colorScheme = Appearance.getColorScheme()
                         return (
                             <DateTimePicker
                                 isVisible={this.state.isTimePickerVisible}
@@ -149,6 +151,7 @@ class SettingsScreen extends React.Component<Props, State> {
                                 onCancel={this.hideTimePicker}
                                 mode="time"
                                 date={reflectionTime}
+                                isDarkModeEnabled={colorScheme === 'dark'}
                             />
                         )
                     }}
