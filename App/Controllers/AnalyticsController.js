@@ -150,6 +150,16 @@ class Tracking {
         this._trackWithProperties('Press onboarding next', { Content: content })
     }
 
+    submitAge = age => {
+        this._trackWithProperties('Submit Age', { Age: age })
+        this._set({ Age: age })
+    }
+
+    submitGender = gender => {
+        this._trackWithProperties('Submit Gender', { Gender: gender })
+        this._set({ Gender: gender })
+    }
+
     unlockPro() {
         this._track('Unlock Pro')
     }

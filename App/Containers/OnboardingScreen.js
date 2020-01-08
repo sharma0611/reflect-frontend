@@ -14,6 +14,7 @@ import AnimatedOpacity from 'HOC/AnimatedOpacity'
 import AsyncStorageController from 'Controllers/AsyncStorageController'
 import Analytics from 'Controllers/AnalyticsController'
 import Touchable from 'Components/Touchable'
+import { Picker } from '@react-native-community/picker'
 
 type Props = {}
 
@@ -38,6 +39,12 @@ const VALUE_PROP = [
         imageUri: Images.categoriesSample,
         buttonText: 'Let me in!'
     }
+]
+
+const QUESTIONS = [
+    { text: `1/3: What's your name?` },
+    { text: `2/3: What's your age?` },
+    { text: `3/3: What's your gender?` }
 ]
 
 const ValuePropCard = ({ title, subTitle, imageUri, index }) => (
@@ -74,28 +81,44 @@ const Button = ({ onPress, text, disabled }) => (
 class OnboardingScreen extends React.Component<Props, State> {
     state = {
         valuePropIdx: 0,
-        enterName: false,
-        name: ''
+        onboarding: false,
+        name: '',
+        age: 1,
+        gender: 'female',
+        question: 0
     }
 
     nextValueProp = async () => {
         if (this.state.valuePropIdx === VALUE_PROP.length - 1) {
             this.props.fadeOut(async () => {
-                await this.setState({ enterName: true })
+                await this.setState({ onboarding: true })
                 this.props.fadeIn()
             })
         } else {
             this._carousel.snapToNext()
-            await this.setState({ valuePropIdx: this.state.valuePropIdx + 1 })
+            await this.setState((prevState, props) => {
+                return { valuePropIdx: prevState.valuePropIdx + 1 }
+            })
         }
     }
 
     pressButton = async () => {
-        if (this.state.enterName) {
-            Analytics.pressOnboardingNext('Enter Name')
-            this.props.fadeOut(async () => {
+        if (this.state.onboarding) {
+            Analytics.pressOnboardingNext(`Answer Question #${this.state.question}`)
+            if (this.state.question === 0) {
                 await this.submitName(this.state.name)
-                this.finishOnboarding()
+            }
+            if (this.state.question === 1) {
+                this.submitAge(this.state.age)
+            }
+            if (this.state.question === 2) {
+                this.submitGender(this.state.gender)
+                this.props.fadeOut(() => {
+                    this.finishOnboarding()
+                })
+            }
+            await this.setState((prevState, props) => {
+                return { question: prevState.question + 1 }
             })
         } else {
             Analytics.pressOnboardingNext(VALUE_PROP[this.state.valuePropIdx].title)
@@ -104,7 +127,7 @@ class OnboardingScreen extends React.Component<Props, State> {
     }
 
     currentButtonText() {
-        if (this.state.enterName) {
+        if (this.state.onboarding) {
             return "That's me!"
         }
         return VALUE_PROP[this.state.valuePropIdx].buttonText
@@ -120,6 +143,14 @@ class OnboardingScreen extends React.Component<Props, State> {
 
     submitName = async name => {
         await AsyncStorageController.setName(name)
+    }
+
+    submitAge = age => {
+        Analytics.submitAge(age)
+    }
+
+    submitGender = gender => {
+        Analytics.submitGender(gender)
     }
 
     renderValueProps() {
@@ -148,47 +179,117 @@ class OnboardingScreen extends React.Component<Props, State> {
         )
     }
 
-    renderEnterName() {
-        return (
-            <V>
-                <ScreenHeader titleLeft={''} titleRight={'One last thing...'} />
-                <Section>
-                    <T titleS color="GreyXL" px={2} mb={4}>
-                        Let's get to know each other!
-                    </T>
-                </Section>
-                <Section>
-                    <T titleS color="GreyM" px={2} mb={4}>
-                        What's your first name?
-                    </T>
-                </Section>
-                <Section>
-                    <V px={2}>
-                        <TextInput
-                            style={{ color: Colors.GreyM, ...Fonts.style.titleM }}
-                            onChangeText={name => this.setState({ name })}
-                            value={this.state.name}
-                            autoFocus={true}
-                            selectionColor={Colors.GreyM}
-                            onSubmitEditing={this.pressButton}
-                        />
-                    </V>
-                </Section>
-            </V>
-        )
+    renderOnboarding() {
+        if (this.state.question === 0) {
+            return (
+                <V>
+                    <ScreenHeader titleLeft={''} titleRight={'One last thing...'} />
+                    <Section>
+                        <T titleS color="GreyXL" px={2} mb={4}>
+                            Let's get to know each other!{' '}
+                        </T>
+                    </Section>
+                    <Section>
+                        <T titleS color="GreyM" px={2} mb={4}>
+                            1/3: What's your first name?
+                        </T>
+                    </Section>
+                    <Section>
+                        <V px={2}>
+                            <TextInput
+                                style={{ color: Colors.GreyM, ...Fonts.style.titleM }}
+                                onChangeText={name => this.setState({ name })}
+                                value={this.state.name}
+                                autoFocus={true}
+                                selectionColor={Colors.GreyM}
+                                onSubmitEditing={this.pressButton}
+                            />
+                        </V>
+                    </Section>
+                </V>
+            )
+        }
+        if (this.state.question === 1) {
+            return (
+                <V>
+                    <ScreenHeader titleLeft={''} titleRight={'One last thing...'} />
+                    <Section>
+                        <T titleS color="GreyXL" px={2} mb={4}>
+                            We use your answers to personalize your reflection.
+                        </T>
+                    </Section>
+                    <Section>
+                        <T titleS color="GreyM" px={2} mb={4}>
+                            2/3: How old are you?
+                        </T>
+                    </Section>
+                    <Section>
+                        <V px={2} ai="center">
+                            <Picker
+                                selectedValue={this.state.age}
+                                style={{ height: 50, width: 100 }}
+                                onValueChange={(itemValue, itemIndex) =>
+                                    this.setState({ age: itemValue })
+                                }
+                            >
+                                {[...Array(80).keys()].map(value => (
+                                    <Picker.Item
+                                        key={(value + 1).toString()}
+                                        label={(value + 1).toString()}
+                                        value={(value + 1).toString()}
+                                    />
+                                ))}
+                            </Picker>
+                        </V>
+                    </Section>
+                </V>
+            )
+        }
+        if (this.state.question === 2) {
+            return (
+                <V>
+                    <ScreenHeader titleLeft={''} titleRight={'One last thing...'} />
+                    <Section>
+                        <T titleS color="GreyXL" px={2} mb={4}>
+                            We use your answers to personalize your reflection.
+                        </T>
+                    </Section>
+                    <Section>
+                        <T titleS color="GreyM" px={2} mb={4}>
+                            3/3: What's your gender?
+                        </T>
+                    </Section>
+                    <Section>
+                        <V px={2} ai="center">
+                            <Picker
+                                selectedValue={this.state.gender}
+                                style={{ height: 50, width: 140 }}
+                                onValueChange={(itemValue, itemIndex) =>
+                                    this.setState({ gender: itemValue })
+                                }
+                            >
+                                <Picker.Item label={'Male'} value={'Male'} />
+                                <Picker.Item label={'Female'} value={'Female'} />
+                                <Picker.Item label={'Other'} value={'Other'} />
+                            </Picker>
+                        </V>
+                    </Section>
+                </V>
+            )
+        }
     }
 
     render() {
         return (
             <Screen>
                 <Animated.View style={{ opacity: this.props.opacity, flex: 1 }}>
-                    {this.state.enterName ? this.renderEnterName() : this.renderValueProps()}
+                    {this.state.onboarding ? this.renderOnboarding() : this.renderValueProps()}
                 </Animated.View>
                 <V ai="center" pb={2}>
                     <Button
                         text={this.currentButtonText()}
                         onPress={this.pressButton}
-                        disabled={this.state.enterName && this.state.name.length === 0}
+                        disabled={this.state.onboarding && this.state.name.length === 0}
                     />
                 </V>
             </Screen>

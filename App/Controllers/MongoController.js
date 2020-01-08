@@ -36,7 +36,7 @@ class MongoController {
         this.pushReceiptsDb = pushReceiptsDb
         this.dailyGoalsDb = dailyGoalsDb
 
-        // this._clearDb(this.dailyGoalsDb)
+        // this._clearDb(this.)
     }
 
     // Helpers
