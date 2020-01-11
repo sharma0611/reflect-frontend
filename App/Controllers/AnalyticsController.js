@@ -1,6 +1,6 @@
 // @flow
 import Mixpanel from 'react-native-mixpanel'
-import {AppEventsLogger} from 'react-native-fbsdk';
+import {AppEventsLogger} from 'react-native-fbsdk'
 import config from 'Config/AppConfig'
 import moment from 'moment'
 
