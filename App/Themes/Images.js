@@ -16,5 +16,6 @@ export default {
     calendar: require('Images/calendaricon.png'),
     waveBoatGlyph: require('Images/waveBoatGlyph.png'),
     waveGlyph: require('Images/WaveGlyph.png'),
-    leftChevron: require('Images/LeftChevron.png')
+    leftChevron: require('Images/LeftChevron.png'),
+    pausebutton: require('Images/pausebutton.png')
 }

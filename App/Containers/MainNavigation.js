@@ -30,6 +30,7 @@ import DailyGoalsScreen from './DailyGoalsScreen'
 import GoalSelectScreen from './GoalSelectScreen'
 import LandingScreen from '../MellowContainers/LandingScreen'
 import OnboardingA from '../MellowContainers/OnboardingA'
+import OnboardingB from '../MellowContainers/OnboardingB'
 
 const styles = StyleSheet.create({
     activeIcon: {
@@ -184,7 +185,8 @@ const OnboardingStack = createStackNavigator(
         Landing: {
             screen: LandingScreen
         },
-        OnboardingA
+        OnboardingA,
+        OnboardingB
     },
     {
         ...modalFriendlyTransition,

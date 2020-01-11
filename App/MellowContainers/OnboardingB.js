@@ -18,10 +18,7 @@ type State = {}
 
 const WaveHeightRatio = 0.32
 
-class OnboardingA extends React.Component<Props, State> {
-    next = () => {
-        this.props.navigation.navigate('OnboardingB')
-    }
+class OnboardingB extends React.Component<Props, State> {
     render() {
         return (
             <WaveBackground heightRatio={WaveHeightRatio}>
@@ -30,13 +27,13 @@ class OnboardingA extends React.Component<Props, State> {
                 </V>
                 <V p={3} flex={3}>
                     <T heading3 color="Gray1">
-                        reflect is your pause button for life.
+                        Look back on what happened
                     </T>
                     <V ai="center" p={5}>
                         <Image source={Images.pausebutton} style={styles.pausebutton} />
                     </V>
                     <T heading4 color="Gray1" pt={3}>
-                        We give you the tools to hit pause, become self aware, then go back to play.
+                        Hit pause.
                     </T>
                 </V>
                 <V
@@ -45,7 +42,7 @@ class OnboardingA extends React.Component<Props, State> {
                     style={{ height: WaveHeightRatio * Metrics.screenHeight }}
                     pt={5}
                 >
-                    <MainButton onPress={this.next} text={'How does it work?'} />
+                    <MainButton onPress={this.getStarted} text={'And?'} />
                 </V>
             </WaveBackground>
         )
@@ -72,4 +69,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default withNavigation(OnboardingA)
+export default withNavigation(OnboardingB)
