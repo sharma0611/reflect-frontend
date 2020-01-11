@@ -39,6 +39,8 @@ target 'ReflectApp' do
 
   pod 'react-native-appearance', :path => '../node_modules/react-native-appearance'
 
+  pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
+
   target 'ReflectAppTests' do
     inherit! :search_paths
     # Pods for testing
