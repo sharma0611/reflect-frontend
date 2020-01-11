@@ -1,5 +1,6 @@
 // @flow
 import Mixpanel from 'react-native-mixpanel'
+import {AppEventsLogger} from 'react-native-fbsdk';
 import config from 'Config/AppConfig'
 import moment from 'moment'
 
@@ -10,11 +11,13 @@ class Tracking {
     // Send and event name with no properties
     _track = (eventName: string) => {
         Mixpanel.track(eventName)
+        AppEventsLogger.logEvent(eventName);
     }
 
     // Track event with properties
     _trackWithProperties = (eventName: string, props: any) => {
         Mixpanel.trackWithProperties(eventName, props)
+        AppEventsLogger.logEvent(eventName, null, props);
     }
 
     // set people properties

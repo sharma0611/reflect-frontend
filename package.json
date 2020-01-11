@@ -26,6 +26,7 @@
         "react-native-calendars": "^1.212.0",
         "react-native-device-info": "^3.1.4",
         "react-native-emoji-selector": "^0.1.7",
+        "react-native-fbsdk": "^1.1.1",
         "react-native-gesture-handler": "^1.4.1",
         "react-native-keyboard-aware-scroll-view": "^0.9.1",
         "react-native-linear-gradient": "^2.5.6",
