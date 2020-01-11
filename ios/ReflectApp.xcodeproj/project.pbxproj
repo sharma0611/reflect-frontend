@@ -20,10 +20,6 @@
 		40CA60DE23A6F13E00F2E474 /* Bariol-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 169ECBB68D9F43B5B65E1049 /* Bariol-Regular.ttf */; };
 		40CA60DF23A6F13E00F2E474 /* Ubuntu.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F04B9D819004E3081E137F8 /* Ubuntu.ttf */; };
 		9172750D3AD9124F029A1827 /* libPods-ReflectApp-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7DF6341E25AF653C8721EB /* libPods-ReflectApp-tvOS.a */; };
-		CD9F641F23CA5F25000C7DEA /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9F641B23CA5F24000C7DEA /* FBSDKCoreKit.framework */; };
-		CD9F642023CA5F25000C7DEA /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9F641C23CA5F24000C7DEA /* Bolts.framework */; };
-		CD9F642123CA5F25000C7DEA /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9F641D23CA5F25000C7DEA /* FBSDKShareKit.framework */; };
-		CD9F642223CA5F25000C7DEA /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9F641E23CA5F25000C7DEA /* FBSDKLoginKit.framework */; };
 		D9F71EE62528A082194525F7 /* libPods-ReflectApp-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F2578D10CFD054D595F4832D /* libPods-ReflectApp-tvOSTests.a */; };
 		E1CA9160D183D3B55C1D72AD /* libPods-ReflectAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A6103052DA8034F3DA7C48 /* libPods-ReflectAppTests.a */; };
 		E665C55C71B0B7F288393578 /* libPods-ReflectApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F12D3243DBAC798B8482671 /* libPods-ReflectApp.a */; };
@@ -88,10 +84,6 @@
 		A9CBF45B554C48D091D3EAB1 /* Avenir-Book.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Avenir-Book.ttf"; path = "../assets/fonts/Avenir-Book.ttf"; sourceTree = "<group>"; };
 		B3E92D25A5F14AA587E09960 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		B8DC1F307411EBACA0E47A88 /* Pods-ReflectApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReflectApp.release.xcconfig"; path = "Target Support Files/Pods-ReflectApp/Pods-ReflectApp.release.xcconfig"; sourceTree = "<group>"; };
-		CD9F641B23CA5F24000C7DEA /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		CD9F641C23CA5F24000C7DEA /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ../../../Documents/FacebookSDK/Bolts.framework; sourceTree = "<group>"; };
-		CD9F641D23CA5F25000C7DEA /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
-		CD9F641E23CA5F25000C7DEA /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		D6EA98A0E3AD4120FAC194BF /* Pods-ReflectApp-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReflectApp-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-ReflectApp-tvOSTests/Pods-ReflectApp-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		E1126AC2F8DB466C6D89E7AD /* Pods-ReflectApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReflectApp.debug.xcconfig"; path = "Target Support Files/Pods-ReflectApp/Pods-ReflectApp.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -115,12 +107,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD9F641F23CA5F25000C7DEA /* FBSDKCoreKit.framework in Frameworks */,
 				E665C55C71B0B7F288393578 /* libPods-ReflectApp.a in Frameworks */,
-				CD9F642223CA5F25000C7DEA /* FBSDKLoginKit.framework in Frameworks */,
-				CD9F642123CA5F25000C7DEA /* FBSDKShareKit.framework in Frameworks */,
 				40B965702355A0EE00FBE6AB /* StoreKit.framework in Frameworks */,
-				CD9F642023CA5F25000C7DEA /* Bolts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,10 +166,6 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CD9F641C23CA5F24000C7DEA /* Bolts.framework */,
-				CD9F641B23CA5F24000C7DEA /* FBSDKCoreKit.framework */,
-				CD9F641E23CA5F25000C7DEA /* FBSDKLoginKit.framework */,
-				CD9F641D23CA5F25000C7DEA /* FBSDKShareKit.framework */,
 				40B9656F2355A0EE00FBE6AB /* StoreKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
@@ -796,6 +780,8 @@
 				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = M6M42763Y4;
+				FRAMEWORK_SEARCH_PATHS = /Users/nasr/Documents/FacebookSDK;
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = /Users/nasr/Documents/FacebookSDK;
 				INFOPLIST_FILE = ReflectApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.2.2;
@@ -819,6 +805,8 @@
 				CODE_SIGN_ENTITLEMENTS = ReflectApp/ReflectApp.entitlements;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = M6M42763Y4;
+				FRAMEWORK_SEARCH_PATHS = /Users/nasr/Documents/FacebookSDK;
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = /Users/nasr/Documents/FacebookSDK;
 				INFOPLIST_FILE = ReflectApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.2.2;
@@ -995,7 +983,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1042,7 +1030,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
