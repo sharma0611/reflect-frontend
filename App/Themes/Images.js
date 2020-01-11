@@ -17,5 +17,8 @@ export default {
     waveBoatGlyph: require('Images/waveBoatGlyph.png'),
     waveGlyph: require('Images/WaveGlyph.png'),
     leftChevron: require('Images/LeftChevron.png'),
-    pausebutton: require('Images/pausebutton.png')
+    pausebutton: require('Images/pausebutton.png'),
+    cardWaveGlyphA: require('Images/CardWaveGlyphA.png'),
+    moon: require('Images/Moon.png'),
+    cloudA: require('Images/CloudA.png')
 }

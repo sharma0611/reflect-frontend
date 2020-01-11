@@ -31,6 +31,16 @@ const ApplicationStyles = {
             shadowOpacity: 0.22,
             elevation: 4
         },
+        big: {
+            shadowRadius: 8,
+            shadowColor: Colors.BlackM,
+            shadowOffset: {
+                width: 0,
+                height: 4
+            },
+            shadowOpacity: 0.15,
+            elevation: 4
+        },
         hard: {
             shadowColor: Colors.BlackM,
             shadowOffset: {

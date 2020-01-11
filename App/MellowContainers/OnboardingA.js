@@ -25,14 +25,14 @@ class OnboardingA extends React.Component<Props, State> {
     render() {
         return (
             <WaveBackground heightRatio={WaveHeightRatio}>
-                <V p={3}>
+                <V p={4}>
                     <LeftChevron />
                 </V>
-                <V p={3} flex={3}>
+                <V p={4} flex={3} pt={0}>
                     <T heading3 color="Gray1">
                         reflect is your pause button for life.
                     </T>
-                    <V ai="center" p={5}>
+                    <V ai="center" p={3}>
                         <Image source={Images.pausebutton} style={styles.pausebutton} />
                     </V>
                     <T heading4 color="Gray1" pt={3}>
