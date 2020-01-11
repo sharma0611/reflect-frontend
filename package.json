@@ -41,6 +41,7 @@
         "react-navigation": "^4.0.10",
         "react-navigation-stack": "^1.9.3",
         "react-navigation-tabs": "^2.5.5",
+        "react-navigation-transitions": "^1.0.12",
         "shuffle-seed": "^1.1.6",
         "top-level-await": "^1.1.0",
         "unstated": "^2.1.1"

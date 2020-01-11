@@ -41,6 +41,12 @@ type Props = {
 
 const T = ({
     children,
+    //new
+    subtitle1,
+    subtitle2,
+    heading1,
+    button,
+    //legacy
     titleXL,
     titleL,
     titleM,
@@ -74,6 +80,12 @@ const T = ({
         styles.base,
         style && style,
         flex && { flex },
+        //new
+        subtitle1 && Fonts.style.subtitle1,
+        subtitle2 && Fonts.style.subtitle2,
+        heading1 && Fonts.style.heading1,
+        button && Fonts.style.button,
+        //legacy
         titleXL && Fonts.style.titleXL,
         titleL && Fonts.style.titleL,
         titleM && Fonts.style.titleM,

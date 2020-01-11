@@ -1,4 +1,5 @@
 import normalizeText from './Utils/normalizeText'
+import normalize from './Utils/normalizeText'
 
 // @important, we need a different font for Android.
 
@@ -9,10 +10,10 @@ import normalizeText from './Utils/normalizeText'
 // SourceSansPro-SemiBold.ttf
 // SourceSansPro-SemiBoldItalic.ttf
 const type = {
-    base: 'Bariol-Regular',
+    base: 'Avenir-Book',
     title: 'Avenir-Medium',
     thinTitle: 'Avenir-Book',
-    bold: 'System',
+    bold: 'Avenir-Heavy',
     emphasis: 'Ubuntu'
 }
 
@@ -41,6 +42,68 @@ const weights = {
 }
 
 const style = {
+    //new
+    heading1: {
+        fontFamily: type.base,
+        fontSize: normalizeText(64),
+        fontWeight: '300'
+    },
+    heading2: {
+        fontFamily: type.base,
+        fontSize: normalizeText(48),
+        fontWeight: '300'
+    },
+    heading3: {
+        fontFamily: type.title,
+        fontSize: normalizeText(36)
+        // fontWeight: '500'
+    },
+    heading4: {
+        fontFamily: type.title,
+        fontSize: normalizeText(24)
+        // fontWeight: '500'
+    },
+    heading5: {
+        fontFamily: type.bold,
+        fontSize: normalizeText(18)
+        // fontWeight: '500'
+    },
+    subtitle1: {
+        fontFamily: type.thinTitle,
+        fontSize: normalizeText(16),
+        letterSpacing: 1.5
+    },
+    subtitle2: {
+        fontFamily: type.thinTitle,
+        fontSize: normalizeText(14),
+        letterSpacing: 0.1,
+        fontWeight: '500'
+    },
+    body1: {
+        fontFamily: type.base,
+        fontSize: normalizeText(16)
+    },
+    body2: {
+        fontFamily: type.base,
+        fontSize: normalizeText(14),
+        fontWeight: '500'
+    },
+    body3: {
+        fontFamily: type.base,
+        fontSize: normalizeText(18)
+    },
+    button: {
+        fontFamily: type.title,
+        fontWeight: '500',
+        fontSize: normalizeText(14),
+        letterSpacing: 0.5,
+        textTransform: 'uppercase'
+    },
+    caption: {
+        fontFamily: type.base,
+        fontSize: normalizeText(12)
+    },
+    //legacy
     titleXL: {
         fontFamily: type.title,
         fontWeight: 'normal',
@@ -84,11 +147,6 @@ const style = {
         fontFamily: type.base,
         fontWeight: 'normal',
         fontSize: size.chat
-    },
-    caption: {
-        fontFamily: type.base,
-        fontWeight: 'normal',
-        fontSize: size.caption
     },
     thinSubHeading: {
         fontFamily: type.base,

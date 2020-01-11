@@ -22,10 +22,11 @@ const ApplicationStyles = {
     },
     dropShadow: {
         normal: {
+            shadowRadius: 4,
             shadowColor: Colors.BlackM,
             shadowOffset: {
                 width: 0,
-                height: 2
+                height: 4
             },
             shadowOpacity: 0.22,
             elevation: 4

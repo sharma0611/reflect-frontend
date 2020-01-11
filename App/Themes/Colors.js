@@ -54,7 +54,7 @@ const colors = {
     BrownM: '#BC7A19',
 
     // @legacy
-    WhiteM: '#ffffff',
+    WhiteM: '#FEFEFE',
     WhiteGreen: '#A7DBCD',
     CardBackground: '#fafbfc',
     CardBackgroundD: '#FAFCFF',

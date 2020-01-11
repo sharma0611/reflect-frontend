@@ -13,5 +13,8 @@ export default {
     dailyReflectionSample: require('Images/DailyReflectionSample.png'),
     dailyGoalsSample: require('Images/DailyGoalsSample.png'),
     categoriesSample: require('Images/CategoriesSample.png'),
-    calendar: require('Images/calendaricon.png')
+    calendar: require('Images/calendaricon.png'),
+    waveBoatGlyph: require('Images/waveBoatGlyph.png'),
+    waveGlyph: require('Images/WaveGlyph.png'),
+    leftChevron: require('Images/LeftChevron.png')
 }

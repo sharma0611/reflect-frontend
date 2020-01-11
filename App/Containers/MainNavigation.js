@@ -8,6 +8,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { Images, Colors, AppStyles, Fonts } from 'Themes'
 import { modalFriendlyTransition } from './transitions'
+import { fadeIn } from 'react-navigation-transitions'
 
 // Components
 import V from 'Components/V'
@@ -27,6 +28,8 @@ import MoodCalendarScreen from './MoodCalendarScreen'
 import JournalReviewScreen from './JournalReviewScreen'
 import DailyGoalsScreen from './DailyGoalsScreen'
 import GoalSelectScreen from './GoalSelectScreen'
+import LandingScreen from '../MellowContainers/LandingScreen'
+import OnboardingA from '../MellowContainers/OnboardingA'
 
 const styles = StyleSheet.create({
     activeIcon: {
@@ -176,12 +179,26 @@ const LoggedInStack = createStackNavigator(
         ...modalFriendlyTransition
     }
 )
+const OnboardingStack = createStackNavigator(
+    {
+        Landing: {
+            screen: LandingScreen
+        },
+        OnboardingA
+    },
+    {
+        ...modalFriendlyTransition,
+        initialRouteName: 'Landing',
+        transitionConfig: () => fadeIn()
+    }
+)
 
 const createMainNavigation = (onboardingCompleted: boolean) => {
     const nav = createSwitchNavigator(
         {
             LoggedIn: LoggedInStack,
-            Onboarding: OnboardingScreen
+            // Onboarding: OnboardingScreen
+            Onboarding: OnboardingStack
         },
         {
             initialRouteName: onboardingCompleted ? 'LoggedIn' : 'Onboarding'
