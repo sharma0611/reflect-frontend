@@ -23,7 +23,7 @@ import ComingSoonScreen from './ComingSoonScreen'
 import WebView from './WebView'
 import JournalCategoryScreen from './JournalCategoryScreen'
 import SettingsScreen from './SettingsScreen'
-import OnboardingScreen from './OnboardingScreen'
+// import OnboardingScreen from './OnboardingScreen'
 import MoodCalendarScreen from './MoodCalendarScreen'
 import JournalReviewScreen from './JournalReviewScreen'
 import DailyGoalsScreen from './DailyGoalsScreen'
@@ -31,6 +31,10 @@ import GoalSelectScreen from './GoalSelectScreen'
 import LandingScreen from '../MellowContainers/LandingScreen'
 import OnboardingA from '../MellowContainers/OnboardingA'
 import OnboardingB from '../MellowContainers/OnboardingB'
+import OnboardingC from '../MellowContainers/OnboardingC'
+import OnboardingD from '../MellowContainers/OnboardingD'
+import PersonalizeA from '../MellowContainers/PersonalizeA'
+import PersonalizeB from '../MellowContainers/PersonalizeB'
 
 const styles = StyleSheet.create({
     activeIcon: {
@@ -180,13 +184,18 @@ const LoggedInStack = createStackNavigator(
         ...modalFriendlyTransition
     }
 )
+
 const OnboardingStack = createStackNavigator(
     {
         Landing: {
             screen: LandingScreen
         },
         OnboardingA,
-        OnboardingB
+        OnboardingB,
+        OnboardingC,
+        OnboardingD,
+        PersonalizeA,
+        PersonalizeB
     },
     {
         ...modalFriendlyTransition,

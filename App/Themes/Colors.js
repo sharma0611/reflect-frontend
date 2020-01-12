@@ -48,6 +48,8 @@ const colors = {
     PastelOrange: '#FDB97C',
     PastelOrangeL: '#FDCDA1',
 
+    PastelGreenM: '#A7E3A6',
+
     TealD: '#8DC9BD',
     TealM: '#A5DDD3',
 

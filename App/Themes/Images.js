@@ -20,5 +20,7 @@ export default {
     pausebutton: require('Images/pausebutton.png'),
     cardWaveGlyphA: require('Images/CardWaveGlyphA.png'),
     moon: require('Images/Moon.png'),
-    cloudA: require('Images/CloudA.png')
+    cloudA: require('Images/CloudA.png'),
+    planet: require('Images/planet.png'),
+    illustrationA: require('Images/IllustrationA.png')
 }

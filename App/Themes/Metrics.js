@@ -36,7 +36,7 @@ const evaluateIfIphoneX = (a: any, b: any) => {
     }
 }
 
-const normalizedPaddingScale = [2, 4, 10, 16, 24, 32, 48, 80, 110].map(normalizeSpace)
+const normalizedPaddingScale = [2, 4, 8, 16, 24, 32, 48, 80, 110].map(normalizeSpace)
 const normalizedBorderRadiusScale = [2, 4, 8, 16, 24].map(normalizeSpace)
 
 // Used via Metrics.baseMargin

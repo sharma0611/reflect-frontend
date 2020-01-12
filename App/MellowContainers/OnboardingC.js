@@ -20,7 +20,7 @@ const WaveHeightRatio = 0.3
 
 class OnboardingB extends React.Component<Props, State> {
     next = () => {
-        this.props.navigation.navigate('OnboardingC')
+        this.props.navigation.navigate('OnboardingD')
     }
     render() {
         return (
@@ -30,35 +30,29 @@ class OnboardingB extends React.Component<Props, State> {
                 </V>
                 <V p={4} flex={3} pt={0}>
                     <T heading3 color="Gray1">
-                        Look back on what happened
+                        Look forward to your next step
                     </T>
                     <V ai="center" p={3} pt={5}>
-                        <Card bg="PastelPurple" style={{ width: Metrics.screenWidth * 0.8 }}>
+                        <Card bg="PastelGreenM" style={{ width: Metrics.screenWidth * 0.8 }}>
                             <V ai="flex-end" pt={3} pr={5}>
                                 <V style={{ width: 60, height: 35 }}>
-                                    <V pabs style={{ bottom: 0, left: 0 }}>
-                                        <Image
-                                            source={Images.cloudA}
-                                            style={{ width: 40, height: 30, resizeMode: 'contain' }}
-                                        />
-                                    </V>
                                     <V pabs style={{ top: 0, right: 0 }}>
                                         <Image
-                                            source={Images.moon}
-                                            style={{ width: 20, height: 20, resizeMode: 'contain' }}
+                                            source={Images.planet}
+                                            style={{ width: 30, height: 30, resizeMode: 'contain' }}
                                         />
                                     </V>
                                 </V>
                             </V>
                             <V p={3} pt={0}>
-                                <T b1 color="WhiteM">
-                                    Track your mood.
+                                <T b1 color="Gray2">
+                                    Set life goals.
                                 </T>
-                                <T b1 color="WhiteM">
-                                    Three personalized questions.
+                                <T b1 color="Gray2">
+                                    Set mini-victories each week.
                                 </T>
-                                <T b1 color="WhiteM">
-                                    Be grateful and introspective.
+                                <T b1 color="Gray2">
+                                    Be the captain of your journey.
                                 </T>
                             </V>
                             <Image
@@ -74,12 +68,12 @@ class OnboardingB extends React.Component<Props, State> {
                                     borderBottomLeftRadius: 10
                                 }}
                             >
-                                <T heading4>Daily Reflection</T>
+                                <T heading4>Weekly Goals</T>
                             </V>
                         </Card>
                     </V>
                     <T heading4 color="Gray1" pt={3} ta="center">
-                        Hit pause.
+                        Hit play.
                     </T>
                 </V>
                 <V
@@ -88,7 +82,7 @@ class OnboardingB extends React.Component<Props, State> {
                     style={{ height: WaveHeightRatio * Metrics.screenHeight }}
                     pt={5}
                 >
-                    <MainButton onPress={this.next} text={'And?'} />
+                    <MainButton onPress={this.next} text={'OKAY...'} />
                 </V>
             </WaveBackground>
         )

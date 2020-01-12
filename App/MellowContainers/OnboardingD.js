@@ -9,7 +9,7 @@ import MainButton from 'MellowComponents/MainButton'
 import SecondaryButton from 'MellowComponents/SecondaryButton'
 import WaveBackground from 'MellowComponents/WaveBackground'
 import LeftChevron from 'MellowComponents/LeftChevron'
-import Touchable from 'Components/Touchable'
+import Card from 'MellowComponents/Card'
 import { withNavigation } from 'react-navigation'
 
 type Props = {}
@@ -18,9 +18,9 @@ type State = {}
 
 const WaveHeightRatio = 0.3
 
-class OnboardingA extends React.Component<Props, State> {
+class OnboardingB extends React.Component<Props, State> {
     next = () => {
-        this.props.navigation.navigate('OnboardingB')
+        this.props.navigation.navigate('PersonalizeA')
     }
     render() {
         return (
@@ -30,13 +30,14 @@ class OnboardingA extends React.Component<Props, State> {
                 </V>
                 <V p={4} flex={3} pt={0}>
                     <T heading3 color="Gray1">
-                        reflect is your pause button for life.
+                        The toolkit for your mind.
                     </T>
                     <V ai="center" p={3}>
-                        <Image source={Images.pausebutton} style={styles.pausebutton} />
+                        <Image source={Images.illustrationA} />
                     </V>
-                    <T heading4 color="Gray1" pt={3}>
-                        We give you the tools to hit pause, become self aware, then go back to play.
+                    <T b1 color="Gray2" pt={3} ta="center">
+                        We use science to build mindfulness activities that help you take control of
+                        life.
                     </T>
                 </V>
                 <V
@@ -45,7 +46,7 @@ class OnboardingA extends React.Component<Props, State> {
                     style={{ height: WaveHeightRatio * Metrics.screenHeight }}
                     pt={5}
                 >
-                    <MainButton onPress={this.next} text={'How does it work?'} />
+                    <MainButton onPress={this.next} text={'Let me in!'} />
                 </V>
             </WaveBackground>
         )
@@ -72,4 +73,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default withNavigation(OnboardingA)
+export default withNavigation(OnboardingB)

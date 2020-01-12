@@ -25,7 +25,7 @@ class LandingScreen extends React.Component<Props, State> {
                         <T subtitle1 color="Gray2">
                             welcome to
                         </T>
-                        <V style={styles.logoBar} row jc="flex-end" ai="flex-end">
+                        <V style={styles.logoBar} row jc="flex-end" ai="center">
                             <T heading1 color="Gray2">
                                 reflect
                             </T>
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         tintColor: Colors.Blue2
     },
     logoBar: {
-        height: 70
+        height: 80
     },
     waveBoatGlyph: {
         width: Metrics.screenWidth
