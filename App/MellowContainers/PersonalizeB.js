@@ -28,7 +28,7 @@ class PersonalizeB extends React.Component<Props, State> {
 
     submit = () => {
         console.log(`👨‍🌾 => `, this.state.feelingToday)
-        this.props.navigation.navigate('PersonalizeB')
+        // this.props.navigation.navigate('PersonalizeC')
     }
 
     render() {
