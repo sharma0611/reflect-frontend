@@ -21,6 +21,7 @@ import { Colors } from 'Themes'
 import Touchable from 'Components/Touchable'
 import SocialBar from 'Modules/SocialBar'
 
+
 class HomeScreen extends React.Component<*> {
     state = {
         name: ''
@@ -60,7 +61,7 @@ class HomeScreen extends React.Component<*> {
                     date={today}
                     onAction={() => Analytics.pressDailyReflection(today)}
                 />
-                <DailyGoalsCard date={today} onAction={() => Analytics.pressDailyGoals(today)} />
+                <DailyGoalsCard date={today} onAction={() => Sentry.nativeCrash()} />
                 <MoodCard date={today} />
             </Section>
         )
@@ -71,8 +72,8 @@ class HomeScreen extends React.Component<*> {
             <Section>
                 <SectionTitle subTitle="Help make this app better">Share the love ❤️</SectionTitle>
                 <ShareButton sharedVia="HomeScreen" />
-                <FeedbackButton />
-                <TextFounderButton />
+                <FeedbackButton/>
+                <TextFounderButton/>
                 <SocialBar />
             </Section>
         )
