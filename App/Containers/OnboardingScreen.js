@@ -84,7 +84,7 @@ class OnboardingScreen extends React.Component<Props, State> {
         onboarding: false,
         name: '',
         age: 1,
-        gender: 'female',
+        gender: 'Male',
         question: 0
     }
 
