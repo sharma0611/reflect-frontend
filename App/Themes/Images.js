@@ -19,8 +19,11 @@ export default {
     leftChevron: require('Images/LeftChevron.png'),
     pausebutton: require('Images/pausebutton.png'),
     cardWaveGlyphA: require('Images/CardWaveGlyphA.png'),
+    cardWaveGlyphC: require('Images/CardWaveGlyphC.png'),
+    cardWaveGlyphD: require('Images/CardWaveGlyphD.png'),
     moon: require('Images/Moon.png'),
     cloudA: require('Images/CloudA.png'),
     planet: require('Images/planet.png'),
-    illustrationA: require('Images/IllustrationA.png')
+    illustrationA: require('Images/IllustrationA.png'),
+    check: require('Images/check.png')
 }

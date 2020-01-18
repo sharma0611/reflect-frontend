@@ -1,6 +1,6 @@
 // @flow
 import Mixpanel from 'react-native-mixpanel'
-import {AppEventsLogger} from 'react-native-fbsdk'
+import { AppEventsLogger } from 'react-native-fbsdk'
 import config from 'Config/AppConfig'
 import moment from 'moment'
 
@@ -11,13 +11,13 @@ class Tracking {
     // Send and event name with no properties
     _track = (eventName: string) => {
         Mixpanel.track(eventName)
-        AppEventsLogger.logEvent(eventName);
+        AppEventsLogger.logEvent(eventName)
     }
 
     // Track event with properties
     _trackWithProperties = (eventName: string, props: any) => {
         Mixpanel.trackWithProperties(eventName, props)
-        AppEventsLogger.logEvent(eventName, null, props);
+        AppEventsLogger.logEvent(eventName, null, props)
     }
 
     // set people properties
@@ -52,10 +52,16 @@ class Tracking {
         this._track('View ' + screenName)
     }
 
-    saveJournal = (journalType: string, journalLength: number, title: string) => {
+    saveJournal = (
+        journalType: string,
+        journalLength: number,
+        title: string,
+        journalText: string
+    ) => {
         this._trackWithProperties('Save Journal', {
             'Journal Type': journalType,
             'Journal Length': journalLength,
+            'Journal Text': journalText,
             Title: title
         })
     }
@@ -161,6 +167,14 @@ class Tracking {
     submitGender = gender => {
         this._trackWithProperties('Submit Gender', { Gender: gender })
         this._set({ Gender: gender })
+    }
+
+    submitFeels = wantToFeel => {
+        this._trackWithProperties('Submit Want To Feel', { Feel: wantToFeel })
+    }
+
+    submitLifeGoals = lifeGoals => {
+        this._trackWithProperties('Submit Life Goals', { Goals: lifeGoals })
     }
 
     unlockPro() {

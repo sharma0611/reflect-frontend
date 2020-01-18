@@ -12,6 +12,7 @@ import LeftChevron from 'MellowComponents/LeftChevron'
 import Card from 'MellowComponents/Card'
 import WhiteField from 'MellowComponents/WhiteField'
 import { withNavigation } from 'react-navigation'
+import AsyncStorageController from 'Controllers/AsyncStorageController'
 
 type Props = {}
 
@@ -26,8 +27,8 @@ class PersonalizeA extends React.Component<Props, State> {
         name: ''
     }
 
-    submit = () => {
-        // console.log(`👨‍🌾 => `, this.state.name)
+    submit = async () => {
+        await AsyncStorageController.setName(this.state.name)
         this.props.navigation.navigate('PersonalizeB')
     }
 

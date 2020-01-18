@@ -12,6 +12,7 @@ import LeftChevron from 'MellowComponents/LeftChevron'
 import Card from 'MellowComponents/Card'
 import WhiteField from 'MellowComponents/WhiteField'
 import { withNavigation } from 'react-navigation'
+import userExposedToContainer from 'State/userExposedTo'
 import Touchable from 'Components/Touchable'
 import Analytics from 'Controllers/AnalyticsController'
 
@@ -28,32 +29,52 @@ const CATEGORY_CARD_WIDTH = Metrics.screenWidth * 0.5
 const SNAP_INTERVAL = CATEGORY_CARD_WIDTH + Metrics.padding.scale[CATEGORY_MARGIN]
 
 const CATEGORIES = [
-    { name: 'Motivated', color: 'PastelGreen' },
-    { name: 'Purposeful', color: 'PastelPink' },
-    { name: 'Calm', color: 'PastelSkyBlue' },
-    { name: 'Confident', color: 'PastelRed' },
-    { name: 'Hopeful', color: 'PastelPurplePink' },
-    { name: 'Grateful', color: 'PastelPurpleL' }
+    { name: 'My dream physique' },
+    { name: 'Strong financial freedom' },
+    { name: 'The peak of my career' },
+    { name: 'Making my family happy and proud' },
+    { name: 'Helping as many people as I can' },
+    { name: 'Having a high growht mindset' }
 ]
 
 const CIRCLE_WIDTH = 30
 
 class PersonalizeB extends React.Component<Props, State> {
     state = {
-        wantToFeel: ''
+        lifeGoals: []
     }
 
     submit = () => {
-        Analytics.submitFeels(this.state.wantToFeel)
-        this.props.navigation.navigate('PersonalizeC')
+        this.finishOnboarding()
+        Analytics.submitLifeGoals(this.state.lifeGoals)
+    }
+
+    finishOnboarding() {
+        userExposedToContainer.onExposedToOnboarding()
+    }
+
+    toggleGoal = name => {
+        this.setState(({ lifeGoals }) => {
+            if (lifeGoals.includes(name)) {
+                lifeGoals = lifeGoals.filter(value => value !== name)
+            } else {
+                lifeGoals.push(name)
+            }
+            return { lifeGoals }
+        })
     }
 
     renderCategory = category => {
-        const { name, color } = category
+        const { name } = category
         return (
-            <Touchable onPress={() => this.setState({ wantToFeel: name })}>
-                <Card bg={color} style={{ width: CATEGORY_CARD_WIDTH }} mr={CATEGORY_MARGIN} mb={3}>
-                    {this.state.wantToFeel === name && (
+            <Touchable onPress={() => this.toggleGoal(name)}>
+                <Card
+                    bg="BabyBlueM"
+                    style={{ width: CATEGORY_CARD_WIDTH, height: 150 }}
+                    mr={CATEGORY_MARGIN}
+                    mb={3}
+                >
+                    {this.state.lifeGoals.includes(name) && (
                         <V pabs style={{ right: 0, top: 0 }} pt={2} pr={2}>
                             <V
                                 bg="WhiteM"
@@ -77,23 +98,26 @@ class PersonalizeB extends React.Component<Props, State> {
                             </V>
                         </V>
                     )}
-                    <V ai="flex-end" pt={5} pb={4} />
+                    <V pt={3} pb={2} />
                     <Image
-                        source={Images.cardWaveGlyphC}
+                        source={Images.cardWaveGlyphD}
                         resizeMode="stretch"
-                        style={{ width: CATEGORY_CARD_WIDTH }}
+                        style={{ width: CATEGORY_CARD_WIDTH, marginBottom: -5 }}
                     />
                     <V
                         pt={2}
                         pl={3}
                         pb={3}
+                        pr={3}
                         bg="WhiteM"
+                        flex={1}
+                        jc="flex-end"
                         style={{
                             borderBottomRightRadius: 30,
                             borderBottomLeftRadius: 10
                         }}
                     >
-                        <T heading4>{name}</T>
+                        <T body3>{name}</T>
                     </V>
                 </Card>
             </Touchable>
@@ -111,7 +135,7 @@ class PersonalizeB extends React.Component<Props, State> {
                         Let's personalize your journey!
                     </T>
                     <T heading4 color="Gray1" pt={4}>
-                        How do you want Reflect to make you feel?
+                        What are you working towards in life?
                     </T>
                 </V>
                 <V>
@@ -132,11 +156,9 @@ class PersonalizeB extends React.Component<Props, State> {
                 </V>
                 <V ai="center" pt={2}>
                     <MainButton
-                        disabled={this.state.wantToFeel === ''}
+                        disabled={this.state.lifeGoals.length === 0}
                         onPress={() => this.submit()}
-                        text={`I want to feel ${
-                            this.state.wantToFeel ? this.state.wantToFeel : '_'
-                        }`}
+                        text={'Those are my goals'}
                     />
                 </V>
             </WaveBackground>

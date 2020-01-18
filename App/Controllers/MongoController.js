@@ -80,7 +80,7 @@ class MongoController {
             const timestamp = today.getTime()
             today.setHours(0, 0, 0, 0)
             const journal = { date: today, title, text, journalType, timestamp }
-            Analytics.saveJournal(journalType, text.length, title)
+            Analytics.saveJournal(journalType, text.length, title, text)
             db.insert(journal)
         }
     }

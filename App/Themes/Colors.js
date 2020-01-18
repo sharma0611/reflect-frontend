@@ -49,6 +49,12 @@ const colors = {
     PastelOrangeL: '#FDCDA1',
 
     PastelGreenM: '#A7E3A6',
+    PastelGreen: '#A8E7C1',
+    PastelPink: '#E7A8DD',
+    PastelSkyBlue: '#A8E3E7',
+    PastelRed: '#EFA0A0',
+    PastelPurplePink: '#C7A8E7',
+    PastelPurpleL: '#C9C5F8',
 
     TealD: '#8DC9BD',
     TealM: '#A5DDD3',

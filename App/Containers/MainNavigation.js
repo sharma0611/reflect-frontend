@@ -35,6 +35,7 @@ import OnboardingC from '../MellowContainers/OnboardingC'
 import OnboardingD from '../MellowContainers/OnboardingD'
 import PersonalizeA from '../MellowContainers/PersonalizeA'
 import PersonalizeB from '../MellowContainers/PersonalizeB'
+import PersonalizeC from '../MellowContainers/PersonalizeC'
 
 const styles = StyleSheet.create({
     activeIcon: {
@@ -195,7 +196,8 @@ const OnboardingStack = createStackNavigator(
         OnboardingC,
         OnboardingD,
         PersonalizeA,
-        PersonalizeB
+        PersonalizeB,
+        PersonalizeC
     },
     {
         ...modalFriendlyTransition,
