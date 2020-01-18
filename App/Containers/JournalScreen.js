@@ -9,6 +9,9 @@ import TouchableCard from 'Components/TouchableCard'
 import AsModal from 'HOC/AsModal'
 import Header, { HEADER_HEIGHT } from 'Components/Header'
 import { Fonts, Colors, Images } from 'Themes'
+import WaveBackground from 'MellowComponents/WaveBackground'
+
+const WaveHeightRatio = 0.3
 
 type Props = {}
 
@@ -36,12 +39,7 @@ class JournalScreen extends React.Component<Props, State> {
         } = params
 
         return (
-            <Screen
-                pt={HEADER_HEIGHT}
-                bg="transparent"
-                bgImg={Images.paperTexture}
-                bgImgStyle={{ opacity: 0.3 }}
-            >
+            <WaveBackground heightRatio={WaveHeightRatio}>
                 <KeyboardAvoidingView
                     style={{ flex: 1 }}
                     behavior={Platform.select({ android: undefined, ios: 'padding' })}
@@ -109,7 +107,7 @@ class JournalScreen extends React.Component<Props, State> {
                         onRightAction(this.state.title, this.state.text)
                     }}
                 />
-            </Screen>
+            </WaveBackground>
         )
     }
 }

@@ -12,6 +12,7 @@ import LeftChevron from 'MellowComponents/LeftChevron'
 import Card from 'MellowComponents/Card'
 import WhiteField from 'MellowComponents/WhiteField'
 import { withNavigation } from 'react-navigation'
+import userExposedToContainer from 'State/userExposedTo'
 
 type Props = {}
 
@@ -38,6 +39,11 @@ class PersonalizeB extends React.Component<Props, State> {
     submit = () => {
         console.log(`👨‍🌾 => `, this.state.feelingToday)
         // this.props.navigation.navigate('PersonalizeC')
+        this.finishOnboarding()
+    }
+
+    finishOnboarding() {
+        userExposedToContainer.onExposedToOnboarding()
     }
 
     renderCategory = category => {
@@ -101,7 +107,7 @@ class PersonalizeB extends React.Component<Props, State> {
                         horizontal
                         snapToAlignment="start"
                         decelerationRate={0}
-                        snapToInterval={SNAP_INTERVAL}
+                        // snapToInterval={SNAP_INTERVAL}
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={{
                             marginLeft: Metrics.padding.medium,
