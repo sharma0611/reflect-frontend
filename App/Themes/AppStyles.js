@@ -12,10 +12,12 @@ const ApplicationStyles = {
         backgroundColor: Colors.WhiteM,
         paddingBottom: Metrics.padding.large
     },
-    fullScreenContainer: {
+    fullSafeScreenContainer: {
         flex: 1,
-        backgroundColor: Colors.fmzWhite,
         paddingTop: Metrics.statusBarHeight
+    },
+    fullScreenContainer: {
+        flex: 1
     },
     bringToFront: {
         elevation: 10

@@ -36,6 +36,7 @@ import OnboardingD from '../MellowContainers/OnboardingD'
 import PersonalizeA from '../MellowContainers/PersonalizeA'
 import PersonalizeB from '../MellowContainers/PersonalizeB'
 import PersonalizeC from '../MellowContainers/PersonalizeC'
+import ReflectionQuestionScreen from '../MellowContainers/ReflectionQuestionScreen'
 
 const styles = StyleSheet.create({
     activeIcon: {
@@ -136,6 +137,33 @@ const Tabs = createBottomTabNavigator(
     }
 )
 
+const DailyReflectionStack = createStackNavigator(
+    {
+        ReflectionQuestion: {
+            screen: ReflectionQuestionScreen
+        }
+    },
+    {
+        defaultNavigationOptions: {
+            header: null
+        }
+    }
+)
+
+const TabsStack = createStackNavigator(
+    {
+        Tabs: {
+            screen: Tabs
+        },
+        DailyReflection: DailyReflectionStack
+    },
+    {
+        defaultNavigationOptions: {
+            header: null
+        }
+    }
+)
+
 const PaywallStack = createStackNavigator(
     {
         Paywall: PaywallScreen,
@@ -159,13 +187,10 @@ const GoalsStack = createStackNavigator(
 const LoggedInStack = createStackNavigator(
     {
         Tabs: {
-            screen: Tabs
+            screen: TabsStack
         },
         Emoji: {
             screen: EmojiScreen
-        },
-        Journal: {
-            screen: JournalScreen
         },
         Paywall: {
             screen: PaywallStack

@@ -11,12 +11,15 @@ import Header, { HEADER_HEIGHT } from 'MellowComponents/Header'
 import { Fonts, Colors, Images, Metrics } from 'Themes'
 import WaveBackground from 'MellowComponents/WaveBackground'
 import { ScrollView } from 'react-native-gesture-handler'
+import RightChevron from 'MellowComponents/RightChevron'
 
 const WaveHeightRatio = 0.3
 
 type Props = {}
 
 type State = {}
+
+const CIRCLE_WIDTH = 60
 
 class JournalScreen extends React.Component<Props, State> {
     constructor(props) {
@@ -42,23 +45,14 @@ class JournalScreen extends React.Component<Props, State> {
 
         return (
             <WaveBackground heightRatio={WaveHeightRatio} fullScreen>
-                {/* <KeyboardAvoidingView
-                    style={{ flex: 1 }}
-                    behavior={Platform.select({ android: undefined, ios: 'padding' })}
-                    keyboardVerticalOffset={Platform.select({ ios: 60, android: -200 })}
-                > */}
                 <ScrollView style={{ marginTop: HEADER_HEIGHT }}>
-                    <T heading3 color="Gray1" p={3}>
+                    <T heading3 color="Gray1" pt={3} pl={3}>
                         {subTitle}
                     </T>
-                    {/* <Section>
-                        <V pt={1}>
-                            <T>
-                                {this.state.title}
-                            <T/>
-                        </V>
-                    </Section> */}
-                    <Section flex={1}>
+                    <T pl={3} p={2} heading4>
+                        {this.state.title}
+                    </T>
+                    <V bg="WhiteM" br={3} m={3} p={3} style={{ height: 200 }}>
                         <TextInput
                             style={styles.input}
                             onChangeText={text => this.setState({ text })}
@@ -66,56 +60,31 @@ class JournalScreen extends React.Component<Props, State> {
                             multiline={true}
                             autoGrow={true}
                             autoFocus={true}
-                            placeholder={'My journal response...'}
                             placeholderTextColor={Colors.GreyM}
+                            selectionColor={Colors.Black}
                         />
-                    </Section>
-                    <V row jc="space-around" ai="center">
-                        {onLeftAction && (
-                            <TouchableCard
-                                bg="WhiteM"
-                                p={2}
-                                px={3}
-                                containerStyle={styles.bottomLeftButtonContainer}
-                                onPress={() => onLeftAction()}
-                            >
-                                <T color="GreyL">
-                                    {leftActionText}
-                                    {'  '}>
-                                </T>
-                            </TouchableCard>
-                        )}
-                        <TouchableCard
-                            bg="WhiteM"
-                            p={2}
-                            px={3}
-                            containerStyle={styles.bottomRightButtonContainer}
-                            onPress={() => onRightAction(this.state.title, this.state.text)}
-                        >
-                            <T color="GreyL">
-                                {rightActionText}
-                                {'  '}>
-                            </T>
-                        </TouchableCard>
                     </V>
-                    {/* </KeyboardAvoidingView> */}
+                    <V
+                        bg="PastelPurple"
+                        style={{
+                            height: CIRCLE_WIDTH,
+                            width: CIRCLE_WIDTH,
+                            borderRadius: CIRCLE_WIDTH / 2
+                        }}
+                    >
+                        <RightChevron tintColor={'WhiteM'} />
+                    </V>
                 </ScrollView>
                 <Header headerTitle={headerTitle} />
             </WaveBackground>
-            // title={headerTitle ? headerTitle : ` `}
-            // bg={headerColor ? headerColor : 'BeigeM'}
-            // white={!!headerColor}
-            // onClose={() => {
-            //     onRightAction(this.state.title, this.state.text)
-            // }}
         )
     }
 }
 
 const styles = StyleSheet.create({
     input: {
-        ...Fonts.style.body,
-        color: Colors.GreyD
+        ...Fonts.style.body1,
+        color: Colors.Black
     },
     title: {
         ...Fonts.style.titleS,

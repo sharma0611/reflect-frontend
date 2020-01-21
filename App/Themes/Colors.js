@@ -61,6 +61,8 @@ const colors = {
 
     BrownM: '#BC7A19',
 
+    Black: '#1B1B1B',
+
     // @legacy
     WhiteM: '#FEFEFE',
     WhiteGreen: '#A7DBCD',

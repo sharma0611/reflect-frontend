@@ -5,16 +5,25 @@ import { AppStyles, Images, Metrics } from 'Themes'
 import T from 'Components/T'
 import V from 'Components/V'
 
-type Props = {}
+type Props = {
+    boat: boolean,
+    heightRatio: number,
+    fullScreen: boolean
+}
 
 type State = {}
 
 class WaveBackground extends React.Component<Props, State> {
     render() {
-        const { boat, heightRatio } = this.props
+        const { boat, heightRatio, fullScreen } = this.props
         const glyph = boat ? Images.waveBoatGlyph : Images.waveGlyph
         return (
-            <V style={AppStyles.fullScreenContainer} bg="BabyBlueL">
+            <V
+                style={
+                    fullScreen ? AppStyles.fullScreenContainer : AppStyles.fullSafeScreenContainer
+                }
+                bg="BabyBlueL"
+            >
                 <V pabs style={{ height: Metrics.screenHeight }}>
                     <V flex={1} />
                     <V style={{ height: Metrics.screenHeight * heightRatio }}>

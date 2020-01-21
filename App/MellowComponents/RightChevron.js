@@ -5,21 +5,24 @@ import { Images, Colors } from 'Themes'
 import T from 'Components/T'
 import V from 'Components/V'
 import Touchable from 'Components/Touchable'
-import { withNavigation } from 'react-navigation'
 
 type Props = {
-    tintColor: string
+    tintColor: string,
+    onPress: any
 }
 
 type State = {}
 
-class LeftChevron extends React.Component<Props, State> {
+class RightChevron extends React.Component<Props, State> {
     render() {
         const tintColorName = this.props.tintColor ? this.props.tintColor : 'Gray2'
         const tintColor = Colors.getColor(tintColorName)
         return (
-            <Touchable onPress={() => this.props.navigation.goBack()}>
-                <Image source={Images.leftChevron} style={{ tintColor }} />
+            <Touchable onPress={this.props.onPress}>
+                <Image
+                    source={Images.leftChevron}
+                    style={{ tintColor, transform: [{ rotate: '180deg' }] }}
+                />
             </Touchable>
         )
     }
@@ -27,4 +30,4 @@ class LeftChevron extends React.Component<Props, State> {
 
 const styles = StyleSheet.create({})
 
-export default withNavigation(LeftChevron)
+export default RightChevron
