@@ -110,7 +110,6 @@ const Tabs = createBottomTabNavigator(
                 } else if (routeName === 'MoodCalendar') {
                     icon = Images.calendar
                 }
-
                 // You can return any component that you like here!
                 // return <IconComponent name={iconName} size={25} color={tintColor} />
                 return (
