@@ -75,13 +75,17 @@ class RootContainer extends Component {
         try {
             // online
             const { data } = await loginUser()
-            let {
-                loginUser: {
-                    userUuid,
-                    reflectionPush: { reflectionTimeHour, reflectionTimeMin }
+            try {
+                let {
+                    loginUser: {
+                        userUuid,
+                        reflectionPush: { reflectionTimeHour, reflectionTimeMin }
+                    }
+                } = data
+                if (reflectionTimeHour == null) {
+                    await setDefaultReflectionTime()
                 }
-            } = data
-            if (reflectionTimeHour == null) {
+            } catch (e) {
                 await setDefaultReflectionTime()
             }
             PushNotification.cancelAllLocalNotifications()

@@ -33,7 +33,10 @@ class ErrorBoundary extends React.Component<Props, State> {
             // You can render any custom fallback UI
             return (
                 <V flex={1} jc="center" ai="center" bg="WhiteM">
-                    <T>Sorry for the error! Please let us know in the feedback form.</T>
+                    <T heading>
+                        Sorry for the error! Please let us know in the feedback form on the main
+                        screen or text me at 6479380024.
+                    </T>
                 </V>
             )
         }
