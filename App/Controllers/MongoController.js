@@ -80,7 +80,7 @@ class MongoController {
             const timestamp = today.getTime()
             today.setHours(0, 0, 0, 0)
             const journal = { date: today, title, text, journalType, timestamp }
-            Analytics.saveJournal(journalType, text.length, title)
+            Analytics.saveJournal(journalType, text.length, title, text)
             db.insert(journal)
         }
     }
@@ -277,7 +277,7 @@ class MongoController {
             const { focus, ...rest } = goal
             goal = { date, ...rest }
             if (_id == null) {
-                Analytics.saveDailyGoal()
+                Analytics.saveDailyGoal(goal.text)
                 db.insert(goal, (err, newDoc) => {
                     if (err) {
                         reject(err)
@@ -293,7 +293,7 @@ class MongoController {
                         if (err) {
                             reject(err)
                         }
-                        Analytics.updateDailyGoal(_id, goal.text.length)
+                        Analytics.updateDailyGoal(_id, goal.text.length, goal.text)
                         resolve(affectedDoc)
                     }
                 )

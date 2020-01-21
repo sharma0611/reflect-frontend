@@ -1,6 +1,6 @@
 // @flow
 import Mixpanel from 'react-native-mixpanel'
-import {AppEventsLogger} from 'react-native-fbsdk'
+import { AppEventsLogger } from 'react-native-fbsdk'
 import config from 'Config/AppConfig'
 import moment from 'moment'
 
@@ -11,13 +11,13 @@ class Tracking {
     // Send and event name with no properties
     _track = (eventName: string) => {
         Mixpanel.track(eventName)
-        AppEventsLogger.logEvent(eventName);
+        AppEventsLogger.logEvent(eventName)
     }
 
     // Track event with properties
     _trackWithProperties = (eventName: string, props: any) => {
         Mixpanel.trackWithProperties(eventName, props)
-        AppEventsLogger.logEvent(eventName, null, props);
+        AppEventsLogger.logEvent(eventName, null, props)
     }
 
     // set people properties
@@ -52,10 +52,16 @@ class Tracking {
         this._track('View ' + screenName)
     }
 
-    saveJournal = (journalType: string, journalLength: number, title: string) => {
+    saveJournal = (
+        journalType: string,
+        journalLength: number,
+        title: string,
+        journalText: string
+    ) => {
         this._trackWithProperties('Save Journal', {
             'Journal Type': journalType,
             'Journal Length': journalLength,
+            'Journal Text': journalText,
             Title: title
         })
     }
@@ -123,12 +129,12 @@ class Tracking {
         this._track('Set daily reflection time')
     }
 
-    saveDailyGoal = () => {
-        this._track('Save daily goal')
+    saveDailyGoal = text => {
+        this._trackWithProperties('Save daily goal', { text })
     }
 
-    updateDailyGoal = (_id, length) => {
-        this._trackWithProperties('Update daily goal', { _id, Length: length })
+    updateDailyGoal = (_id, length, text) => {
+        this._trackWithProperties('Update daily goal', { _id, Length: length, text })
     }
 
     pressDailyReflection = date => {
