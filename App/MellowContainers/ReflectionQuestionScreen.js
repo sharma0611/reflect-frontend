@@ -13,6 +13,7 @@ import WaveBackground from 'MellowComponents/WaveBackground'
 import { ScrollView } from 'react-native-gesture-handler'
 import RightChevron from 'MellowComponents/RightChevron'
 import Touchable from 'Components/Touchable'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const WaveHeightRatio = 0.3
 
@@ -46,7 +47,11 @@ class JournalScreen extends React.Component<Props, State> {
 
         return (
             <WaveBackground heightRatio={WaveHeightRatio} fullScreen>
-                <ScrollView style={{ marginTop: HEADER_HEIGHT }}>
+                <KeyboardAwareScrollView
+                    keyboardShouldPersistTaps={'handled'}
+                    enableResetScrollToCoords={false}
+                    style={{ marginTop: HEADER_HEIGHT }}
+                >
                     <T heading3 color="Gray1" pt={3} pl={3}>
                         {subTitle}
                     </T>
@@ -65,7 +70,7 @@ class JournalScreen extends React.Component<Props, State> {
                             selectionColor={Colors.Black}
                         />
                     </V>
-                    <Touchable onPress={onRightAction}>
+                    <Touchable onPress={() => onRightAction(this.state.title, this.state.text)}>
                         <V jc="flex-end" row pr={4}>
                             <V
                                 bg="PastelPurple"
@@ -81,8 +86,12 @@ class JournalScreen extends React.Component<Props, State> {
                             </V>
                         </V>
                     </Touchable>
-                </ScrollView>
-                <Header headerTitle={headerTitle} exit />
+                </KeyboardAwareScrollView>
+                <Header
+                    headerTitle={headerTitle}
+                    exit
+                    onClose={() => onRightAction(this.state.title, this.state.text)}
+                />
             </WaveBackground>
         )
     }

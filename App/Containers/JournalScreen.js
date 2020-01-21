@@ -7,12 +7,8 @@ import Screen from 'Components/Screen'
 import Section from 'Components/Section'
 import TouchableCard from 'Components/TouchableCard'
 import AsModal from 'HOC/AsModal'
-import Header, { HEADER_HEIGHT } from 'MellowComponents/Header'
-import { Fonts, Colors, Images, Metrics } from 'Themes'
-import WaveBackground from 'MellowComponents/WaveBackground'
-import { ScrollView } from 'react-native-gesture-handler'
-
-const WaveHeightRatio = 0.3
+import Header, { HEADER_HEIGHT } from 'Components/Header'
+import { Fonts, Colors, Images } from 'Themes'
 
 type Props = {}
 
@@ -36,28 +32,34 @@ class JournalScreen extends React.Component<Props, State> {
             leftActionText,
             rightActionText,
             headerTitle,
-            subTitle,
             headerColor
         } = params
 
         return (
-            <WaveBackground heightRatio={WaveHeightRatio} fullScreen>
-                {/* <KeyboardAvoidingView
+            <Screen
+                pt={HEADER_HEIGHT}
+                bg="transparent"
+                bgImg={Images.paperTexture}
+                bgImgStyle={{ opacity: 0.3 }}
+            >
+                <KeyboardAvoidingView
                     style={{ flex: 1 }}
                     behavior={Platform.select({ android: undefined, ios: 'padding' })}
                     keyboardVerticalOffset={Platform.select({ ios: 60, android: -200 })}
-                > */}
-                <ScrollView style={{ marginTop: HEADER_HEIGHT }}>
-                    <T heading3 color="Gray1" p={3}>
-                        {subTitle}
-                    </T>
-                    {/* <Section>
+                >
+                    <Section>
                         <V pt={1}>
-                            <T>
-                                {this.state.title}
-                            <T/>
+                            <TextInput
+                                style={styles.title}
+                                onChangeText={title => this.setState({ title })}
+                                value={this.state.title}
+                                multiline={true}
+                                autoGrow={false}
+                                autoFocus={false}
+                                placeholder={'Journal Title'}
+                            />
                         </V>
-                    </Section> */}
+                    </Section>
                     <Section flex={1}>
                         <TextInput
                             style={styles.input}
@@ -98,16 +100,16 @@ class JournalScreen extends React.Component<Props, State> {
                             </T>
                         </TouchableCard>
                     </V>
-                    {/* </KeyboardAvoidingView> */}
-                </ScrollView>
-                <Header headerTitle={headerTitle} />
-            </WaveBackground>
-            // title={headerTitle ? headerTitle : ` `}
-            // bg={headerColor ? headerColor : 'BeigeM'}
-            // white={!!headerColor}
-            // onClose={() => {
-            //     onRightAction(this.state.title, this.state.text)
-            // }}
+                </KeyboardAvoidingView>
+                <Header
+                    title={headerTitle ? headerTitle : ` `}
+                    bg={headerColor ? headerColor : 'BeigeM'}
+                    white={!!headerColor}
+                    onClose={() => {
+                        onRightAction(this.state.title, this.state.text)
+                    }}
+                />
+            </Screen>
         )
     }
 }
@@ -129,4 +131,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default JournalScreen
+export default AsModal(JournalScreen, {}, true)

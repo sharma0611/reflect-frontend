@@ -205,6 +205,9 @@ const LoggedInStack = createStackNavigator(
         Goals: {
             screen: GoalsStack
         },
+        Journal: {
+            screen: JournalScreen
+        },
         WebView
     },
     {
