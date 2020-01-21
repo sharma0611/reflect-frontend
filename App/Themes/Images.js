@@ -26,5 +26,6 @@ export default {
     cloudA: require('Images/CloudA.png'),
     planet: require('Images/planet.png'),
     illustrationA: require('Images/IllustrationA.png'),
-    check: require('Images/check.png')
+    check: require('Images/check.png'),
+    cross: require('Images/cross.png')
 }

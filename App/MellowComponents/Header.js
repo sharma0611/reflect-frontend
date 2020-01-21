@@ -1,13 +1,17 @@
 // @flow
 import * as React from 'react'
 import { StyleSheet } from 'react-native'
-import { AppStyles, Metrics } from 'Themes'
+import { AppStyles, Metrics, Colors, Images } from 'Themes'
 import T from 'Components/T'
 import V from 'Components/V'
 import LeftChevron from 'MellowComponents/LeftChevron'
+import PressableImage from 'Components/PressableImage'
+import { withNavigation } from 'react-navigation'
 
 type Props = {
-    headerTitle: string
+    headerTitle: string,
+    goBack?: boolean,
+    exit?: boolean
 }
 
 type State = {}
@@ -16,7 +20,7 @@ export const HEADER_HEIGHT = Metrics.statusBarHeight + 70
 
 class Header extends React.Component<Props, State> {
     render() {
-        const { headerTitle } = this.props
+        const { headerTitle, goBack, exit, onClose } = this.props
         return (
             <V
                 pabs
@@ -29,13 +33,26 @@ class Header extends React.Component<Props, State> {
                 }}
                 jc="center"
             >
-                <V>
+                <V jc="center">
                     <T heading4 ta="center" color="WhiteM">
                         {headerTitle}
                     </T>
-                    <V pabs pl={3}>
-                        <LeftChevron tintColor="WhiteM" />
-                    </V>
+                    {goBack && (
+                        <V pabs pl={3}>
+                            <LeftChevron tintColor="WhiteM" />
+                        </V>
+                    )}
+                    {exit && (
+                        <V pabs pr={4} style={{ right: 0 }}>
+                            <PressableImage
+                                source={Images.cross}
+                                style={{ tintColor: Colors.WhiteM }}
+                                onPress={() => {
+                                    onClose ? onClose() : this.props.navigation.navigate('Tabs')
+                                }}
+                            />
+                        </V>
+                    )}
                 </V>
             </V>
         )
@@ -44,4 +61,4 @@ class Header extends React.Component<Props, State> {
 
 const styles = StyleSheet.create({})
 
-export default Header
+export default withNavigation(Header)

@@ -146,7 +146,8 @@ const DailyReflectionStack = createStackNavigator(
     {
         defaultNavigationOptions: {
             header: null
-        }
+        },
+        transitionConfig: () => fadeIn()
     }
 )
 

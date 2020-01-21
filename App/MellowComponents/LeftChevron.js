@@ -18,7 +18,7 @@ class LeftChevron extends React.Component<Props, State> {
         const tintColorName = this.props.tintColor ? this.props.tintColor : 'Gray2'
         const tintColor = Colors.getColor(tintColorName)
         return (
-            <Touchable onPress={() => this.props.navigation.goBack()}>
+            <Touchable onPress={() => this.props.navigation.goBack(null)}>
                 <Image source={Images.leftChevron} style={{ tintColor }} />
             </Touchable>
         )

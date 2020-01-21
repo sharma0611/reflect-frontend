@@ -12,6 +12,7 @@ import { Fonts, Colors, Images, Metrics } from 'Themes'
 import WaveBackground from 'MellowComponents/WaveBackground'
 import { ScrollView } from 'react-native-gesture-handler'
 import RightChevron from 'MellowComponents/RightChevron'
+import Touchable from 'Components/Touchable'
 
 const WaveHeightRatio = 0.3
 
@@ -64,18 +65,24 @@ class JournalScreen extends React.Component<Props, State> {
                             selectionColor={Colors.Black}
                         />
                     </V>
-                    <V
-                        bg="PastelPurple"
-                        style={{
-                            height: CIRCLE_WIDTH,
-                            width: CIRCLE_WIDTH,
-                            borderRadius: CIRCLE_WIDTH / 2
-                        }}
-                    >
-                        <RightChevron tintColor={'WhiteM'} />
-                    </V>
+                    <Touchable onPress={onRightAction}>
+                        <V jc="flex-end" row pr={4}>
+                            <V
+                                bg="PastelPurple"
+                                style={{
+                                    height: CIRCLE_WIDTH,
+                                    width: CIRCLE_WIDTH,
+                                    borderRadius: CIRCLE_WIDTH / 2
+                                }}
+                                ai="center"
+                                jc="center"
+                            >
+                                <RightChevron tintColor="WhiteM" />
+                            </V>
+                        </V>
+                    </Touchable>
                 </ScrollView>
-                <Header headerTitle={headerTitle} />
+                <Header headerTitle={headerTitle} exit />
             </WaveBackground>
         )
     }
@@ -84,6 +91,7 @@ class JournalScreen extends React.Component<Props, State> {
 const styles = StyleSheet.create({
     input: {
         ...Fonts.style.body1,
+        flex: 1,
         color: Colors.Black
     },
     title: {
