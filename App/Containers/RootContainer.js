@@ -82,16 +82,17 @@ class RootContainer extends Component {
                         reflectionPush: { reflectionTimeHour, reflectionTimeMin }
                     }
                 } = data
+                Purchases.setDebugLogsEnabled(true)
+                Purchases.setup('AsrJhdgHqgRWbbrENjMfQrpPAKarCQQb', userUuid)
                 if (reflectionTimeHour == null) {
                     await setDefaultReflectionTime()
                 }
             } catch (e) {
                 await setDefaultReflectionTime()
+                throw e
             }
             PushNotification.cancelAllLocalNotifications()
             PushNotification.setApplicationIconBadgeNumber(0)
-            Purchases.setDebugLogsEnabled(true)
-            Purchases.setup('AsrJhdgHqgRWbbrENjMfQrpPAKarCQQb', userUuid)
             try {
                 const purchaserInfo = await Purchases.getPurchaserInfo()
                 if (typeof purchaserInfo.entitlements.active.pro !== 'undefined') {
@@ -100,9 +101,11 @@ class RootContainer extends Component {
                     userExposedToContainer.lockPro()
                 }
             } catch (e) {
+                throw e
                 // Error fetching purchaser info
             }
-        } catch {
+        } catch (e) {
+            Sentry.captureException(e)
             // offline
         }
         this.setState({ loaded: true })
