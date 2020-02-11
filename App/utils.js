@@ -1,3 +1,4 @@
+// @flow
 import moment from 'moment'
 
 export const utcToLocalTime = (hours: number, minutes: number) => {

@@ -13,5 +13,19 @@ export default {
     dailyReflectionSample: require('Images/DailyReflectionSample.png'),
     dailyGoalsSample: require('Images/DailyGoalsSample.png'),
     categoriesSample: require('Images/CategoriesSample.png'),
-    calendar: require('Images/calendaricon.png')
+    calendar: require('Images/calendaricon.png'),
+    waveBoatGlyph: require('Images/waveBoatGlyph.png'),
+    waveGlyph: require('Images/WaveGlyph.png'),
+    leftChevron: require('Images/LeftChevron.png'),
+    rightChevron: require('Images/RightChevron.png'),
+    pausebutton: require('Images/pausebutton.png'),
+    cardWaveGlyphA: require('Images/CardWaveGlyphA.png'),
+    cardWaveGlyphC: require('Images/CardWaveGlyphC.png'),
+    cardWaveGlyphD: require('Images/CardWaveGlyphD.png'),
+    moon: require('Images/Moon.png'),
+    cloudA: require('Images/CloudA.png'),
+    planet: require('Images/planet.png'),
+    illustrationA: require('Images/IllustrationA.png'),
+    check: require('Images/check.png'),
+    cross: require('Images/cross.png')
 }

@@ -8,8 +8,63 @@ const colors = {
     SemiLightOpacity: 'rgba(213, 213, 213, 0.6)',
     BrandDarkOpacity: 'rgba(23,30,39, 0.8)',
 
+    // @new
+    Gray1: '#333333',
+    Gray2: '#4F4F4F',
+    Gray3: '#828282',
+    Gray4: '#BDBDBD',
+    Gray5: '#E0E0E0',
+    Gray6: '#F2F2F2',
+
+    Blue1: '#1E68BF',
+    Blue2: '#2D9CDB',
+    Blue3: '#56CCF2',
+
+    OrangeD: '#F8A805',
+
+    IndigoD: '#4833CA',
+    IndigoM: '#4F4CD5',
+    IndigoL: '#6D64D9',
+
+    JauneD: '#FFE978',
+    JauneM: '#FFF0A3',
+    JauneL: '#FBF2C6',
+
+    YellowD: '#EDBB25',
+    YellowM: '#F5C525',
+    YellowL: '#F8DE90',
+
+    Green1: '#219653',
+    Green2: '#27AE60',
+    Green3: '#6FCF97',
+
+    Purple1: '#9B51E0',
+    Purple2: '#BB6BD9',
+
+    BabyBlueM: '#CEE5FF',
+    BabyBlueL: '#E9F3FF',
+
+    PastelPurple: '#A9A8E7',
+    PastelOrange: '#FDB97C',
+    PastelOrangeL: '#FDCDA1',
+
+    PastelGreenM: '#A7E3A6',
+    PastelGreen: '#A8E7C1',
+    PastelPink: '#E7A8DD',
+    PastelSkyBlue: '#A8E3E7',
+    PastelRed: '#EFA0A0',
+    PastelPurplePink: '#C7A8E7',
+    PastelPurpleL: '#C9C5F8',
+
+    TealD: '#8DC9BD',
+    TealM: '#A5DDD3',
+
+    BrownM: '#BC7A19',
+
+    Black: '#1B1B1B',
+
     // @legacy
-    WhiteM: '#ffffff',
+    WhiteM: '#FEFEFE',
     WhiteGreen: '#A7DBCD',
     CardBackground: '#fafbfc',
     CardBackgroundD: '#FAFCFF',
@@ -50,8 +105,6 @@ const colors = {
     GoldM: '#ffc71a',
     GoldD: '#eeb417',
 
-    BrownM: '#B9621D',
-
     // Daily Goals
     OliveGreen: '#779D1A',
     GreenL: '#22BC92',
@@ -78,7 +131,6 @@ const colors = {
     CoralD: '#ee483a',
 
     TealL: '#A0C9D7',
-    TealM: '#95CAD9',
 
     PinkL: '#E847C4',
     PinkM: '#ff4567',
@@ -86,7 +138,6 @@ const colors = {
 
     OrangeL: '#fca640',
     OrangeM: '#ffa030',
-    OrangeD: '#e28a23',
 
     MintL: '#0fd1a8',
     MintM: '#03b690',

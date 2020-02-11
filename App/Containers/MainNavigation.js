@@ -8,6 +8,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { Images, Colors, AppStyles, Fonts } from 'Themes'
 import { modalFriendlyTransition } from './transitions'
+import { fadeIn } from 'react-navigation-transitions'
 
 // Components
 import V from 'Components/V'
@@ -22,11 +23,20 @@ import ComingSoonScreen from './ComingSoonScreen'
 import WebView from './WebView'
 import JournalCategoryScreen from './JournalCategoryScreen'
 import SettingsScreen from './SettingsScreen'
-import OnboardingScreen from './OnboardingScreen'
+// import OnboardingScreen from './OnboardingScreen'
 import MoodCalendarScreen from './MoodCalendarScreen'
 import JournalReviewScreen from './JournalReviewScreen'
 import DailyGoalsScreen from './DailyGoalsScreen'
 import GoalSelectScreen from './GoalSelectScreen'
+import LandingScreen from '../MellowContainers/LandingScreen'
+import OnboardingA from '../MellowContainers/OnboardingA'
+import OnboardingB from '../MellowContainers/OnboardingB'
+import OnboardingC from '../MellowContainers/OnboardingC'
+import OnboardingD from '../MellowContainers/OnboardingD'
+import PersonalizeA from '../MellowContainers/PersonalizeA'
+import PersonalizeB from '../MellowContainers/PersonalizeB'
+import PersonalizeC from '../MellowContainers/PersonalizeC'
+import ReflectionQuestionScreen from '../MellowContainers/ReflectionQuestionScreen'
 
 const styles = StyleSheet.create({
     activeIcon: {
@@ -100,7 +110,6 @@ const Tabs = createBottomTabNavigator(
                 } else if (routeName === 'MoodCalendar') {
                     icon = Images.calendar
                 }
-
                 // You can return any component that you like here!
                 // return <IconComponent name={iconName} size={25} color={tintColor} />
                 return (
@@ -127,6 +136,34 @@ const Tabs = createBottomTabNavigator(
     }
 )
 
+const DailyReflectionStack = createStackNavigator(
+    {
+        ReflectionQuestion: {
+            screen: ReflectionQuestionScreen
+        }
+    },
+    {
+        defaultNavigationOptions: {
+            header: null
+        },
+        transitionConfig: () => fadeIn()
+    }
+)
+
+const TabsStack = createStackNavigator(
+    {
+        Tabs: {
+            screen: Tabs
+        },
+        DailyReflection: DailyReflectionStack
+    },
+    {
+        defaultNavigationOptions: {
+            header: null
+        }
+    }
+)
+
 const PaywallStack = createStackNavigator(
     {
         Paywall: PaywallScreen,
@@ -150,13 +187,10 @@ const GoalsStack = createStackNavigator(
 const LoggedInStack = createStackNavigator(
     {
         Tabs: {
-            screen: Tabs
+            screen: TabsStack
         },
         Emoji: {
             screen: EmojiScreen
-        },
-        Journal: {
-            screen: JournalScreen
         },
         Paywall: {
             screen: PaywallStack
@@ -170,6 +204,9 @@ const LoggedInStack = createStackNavigator(
         Goals: {
             screen: GoalsStack
         },
+        Journal: {
+            screen: JournalScreen
+        },
         WebView
     },
     {
@@ -177,11 +214,32 @@ const LoggedInStack = createStackNavigator(
     }
 )
 
+const OnboardingStack = createStackNavigator(
+    {
+        Landing: {
+            screen: LandingScreen
+        },
+        OnboardingA,
+        OnboardingB,
+        OnboardingC,
+        OnboardingD,
+        PersonalizeA,
+        PersonalizeB,
+        PersonalizeC
+    },
+    {
+        ...modalFriendlyTransition,
+        initialRouteName: 'Landing',
+        transitionConfig: () => fadeIn()
+    }
+)
+
 const createMainNavigation = (onboardingCompleted: boolean) => {
     const nav = createSwitchNavigator(
         {
             LoggedIn: LoggedInStack,
-            Onboarding: OnboardingScreen
+            // Onboarding: OnboardingScreen
+            Onboarding: OnboardingStack
         },
         {
             initialRouteName: onboardingCompleted ? 'LoggedIn' : 'Onboarding'

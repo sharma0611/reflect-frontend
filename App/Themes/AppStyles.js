@@ -12,22 +12,35 @@ const ApplicationStyles = {
         backgroundColor: Colors.WhiteM,
         paddingBottom: Metrics.padding.large
     },
-    fullScreenContainer: {
+    fullSafeScreenContainer: {
         flex: 1,
-        backgroundColor: Colors.fmzWhite,
         paddingTop: Metrics.statusBarHeight
+    },
+    fullScreenContainer: {
+        flex: 1
     },
     bringToFront: {
         elevation: 10
     },
     dropShadow: {
         normal: {
+            shadowRadius: 4,
             shadowColor: Colors.BlackM,
             shadowOffset: {
                 width: 0,
-                height: 2
+                height: 4
             },
             shadowOpacity: 0.22,
+            elevation: 4
+        },
+        big: {
+            shadowRadius: 8,
+            shadowColor: Colors.BlackM,
+            shadowOffset: {
+                width: 0,
+                height: 4
+            },
+            shadowOpacity: 0.15,
             elevation: 4
         },
         hard: {

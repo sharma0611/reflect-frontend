@@ -94,9 +94,10 @@ class DailyReflectionCard extends React.Component<*> {
         const positiveJournal = await MongoController.getDailyQuestionJournal(positivePrompt, date)
         const negativeJournal = await MongoController.getDailyQuestionJournal(negativePrompt, date)
         const generalJournal = await MongoController.getDailyQuestionJournal(generalPrompt, date)
-        this.props.navigation.navigate('Journal', {
+        this.props.navigation.navigate('ReflectionQuestion', {
             title: positivePrompt,
-            headerTitle: '1/3: Positive',
+            headerTitle: 'Positive Thought',
+            subTitle: '1/3',
             headerColor: 'NavyM',
             rightActionText: 'Next',
             text: positiveJournal.text,
@@ -109,9 +110,10 @@ class DailyReflectionCard extends React.Component<*> {
                 if (text) {
                     this.markPositiveCompleted()
                 }
-                this.props.navigation.navigate('Journal', {
+                this.props.navigation.navigate('ReflectionQuestion', {
                     title: negativePrompt,
-                    headerTitle: '2/3: Retrospective',
+                    headerTitle: 'Retrospective Thought',
+                    subTitle: '2/3',
                     headerColor: 'NavyM',
                     rightActionText: 'Next',
                     text: negativeJournal.text,
@@ -124,9 +126,10 @@ class DailyReflectionCard extends React.Component<*> {
                         if (text) {
                             this.markNegativeCompleted()
                         }
-                        this.props.navigation.navigate('Journal', {
+                        this.props.navigation.navigate('ReflectionQuestion', {
                             title: generalPrompt,
-                            headerTitle: '3/3: Ongoing',
+                            headerTitle: 'Ongoing Thought',
+                            subTitle: '3/3',
                             headerColor: 'NavyM',
                             rightActionText: 'Finished',
                             text: generalJournal.text,

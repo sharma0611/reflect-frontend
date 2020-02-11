@@ -17,6 +17,9 @@ const deviceWidth = Dimensions.get('window').width
 // console.log('normalizeText getDW ->', deviceWidth)
 // console.log('normalizeText getPSFLS ->', layoutSize)
 
+// const normalize = (size: number): number => {
+//     return size
+// }
 /* eslint-disable complexity  */
 const normalize = (size: number): number => {
     if (pixelRatio >= 1 && pixelRatio < 2) {
@@ -43,10 +46,10 @@ const normalize = (size: number): number => {
             return size
             // iphone 6-6s
         } else if (deviceHeight >= 667 && deviceHeight <= 735) {
-            return size * 1.15
+            return size
         }
         // older phablets
-        return size * 1.25
+        return size
     } else if (pixelRatio >= 3 && pixelRatio < 3.5) {
         // catch Android font scaling on small machines
         // where pixel ratio / font scale ratio => 3:3
@@ -64,7 +67,7 @@ const normalize = (size: number): number => {
         }
         // catch larger devices
         // ie iphone 6s plus / 7 plus / mi note 等等
-        return size * 1.1
+        return size
     } else if (pixelRatio >= 3.5) {
         // catch Android font scaling on small machines
         // where pixel ratio / font scale ratio => 3:3

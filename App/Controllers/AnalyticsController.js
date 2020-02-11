@@ -169,6 +169,14 @@ class Tracking {
         this._set({ Gender: gender })
     }
 
+    submitFeels = wantToFeel => {
+        this._trackWithProperties('Submit Want To Feel', { Feel: wantToFeel })
+    }
+
+    submitLifeGoals = lifeGoals => {
+        this._trackWithProperties('Submit Life Goals', { Goals: lifeGoals })
+    }
+
     unlockPro() {
         this._track('Unlock Pro')
     }
