@@ -81,9 +81,9 @@ class PaywallScreen extends React.Component<Props, State> {
     bootstrapData = async () => {
         try {
             const entitlements = await Purchases.getEntitlements()
-            // this.setState({ entitlements, loaded: true })
+            this.setState({ entitlements, loaded: true })
         } catch {
-            // this.setState({ offline: true, loaded: true })
+            this.setState({ offline: true, loaded: true })
         }
     }
 

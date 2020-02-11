@@ -277,7 +277,7 @@ class MongoController {
             const { focus, ...rest } = goal
             goal = { date, ...rest }
             if (_id == null) {
-                Analytics.saveDailyGoal()
+                Analytics.saveDailyGoal(goal.text)
                 db.insert(goal, (err, newDoc) => {
                     if (err) {
                         reject(err)
@@ -293,7 +293,7 @@ class MongoController {
                         if (err) {
                             reject(err)
                         }
-                        Analytics.updateDailyGoal(_id, goal.text.length)
+                        Analytics.updateDailyGoal(_id, goal.text.length, goal.text)
                         resolve(affectedDoc)
                     }
                 )

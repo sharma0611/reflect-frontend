@@ -1,8 +1,9 @@
 import updateTokenMutation from 'Apollo/mutations/updateTokenMutation'
 import AppConfig from 'Config/AppConfig'
 
-const updateToken = token => {
-    return updateTokenMutation(AppConfig.DEVICE_ID, token)
+const updateToken = async token => {
+    const deviceId = await AppConfig.getDeviceId()
+    return updateTokenMutation(deviceId, token)
 }
 
 export default updateToken

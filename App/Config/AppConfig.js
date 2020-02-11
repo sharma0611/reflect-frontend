@@ -24,6 +24,10 @@ class AppConfig {
         this.BUNDLE_IDENTIFIER = __DEV__ ? 'DEV' : DeviceInfo.getBundleId()
         this.DEVICE_ID = __DEV__ ? 'DEV' : await DeviceInfo.getUniqueId()
     }
+
+    getDeviceId = () => {
+        return DeviceInfo.getUniqueId()
+    }
 }
 
 const config = new AppConfig()

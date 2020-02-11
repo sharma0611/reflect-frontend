@@ -3,13 +3,15 @@ import { localToUtcTime } from 'utils'
 import { defaultReflectionHour, defaultReflectionMin } from 'Config/Defaults'
 import AppConfig from 'Config/AppConfig'
 
-const setDefaultReflectionTime = () => {
+const setDefaultReflectionTime = async () => {
     const { hours: defaultReflectionTimeHour, minutes: defaultReflectionTimeMin } = localToUtcTime(
         defaultReflectionHour,
         defaultReflectionMin
     )
+    const deviceId = await AppConfig.getDeviceId()
+    console.log(`👨‍🌾 => `, deviceId)
     return setDefaultReflectionTimeMutation(
-        AppConfig.DEVICE_ID,
+        deviceId,
         defaultReflectionTimeHour,
         defaultReflectionTimeMin
     )

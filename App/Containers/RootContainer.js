@@ -6,6 +6,8 @@ import { StatusBar, PushNotificationIOS } from 'react-native'
 import { createAppContainer } from 'react-navigation'
 import createMainNav from './MainNavigation'
 import V from 'Components/V'
+import T from 'Components/T'
+import ErrorBoundary from 'Components/ErrorBoundary'
 import PushNotification from 'react-native-push-notification'
 import Analytics from 'Controllers/AnalyticsController'
 import updateToken from '../Apollo/interface/updateToken'
@@ -19,6 +21,7 @@ import Purchases from 'react-native-purchases'
 import AppConfig from 'Config/AppConfig'
 import userExposedToContainer from 'State/userExposedTo'
 import { AppearanceProvider } from 'react-native-appearance'
+import * as Sentry from '@sentry/react-native'
 
 function getActiveRouteName(navigationState) {
     if (!navigationState) {
@@ -72,19 +75,24 @@ class RootContainer extends Component {
         try {
             // online
             const { data } = await loginUser()
-            let {
-                loginUser: {
-                    userUuid,
-                    reflectionPush: { reflectionTimeHour, reflectionTimeMin }
+            try {
+                let {
+                    loginUser: {
+                        userUuid,
+                        reflectionPush: { reflectionTimeHour, reflectionTimeMin }
+                    }
+                } = data
+                Purchases.setDebugLogsEnabled(true)
+                Purchases.setup('AsrJhdgHqgRWbbrENjMfQrpPAKarCQQb', userUuid)
+                if (reflectionTimeHour == null) {
+                    await setDefaultReflectionTime()
                 }
-            } = data
-            if (reflectionTimeHour == null) {
+            } catch (e) {
                 await setDefaultReflectionTime()
+                throw e
             }
             PushNotification.cancelAllLocalNotifications()
             PushNotification.setApplicationIconBadgeNumber(0)
-            Purchases.setDebugLogsEnabled(true)
-            Purchases.setup('AsrJhdgHqgRWbbrENjMfQrpPAKarCQQb', userUuid)
             try {
                 const purchaserInfo = await Purchases.getPurchaserInfo()
                 if (typeof purchaserInfo.entitlements.active.pro !== 'undefined') {
@@ -93,9 +101,11 @@ class RootContainer extends Component {
                     userExposedToContainer.lockPro()
                 }
             } catch (e) {
+                throw e
                 // Error fetching purchaser info
             }
-        } catch {
+        } catch (e) {
+            Sentry.captureException(e)
             // offline
         }
         this.setState({ loaded: true })
@@ -126,16 +136,18 @@ class RootContainer extends Component {
 
     render() {
         return (
-            <AppearanceProvider>
-                <V flex={1} bg="WhiteM">
-                    <StatusBar barStyle="dark-content" />
-                    {this.state.loaded && this.props.loaded ? (
-                        this.renderAppContainer()
-                    ) : (
-                        <LoadingSpinner />
-                    )}
-                </V>
-            </AppearanceProvider>
+            <ErrorBoundary>
+                <AppearanceProvider>
+                    <V flex={1} bg="WhiteM">
+                        <StatusBar barStyle="dark-content" />
+                        {this.state.loaded && this.props.loaded ? (
+                            this.renderAppContainer()
+                        ) : (
+                            <LoadingSpinner />
+                        )}
+                    </V>
+                </AppearanceProvider>
+            </ErrorBoundary>
         )
     }
 }

@@ -129,12 +129,12 @@ class Tracking {
         this._track('Set daily reflection time')
     }
 
-    saveDailyGoal = () => {
-        this._track('Save daily goal')
+    saveDailyGoal = text => {
+        this._trackWithProperties('Save daily goal', { text })
     }
 
-    updateDailyGoal = (_id, length) => {
-        this._trackWithProperties('Update daily goal', { _id, Length: length })
+    updateDailyGoal = (_id, length, text) => {
+        this._trackWithProperties('Update daily goal', { _id, Length: length, text })
     }
 
     pressDailyReflection = date => {
