@@ -236,7 +236,7 @@ const OnboardingStack = createStackNavigator(
     }
 )
 
-const createMainNavigation = (onboardingCompleted: boolean) => {
+const createMainNavigation = (loggedIn: boolean) => {
     const nav = createSwitchNavigator(
         {
             LoggedIn: LoggedInStack,
@@ -245,7 +245,7 @@ const createMainNavigation = (onboardingCompleted: boolean) => {
             Onboarding: CreateAccount
         },
         {
-            initialRouteName: onboardingCompleted ? 'LoggedIn' : 'Onboarding'
+            initialRouteName: loggedIn ? 'LoggedIn' : 'Onboarding'
         }
     )
 
