@@ -30,6 +30,6 @@ export default {
     cross: require('Images/cross.png'),
     book: require('Images/book.png'),
     cardWaveF: require('Images/CardWaveF.png'),
-    mail: require('Images/mail.png'),
-    key: require('Images/key.png')
+    facebook: require('Images/facebook.png'),
+    google: require('Images/google.png')
 }

@@ -16,6 +16,7 @@ import Touchable from 'Components/Touchable'
 import Analytics from 'Controllers/AnalyticsController'
 import BlueBackground from 'MellowComponents/BlueBackground'
 import { Formik } from 'formik'
+import FIcon from 'react-native-vector-icons/Feather'
 
 type Props = {}
 
@@ -23,32 +24,47 @@ type State = {
     name: string
 }
 
-const CATEGORY_MARGIN = 3
-const CATEGORY_CARD_WIDTH = Metrics.screenWidth * 0.5
-const SNAP_INTERVAL = CATEGORY_CARD_WIDTH + Metrics.padding.scale[CATEGORY_MARGIN]
+const FieldIcon = ({ icon }) => {
+    return <FIcon name={icon} size={20} color={Colors.Gray4} />
+}
 
-const CATEGORIES = [
-    { name: 'My dream physique' },
-    { name: 'Strong financial freedom' },
-    { name: 'The peak of my career' },
-    { name: 'Making my family happy and proud' },
-    { name: 'Helping as many people as I can' },
-    { name: 'Having a high growth mindset' }
-]
-
-const CIRCLE_WIDTH = 30
+const Field = ({ LeftIcon, RightIcon, onChangeText, onBlur, value, ...rest }) => {
+    return (
+        <V row style={styles.fieldContainer}>
+            {LeftIcon && <V p={2}>{LeftIcon}</V>}
+            <TextInput
+                style={styles.inputStyle}
+                autoCapitalize="none"
+                autoCorrect={false}
+                {...{
+                    onChangeText,
+                    onBlur,
+                    value,
+                    ...rest
+                }}
+            />
+            {RightIcon && <V p={2}>{RightIcon}</V>}
+        </V>
+    )
+}
 
 class CreateAccount extends React.Component<Props, State> {
+    state = {
+        showPassword: false
+    }
+
     submit = formData => {
         console.log(`👨‍🌾 => `, formData)
         // this.finishOnboarding()
-        Analytics.submitLifeGoals(this.state.lifeGoals)
     }
 
     finishOnboarding() {
         userExposedToContainer.onExposedToOnboarding()
     }
 
+    toggleShowPassword = () => {
+        this.setState(prevState => ({ showPassword: !prevState.showPassword }))
+    }
     render() {
         return (
             <BlueBackground>
@@ -68,39 +84,61 @@ class CreateAccount extends React.Component<Props, State> {
                     <T heading4 color="Gray1">
                         Create your account
                     </T>
-                    <Formik
-                        initialValues={{ email: '', password: '' }}
-                        onSubmit={values => this.submit(values)}
-                    >
-                        {({ handleChange, handleBlur, handleSubmit, values }) => (
-                            <V>
-                                <V row>
-                                    <Image
-                                        source={Images.mail}
-                                        resizeMode="contain"
-                                        style={styles.fieldIcon}
+                    <V pt={5}>
+                        <Formik
+                            initialValues={{ email: '', password: '' }}
+                            onSubmit={values => this.submit(values)}
+                        >
+                            {({ handleChange, handleBlur, handleSubmit, values }) => (
+                                <V>
+                                    <V pb={2}>
+                                        <Field
+                                            LeftIcon={<FieldIcon icon="mail" />}
+                                            onChangeText={handleChange('email')}
+                                            onBlur={handleBlur('email')}
+                                            value={values.email}
+                                            autoCompleteType="email"
+                                            autoFocus={true}
+                                        />
+                                    </V>
+                                    <Field
+                                        LeftIcon={<FieldIcon icon="key" />}
+                                        onChangeText={handleChange('password')}
+                                        onBlur={handleBlur('password')}
+                                        value={values.password}
+                                        autoCompleteType="password"
+                                        secureTextEntry={!this.state.showPassword}
+                                        RightIcon={
+                                            <Touchable onPress={this.toggleShowPassword}>
+                                                <FieldIcon icon="eye" />
+                                            </Touchable>
+                                        }
                                     />
-                                    <TextInput
-                                        onChangeText={handleChange('email')}
-                                        onBlur={handleBlur('email')}
-                                        value={values.email}
-                                    />
-                                </V>
-                                <TextInput
-                                    onChangeText={handleChange('password')}
-                                    onBlur={handleBlur('password')}
-                                    value={values.email}
-                                />
-                                <V ai="center" pt={6}>
+                                    <V pt={6}>
+                                        <MainButton
+                                            // disabled={this.state.lifeGoals.length === 0}
+                                            onPress={handleSubmit}
+                                            fullWidth
+                                            text={'Sign Up'}
+                                        />
+                                    </V>
                                     <MainButton
-                                        disabled={this.state.lifeGoals.length === 0}
+                                        // disabled={this.state.lifeGoals.length === 0}
                                         onPress={handleSubmit}
-                                        text={'Sign Up'}
+                                        fullWidth
+                                        buttonColor="Blue1"
+                                        text={'Facebook'}
+                                        LeftIcon={
+                                            <Image
+                                                source={Images.facebook}
+                                                style={{ width: 20, resizeMode: 'contain' }}
+                                            />
+                                        }
                                     />
                                 </V>
-                            </V>
-                        )}
-                    </Formik>
+                            )}
+                        </Formik>
+                    </V>
                 </V>
             </BlueBackground>
         )
@@ -114,6 +152,15 @@ const styles = StyleSheet.create({
     },
     fieldIcon: {
         height: '100%'
+    },
+    fieldContainer: {
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderColor: Colors.Gray4
+    },
+    inputStyle: {
+        flex: 1,
+        color: Colors.Gray2,
+        ...Fonts.style.b1
     }
 })
 
