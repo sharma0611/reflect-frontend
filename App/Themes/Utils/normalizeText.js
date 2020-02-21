@@ -94,7 +94,8 @@ const normalize = (size: number): number => {
 const DEVICE_SCALE = deviceWidth / 375
 
 export function normalizeAlt(size: number): number {
-    return Math.round(DEVICE_SCALE * size)
+    return size
+    // return Math.round(DEVICE_SCALE * size)
 }
 
 // attempt to normalize x-platform line heights
@@ -103,4 +104,4 @@ export function lineHeight(val: number = 1, scale: number = 1, normalized: boole
     return Math.round(Platform.OS === 'android' ? adjusted * scale : adjusted)
 }
 
-export default normalize
+export default normalizeAlt

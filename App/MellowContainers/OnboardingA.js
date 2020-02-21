@@ -29,14 +29,14 @@ class OnboardingA extends React.Component<Props, State> {
                     <LeftChevron />
                 </V>
                 <V p={4} flex={3} pt={0}>
-                    <T heading3 color="Gray1">
-                        reflect is your pause button for life.
+                    <T heading3 color="Gray1" ta="center" pl={2} pr={2}>
+                        reflect is a guided journal for mindfulness
                     </T>
                     <V ai="center" p={3}>
-                        <Image source={Images.pausebutton} style={styles.pausebutton} />
+                        <Image source={Images.book} style={styles.book} />
                     </V>
-                    <T heading4 color="Gray1" pt={3}>
-                        We give you the tools to hit pause, become self aware, then go back to play.
+                    <T heading4 color="Gray1" ta="center" p={2}>
+                        Unload what’s on your mind with our tailored questions.
                     </T>
                 </V>
                 <V
@@ -53,9 +53,8 @@ class OnboardingA extends React.Component<Props, State> {
 }
 
 const styles = StyleSheet.create({
-    pausebutton: {
-        height: 110,
-        width: 110,
+    book: {
+        width: '60%',
         resizeMode: 'contain'
     },
     logo: {

@@ -55,12 +55,12 @@ const style = {
     },
     heading3: {
         fontFamily: type.title,
-        fontSize: normalizeText(36)
+        fontSize: normalizeText(32)
         // fontWeight: '500'
     },
     heading4: {
         fontFamily: type.title,
-        fontSize: normalizeText(24)
+        fontSize: normalizeText(22)
         // fontWeight: '500'
     },
     heading5: {

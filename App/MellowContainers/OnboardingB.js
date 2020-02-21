@@ -28,11 +28,11 @@ class OnboardingB extends React.Component<Props, State> {
                 <V p={4}>
                     <LeftChevron />
                 </V>
-                <V p={4} flex={3} pt={0}>
-                    <T heading3 color="Gray1">
-                        Look back on what happened
+                <V p={4} flex={1} pt={0}>
+                    <T heading3 color="Gray1" ta="center" pl={2} pr={2}>
+                        Three daily questions
                     </T>
-                    <V ai="center" p={3} pt={5}>
+                    <V ai="center" p={3} pt={5} jc="center">
                         <Card bg="PastelPurple" style={{ width: Metrics.screenWidth * 0.8 }}>
                             <V ai="flex-end" pt={3} pr={5}>
                                 <V style={{ width: 60, height: 35 }}>
@@ -50,12 +50,9 @@ class OnboardingB extends React.Component<Props, State> {
                                     </V>
                                 </V>
                             </V>
-                            <V p={3} pt={0}>
+                            <V p={4} pt={4}>
                                 <T b1 color="WhiteM">
-                                    Track your mood.
-                                </T>
-                                <T b1 color="WhiteM">
-                                    Three personalized questions.
+                                    Wind down from your day.
                                 </T>
                                 <T b1 color="WhiteM">
                                     Be grateful and introspective.
@@ -66,7 +63,7 @@ class OnboardingB extends React.Component<Props, State> {
                                 style={{ width: Metrics.screenWidth * 0.8 }}
                             />
                             <V
-                                pl={3}
+                                pl={4}
                                 pb={3}
                                 bg="WhiteM"
                                 style={{
@@ -79,7 +76,7 @@ class OnboardingB extends React.Component<Props, State> {
                         </Card>
                     </V>
                     <T heading4 color="Gray1" pt={3} ta="center">
-                        Hit pause.
+                        Takes just 3 minutes.
                     </T>
                 </V>
                 <V

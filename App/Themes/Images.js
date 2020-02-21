@@ -27,5 +27,7 @@ export default {
     planet: require('Images/planet.png'),
     illustrationA: require('Images/IllustrationA.png'),
     check: require('Images/check.png'),
-    cross: require('Images/cross.png')
+    cross: require('Images/cross.png'),
+    book: require('Images/book.png'),
+    cardWaveF: require('Images/CardWaveF.png')
 }

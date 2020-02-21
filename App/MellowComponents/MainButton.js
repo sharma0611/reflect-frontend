@@ -18,7 +18,7 @@ class MainButton extends React.Component<Props, State> {
         return (
             <Touchable {...{ onPress, disabled }}>
                 <V bg={disabled ? 'Gray4' : 'Blue2'} style={styles.mainButton} p={2} br={4}>
-                    <T button ta="center" color="WhiteM">
+                    <T button ta="center" color="WhiteM" p={1}>
                         {text}
                     </T>
                 </V>
@@ -29,7 +29,7 @@ class MainButton extends React.Component<Props, State> {
 
 const styles = StyleSheet.create({
     mainButton: {
-        width: Metrics.screenWidth - 2 * Metrics.padding.xxxLarge,
+        width: Metrics.screenWidth - 4 * Metrics.padding.xxLarge,
         ...AppStyles.dropShadow.normal
     }
 })
