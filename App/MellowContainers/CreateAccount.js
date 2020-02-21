@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react'
+import React from 'react'
 import { StyleSheet, TextInput, ScrollView } from 'react-native'
 import { AppStyles, Metrics, Colors, Images, Fonts } from 'Themes'
 import T from 'Components/T'
@@ -11,12 +11,12 @@ import WaveBackground from 'MellowComponents/WaveBackground'
 import LeftChevron from 'MellowComponents/LeftChevron'
 import Card from 'MellowComponents/Card'
 import { withNavigation } from 'react-navigation'
-import userExposedToContainer from 'State/userExposedTo'
 import Touchable from 'Components/Touchable'
 import Analytics from 'Controllers/AnalyticsController'
 import BlueBackground from 'MellowComponents/BlueBackground'
 import { Formik } from 'formik'
 import FIcon from 'react-native-vector-icons/Feather'
+import auth from '@react-native-firebase/auth'
 
 type Props = {}
 
@@ -50,21 +50,24 @@ const Field = ({ LeftIcon, RightIcon, onChangeText, onBlur, value, ...rest }) =>
 
 class CreateAccount extends React.Component<Props, State> {
     state = {
-        showPassword: false
+        showPassword: false,
+        error: ''
     }
 
-    submit = formData => {
-        console.log(`👨‍🌾 => `, formData)
-        // this.finishOnboarding()
-    }
-
-    finishOnboarding() {
-        userExposedToContainer.onExposedToOnboarding()
+    submit = async formData => {
+        const { email, password } = formData
+        try {
+            await auth().createUserWithEmailAndPassword(email, password)
+        } catch (e) {
+            console.log(`👨‍🌾 => `, e.message)
+            this.setState({ error: e.message })
+        }
     }
 
     toggleShowPassword = () => {
         this.setState(prevState => ({ showPassword: !prevState.showPassword }))
     }
+
     render() {
         return (
             <BlueBackground>
@@ -116,6 +119,11 @@ class CreateAccount extends React.Component<Props, State> {
                                                     </Touchable>
                                                 }
                                             />
+                                            {!!this.state.error && (
+                                                <T b1 color="Red1" pt={3}>
+                                                    {this.state.error}
+                                                </T>
+                                            )}
                                             <V pt={4} pb={3}>
                                                 <MainButton
                                                     // disabled={this.state.lifeGoals.length === 0}
