@@ -18,6 +18,7 @@ import Purchases from 'react-native-purchases'
 import { AppearanceProvider } from 'react-native-appearance'
 import * as Sentry from '@sentry/react-native'
 import auth from '@react-native-firebase/auth'
+import { GoogleSignin } from '@react-native-community/google-signin'
 
 function getActiveRouteName(navigationState) {
     if (!navigationState) {
@@ -92,6 +93,13 @@ const RootContainer = () => {
         if (initializing) await setInitializing(false)
     }
 
+    const setupGoogle = async () => {
+        await GoogleSignin.configure({
+            scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+            webClientId: '581167811549-ejlhck80ioqmngika3ceeufqalfqu6me.apps.googleusercontent.com' // required
+        })
+    }
+
     const bootstrapData = async () => {
         try {
             // online
@@ -118,7 +126,8 @@ const RootContainer = () => {
         setDataLoading(false)
     }
 
-    useEffect(() => {
+    useEffect(async () => {
+        await setupGoogle()
         bootstrapData()
         const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
         return subscriber // unsubscribe on unmount

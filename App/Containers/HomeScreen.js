@@ -19,6 +19,7 @@ import Analytics from 'Controllers/AnalyticsController'
 import FAIcon from 'react-native-vector-icons/FontAwesome'
 import { Colors } from 'Themes'
 import Touchable from 'Components/Touchable'
+import auth from '@react-native-firebase/auth'
 import SocialBar from 'Modules/SocialBar'
 
 class HomeScreen extends React.Component<*> {
@@ -48,6 +49,7 @@ class HomeScreen extends React.Component<*> {
         const name = await AsyncStorageController.getName()
         await this.setState({ name })
         // AsyncStorageController.clear()
+        // auth().signOut()
     }
 
     // Sections

@@ -16,7 +16,9 @@ import Analytics from 'Controllers/AnalyticsController'
 import BlueBackground from 'MellowComponents/BlueBackground'
 import { Formik } from 'formik'
 import FIcon from 'react-native-vector-icons/Feather'
-import auth from '@react-native-firebase/auth'
+import auth, { firebase } from '@react-native-firebase/auth'
+import { LoginManager, AccessToken } from 'react-native-fbsdk'
+import { GoogleSignin } from '@react-native-community/google-signin'
 
 type Props = {}
 
@@ -59,13 +61,38 @@ class CreateAccount extends React.Component<Props, State> {
         try {
             await auth().createUserWithEmailAndPassword(email, password)
         } catch (e) {
-            console.log(`👨‍🌾 => `, e.message)
             this.setState({ error: e.message })
         }
     }
 
     toggleShowPassword = () => {
         this.setState(prevState => ({ showPassword: !prevState.showPassword }))
+    }
+
+    fbSignIn = async () => {
+        const result = await LoginManager.logInWithPermissions(['public_profile', 'email'])
+
+        if (result.isCancelled) {
+            // throw new Error('Error: login cancelled')
+            this.setState({ error: 'Error: Login Cancelled.' })
+        }
+
+        const data = await AccessToken.getCurrentAccessToken()
+
+        if (!data) {
+            // throw new Error('Something went wrong obtaining access token')
+            this.setState({ error: 'Error: Something went wrong getting the access token.' })
+        }
+
+        const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken)
+
+        await auth().signInWithCredential(credential)
+    }
+
+    googleSignIn = async () => {
+        const { accessToken, idToken } = await GoogleSignin.signIn()
+        const credential = firebase.auth.GoogleAuthProvider.credential(idToken, accessToken)
+        await firebase.auth().signInWithCredential(credential)
     }
 
     render() {
@@ -139,7 +166,7 @@ class CreateAccount extends React.Component<Props, State> {
                                             </V>
                                             <V pt={3}>
                                                 <MainButton
-                                                    onPress={handleSubmit}
+                                                    onPress={this.fbSignIn}
                                                     fullWidth
                                                     buttonColor="Blue1"
                                                     text={'Facebook'}
@@ -148,7 +175,7 @@ class CreateAccount extends React.Component<Props, State> {
                                             </V>
                                             <V pt={3}>
                                                 <MainButton
-                                                    onPress={handleSubmit}
+                                                    onPress={this.googleSignIn}
                                                     fullWidth
                                                     buttonColor="Red1"
                                                     text={'Google'}
