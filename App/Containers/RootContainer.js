@@ -95,14 +95,16 @@ const RootContainer = () => {
 
     const setupGoogle = async () => {
         await GoogleSignin.configure({
-            scopes: ['https://www.googleapis.com/auth/drive.readonly'],
             webClientId: '581167811549-ejlhck80ioqmngika3ceeufqalfqu6me.apps.googleusercontent.com' // required
+            //com.googleusercontent.apps.581167811549-2qi5ih06ub4s3ndkbhbfl4n5gcsjp04k
+            //581167811549-2qi5ih06ub4s3ndkbhbfl4n5gcsjp04k.apps.googleusercontent.com
         })
     }
 
     const bootstrapData = async () => {
         try {
             // online
+            await setupGoogle()
             const { data } = await legacyLoginUser()
             try {
                 let {
@@ -126,8 +128,7 @@ const RootContainer = () => {
         setDataLoading(false)
     }
 
-    useEffect(async () => {
-        await setupGoogle()
+    useEffect(() => {
         bootstrapData()
         const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
         return subscriber // unsubscribe on unmount
