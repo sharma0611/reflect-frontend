@@ -11,7 +11,6 @@ import WaveBackground from 'MellowComponents/WaveBackground'
 import LeftChevron from 'MellowComponents/LeftChevron'
 import Card from 'MellowComponents/Card'
 import { withNavigation } from 'react-navigation'
-import userExposedToContainer from 'State/userExposedTo'
 import Touchable from 'Components/Touchable'
 import Analytics from 'Controllers/AnalyticsController'
 
@@ -44,12 +43,8 @@ class PersonalizeB extends React.Component<Props, State> {
     }
 
     submit = () => {
-        this.finishOnboarding()
         Analytics.submitLifeGoals(this.state.lifeGoals)
-    }
-
-    finishOnboarding() {
-        userExposedToContainer.onExposedToOnboarding()
+        this.props.navigation.navigate('CreateAccount')
     }
 
     toggleGoal = name => {

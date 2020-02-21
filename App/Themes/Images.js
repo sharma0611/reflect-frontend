@@ -29,5 +29,7 @@ export default {
     check: require('Images/check.png'),
     cross: require('Images/cross.png'),
     book: require('Images/book.png'),
-    cardWaveF: require('Images/CardWaveF.png')
+    cardWaveF: require('Images/CardWaveF.png'),
+    mail: require('Images/mail.png'),
+    key: require('Images/key.png')
 }

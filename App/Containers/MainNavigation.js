@@ -36,6 +36,7 @@ import OnboardingD from '../MellowContainers/OnboardingD'
 import PersonalizeA from '../MellowContainers/PersonalizeA'
 import PersonalizeB from '../MellowContainers/PersonalizeB'
 import PersonalizeC from '../MellowContainers/PersonalizeC'
+import CreateAccount from '../MellowContainers/CreateAccount'
 import ReflectionQuestionScreen from '../MellowContainers/ReflectionQuestionScreen'
 
 const styles = StyleSheet.create({
@@ -225,7 +226,8 @@ const OnboardingStack = createStackNavigator(
         OnboardingD,
         PersonalizeA,
         PersonalizeB,
-        PersonalizeC
+        PersonalizeC,
+        CreateAccount
     },
     {
         ...modalFriendlyTransition,
