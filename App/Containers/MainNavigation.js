@@ -241,8 +241,8 @@ const createMainNavigation = (loggedIn: boolean) => {
         {
             LoggedIn: LoggedInStack,
             // Onboarding: OnboardingScreen
-            // Onboarding: OnboardingStack
-            Onboarding: CreateAccount
+            // Onboarding: CreateAccount
+            Onboarding: OnboardingStack
         },
         {
             initialRouteName: loggedIn ? 'LoggedIn' : 'Onboarding'
