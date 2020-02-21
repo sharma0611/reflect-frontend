@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import { StyleSheet, TextInput, Image, ScrollView } from 'react-native'
+import { StyleSheet, TextInput, ScrollView } from 'react-native'
 import { AppStyles, Metrics, Colors, Images, Fonts } from 'Themes'
 import T from 'Components/T'
 import V from 'Components/V'
@@ -80,65 +80,85 @@ class CreateAccount extends React.Component<Props, State> {
                         account.
                     </T>
                 </V>
-                <V flex={1} bg="WhiteM" style={styles.whiteContainer} p={5}>
-                    <T heading4 color="Gray1">
-                        Create your account
-                    </T>
-                    <V pt={5}>
-                        <Formik
-                            initialValues={{ email: '', password: '' }}
-                            onSubmit={values => this.submit(values)}
-                        >
-                            {({ handleChange, handleBlur, handleSubmit, values }) => (
-                                <V>
-                                    <V pb={2}>
-                                        <Field
-                                            LeftIcon={<FieldIcon icon="mail" />}
-                                            onChangeText={handleChange('email')}
-                                            onBlur={handleBlur('email')}
-                                            value={values.email}
-                                            autoCompleteType="email"
-                                            autoFocus={true}
-                                        />
-                                    </V>
-                                    <Field
-                                        LeftIcon={<FieldIcon icon="key" />}
-                                        onChangeText={handleChange('password')}
-                                        onBlur={handleBlur('password')}
-                                        value={values.password}
-                                        autoCompleteType="password"
-                                        secureTextEntry={!this.state.showPassword}
-                                        RightIcon={
-                                            <Touchable onPress={this.toggleShowPassword}>
-                                                <FieldIcon icon="eye" />
-                                            </Touchable>
-                                        }
-                                    />
-                                    <V pt={6}>
-                                        <MainButton
-                                            // disabled={this.state.lifeGoals.length === 0}
-                                            onPress={handleSubmit}
-                                            fullWidth
-                                            text={'Sign Up'}
-                                        />
-                                    </V>
-                                    <MainButton
-                                        // disabled={this.state.lifeGoals.length === 0}
-                                        onPress={handleSubmit}
-                                        fullWidth
-                                        buttonColor="Blue1"
-                                        text={'Facebook'}
-                                        LeftIcon={
-                                            <Image
-                                                source={Images.facebook}
-                                                style={{ width: 20, resizeMode: 'contain' }}
+                <V flex={1} bg="WhiteM" style={styles.whiteContainer}>
+                    <ScrollView>
+                        <V p={5}>
+                            <T heading4 color="Gray1">
+                                Create your account
+                            </T>
+                            <V pt={5}>
+                                <Formik
+                                    initialValues={{ email: '', password: '' }}
+                                    onSubmit={values => this.submit(values)}
+                                >
+                                    {({ handleChange, handleBlur, handleSubmit, values }) => (
+                                        <V>
+                                            <V pb={2}>
+                                                <Field
+                                                    LeftIcon={<FieldIcon icon="mail" />}
+                                                    onChangeText={handleChange('email')}
+                                                    onBlur={handleBlur('email')}
+                                                    value={values.email}
+                                                    autoCompleteType="email"
+                                                    autoFocus={true}
+                                                />
+                                            </V>
+                                            <Field
+                                                LeftIcon={<FieldIcon icon="key" />}
+                                                onChangeText={handleChange('password')}
+                                                onBlur={handleBlur('password')}
+                                                value={values.password}
+                                                autoCompleteType="password"
+                                                secureTextEntry={!this.state.showPassword}
+                                                RightIcon={
+                                                    <Touchable onPress={this.toggleShowPassword}>
+                                                        <FieldIcon icon="eye" />
+                                                    </Touchable>
+                                                }
                                             />
-                                        }
-                                    />
-                                </V>
-                            )}
-                        </Formik>
-                    </V>
+                                            <V pt={4} pb={3}>
+                                                <MainButton
+                                                    // disabled={this.state.lifeGoals.length === 0}
+                                                    onPress={handleSubmit}
+                                                    fullWidth
+                                                    text={'Sign Up'}
+                                                />
+                                            </V>
+                                            <V>
+                                                <T b1 color="Gray3">
+                                                    Or sign up with:
+                                                </T>
+                                            </V>
+                                            <V pt={3}>
+                                                <MainButton
+                                                    onPress={handleSubmit}
+                                                    fullWidth
+                                                    buttonColor="Blue1"
+                                                    text={'Facebook'}
+                                                    leftImage={Images.facebook}
+                                                />
+                                            </V>
+                                            <V pt={3}>
+                                                <MainButton
+                                                    onPress={handleSubmit}
+                                                    fullWidth
+                                                    buttonColor="Red1"
+                                                    text={'Google'}
+                                                    leftImage={Images.google}
+                                                />
+                                            </V>
+                                            <V pt={3}>
+                                                <T b1 color="Gray3">
+                                                    By signing up, you agree to Reflect’s Terms of
+                                                    Service and Privacy Policy
+                                                </T>
+                                            </V>
+                                        </V>
+                                    )}
+                                </Formik>
+                            </V>
+                        </V>
+                    </ScrollView>
                 </V>
             </BlueBackground>
         )

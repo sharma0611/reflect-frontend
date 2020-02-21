@@ -1,6 +1,6 @@
 // @flow
-import * as React from 'react'
-import { StyleSheet } from 'react-native'
+import React from 'react'
+import { Image, StyleSheet } from 'react-native'
 import { AppStyles, Metrics } from 'Themes'
 import T from 'Components/T'
 import V from 'Components/V'
@@ -14,7 +14,7 @@ type State = {}
 
 class MainButton extends React.Component<Props, State> {
     render() {
-        const { onPress, text, disabled, fullWidth, buttonColor, LeftIcon } = this.props
+        const { onPress, text, disabled, fullWidth, buttonColor, leftImage } = this.props
 
         const color = buttonColor ? buttonColor : 'Blue2'
         return (
@@ -25,9 +25,9 @@ class MainButton extends React.Component<Props, State> {
                     p={2}
                     br={4}
                 >
-                    {LeftIcon && (
-                        <V pabs style={{ top: 0, bottom: 0, left: 20 }} jc="center">
-                            {LeftIcon}
+                    {leftImage && (
+                        <V pabs style={styles.leftIconContainer} jc="center">
+                            <Image source={leftImage} style={styles.leftIcon} />
                         </V>
                     )}
                     <T button ta="center" color="WhiteM" p={1}>
@@ -46,6 +46,15 @@ const styles = StyleSheet.create({
     },
     fullWidth: {
         width: '100%'
+    },
+    leftIconContainer: {
+        top: 0,
+        bottom: 0,
+        left: 20
+    },
+    leftIcon: {
+        width: 20,
+        resizeMode: 'contain'
     }
 })
 
