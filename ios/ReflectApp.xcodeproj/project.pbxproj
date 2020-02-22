@@ -818,7 +818,7 @@
 				DEVELOPMENT_TEAM = M6M42763Y4;
 				INFOPLIST_FILE = ReflectApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.2.4;
+				MARKETING_VERSION = 1.2.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -843,7 +843,7 @@
 				DEVELOPMENT_TEAM = M6M42763Y4;
 				INFOPLIST_FILE = ReflectApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.2.4;
+				MARKETING_VERSION = 1.2.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
