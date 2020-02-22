@@ -39,6 +39,7 @@ import PersonalizeC from '../MellowContainers/PersonalizeC'
 import CreateAccount from '../MellowContainers/CreateAccount'
 import ReflectionQuestionScreen from '../MellowContainers/ReflectionQuestionScreen'
 import SignIn from '../MellowContainers/SignIn'
+import ResetPassword from '../MellowContainers/ResetPassword'
 
 const styles = StyleSheet.create({
     activeIcon: {
@@ -229,7 +230,8 @@ const OnboardingStack = createStackNavigator(
         PersonalizeB,
         PersonalizeC,
         CreateAccount,
-        SignIn
+        SignIn,
+        ResetPassword
     },
     {
         ...modalFriendlyTransition,

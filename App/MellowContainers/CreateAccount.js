@@ -59,9 +59,10 @@ class CreateAccount extends React.Component<Props, State> {
     submit = async formData => {
         const { email, password } = formData
         try {
+            await this.setState({ error: '' })
             await auth().createUserWithEmailAndPassword(email, password)
         } catch (e) {
-            this.setState({ error: e.message })
+            await this.setState({ error: e.message })
         }
     }
 

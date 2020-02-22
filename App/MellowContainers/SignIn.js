@@ -59,9 +59,10 @@ class SignIn extends React.Component<Props, State> {
     submit = async formData => {
         const { email, password } = formData
         try {
+            await this.setState({ error: '' })
             await auth().signInWithEmailAndPassword(email, password)
         } catch (e) {
-            this.setState({ error: e.message })
+            await this.setState({ error: e.message })
         }
     }
 
@@ -93,6 +94,10 @@ class SignIn extends React.Component<Props, State> {
         const { accessToken, idToken } = await GoogleSignin.signIn()
         const credential = firebase.auth.GoogleAuthProvider.credential(idToken, accessToken)
         await firebase.auth().signInWithCredential(credential)
+    }
+
+    forgotPassword = () => {
+        this.props.navigation.navigate('ResetPassword')
     }
 
     render() {
@@ -152,7 +157,7 @@ class SignIn extends React.Component<Props, State> {
                                                 </T>
                                             )}
                                             <V pt={1}>
-                                                <Touchable>
+                                                <Touchable onPress={this.forgotPassword}>
                                                     <V p={3} pl={0}>
                                                         <T link>Forgot password?</T>
                                                     </V>
