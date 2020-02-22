@@ -10,6 +10,7 @@ import SecondaryButton from 'MellowComponents/SecondaryButton'
 import WaveBackground from 'MellowComponents/WaveBackground'
 import LeftChevron from 'MellowComponents/LeftChevron'
 import Card from 'MellowComponents/Card'
+import MoodRow from 'MellowComponents/MoodRow'
 import { withNavigation } from 'react-navigation'
 
 type Props = {}
@@ -17,6 +18,16 @@ type Props = {}
 type State = {}
 
 const WaveHeightRatio = 0.3
+
+const MOOD_DATA = [
+    { day: 'S', emoji: '🤣' },
+    { day: 'M', emoji: '‍️🤓' },
+    { day: 'T', emoji: '😛' },
+    { day: 'W', emoji: '' },
+    { day: 'T', emoji: '' },
+    { day: 'F', emoji: '' },
+    { day: 'S', emoji: '' }
+]
 
 class OnboardingB extends React.Component<Props, State> {
     next = () => {
@@ -29,51 +40,28 @@ class OnboardingB extends React.Component<Props, State> {
                     <LeftChevron />
                 </V>
                 <V p={4} flex={3} pt={0}>
-                    <T heading3 color="Gray1">
-                        Look forward to your next step
+                    <T heading3 color="Gray1" ta="center" pl={2} pr={2}>
+                        Track your mood in emojis
                     </T>
                     <V ai="center" p={3} pt={5}>
-                        <Card bg="PastelGreenM" style={{ width: Metrics.screenWidth * 0.8 }}>
-                            <V ai="flex-end" pt={3} pr={5}>
-                                <V style={{ width: 60, height: 35 }}>
-                                    <V pabs style={{ top: 0, right: 0 }}>
-                                        <Image
-                                            source={Images.planet}
-                                            style={{ width: 30, height: 30, resizeMode: 'contain' }}
-                                        />
-                                    </V>
-                                </V>
-                            </V>
-                            <V p={3} pt={0}>
-                                <T b1 color="Gray2">
-                                    Set life goals.
-                                </T>
-                                <T b1 color="Gray2">
-                                    Set mini-victories each week.
-                                </T>
-                                <T b1 color="Gray2">
-                                    Be the captain of your journey.
-                                </T>
-                            </V>
+                        <Card bg="WhiteM" style={{ width: Metrics.screenWidth * 0.8 }}>
                             <Image
-                                source={Images.cardWaveGlyphA}
-                                style={{ width: Metrics.screenWidth * 0.8 }}
-                            />
-                            <V
-                                pl={3}
-                                pb={3}
-                                bg="WhiteM"
+                                source={Images.cardWaveF}
                                 style={{
-                                    borderBottomRightRadius: 30,
-                                    borderBottomLeftRadius: 10
+                                    width: '100%',
+                                    tintColor: Colors.PastelPurple
                                 }}
-                            >
-                                <T heading4>Weekly Goals</T>
+                            />
+                            <V p={3}>
+                                <MoodRow moodData={MOOD_DATA} />
+                            </V>
+                            <V pl={4} pb={3} bg="WhiteM" pt={2}>
+                                <T heading4>Daily Mood</T>
                             </V>
                         </Card>
                     </V>
                     <T heading4 color="Gray1" pt={3} ta="center">
-                        Hit play.
+                        Look back on highs & lows.
                     </T>
                 </V>
                 <V

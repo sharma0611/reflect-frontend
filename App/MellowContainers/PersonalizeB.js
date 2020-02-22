@@ -130,8 +130,9 @@ class PersonalizeB extends React.Component<Props, State> {
                         {CATEGORIES.map((category, index) => this.renderCategory(category))}
                     </ScrollView>
                 </V>
-                <V ai="center" pt={2}>
+                <V ai="center" pt={2} pl={4} pr={4}>
                     <MainButton
+                        fullWidth
                         disabled={this.state.wantToFeel === ''}
                         onPress={() => this.submit()}
                         text={`I want to feel ${

@@ -1,6 +1,6 @@
 // @flow
-import * as React from 'react'
-import { StyleSheet } from 'react-native'
+import React from 'react'
+import { Image, StyleSheet } from 'react-native'
 import { AppStyles, Metrics } from 'Themes'
 import T from 'Components/T'
 import V from 'Components/V'
@@ -14,11 +14,23 @@ type State = {}
 
 class MainButton extends React.Component<Props, State> {
     render() {
-        const { onPress, text, disabled } = this.props
+        const { onPress, text, disabled, fullWidth, buttonColor, leftImage } = this.props
+
+        const color = buttonColor ? buttonColor : 'Blue2'
         return (
-            <Touchable {...{ onPress, disabled }}>
-                <V bg={disabled ? 'Gray4' : 'Blue2'} style={styles.mainButton} p={2} br={4}>
-                    <T button ta="center" color="WhiteM">
+            <Touchable {...{ onPress, disabled }} style={[fullWidth && styles.fullWidth]}>
+                <V
+                    bg={disabled ? 'Gray4' : color}
+                    style={[styles.mainButton, fullWidth && styles.fullWidth]}
+                    p={2}
+                    br={4}
+                >
+                    {leftImage && (
+                        <V pabs style={styles.leftIconContainer} jc="center">
+                            <Image source={leftImage} style={styles.leftIcon} />
+                        </V>
+                    )}
+                    <T button ta="center" color="WhiteM" p={1}>
                         {text}
                     </T>
                 </V>
@@ -29,8 +41,20 @@ class MainButton extends React.Component<Props, State> {
 
 const styles = StyleSheet.create({
     mainButton: {
-        width: Metrics.screenWidth - 2 * Metrics.padding.xxxLarge,
+        width: Metrics.screenWidth - 4 * Metrics.padding.xxLarge,
         ...AppStyles.dropShadow.normal
+    },
+    fullWidth: {
+        width: '100%'
+    },
+    leftIconContainer: {
+        top: 0,
+        bottom: 0,
+        left: 20
+    },
+    leftIcon: {
+        width: 20,
+        resizeMode: 'contain'
     }
 })
 

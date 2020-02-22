@@ -1,6 +1,6 @@
 import normalizeText from './Utils/normalizeText'
 import normalize from './Utils/normalizeText'
-
+import Colors from './Colors'
 // @important, we need a different font for Android.
 
 // SourceSansPro-Bold.ttf
@@ -55,12 +55,12 @@ const style = {
     },
     heading3: {
         fontFamily: type.title,
-        fontSize: normalizeText(36)
+        fontSize: normalizeText(32)
         // fontWeight: '500'
     },
     heading4: {
         fontFamily: type.title,
-        fontSize: normalizeText(24)
+        fontSize: normalizeText(22)
         // fontWeight: '500'
     },
     heading5: {
@@ -102,6 +102,13 @@ const style = {
     caption: {
         fontFamily: type.base,
         fontSize: normalizeText(12)
+    },
+    link: {
+        fontFamily: type.base,
+        fontSize: normalizeText(14),
+        color: Colors.Blue2,
+        textDecorationLine: 'underline',
+        letterSpacing: 1
     },
     //legacy
     titleXL: {

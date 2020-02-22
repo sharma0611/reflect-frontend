@@ -41,6 +41,8 @@ const colors = {
     Purple1: '#9B51E0',
     Purple2: '#BB6BD9',
 
+    Red1: '#DC4F4F',
+
     BabyBlueM: '#CEE5FF',
     BabyBlueL: '#E9F3FF',
 

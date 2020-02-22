@@ -11,7 +11,6 @@ import WaveBackground from 'MellowComponents/WaveBackground'
 import LeftChevron from 'MellowComponents/LeftChevron'
 import Card from 'MellowComponents/Card'
 import { withNavigation } from 'react-navigation'
-import userExposedToContainer from 'State/userExposedTo'
 import Touchable from 'Components/Touchable'
 import Analytics from 'Controllers/AnalyticsController'
 
@@ -33,7 +32,7 @@ const CATEGORIES = [
     { name: 'The peak of my career' },
     { name: 'Making my family happy and proud' },
     { name: 'Helping as many people as I can' },
-    { name: 'Having a high growht mindset' }
+    { name: 'Having a high growth mindset' }
 ]
 
 const CIRCLE_WIDTH = 30
@@ -44,12 +43,8 @@ class PersonalizeB extends React.Component<Props, State> {
     }
 
     submit = () => {
-        this.finishOnboarding()
         Analytics.submitLifeGoals(this.state.lifeGoals)
-    }
-
-    finishOnboarding() {
-        userExposedToContainer.onExposedToOnboarding()
+        this.props.navigation.navigate('CreateAccount')
     }
 
     toggleGoal = name => {
@@ -71,7 +66,7 @@ class PersonalizeB extends React.Component<Props, State> {
                     bg="BabyBlueM"
                     style={{ width: CATEGORY_CARD_WIDTH, height: 150 }}
                     mr={CATEGORY_MARGIN}
-                    mb={3}
+                    flexbox
                 >
                     {this.state.lifeGoals.includes(name) && (
                         <V pabs style={{ right: 0, top: 0 }} pt={2} pr={2}>
@@ -109,8 +104,8 @@ class PersonalizeB extends React.Component<Props, State> {
                         pb={3}
                         pr={3}
                         bg="WhiteM"
-                        flex={1}
                         jc="flex-end"
+                        flex={1}
                         style={{
                             borderBottomRightRadius: 30,
                             borderBottomLeftRadius: 10
@@ -147,7 +142,7 @@ class PersonalizeB extends React.Component<Props, State> {
                         contentContainerStyle={{
                             marginLeft: Metrics.padding.xLarge,
                             paddingRight: Metrics.padding.xLarge,
-                            marginBottom: Metrics.padding.small
+                            marginBottom: Metrics.padding.large
                         }}
                     >
                         {CATEGORIES.map((category, index) => this.renderCategory(category))}

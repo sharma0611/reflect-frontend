@@ -36,7 +36,9 @@ import OnboardingD from '../MellowContainers/OnboardingD'
 import PersonalizeA from '../MellowContainers/PersonalizeA'
 import PersonalizeB from '../MellowContainers/PersonalizeB'
 import PersonalizeC from '../MellowContainers/PersonalizeC'
+import CreateAccount from '../MellowContainers/CreateAccount'
 import ReflectionQuestionScreen from '../MellowContainers/ReflectionQuestionScreen'
+import SignIn from '../MellowContainers/SignIn'
 
 const styles = StyleSheet.create({
     activeIcon: {
@@ -225,7 +227,9 @@ const OnboardingStack = createStackNavigator(
         OnboardingD,
         PersonalizeA,
         PersonalizeB,
-        PersonalizeC
+        PersonalizeC,
+        CreateAccount,
+        SignIn
     },
     {
         ...modalFriendlyTransition,
@@ -234,15 +238,16 @@ const OnboardingStack = createStackNavigator(
     }
 )
 
-const createMainNavigation = (onboardingCompleted: boolean) => {
+const createMainNavigation = (loggedIn: boolean) => {
     const nav = createSwitchNavigator(
         {
             LoggedIn: LoggedInStack,
             // Onboarding: OnboardingScreen
+            // Onboarding: CreateAccount
             Onboarding: OnboardingStack
         },
         {
-            initialRouteName: onboardingCompleted ? 'LoggedIn' : 'Onboarding'
+            initialRouteName: loggedIn ? 'LoggedIn' : 'Onboarding'
         }
     )
 

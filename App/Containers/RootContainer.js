@@ -1,7 +1,7 @@
 /**
  * @flow
  */
-import React, { Component } from 'react'
+import React, { useState, useGlobal, useEffect } from 'reactn'
 import { StatusBar, PushNotificationIOS } from 'react-native'
 import { createAppContainer } from 'react-navigation'
 import createMainNav from './MainNavigation'
@@ -11,17 +11,14 @@ import ErrorBoundary from 'Components/ErrorBoundary'
 import PushNotification from 'react-native-push-notification'
 import Analytics from 'Controllers/AnalyticsController'
 import updateToken from '../Apollo/interface/updateToken'
-import loginUser from '../Apollo/interface/loginUser'
+import legacyLoginUser from '../Apollo/interface/loginUser'
 import setDefaultReflectionTime from '../Apollo/interface/setDefaultReflectionTime'
-// import LockController from 'Controllers/LockController'
-import withState from 'State'
-import { bootstrapData } from 'State/bootstrapableContainer'
 import LoadingSpinner from 'Components/LoadingSpinner'
 import Purchases from 'react-native-purchases'
-import AppConfig from 'Config/AppConfig'
-import userExposedToContainer from 'State/userExposedTo'
 import { AppearanceProvider } from 'react-native-appearance'
 import * as Sentry from '@sentry/react-native'
+import auth from '@react-native-firebase/auth'
+import { GoogleSignin } from '@react-native-community/google-signin'
 
 function getActiveRouteName(navigationState) {
     if (!navigationState) {
@@ -66,24 +63,55 @@ PushNotification.configure({
     requestPermissions: true
 })
 
-class RootContainer extends Component {
-    state = {
-        loaded: false
+const RootContainer = () => {
+    const [dataLoading, setDataLoading] = useState(true)
+    const [initializing, setInitializing] = useState(true)
+    const [hasPro, setHasPro] = useGlobal('hasPro')
+    const [user, setUser] = useGlobal('user')
+
+    const setupPurchases = async userId => {
+        Purchases.setDebugLogsEnabled(true)
+        Purchases.setup('AsrJhdgHqgRWbbrENjMfQrpPAKarCQQb', userId)
+        try {
+            const purchaserInfo = await Purchases.getPurchaserInfo()
+            if (typeof purchaserInfo.entitlements.active.pro !== 'undefined') {
+                await setHasPro(true)
+            } else {
+                await setHasPro(false)
+            }
+        } catch (e) {
+            throw e
+            // Error fetching purchaser info
+        }
     }
-    bootstrapData = async () => {
-        await bootstrapData()
+
+    const onAuthStateChanged = async user => {
+        if (user) {
+            await setUser(user)
+            await setupPurchases(user.uid)
+        }
+        if (initializing) await setInitializing(false)
+    }
+
+    const setupGoogle = async () => {
+        await GoogleSignin.configure({
+            webClientId: '581167811549-ejlhck80ioqmngika3ceeufqalfqu6me.apps.googleusercontent.com' // required
+            //com.googleusercontent.apps.581167811549-2qi5ih06ub4s3ndkbhbfl4n5gcsjp04k
+            //581167811549-2qi5ih06ub4s3ndkbhbfl4n5gcsjp04k.apps.googleusercontent.com
+        })
+    }
+
+    const bootstrapData = async () => {
         try {
             // online
-            const { data } = await loginUser()
+            await setupGoogle()
+            const { data } = await legacyLoginUser()
             try {
                 let {
                     loginUser: {
-                        userUuid,
                         reflectionPush: { reflectionTimeHour, reflectionTimeMin }
                     }
                 } = data
-                Purchases.setDebugLogsEnabled(true)
-                Purchases.setup('AsrJhdgHqgRWbbrENjMfQrpPAKarCQQb', userUuid)
                 if (reflectionTimeHour == null) {
                     await setDefaultReflectionTime()
                 }
@@ -93,30 +121,21 @@ class RootContainer extends Component {
             }
             PushNotification.cancelAllLocalNotifications()
             PushNotification.setApplicationIconBadgeNumber(0)
-            try {
-                const purchaserInfo = await Purchases.getPurchaserInfo()
-                if (typeof purchaserInfo.entitlements.active.pro !== 'undefined') {
-                    userExposedToContainer.unlockPro()
-                } else {
-                    userExposedToContainer.lockPro()
-                }
-            } catch (e) {
-                throw e
-                // Error fetching purchaser info
-            }
         } catch (e) {
             Sentry.captureException(e)
             // offline
         }
-        this.setState({ loaded: true })
+        setDataLoading(false)
     }
 
-    componentDidMount() {
-        this.bootstrapData()
-    }
+    useEffect(() => {
+        bootstrapData()
+        const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
+        return subscriber // unsubscribe on unmount
+    }, [])
 
-    renderAppContainer = () => {
-        const MainNavigation = createMainNav(this.props.onboardingCompleted)
+    const renderAppContainer = loggedIn => {
+        const MainNavigation = createMainNav(loggedIn)
         const AppContainer = createAppContainer(MainNavigation)
         return (
             <AppContainer
@@ -127,29 +146,27 @@ class RootContainer extends Component {
                     if (prevScreen !== currentScreen) {
                         // the line below uses the Google Analytics tracker
                         // change the tracker here to use other Mobile analytics SDK.
-                        // Analytics.viewScreen(currentScreen)
+                        Analytics.viewScreen(currentScreen)
                     }
                 }}
             />
         )
     }
 
-    render() {
-        return (
-            <ErrorBoundary>
-                <AppearanceProvider>
-                    <V flex={1} bg="WhiteM">
-                        <StatusBar barStyle="dark-content" />
-                        {this.state.loaded && this.props.loaded ? (
-                            this.renderAppContainer()
-                        ) : (
-                            <LoadingSpinner />
-                        )}
-                    </V>
-                </AppearanceProvider>
-            </ErrorBoundary>
-        )
+    if (dataLoading || initializing) {
+        return <LoadingSpinner />
     }
+
+    return (
+        <ErrorBoundary>
+            <AppearanceProvider>
+                <V flex={1} bg="WhiteM">
+                    <StatusBar barStyle="dark-content" />
+                    {renderAppContainer(!!user)}
+                </V>
+            </AppearanceProvider>
+        </ErrorBoundary>
+    )
 }
 
-export default withState(RootContainer, 'userExposedTo')
+export default RootContainer

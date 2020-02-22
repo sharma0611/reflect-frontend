@@ -38,7 +38,6 @@ const DayEmojiColumn = ({ day, emoji, onPress, bold }, index) => {
             borderRightWidth: StyleSheet.hairlineWidth
         }
     }
-
     return (
         <Component key={index} style={style} onPress={onPress}>
             <V ai="center" flex={1}>

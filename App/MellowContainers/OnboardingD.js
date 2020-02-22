@@ -29,15 +29,15 @@ class OnboardingB extends React.Component<Props, State> {
                     <LeftChevron />
                 </V>
                 <V p={4} flex={3} pt={0}>
-                    <T heading3 color="Gray1">
+                    <T heading3 color="Gray1" ta="center" pl={2} pr={2}>
                         The toolkit for your mind.
                     </T>
-                    <V ai="center" p={3}>
-                        <Image source={Images.illustrationA} />
+                    <V ai="center">
+                        <Image source={Images.illustrationA} style={styles.mainImg} />
                     </V>
-                    <T b1 color="Gray2" pt={3} ta="center">
-                        We use science to build mindfulness activities that help you take control of
-                        life.
+                    <T b1 color="Gray2" pt={1} ta="center" p={2}>
+                        We use science to build activities that make you more mindful and take
+                        control of your life.
                     </T>
                 </V>
                 <V
@@ -70,6 +70,10 @@ const styles = StyleSheet.create({
     },
     waveGlyph: {
         width: Metrics.screenWidth
+    },
+    mainImg: {
+        maxWidth: '50%',
+        resizeMode: 'contain'
     }
 })
 
