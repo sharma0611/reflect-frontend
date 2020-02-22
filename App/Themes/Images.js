@@ -31,5 +31,6 @@ export default {
     book: require('Images/book.png'),
     cardWaveF: require('Images/CardWaveF.png'),
     facebook: require('Images/facebook.png'),
-    google: require('Images/google.png')
+    google: require('Images/google.png'),
+    meditate: require('Images/meditate.png')
 }

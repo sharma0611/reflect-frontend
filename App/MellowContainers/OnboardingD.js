@@ -36,8 +36,8 @@ class OnboardingB extends React.Component<Props, State> {
                         <Image source={Images.illustrationA} style={styles.mainImg} />
                     </V>
                     <T b1 color="Gray2" pt={1} ta="center" p={2}>
-                        We use science to build mindfulness activities that help you take control of
-                        life.
+                        We use science to build activities that make you more mindful and take
+                        control of your life.
                     </T>
                 </V>
                 <V

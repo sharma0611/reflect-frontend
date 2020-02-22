@@ -113,7 +113,7 @@ const T = ({
         thin && Fonts.style.thin,
         color && { color: Colors.getColor(color) },
         bg && { backgroundColor: Colors.getColor(bg) },
-        link && styles.link,
+        link && Fonts.style.link,
         ta && { textAlign: ta },
         emphasis && Fonts.style.emphasis,
         thinTitle && Fonts.style.thinTitle,

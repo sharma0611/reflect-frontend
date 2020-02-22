@@ -61,7 +61,6 @@ class Tracking {
         this._trackWithProperties('Save Journal', {
             'Journal Type': journalType,
             'Journal Length': journalLength,
-            'Journal Text': journalText,
             Title: title
         })
     }
