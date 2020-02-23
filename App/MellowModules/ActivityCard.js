@@ -10,7 +10,7 @@ import Card from 'MellowComponents/Card'
 export const ACTIVITY_CARD_WIDTH = 220
 export const ACTIVITY_CARD_HEIGHT = 160
 
-const CARD_MARGIN = 4
+const CARD_MARGIN = 3
 
 export const ACTIVITY_CARD_MARGIN = Metrics.padding.scale[CARD_MARGIN]
 
