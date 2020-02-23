@@ -1,11 +1,12 @@
 // @flow
 import React from 'react'
-import { StyleSheet, Image } from 'react-native'
+import { ScrollView, StyleSheet, Image } from 'react-native'
 import V from 'Components/V'
 import T from 'Components/T'
 import WaveBackground from 'MellowComponents/WaveBackground'
 import DailyReflectionCard from 'MellowModules/DailyReflectionCard'
 import ActivityScroller from '../MellowModules/ActivityScroller'
+import CategoryScoller from '../MellowModules/CategoryScroller'
 
 const WaveHeightRatio = 0.3
 
@@ -32,25 +33,36 @@ const Section = ({ children, ...rest }) => (
 
 const HomeScreen = () => {
     return (
-        <WaveBackground heightRatio={WaveHeightRatio}>
-            <Section>
-                <T heading3 color="Gray2">
-                    Hi Shivam!
-                </T>
-                <Header
-                    {...{ header: 'Today', subtitle: 'Hit pause. Reflect on what happened.' }}
-                />
-                <V p={2} pt={3}>
-                    <DailyReflectionCard />
-                </V>
-            </Section>
-            <Section>
-                <Header
-                    {...{ header: 'On my mind', subtitle: 'Activities to unload my thoughts.' }}
-                />
-            </Section>
-            <ActivityScroller />
-        </WaveBackground>
+        <ScrollView bounces={false}>
+            <WaveBackground heightRatio={WaveHeightRatio}>
+                <Section>
+                    <T heading3 color="Gray2">
+                        Hi Shivam!
+                    </T>
+                    <Header
+                        {...{ header: 'Today', subtitle: 'Hit pause. Reflect on what happened.' }}
+                    />
+                    <V p={2} pt={3}>
+                        <DailyReflectionCard />
+                    </V>
+                </Section>
+                <Section>
+                    <Header
+                        {...{ header: 'On my mind', subtitle: 'Activities to unload my thoughts.' }}
+                    />
+                </Section>
+                <ActivityScroller />
+                <Section>
+                    <Header
+                        {...{
+                            header: 'Ask me anything',
+                            subtitle: 'A single thought-provoking question.'
+                        }}
+                    />
+                </Section>
+                <CategoryScoller />
+            </WaveBackground>
+        </ScrollView>
     )
 }
 

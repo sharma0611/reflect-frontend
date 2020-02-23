@@ -37,7 +37,7 @@ const ACTIVITIES = [
 
 const ActivityScroller = () => {
     return (
-        <V mt={3} mb={3}>
+        <V mt={3}>
             <ScrollView
                 horizontal
                 snapToAlignment="start"
@@ -46,8 +46,7 @@ const ActivityScroller = () => {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{
                     marginLeft: Metrics.padding.xLarge,
-                    paddingRight: Metrics.padding.xLarge,
-                    marginBottom: Metrics.padding.large
+                    paddingRight: Metrics.padding.xLarge
                 }}
             >
                 {ACTIVITIES.map(({ title, color, subtitle }) => (

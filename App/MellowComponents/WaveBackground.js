@@ -19,7 +19,7 @@ class WaveBackground extends React.Component<Props, State> {
         const glyph = boat ? Images.waveBoatGlyph : Images.waveGlyph
         return (
             <BlueBackground {...{ fullScreen }}>
-                <V pabs style={{ height: Metrics.screenHeight }}>
+                <V pabs style={StyleSheet.absoluteFill}>
                     <V flex={1} />
                     <V style={{ height: Metrics.screenHeight * heightRatio }}>
                         <Image source={glyph} />

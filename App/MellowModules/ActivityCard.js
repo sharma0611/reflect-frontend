@@ -14,7 +14,7 @@ const CARD_MARGIN = 3
 
 export const ACTIVITY_CARD_MARGIN = Metrics.padding.scale[CARD_MARGIN]
 
-const ActivityCard = ({ title, subtitle, onPress, color }) => {
+const ActivityCard = ({ title, subtitle, color, onPress }) => {
     return (
         <Touchable onPress={onPress}>
             <Card
