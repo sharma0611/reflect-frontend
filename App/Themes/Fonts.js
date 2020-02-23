@@ -76,7 +76,7 @@ const style = {
     subtitle2: {
         fontFamily: type.thinTitle,
         fontSize: normalizeText(14),
-        letterSpacing: 0.1,
+        letterSpacing: 1,
         fontWeight: '500'
     },
     body1: {

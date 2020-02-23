@@ -40,24 +40,28 @@ import CreateAccount from '../MellowContainers/CreateAccount'
 import ReflectionQuestionScreen from '../MellowContainers/ReflectionQuestionScreen'
 import SignIn from '../MellowContainers/SignIn'
 import ResetPassword from '../MellowContainers/ResetPassword'
+import MellowHomeScreen from '../MellowContainers/HomeScreen'
 
 const styles = StyleSheet.create({
     activeIcon: {
         opacity: 1,
-        tintColor: Colors.BrandM,
+        tintColor: Colors.Blue2,
         resizeMode: 'contain',
         height: 30
     },
     inactiveIcon: {
-        opacity: 0.35,
-        tintColor: Colors.GreyM,
+        tintColor: Colors.GreyXL,
         resizeMode: 'contain',
         height: 30
     },
     tabBarStyle: {
         backgroundColor: Colors.WhiteM,
         borderTopWidth: 1,
-        borderTopColor: Colors.FrostL
+        borderTopColor: Colors.FrostL,
+        shadowOffset: { width: 0, height: -2 },
+        shadowRadius: 10,
+        shadowColor: 'black',
+        shadowOpacity: 0.1
     }
 })
 
@@ -76,11 +80,11 @@ const defaultTopNavigationStyle = {
 
 const HomeStack = createStackNavigator(
     {
-        HomeScreen,
+        MellowHomeScreen,
         Settings: SettingsScreen
     },
     {
-        initialRouteName: 'HomeScreen',
+        initialRouteName: 'MellowHomeScreen',
         defaultNavigationOptions: defaultTopNavigationStyle
     }
 )

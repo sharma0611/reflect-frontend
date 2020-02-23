@@ -32,5 +32,7 @@ export default {
     cardWaveF: require('Images/CardWaveF.png'),
     facebook: require('Images/facebook.png'),
     google: require('Images/google.png'),
-    meditate: require('Images/meditate.png')
+    meditate: require('Images/meditate.png'),
+    playButton: require('Images/playbutton.png'),
+    achievements: require('Images/achievements.png')
 }
