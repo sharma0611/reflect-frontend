@@ -3,9 +3,9 @@ import React from 'react'
 import { StyleSheet, Image } from 'react-native'
 import V from 'Components/V'
 import T from 'Components/T'
-import Screen from 'Components/Screen'
 import WaveBackground from 'MellowComponents/WaveBackground'
-import DailyReflectionCard from 'MellowComponents/DailyReflectionCard'
+import DailyReflectionCard from 'MellowModules/DailyReflectionCard'
+import ActivityScroller from '../MellowModules/ActivityScroller'
 
 const WaveHeightRatio = 0.3
 
@@ -24,23 +24,32 @@ const Header = ({ header, subtitle }) => {
     )
 }
 
+const Section = ({ children, ...rest }) => (
+    <V pl={4} pr={4} pt={3} {...rest}>
+        {children}
+    </V>
+)
+
 const HomeScreen = () => {
     return (
         <WaveBackground heightRatio={WaveHeightRatio}>
-            <V p={4}>
+            <Section>
                 <T heading3 color="Gray2">
                     Hi Shivam!
                 </T>
                 <Header
                     {...{ header: 'Today', subtitle: 'Hit pause. Reflect on what happened.' }}
                 />
-                <V p={2} pt={3} mb={2}>
+                <V p={2} pt={3}>
                     <DailyReflectionCard />
                 </V>
+            </Section>
+            <Section>
                 <Header
                     {...{ header: 'On my mind', subtitle: 'Activities to unload my thoughts.' }}
                 />
-            </V>
+            </Section>
+            <ActivityScroller />
         </WaveBackground>
     )
 }
