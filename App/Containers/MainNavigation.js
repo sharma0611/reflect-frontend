@@ -101,9 +101,9 @@ const JournalsStack = createStackNavigator(
 
 const Tabs = createBottomTabNavigator(
     {
-        Journals: JournalsStack,
+        Journey: JournalsStack,
         Home: HomeStack,
-        MoodCalendar: MoodCalendarScreen
+        Profile: MoodCalendarScreen
     },
     {
         defaultNavigationOptions: ({ navigation }) => ({
@@ -112,10 +112,10 @@ const Tabs = createBottomTabNavigator(
                 let icon
                 if (routeName === 'Home') {
                     icon = Images.tinyLogo
-                } else if (routeName === 'Journals') {
-                    icon = Images.journal
-                } else if (routeName === 'MoodCalendar') {
-                    icon = Images.calendar
+                } else if (routeName === 'Journey') {
+                    icon = Images.achievements
+                } else if (routeName === 'Profile') {
+                    icon = Images.profile
                 }
                 // You can return any component that you like here!
                 // return <IconComponent name={iconName} size={25} color={tintColor} />

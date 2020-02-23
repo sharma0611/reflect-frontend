@@ -35,5 +35,6 @@ export default {
     google: require('Images/google.png'),
     meditate: require('Images/meditate.png'),
     playButton: require('Images/playbutton.png'),
-    achievements: require('Images/achievements.png')
+    achievements: require('Images/achievements.png'),
+    profile: require('Images/profile.png')
 }
