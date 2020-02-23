@@ -41,6 +41,7 @@ import ReflectionQuestionScreen from '../MellowContainers/ReflectionQuestionScre
 import SignIn from '../MellowContainers/SignIn'
 import ResetPassword from '../MellowContainers/ResetPassword'
 import MellowHomeScreen from '../MellowContainers/HomeScreen'
+import JourneyScreen from '../MellowContainers/JourneyScreen'
 
 const styles = StyleSheet.create({
     activeIcon: {
@@ -101,7 +102,8 @@ const JournalsStack = createStackNavigator(
 
 const Tabs = createBottomTabNavigator(
     {
-        Journey: JournalsStack,
+        // Journey: JournalsStack,
+        Journey: JourneyScreen,
         Home: HomeStack,
         Profile: MoodCalendarScreen
     },
