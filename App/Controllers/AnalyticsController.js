@@ -6,8 +6,9 @@ import moment from 'moment'
 
 class Tracking {
     constructor() {
-        Mixpanel.sharedInstanceWithToken(config.MIXPANEL_TOKEN).then(() =>
-            Mixpanel.identify(config.getDeviceId()))
+        // Mixpanel.sharedInstanceWithToken(config.MIXPANEL_TOKEN).then(() =>
+        //     Mixpanel.identify(config.getDeviceId())
+        // )
     }
     // Send and event name with no properties
     _track = (eventName: string) => {
