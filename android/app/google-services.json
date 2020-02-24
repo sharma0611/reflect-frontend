@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "581167811549",
+    "firebase_url": "https://reflect-78453.firebaseio.com",
+    "project_id": "reflect-78453",
+    "storage_bucket": "reflect-78453.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:581167811549:android:f81c521c08c618fbecc434",
+        "android_client_info": {
+          "package_name": "com.reflectapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "581167811549-dom4fkjp3spcnpl05hqc3b9k06ov5j57.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reflectapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "581167811549-ejlhck80ioqmngika3ceeufqalfqu6me.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvayjcy2OJYp52LtJ3qduX4Sx2aGSAP6U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "581167811549-ejlhck80ioqmngika3ceeufqalfqu6me.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "581167811549-2qi5ih06ub4s3ndkbhbfl4n5gcsjp04k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.thereflect.com"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
