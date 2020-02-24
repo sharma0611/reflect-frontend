@@ -20,15 +20,15 @@ export const HEADER_HEIGHT = Metrics.statusBarHeight + 70
 
 class Header extends React.Component<Props, State> {
     render() {
-        const { headerTitle, goBack, exit, onClose } = this.props
+        const { headerTitle, goBack, exit, onClose, color } = this.props
         return (
             <V
                 pabs
-                bg="PastelPurple"
                 style={{
                     height: HEADER_HEIGHT,
                     width: Metrics.screenWidth,
                     paddingTop: Metrics.statusBarHeight,
+                    ...{ backgroundColor: color ? color : Colors.get('PastelPurple') },
                     ...AppStyles.dropShadow.normal
                 }}
                 jc="center"

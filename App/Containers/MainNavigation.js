@@ -8,13 +8,11 @@ import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { Images, Colors, AppStyles, Fonts } from 'Themes'
 import { modalFriendlyTransition } from './transitions'
-import { fadeIn } from 'react-navigation-transitions'
-
-// Components
-import V from 'Components/V'
+import { fadeIn, fromRight } from 'react-navigation-transitions'
 
 // Screens
-import HomeScreen from './HomeScreen'
+// import HomeScreen from './HomeScreen'
+// import OnboardingScreen from './OnboardingScreen'
 import JournalsScreen from './JournalsScreen'
 import EmojiScreen from './EmojiScreen'
 import JournalScreen from './JournalScreen'
@@ -23,7 +21,6 @@ import ComingSoonScreen from './ComingSoonScreen'
 import WebView from './WebView'
 import JournalCategoryScreen from './JournalCategoryScreen'
 import SettingsScreen from './SettingsScreen'
-// import OnboardingScreen from './OnboardingScreen'
 import MoodCalendarScreen from './MoodCalendarScreen'
 import JournalReviewScreen from './JournalReviewScreen'
 import DailyGoalsScreen from './DailyGoalsScreen'
@@ -42,6 +39,7 @@ import SignIn from '../MellowContainers/SignIn'
 import ResetPassword from '../MellowContainers/ResetPassword'
 import MellowHomeScreen from '../MellowContainers/HomeScreen'
 import JourneyScreen from '../MellowContainers/JourneyScreen'
+import MultiQuestionScreen from '../MellowContainers/MultiQuestionScreen'
 
 const styles = StyleSheet.create({
     activeIcon: {
@@ -147,6 +145,9 @@ const Tabs = createBottomTabNavigator(
 
 const DailyReflectionStack = createStackNavigator(
     {
+        MultiQuestion: {
+            screen: MultiQuestionScreen
+        },
         ReflectionQuestion: {
             screen: ReflectionQuestionScreen
         }
@@ -155,7 +156,7 @@ const DailyReflectionStack = createStackNavigator(
         defaultNavigationOptions: {
             header: null
         },
-        transitionConfig: () => fadeIn()
+        transitionConfig: () => fromRight()
     }
 )
 

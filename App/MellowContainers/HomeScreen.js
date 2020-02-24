@@ -20,7 +20,7 @@ const HomeScreen = () => {
                 <SectionHeader
                     {...{ header: 'Today', subtitle: 'Hit pause. Reflect on what happened.' }}
                 />
-                <V p={2} pt={3}>
+                <V pt={3} p={2}>
                     <DailyReflectionCard />
                 </V>
             </Section>

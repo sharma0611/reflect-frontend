@@ -4,6 +4,7 @@ import { ScrollView } from 'react-native'
 import { Metrics, Colors } from 'Themes'
 import V from 'Components/V'
 import ActivityCard, { ACTIVITY_CARD_WIDTH, ACTIVITY_CARD_MARGIN } from './ActivityCard'
+import { withNavigation } from 'react-navigation'
 
 const SNAP_INTERVAL = ACTIVITY_CARD_WIDTH + ACTIVITY_CARD_MARGIN
 
@@ -11,17 +12,68 @@ const ACTIVITIES = [
     {
         title: 'Change ⚡️',
         color: '#91B0DD',
-        subtitle: 'A recurring theme in my life.'
+        subtitle: 'A recurring theme in my life.',
+        questions: [
+            {
+                title: '1/3',
+                subtitle: 'What do I wish was different in my life?',
+                caption: 'This is a part of my circle of concern; the things I’m worried about.'
+            },
+            {
+                title: '2/3',
+                subtitle: 'What can I do to make this change happen?',
+                caption: 'This is a part of my circle of influence; the things I can do. '
+            },
+            {
+                title: '3/3',
+                subtitle: 'What will I do today to get to that change?',
+                caption: 'If I focus more on my circle of influence, it will expand.'
+            }
+        ]
     },
     {
         title: 'Imagine 🌤️️',
         color: '#A1DCCE',
-        subtitle: 'My ideal life and my road there.'
+        subtitle: 'My ideal life and my road there.',
+        questions: [
+            {
+                title: '1/3',
+                subtitle: 'What do I wish was different in my life?',
+                caption: 'This is a part of my circle of concern; the things I’m worried about.'
+            },
+            {
+                title: '2/3',
+                subtitle: 'What can I do to make this change happen?',
+                caption: 'This is a part of my circle of influence; the things I can do. '
+            },
+            {
+                title: '3/3',
+                subtitle: 'What will I do today to get to that change?',
+                caption: 'If I focus more on my circle of influence, it will expand.'
+            }
+        ]
     },
     {
         title: 'Appreciate 🙌',
         color: Colors.getColor('TealD'),
-        subtitle: 'Someone important in my life.'
+        subtitle: 'Someone important in my life.',
+        questions: [
+            {
+                title: '1/3',
+                subtitle: 'What do I wish was different in my life?',
+                caption: 'This is a part of my circle of concern; the things I’m worried about.'
+            },
+            {
+                title: '2/3',
+                subtitle: 'What can I do to make this change happen?',
+                caption: 'This is a part of my circle of influence; the things I can do. '
+            },
+            {
+                title: '3/3',
+                subtitle: 'What will I do today to get to that change?',
+                caption: 'If I focus more on my circle of influence, it will expand.'
+            }
+        ]
     },
     {
         title: 'Prepare 👀',
@@ -35,7 +87,7 @@ const ACTIVITIES = [
     }
 ]
 
-const ActivityScroller = () => {
+const ActivityScroller = ({ navigation }) => {
     return (
         <V mt={3}>
             <ScrollView
@@ -49,12 +101,27 @@ const ActivityScroller = () => {
                     paddingRight: Metrics.padding.xLarge
                 }}
             >
-                {ACTIVITIES.map(({ title, color, subtitle }) => (
-                    <ActivityCard {...{ title, color, subtitle }} key={title} />
+                {ACTIVITIES.map(({ title, color, subtitle, questions }) => (
+                    <ActivityCard
+                        {...{ title, color, subtitle }}
+                        key={title}
+                        onPress={() =>
+                            navigation.navigate({
+                                routeName: 'MultiQuestion',
+                                params: {
+                                    questions,
+                                    color,
+                                    index: 0,
+                                    activityTitle: title
+                                },
+                                key: 0
+                            })
+                        }
+                    />
                 ))}
             </ScrollView>
         </V>
     )
 }
 
-export default ActivityScroller
+export default withNavigation(ActivityScroller)
