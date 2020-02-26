@@ -15,16 +15,19 @@ const ACTIVITIES = [
         subtitle: 'A recurring theme in my life.',
         questions: [
             {
+                header: 'Change ⚡️',
                 title: '1/3',
                 subtitle: 'What do I wish was different in my life?',
                 caption: 'This is a part of my circle of concern; the things I’m worried about.'
             },
             {
+                header: 'Change ⚡️',
                 title: '2/3',
                 subtitle: 'What can I do to make this change happen?',
                 caption: 'This is a part of my circle of influence; the things I can do. '
             },
             {
+                header: 'Change ⚡️',
                 title: '3/3',
                 subtitle: 'What will I do today to get to that change?',
                 caption: 'If I focus more on my circle of influence, it will expand.'
@@ -37,16 +40,19 @@ const ACTIVITIES = [
         subtitle: 'My ideal life and my road there.',
         questions: [
             {
+                header: 'Imagine 🌤️️',
                 title: '1/3',
                 subtitle: 'What do I wish was different in my life?',
                 caption: 'This is a part of my circle of concern; the things I’m worried about.'
             },
             {
+                header: 'Imagine 🌤️️',
                 title: '2/3',
                 subtitle: 'What can I do to make this change happen?',
                 caption: 'This is a part of my circle of influence; the things I can do. '
             },
             {
+                header: 'Imagine 🌤️️',
                 title: '3/3',
                 subtitle: 'What will I do today to get to that change?',
                 caption: 'If I focus more on my circle of influence, it will expand.'
@@ -59,16 +65,19 @@ const ACTIVITIES = [
         subtitle: 'Someone important in my life.',
         questions: [
             {
+                header: 'Appreciate 🙌',
                 title: '1/3',
                 subtitle: 'What do I wish was different in my life?',
                 caption: 'This is a part of my circle of concern; the things I’m worried about.'
             },
             {
+                header: 'Appreciate 🙌',
                 title: '2/3',
                 subtitle: 'What can I do to make this change happen?',
                 caption: 'This is a part of my circle of influence; the things I can do. '
             },
             {
+                header: 'Appreciate 🙌',
                 title: '3/3',
                 subtitle: 'What will I do today to get to that change?',
                 caption: 'If I focus more on my circle of influence, it will expand.'
@@ -111,8 +120,7 @@ const ActivityScroller = ({ navigation }) => {
                                 params: {
                                     questions,
                                     color,
-                                    index: 0,
-                                    activityTitle: title
+                                    index: 0
                                 },
                                 key: 0
                             })

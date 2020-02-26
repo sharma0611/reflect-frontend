@@ -6,7 +6,9 @@ import moment from 'moment'
 
 class Tracking {
     constructor() {
-        // Mixpanel.sharedInstanceWithToken(config.MIXPANEL_TOKEN).then(() =>
+        Mixpanel.sharedInstanceWithToken(config.MIXPANEL_TOKEN)
+        // .then(
+        // () =>
         //     Mixpanel.identify(config.getDeviceId())
         // )
     }

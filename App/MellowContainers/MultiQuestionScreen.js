@@ -10,6 +10,7 @@ import RightChevron from 'MellowComponents/RightChevron'
 import Touchable from 'Components/Touchable'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { withNavigation } from 'react-navigation'
+import MainButton from 'MellowComponents/MainButton'
 
 const WaveHeightRatio = 0.3
 
@@ -20,12 +21,69 @@ type State = {}
 const CIRCLE_WIDTH = 60
 
 const MultiQuestionScreen = ({ navigation }) => {
-    const { state, setParams, navigate } = navigation
+    const { state, navigate } = navigation
     const params = state.params
-    const { questions, color, index, activityTitle } = params
+    const { questions, color, index } = params
     const currentQuestion = questions[index]
-    const { title, subtitle, caption, text } = currentQuestion
+    const { header, title, subtitle, caption, text } = currentQuestion
     const [response, setResponse] = useState(text)
+
+    const nextQuestionExists = index < questions.length - 1
+
+    const persistResponse = () => {
+        const questionWithText = { ...currentQuestion, text: response }
+        const updatedQuestions = questions.map((question, ind) => {
+            if (index === ind) {
+                return questionWithText
+            }
+            return question
+        })
+        return updatedQuestions
+    }
+
+    const nextQuestion = () => {
+        const updatedQuestions = persistResponse()
+        if (nextQuestionExists) {
+            navigate({
+                routeName: 'MultiQuestion',
+                params: {
+                    questions: updatedQuestions,
+                    index: index + 1,
+                    color
+                },
+                key: index + 1
+            })
+        } else {
+            // navigate to success screen in the future
+        }
+    }
+
+    const submitResponses = () => {
+        const updatedQuestions = persistResponse()
+        console.log(`👨‍🌾 => `, updatedQuestions)
+        // add submit logic here
+        // navigation.goBack('Tabs')
+        navigate('Tabs')
+    }
+
+    // When we add a back button, use this. (or when we navigate directly to journal)
+    // For now, just enter from the top of a journal activity
+    const previousQuestion = () => {
+        const prevQuestionExists = index > 0
+        // const updatedQuestions = persistResponse()
+        if (prevQuestionExists) {
+            navigate('Tabs')
+            // navigate({
+            //     routeName: 'MultiQuestion',
+            //     params: {
+            //         questions: updatedQuestions,
+            //         index: index - 1,
+            //         color
+            //     },
+            //     key: index - 1
+            // })
+        }
+    }
 
     return (
         <WaveBackground heightRatio={WaveHeightRatio} fullScreen>
@@ -52,42 +110,30 @@ const MultiQuestionScreen = ({ navigation }) => {
                         selectionColor={Colors.Black}
                     />
                 </V>
-                <Touchable
-                    onPress={() =>
-                        navigate({
-                            routeName: 'MultiQuestion',
-                            params: {
-                                questions,
-                                index: index + 1,
-                                color,
-                                activityTitle
-                            },
-                            key: index + 1
-                        })
-                    }
-                >
-                    <V jc="flex-end" row pr={4}>
-                        <V
-                            style={{
-                                height: CIRCLE_WIDTH,
-                                width: CIRCLE_WIDTH,
-                                borderRadius: CIRCLE_WIDTH / 2,
-                                backgroundColor: color
-                            }}
-                            ai="center"
-                            jc="center"
-                        >
-                            <RightChevron tintColor="WhiteM" />
+                {nextQuestionExists ? (
+                    <Touchable onPress={nextQuestion}>
+                        <V jc="flex-end" row pr={4}>
+                            <V
+                                style={{
+                                    height: CIRCLE_WIDTH,
+                                    width: CIRCLE_WIDTH,
+                                    borderRadius: CIRCLE_WIDTH / 2,
+                                    backgroundColor: color
+                                }}
+                                ai="center"
+                                jc="center"
+                            >
+                                <RightChevron tintColor="WhiteM" />
+                            </V>
                         </V>
+                    </Touchable>
+                ) : (
+                    <V ai="center" pt={2}>
+                        <MainButton onPress={submitResponses} text={`Submit`} />
                     </V>
-                </Touchable>
+                )}
             </KeyboardAwareScrollView>
-            <Header
-                headerTitle={activityTitle}
-                exit
-                color={color}
-                onClose={() => console.log(`👨‍🌾 => `, 'yo')}
-            />
+            <Header headerTitle={header} exit color={color} />
         </WaveBackground>
     )
 }
