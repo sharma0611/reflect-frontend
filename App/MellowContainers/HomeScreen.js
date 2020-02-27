@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import { ScrollView } from 'react-native'
 import V from 'Components/V'
 import T from 'Components/T'
 import Section from 'MellowComponents/Section'

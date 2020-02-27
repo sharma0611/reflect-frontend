@@ -5,12 +5,45 @@ import { Image } from 'react-native'
 import V from 'Components/V'
 import T from 'Components/T'
 import Touchable from 'Components/Touchable'
-import { Images } from 'Themes'
+import { Images, Colors } from 'Themes'
+import { withNavigation } from 'react-navigation'
 
-const DailyReflectionCard = () => {
+const QUESTIONS = [
+    {
+        header: 'Daily Mood',
+        title: '1/4',
+        subtitle: 'How am I feeling today?',
+        useEmoji: true
+    },
+    {
+        header: 'Daily Mood',
+        title: '2/4',
+        subtitle: 'What made me feel this way?'
+    },
+    {
+        header: 'Retrospective',
+        title: '3/4',
+        subtitle: 'What moment would I go back and change today?'
+    },
+    {
+        header: 'Positive',
+        title: '4/4',
+        subtitle: 'What am I looking forward to do tomorrow?'
+    }
+]
+
+const DailyReflectionCard = ({ navigation }) => {
     return (
-        <Touchable>
-            <Card bg="PastelPurple" style={{ width: '100%' }}>
+        <Touchable
+            onPress={() =>
+                navigation.navigate('MultiQuestion', {
+                    questions: QUESTIONS,
+                    color: Colors.PastelPurple,
+                    index: 0
+                })
+            }
+        >
+            <Card bg="PastelPurple" style={{ width: '100%' }} mb={3}>
                 <V ai="flex-end" pt={3} pb={3} pr={5}>
                     <V style={{ width: 60, height: 35 }}>
                         <V pabs style={{ bottom: 0, left: 0 }}>
@@ -60,4 +93,4 @@ const DailyReflectionCard = () => {
     )
 }
 
-export default DailyReflectionCard
+export default withNavigation(DailyReflectionCard)

@@ -2992,10 +2992,20 @@ electron-to-chromium@^1.3.30:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.267.tgz#7745ff9d447fd2a9802e1c6dfa518631e0cf5357"
   integrity sha512-9Q2ixAJC+oHjWNtJV0MQ4vJMCWSowIrC6V6vcr+bwPddTDHj2ddv9xxXCzf4jT/fy6HP7maPoW0gifXkRxCttQ==
 
-emoji-datasource@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/emoji-datasource/-/emoji-datasource-4.1.0.tgz#b44557f78a2dfac2f350393391b170a567ec28ad"
-  integrity sha1-tEVX94ot+sLzUDkzkbFwpWfsKK0=
+emoji-datasource-apple@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/emoji-datasource-apple/-/emoji-datasource-apple-5.0.1.tgz#fd3a3fb9993f1c58a53b015e3a30fe640641044f"
+  integrity sha512-VmbD3iwv5FS2XUuxzmRpkicGNwXWrMe45f5ZL6YkcMznp0YtCsKO2bCxsSZ41XU1aWtwH5IZDqF12038TC01kw==
+
+emoji-datasource@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/emoji-datasource/-/emoji-datasource-5.0.1.tgz#31eaaff7caa6640929327b4f4ff66f2bf313df0a"
+  integrity sha512-RXokuCv4o8RFLiigN1skAdZwJuJWqtBvcK3GVKpvAL/7BeH95enmKsli7cG8YZ85RTjyEe3+GAdpJJOV43KLKQ==
+
+emoji-mart-native@^0.5.0-beta:
+  version "0.5.0-beta"
+  resolved "https://registry.yarnpkg.com/emoji-mart-native/-/emoji-mart-native-0.5.0-beta.tgz#228b786ff2d4c8abd1c0d6230d89506e164643b6"
+  integrity sha512-g3rM2T73X9qTiJ8pYuSrxUDBEH9DakrG/acCqZjUoOw2kqvLI89SpQI8VqB+E1AmbMyeHDWbHS2eBF8TyIdmRA==
 
 emoji-regex@^7.0.1:
   version "7.0.3"
@@ -6300,7 +6310,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.3"
 
-prop-types@^15.5.10, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -6457,14 +6467,12 @@ react-native-device-info@^3.1.4:
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-3.1.4.tgz#58a1d465ce9e2c28809132b1c68dd7ec7ce5f00f"
   integrity sha512-r+7APHkPO9EA/9w3e9K7yrFigaU+0/g8i3psrNUwCGFxoDewkCHOPj/1YZnAPUwPxgyG3svjZXeCtymI3xcSlA==
 
-react-native-emoji-selector@^0.1.7:
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/react-native-emoji-selector/-/react-native-emoji-selector-0.1.7.tgz#3accc2440aa40974fb4058605ed1c1148d19425c"
-  integrity sha512-T5KiJZyXbOfejDAYf7qd3WUkLNbohYdNESMG0sbotzdlgP84fiqKRjT7LNX/8OKVtgOpgD7+ymw9UTjtA4acHg==
+react-native-emoji-selector@^0.1.8:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/react-native-emoji-selector/-/react-native-emoji-selector-0.1.8.tgz#ef80765afea7bcbcf5bcca5ba138dc7ea60ee4c4"
+  integrity sha512-PRYnzXVSxDuOm3EZEhbWAWnElQrdSEn+4tqB/BFbLdvRdrOuzFb6DqjLcyBYinSmEcxh2F4onE6h6VBHglYCSg==
   dependencies:
-    emoji-datasource "^4.1.0"
-    prop-types "^15.7.2"
-    string.fromcodepoint "^0.2.1"
+    emoji-datasource "^5.0.1"
 
 react-native-fbsdk@^1.1.1:
   version "1.1.1"
@@ -6561,6 +6569,13 @@ react-native-snap-carousel@^3.8.1:
   dependencies:
     prop-types "^15.6.1"
     react-addons-shallow-compare "15.6.2"
+
+react-native-super-grid@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-super-grid/-/react-native-super-grid-3.1.2.tgz#55deb3cd52173c487b76c868e7f794044fc0c6cd"
+  integrity sha512-H7dB2j0ZGH6i//2oOy1xtdLam1k3Y41jIdLwv1ukSTuSe9j/de++GrrCLqZvjAaHx2JNHgrqQRQy3kqzKos3DQ==
+  dependencies:
+    prop-types "^15.6.0"
 
 react-native-tab-view@^2.9.0:
   version "2.10.0"
@@ -7441,11 +7456,6 @@ string-width@^3.0.0, string-width@^3.1.0:
     emoji-regex "^7.0.1"
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^5.1.0"
-
-string.fromcodepoint@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/string.fromcodepoint/-/string.fromcodepoint-0.2.1.tgz#8d978333c0bc92538f50f383e4888f3e5619d653"
-  integrity sha1-jZeDM8C8klOPUPOD5IiPPlYZ1lM=
 
 string.prototype.trimleft@^2.0.0, string.prototype.trimleft@^2.1.0:
   version "2.1.0"

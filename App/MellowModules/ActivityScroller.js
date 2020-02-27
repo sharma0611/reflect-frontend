@@ -98,18 +98,18 @@ const ACTIVITIES = [
 
 const ActivityScroller = ({ navigation }) => {
     return (
-        <V mt={3}>
-            <ScrollView
-                horizontal
-                snapToAlignment="start"
-                decelerationRate={0}
-                snapToInterval={SNAP_INTERVAL}
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{
-                    marginLeft: Metrics.padding.xLarge,
-                    paddingRight: Metrics.padding.xLarge
-                }}
-            >
+        <ScrollView
+            horizontal
+            snapToAlignment="start"
+            decelerationRate={0}
+            snapToInterval={SNAP_INTERVAL}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+                marginLeft: Metrics.padding.xLarge,
+                paddingRight: Metrics.padding.xLarge
+            }}
+        >
+            <V mt={3} row>
                 {ACTIVITIES.map(({ title, color, subtitle, questions }) => (
                     <ActivityCard
                         {...{ title, color, subtitle }}
@@ -127,8 +127,8 @@ const ActivityScroller = ({ navigation }) => {
                         }
                     />
                 ))}
-            </ScrollView>
-        </V>
+            </V>
+        </ScrollView>
     )
 }
 

@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { Image } from 'react-native'
-import { Colors, Images, Metrics } from 'Themes'
+import { Images, Metrics } from 'Themes'
 import V from 'Components/V'
 import T from 'Components/T'
 import Touchable from 'Components/Touchable'
@@ -22,6 +22,7 @@ const ActivityCard = ({ title, subtitle, color, onPress }) => {
                 style={{ width: ACTIVITY_CARD_WIDTH, height: ACTIVITY_CARD_HEIGHT }}
                 mr={CARD_MARGIN}
                 flexbox
+                mb={3}
             >
                 <V p={3}>
                     <T heading4 style={{ color }}>

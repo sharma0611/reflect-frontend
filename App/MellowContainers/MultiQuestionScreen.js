@@ -1,6 +1,6 @@
 // @flow
 import React, { useState } from 'react'
-import { StyleSheet, TextInput } from 'react-native'
+import { ScrollView, StyleSheet, TextInput } from 'react-native'
 import T from 'Components/T'
 import V from 'Components/V'
 import Header, { HEADER_HEIGHT } from 'MellowComponents/Header'
@@ -11,6 +11,8 @@ import Touchable from 'Components/Touchable'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { withNavigation } from 'react-navigation'
 import MainButton from 'MellowComponents/MainButton'
+// import EmojiSelector, { Categories } from 'react-native-emoji-selector'
+import EmojiSelector from 'MellowComponents/EmojiSelector'
 
 const WaveHeightRatio = 0.3
 
@@ -25,7 +27,7 @@ const MultiQuestionScreen = ({ navigation }) => {
     const params = state.params
     const { questions, color, index } = params
     const currentQuestion = questions[index]
-    const { header, title, subtitle, caption, text } = currentQuestion
+    const { header, title, subtitle, caption, text, useEmoji } = currentQuestion
     const [response, setResponse] = useState(text)
 
     const nextQuestionExists = index < questions.length - 1
@@ -57,7 +59,6 @@ const MultiQuestionScreen = ({ navigation }) => {
             // navigate to success screen in the future
         }
     }
-
     const submitResponses = () => {
         const updatedQuestions = persistResponse()
         console.log(`👨‍🌾 => `, updatedQuestions)
@@ -98,18 +99,32 @@ const MultiQuestionScreen = ({ navigation }) => {
                 <T pl={3} p={2} heading4>
                     {subtitle}
                 </T>
-                <V bg="WhiteM" br={3} m={3} p={3} style={{ height: 200 }}>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={text => setResponse(text)}
-                        value={response}
-                        multiline={true}
-                        autoGrow={true}
-                        autoFocus={true}
-                        placeholderTextColor={Colors.GreyM}
-                        selectionColor={Colors.Black}
-                    />
-                </V>
+                {useEmoji ? (
+                    <V bg="WhiteM" br={3} m={3} style={{ height: 350, overflow: 'hidden' }}>
+                        <ScrollView>
+                            <EmojiSelector
+                            // category={Categories.people}
+                            // onEmojiSelected={emoji => console.log(`👨‍🌾 => `, emoji)}
+                            // showTabs={false}
+                            // theme={Colors.NavyM}
+                            // columns={6}
+                            />
+                        </ScrollView>
+                    </V>
+                ) : (
+                    <V bg="WhiteM" br={3} m={3} p={3} style={{ height: 200 }}>
+                        <TextInput
+                            style={styles.input}
+                            onChangeText={text => setResponse(text)}
+                            value={response}
+                            multiline={true}
+                            autoGrow={true}
+                            autoFocus={true}
+                            placeholderTextColor={Colors.GreyM}
+                            selectionColor={Colors.Black}
+                        />
+                    </V>
+                )}
                 {nextQuestionExists ? (
                     <Touchable onPress={nextQuestion}>
                         <V jc="flex-end" row pr={4}>

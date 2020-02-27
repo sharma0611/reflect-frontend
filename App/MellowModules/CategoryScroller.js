@@ -32,23 +32,23 @@ const CATEGORIES = [
 
 const CategoryScoller = () => {
     return (
-        <V mt={3} mb={3}>
-            <ScrollView
-                horizontal
-                snapToAlignment="start"
-                decelerationRate={0}
-                snapToInterval={SNAP_INTERVAL}
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{
-                    marginLeft: Metrics.padding.xLarge,
-                    paddingRight: Metrics.padding.xLarge
-                }}
-            >
+        <ScrollView
+            horizontal
+            snapToAlignment="start"
+            decelerationRate={0}
+            snapToInterval={SNAP_INTERVAL}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+                marginLeft: Metrics.padding.xLarge,
+                paddingRight: Metrics.padding.xLarge
+            }}
+        >
+            <V mt={3} mb={3} row>
                 {CATEGORIES.map(({ name, color }) => (
                     <CategoryCard {...{ name, color }} key={name} />
                 ))}
-            </ScrollView>
-        </V>
+            </V>
+        </ScrollView>
     )
 }
 

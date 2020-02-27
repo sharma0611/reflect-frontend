@@ -4,7 +4,7 @@ import T from 'Components/T'
 
 const SectionHeader = ({ header, subtitle }) => {
     return (
-        <V pt={3}>
+        <V pt={1}>
             <T heading4 color="Gray2">
                 {header}
             </T>
