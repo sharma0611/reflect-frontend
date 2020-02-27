@@ -59,6 +59,7 @@ const MultiQuestionScreen = ({ navigation }) => {
             // navigate to success screen in the future
         }
     }
+
     const submitResponses = () => {
         const updatedQuestions = persistResponse()
         console.log(`👨‍🌾 => `, updatedQuestions)
@@ -102,13 +103,7 @@ const MultiQuestionScreen = ({ navigation }) => {
                 {useEmoji ? (
                     <V bg="WhiteM" br={3} m={3} style={{ height: 350, overflow: 'hidden' }}>
                         <ScrollView>
-                            <EmojiSelector
-                            // category={Categories.people}
-                            // onEmojiSelected={emoji => console.log(`👨‍🌾 => `, emoji)}
-                            // showTabs={false}
-                            // theme={Colors.NavyM}
-                            // columns={6}
-                            />
+                            <EmojiSelector onSelectEmoji={emoji => setResponse(emoji)} />
                         </ScrollView>
                     </V>
                 ) : (

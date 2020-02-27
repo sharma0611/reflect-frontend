@@ -14,9 +14,8 @@ const EmojiSelector = ({ onSelectEmoji }) => {
     const emojis = getEmojis()
 
     const onSelect = emoji => {
-        // console.log(`👨‍🌾 => `, emoji)
         setSelected(emoji)
-        // onSelectEmoji()
+        onSelectEmoji()
     }
 
     const renderEmoji = ({ item, index }) => {
@@ -37,13 +36,12 @@ const EmojiSelector = ({ onSelectEmoji }) => {
             style={{ flex: 1 }}
             contentContainerStyle={{ alignItems: 'center' }}
             staticDimension={Metrics.screenWidth - 3 * Metrics.padding.scale[3]}
-            fixed
             initialNumToRender={30}
-            // spacing={10}
             renderItem={renderEmoji}
         />
     )
 }
+
 const CIRCLE_DIAMETER = 55
 
 const styles = StyleSheet.create({
