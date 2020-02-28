@@ -11,24 +11,20 @@ import { withNavigation } from 'react-navigation'
 const QUESTIONS = [
     {
         header: 'Daily Mood',
-        title: '1/4',
-        subtitle: 'How am I feeling today?',
+        question: 'How am I feeling today?',
         useEmoji: true
     },
     {
         header: 'Daily Mood',
-        title: '2/4',
-        subtitle: 'What made me feel this way?'
+        question: 'What made me feel this way?'
     },
     {
         header: 'Retrospective',
-        title: '3/4',
-        subtitle: 'What moment would I go back and change today?'
+        question: 'What moment would I go back and change today?'
     },
     {
         header: 'Positive',
-        title: '4/4',
-        subtitle: 'What am I looking forward to do tomorrow?'
+        question: 'What am I looking forward to do tomorrow?'
     }
 ]
 
