@@ -1,5 +1,6 @@
 import * as emojisData from './emojis.json'
 import emoji from 'emoji-datasource'
+// import appleEmojis from 'emoji-datasource-apple/img/apple/64'
 
 export const Categories = {
     all: {
@@ -69,5 +70,6 @@ export const getEmojis = () => {
 }
 
 export const printEmojis = () => {
-    console.log(JSON.stringify(getLiveEmojis()))
+    // console.log(`👨‍🌾 => `, appleEmojis)
+    // console.log(JSON.stringify(getLiveEmojis()))
 }

@@ -36,5 +36,7 @@ export default {
     meditate: require('Images/meditate.png'),
     playButton: require('Images/playbutton.png'),
     achievements: require('Images/achievements.png'),
-    profile: require('Images/profile.png')
+    profile: require('Images/profile.png'),
+    waveGlyphF: require('Images/WaveGlyphF.png'),
+    edit: require('Images/edit.png')
 }

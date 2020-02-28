@@ -40,15 +40,14 @@ const getQuestion = categoryId => {
     // make this a call to an API to get a question for a given category
     return {
         header: 'Appreciate 🙌',
-        title: '1/3',
-        subtitle: 'What do I wish was different in my life?',
+        questionText: 'What do I wish was different in my life?',
         caption: 'This is a part of my circle of concern; the things I’m worried about.'
     }
 }
 
 const CategoryScoller = ({ navigation }) => {
     const navigateToQuestion = (categoryId, color) => {
-        const question = getQuestion()
+        const question = getQuestion(categoryId)
         navigation.navigate({
             routeName: 'MultiQuestion',
             params: {

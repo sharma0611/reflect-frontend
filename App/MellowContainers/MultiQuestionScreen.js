@@ -26,8 +26,8 @@ const MultiQuestionScreen = ({ navigation }) => {
     const params = state.params
     const { questions, color, index } = params
     const currentQuestion = questions[index]
-    const { header, title, subtitle, caption, text, useEmoji } = currentQuestion
-    const [response, setResponse] = useState(text)
+    const { header, questionText, responseText, caption, useEmoji } = currentQuestion
+    const [response, setResponse] = useState(responseText)
 
     const nextQuestionExists = index < questions.length - 1
 
@@ -94,10 +94,10 @@ const MultiQuestionScreen = ({ navigation }) => {
                 nestedScrollEnabled={true}
             >
                 <T heading3 color="Gray1" pt={3} pl={3}>
-                    {title}
+                    {`${index + 1}/${questions.length}`}
                 </T>
                 <T pl={3} p={2} heading4>
-                    {subtitle}
+                    {questionText}
                 </T>
                 {useEmoji ? (
                     <V bg="WhiteM" br={3} m={3} style={{ height: 350, overflow: 'hidden' }}>
