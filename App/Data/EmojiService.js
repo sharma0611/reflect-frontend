@@ -1,8 +1,6 @@
 import * as emojisData from './emojis.json'
 import emoji from 'emoji-datasource'
 
-export const getStaticEmojis = () => Object.values(emojis).splice(0, 492)
-
 export const Categories = {
     all: {
         symbol: null,
@@ -69,5 +67,7 @@ export const getLiveEmojis = () => {
 export const getEmojis = () => {
     return Object.values(emojisData)
 }
-// console.log(JSON.stringify(getEmojis()))
-console.log(JSON.stringify(getLiveEmojis()))
+
+export const printEmojis = () => {
+    console.log(JSON.stringify(getLiveEmojis()))
+}

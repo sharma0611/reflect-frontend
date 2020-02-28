@@ -11,7 +11,6 @@ import Touchable from 'Components/Touchable'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { withNavigation } from 'react-navigation'
 import MainButton from 'MellowComponents/MainButton'
-// import EmojiSelector, { Categories } from 'react-native-emoji-selector'
 import EmojiSelector from 'MellowComponents/EmojiSelector'
 
 const WaveHeightRatio = 0.3
@@ -64,7 +63,6 @@ const MultiQuestionScreen = ({ navigation }) => {
         const updatedQuestions = persistResponse()
         console.log(`👨‍🌾 => `, updatedQuestions)
         // add submit logic here
-        // navigation.goBack('Tabs')
         navigate('Tabs')
     }
 
@@ -93,6 +91,7 @@ const MultiQuestionScreen = ({ navigation }) => {
                 keyboardShouldPersistTaps={'handled'}
                 enableResetScrollToCoords={false}
                 style={{ marginTop: HEADER_HEIGHT }}
+                nestedScrollEnabled={true}
             >
                 <T heading3 color="Gray1" pt={3} pl={3}>
                     {title}
@@ -102,9 +101,7 @@ const MultiQuestionScreen = ({ navigation }) => {
                 </T>
                 {useEmoji ? (
                     <V bg="WhiteM" br={3} m={3} style={{ height: 350, overflow: 'hidden' }}>
-                        <ScrollView>
-                            <EmojiSelector onSelectEmoji={emoji => setResponse(emoji)} />
-                        </ScrollView>
+                        <EmojiSelector onSelectEmoji={emoji => setResponse(emoji)} />
                     </V>
                 ) : (
                     <V bg="WhiteM" br={3} m={3} p={3} style={{ height: 200 }}>
@@ -114,7 +111,7 @@ const MultiQuestionScreen = ({ navigation }) => {
                             value={response}
                             multiline={true}
                             autoGrow={true}
-                            autoFocus={true}
+                            autoFocus={false}
                             placeholderTextColor={Colors.GreyM}
                             selectionColor={Colors.Black}
                         />
