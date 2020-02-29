@@ -54,7 +54,7 @@ const sections = [
     }
 ]
 
-const MyJournals = () => {
+const MyJournals = ({ renderHeader }) => {
     // const [legacyJournals, setLegacyJournals] = useState([])
     // const loadAllJournalData = async () => {
     //     const journals = await MongoController.getAllJournals()
@@ -123,7 +123,7 @@ const MyJournals = () => {
             // keyExtractor={(item, index) => item._id}
             stickySectionHeadersEnabled={false}
             // ListEmptyComponent={this.renderEmptyComponent}
-            // ListHeaderComponent={this.renderStreaks}
+            ListHeaderComponent={renderHeader}
         />
     )
 }

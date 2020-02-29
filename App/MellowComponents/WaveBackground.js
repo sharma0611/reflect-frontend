@@ -16,12 +16,13 @@ type State = {}
 class WaveBackground extends React.Component<Props, State> {
     render() {
         const { boat, heightRatio, fullScreen, children } = this.props
+        const ratio = heightRatio ? heightRatio : 0.3
         const glyph = boat ? Images.waveBoatGlyph : Images.waveGlyph
         return (
             <BlueBackground {...{ fullScreen }}>
                 <V pabs style={StyleSheet.absoluteFill}>
                     <V flex={1} />
-                    <V style={{ height: Metrics.screenHeight * heightRatio }}>
+                    <V style={{ height: Metrics.screenHeight * ratio }}>
                         <Image source={glyph} />
                         <V bg="BabyBlueM" flex={1} />
                     </V>
