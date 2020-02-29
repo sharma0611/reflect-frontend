@@ -17,10 +17,13 @@ const ActivityEditScreen = ({ navigation }) => {
     const { activity } = params
     const { journalEntries, color, activityTitle } = activity
     // const { header, questionText, responseText, caption, useEmoji } = currentQuestion
-    const initialResponseState = journalEntries.map(({ responseText }, i) => ({
-        [i]: responseText
-    }))
+    const initialResponseState = journalEntries
+        .map(({ responseText }, i) => ({
+            [i]: responseText
+        }))
+        .reduce((prevVal, currVal) => ({ ...prevVal, ...currVal }))
     const [responses, setResponses] = useState(initialResponseState)
+    console.log(`👨‍🌾 => `, responses)
 
     const setResponse = (i, response) => {
         setResponses({
@@ -62,8 +65,8 @@ const ActivityEditScreen = ({ navigation }) => {
                         />
                     </V>
                 ))}
-                <V ai="center" pt={2}>
-                    <MainButton onPress={submitResponses} text={`Submit`} />
+                <V ai="center" pt={2} pb={6}>
+                    <MainButton onPress={submitResponses} text={`Save`} />
                 </V>
             </ScrollingScreen>
             <Header headerTitle={activityTitle} exit color={color} />
