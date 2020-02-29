@@ -1,4 +1,4 @@
-import * as emojisData from './emojis.json'
+import emojisData from './emojis.json'
 import emoji from 'emoji-datasource'
 // import appleEmojis from 'emoji-datasource-apple/img/apple/64'
 
@@ -66,10 +66,9 @@ export const getLiveEmojis = () => {
 }
 
 export const getEmojis = () => {
-    return Object.values(emojisData)
+    return emojisData
 }
 
 export const printEmojis = () => {
-    // console.log(`👨‍🌾 => `, appleEmojis)
     // console.log(JSON.stringify(getLiveEmojis()))
 }

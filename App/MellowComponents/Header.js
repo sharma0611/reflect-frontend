@@ -28,7 +28,7 @@ class Header extends React.Component<Props, State> {
                     height: HEADER_HEIGHT,
                     width: Metrics.screenWidth,
                     paddingTop: Metrics.statusBarHeight,
-                    ...{ backgroundColor: color ? color : Colors.get('PastelPurple') },
+                    ...{ backgroundColor: color ? color : Colors.PastelPurple },
                     ...AppStyles.dropShadow.normal
                 }}
                 jc="center"

@@ -20,9 +20,16 @@ const EmojiSelector = ({ emoji, onSelectEmoji }) => {
 
     const renderEmoji = ({ item, index }) => {
         const { emoji } = item
+        let bg
+        if (selected === emoji) {
+            bg = 'BabyBlueM'
+            // console.log(`👨‍🌾 => `, 'yo')
+            // console.log(`👨‍🌾 => `, item)
+            // console.log(`👨‍🌾 => `, emojis)
+        }
         return (
             <Touchable onPress={() => onSelect(emoji)} key={emoji}>
-                <V style={styles.circleBg} bg={selected === emoji && 'BabyBlueM'}>
+                <V style={styles.circleBg} bg={bg}>
                     <T style={{ fontSize: 45 }}>{emoji}</T>
                 </V>
             </Touchable>

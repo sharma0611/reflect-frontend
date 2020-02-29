@@ -55,37 +55,38 @@ const sections = [
 ]
 
 const MyJournals = ({ renderHeader }) => {
-    // const [legacyJournals, setLegacyJournals] = useState([])
-    // const loadAllJournalData = async () => {
-    //     const journals = await MongoController.getAllJournals()
-    //     const dateGroupedJournals = groupBy(journals, function({ date }) {
-    //         return moment(date)
-    //             .startOf('day')
-    //             .format()
-    //     })
-    //     const sections = Object.entries(dateGroupedJournals).map((entry, index) => {
-    //         const [date, currJournals] = entry
-    //         const formattedDate = formatDate(new Date(date))
-    //         currJournals.sort(function(a, b) {
-    //             const keyA = new Date(a.timestamp),
-    //                 keyB = new Date(b.timestamp)
-    //             // Compare the 2 dates
-    //             if (keyA < keyB) return 1
-    //             if (keyA > keyB) return -1
-    //             return 0
-    //         })
-    //         return { title: formattedDate, data: currJournals }
-    //     })
-    //     sections.sort(function(a, b) {
-    //         const keyA = new Date(a.title),
-    //             keyB = new Date(b.title)
-    //         // Compare the 2 dates
-    //         if (keyA < keyB) return 1
-    //         if (keyA > keyB) return -1
-    //         return 0
-    //     })
-    //     setLegacyJournals(sections)
-    // }
+    const [legacyJournals, setLegacyJournals] = useState([])
+    const loadAllJournalData = async () => {
+        const journals = await MongoController.getAllJournals()
+        const dateGroupedJournals = groupBy(journals, function({ date }) {
+            return moment(date)
+                .startOf('day')
+                .format()
+        })
+        const sections = Object.entries(dateGroupedJournals).map((entry, index) => {
+            const [date, currJournals] = entry
+            const formattedDate = formatDate(new Date(date))
+            currJournals.sort(function(a, b) {
+                const keyA = new Date(a.timestamp),
+                    keyB = new Date(b.timestamp)
+                // Compare the 2 dates
+                if (keyA < keyB) return 1
+                if (keyA > keyB) return -1
+                return 0
+            })
+            return { title: formattedDate, data: currJournals }
+        })
+        sections.sort(function(a, b) {
+            const keyA = new Date(a.title),
+                keyB = new Date(b.title)
+            // Compare the 2 dates
+            if (keyA < keyB) return 1
+            if (keyA > keyB) return -1
+            return 0
+        })
+        console.log(`👨‍🌾 => `, sections)
+        // setLegacyJournals(sections)
+    }
 
     // const renderJournalEntry = ({ index, item, section }) => {
     //     const { title, text, _id, journalType: category } = item
@@ -95,7 +96,7 @@ const MyJournals = ({ renderHeader }) => {
 
     // const renderJournalActivity = {}
 
-    // loadAllJournalData()
+    loadAllJournalData()
 
     const renderJournalActivity = ({ item: activity, section, index }) => {
         return (
