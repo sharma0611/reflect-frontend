@@ -1,6 +1,7 @@
 // @flow
 import React, { useState } from 'react'
 import { SectionList } from 'react-native'
+import { Colors } from 'Themes'
 import V from 'Components/V'
 import T from 'Components/T'
 import MongoController, { CUSTOM } from 'Controllers/MongoController'
@@ -36,9 +37,9 @@ const JournalEntries = [
 ]
 
 const JournalActivityA = {
-    _id: 'asdkasjdaksdj',
     activityTitle: 'Daily Reflection',
     activityId: 'DAILY_REFLECTION',
+    color: Colors.PastelPurple,
     journalEntries: JournalEntries
 }
 
@@ -98,14 +99,20 @@ const MyJournals = () => {
 
     const renderJournalActivity = ({ item: activity, section, index }) => {
         return (
-            <Section>
+            <Section pt={0}>
                 <JournalActivityCard {...{ activity }} />
             </Section>
         )
     }
 
-    const renderSectionHeader = () => {
-        return null
+    const renderSectionHeader = ({ section: { title } }) => {
+        return (
+            <Section pt={2} pb={2}>
+                <T color="Gray2" heading5>
+                    {title}
+                </T>
+            </Section>
+        )
     }
 
     return (
@@ -113,7 +120,7 @@ const MyJournals = () => {
             renderItem={renderJournalActivity}
             renderSectionHeader={renderSectionHeader}
             sections={sections}
-            keyExtractor={(item, index) => item._id}
+            // keyExtractor={(item, index) => item._id}
             stickySectionHeadersEnabled={false}
             // ListEmptyComponent={this.renderEmptyComponent}
             // ListHeaderComponent={this.renderStreaks}

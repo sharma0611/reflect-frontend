@@ -32,19 +32,39 @@ const QUESTIONS = [
     }
 ]
 
+const CIRCLE_DIAMETER = 25
+
 const JournalActivityCard = ({ activity, navigation }) => {
-    const { activityTitle, journalEntries } = activity
+    const { activityTitle, color, journalEntries } = activity
 
     const renderJournalEntry = (entry, index) => {
         const { questionText, responseText } = entry
         return (
-            <V key={index} row>
-                <V>
-                    <T>{index + 1}</T>
+            <V key={index} row pt={3}>
+                <V
+                    style={{
+                        width: CIRCLE_DIAMETER,
+                        height: CIRCLE_DIAMETER,
+                        borderRadius: CIRCLE_DIAMETER / 2,
+                        backgroundColor: color
+                    }}
+                    ai="center"
+                    jc="center"
+                >
+                    <T color="WhiteM" caption>
+                        {index + 1}
+                    </T>
                 </V>
-                <V>
-                    <T>{questionText}</T>
-                    <T>{responseText.slice(0, 20)}...</T>
+                <V pl={2} mr={2} style={{ paddingTop: 2 }}>
+                    <T b1 color="Gray1">
+                        {questionText}
+                    </T>
+                    <V pt={1}>
+                        <T caption color="Gray1">
+                            {responseText.slice(0, 40)}
+                            {responseText.length > 40 && '...'}
+                        </T>
+                    </V>
                 </V>
             </V>
         )
@@ -60,8 +80,10 @@ const JournalActivityCard = ({ activity, navigation }) => {
             }
         >
             <Card bg="WhiteM" style={{ width: '100%' }} mb={3}>
-                <V p={3} pb={0} bg="PastelPurple" row jc="space-between">
-                    <T color="WhiteM">{activityTitle}</T>
+                <V p={3} pb={0} row jc="space-between" style={{ backgroundColor: color }}>
+                    <T color="WhiteM" b1>
+                        {activityTitle}
+                    </T>
                     <Image
                         source={Images.edit}
                         style={{
@@ -72,7 +94,10 @@ const JournalActivityCard = ({ activity, navigation }) => {
                         }}
                     />
                 </V>
-                <Image source={Images.waveGlyphF} style={{ width: '100%', marginTop: -1 }} />
+                <Image
+                    source={Images.waveGlyphF}
+                    style={{ width: '100%', tintColor: color, marginTop: -1 }}
+                />
                 <V
                     pl={3}
                     pb={3}

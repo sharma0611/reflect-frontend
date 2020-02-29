@@ -49,6 +49,7 @@ const T = ({
     heading2,
     heading3,
     heading4,
+    heading5,
     button,
     //legacy
     titleXL,
@@ -94,6 +95,7 @@ const T = ({
         heading2 && Fonts.style.heading2,
         heading3 && Fonts.style.heading3,
         heading4 && Fonts.style.heading4,
+        heading5 && Fonts.style.heading5,
         button && Fonts.style.button,
         //legacy
         titleXL && Fonts.style.titleXL,

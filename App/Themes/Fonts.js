@@ -65,8 +65,8 @@ const style = {
     },
     heading5: {
         fontFamily: type.bold,
-        fontSize: normalizeText(18)
-        // fontWeight: '500'
+        fontSize: normalizeText(18),
+        fontWeight: '600'
     },
     subtitle1: {
         fontFamily: type.thinTitle,
