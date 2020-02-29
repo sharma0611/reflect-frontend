@@ -8,6 +8,10 @@ module.exports = {
                 root: ['./App'],
                 extensions: ['.js', '.ios.js', '.android.js']
             }
-        ]
-    ]
+        ],
+
+        'transform-inline-environment-variables'
+    ],
+
+    ignore: ['web']
 }

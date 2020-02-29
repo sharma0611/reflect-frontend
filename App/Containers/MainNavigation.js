@@ -105,7 +105,6 @@ const Tabs = createBottomTabNavigator(
         // Journey: JournalsStack,
         Journey: JourneyScreen,
         Home: HomeStack,
-        // Profile: MoodCalendarScreen
         Profile: ProfileScreen
     },
     {
@@ -251,12 +250,10 @@ const OnboardingStack = createStackNavigator(
     }
 )
 
-const createMainNavigation = (loggedIn: boolean) => {
+function createMainNavigation(loggedIn: boolean) {
     const nav = createSwitchNavigator(
         {
             LoggedIn: LoggedInStack,
-            // Onboarding: OnboardingScreen
-            // Onboarding: CreateAccount
             Onboarding: OnboardingStack
         },
         {

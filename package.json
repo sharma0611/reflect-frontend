@@ -6,8 +6,10 @@
         "android": "react-native run-android",
         "ios": "react-native run-ios",
         "start": "react-native start",
+        "local": "LOCAL=true react-native start",
         "test": "jest",
-        "lint": "eslint ."
+        "lint": "eslint .",
+        "emulators": "cd web && yarn emulators"
     },
     "dependencies": {
         "@react-native-community/async-storage": "^1.6.2",
@@ -17,8 +19,11 @@
         "@react-native-community/push-notification-ios": "^1.0.2",
         "@react-native-firebase/app": "^6.3.4",
         "@react-native-firebase/auth": "^6.3.4",
+        "@react-native-firebase/firestore": "^6.3.4",
+        "@react-native-firebase/functions": "^6.3.4",
         "@sentry/react-native": "^1.2.1",
         "apollo-boost": "^0.4.4",
+        "babel-plugin-transform-inline-environment-variables": "^0.4.3",
         "date-streaks": "^1.1.6",
         "emoji-datasource": "^5.0.1",
         "emoji-datasource-apple": "^5.0.1",
@@ -72,7 +77,10 @@
         "typescript": "^3.6.4"
     },
     "jest": {
-        "preset": "react-native"
+        "preset": "react-native",
+        "modulePathIgnorePatterns": [
+            "<rootDir>/web/"
+        ]
     },
     "rnpm": {
         "assets": [
