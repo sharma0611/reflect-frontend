@@ -3,13 +3,10 @@ import React, { useState } from 'react'
 import V from 'Components/V'
 import T from 'Components/T'
 import Header, { HEADER_HEIGHT } from 'MellowComponents/Header'
-import WaveBackground from 'MellowComponents/WaveBackground'
 import ScrollingScreen from 'MellowComponents/ScrollingScreen'
 import { withNavigation } from 'react-navigation'
 import MainButton from 'MellowComponents/MainButton'
 import Question from 'MellowComponents/Question'
-
-const WaveHeightRatio = 0.3
 
 const ActivityEditScreen = ({ navigation }) => {
     const { state, navigate } = navigation

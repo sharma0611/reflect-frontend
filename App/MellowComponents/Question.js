@@ -12,6 +12,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { withNavigation } from 'react-navigation'
 import MainButton from 'MellowComponents/MainButton'
 import EmojiSelector from 'MellowComponents/EmojiSelector'
+import { Metrics } from 'Themes'
 
 const Question = ({ questionText, response, useEmoji, setResponse }) => {
     return (
@@ -21,10 +22,10 @@ const Question = ({ questionText, response, useEmoji, setResponse }) => {
             </T>
             {useEmoji ? (
                 <V bg="WhiteM" br={3} m={3} style={{ height: 350, overflow: 'hidden' }}>
-                    <EmojiSelector onSelectEmoji={emoji => setResponse(emoji)} />
+                    <EmojiSelector onSelectEmoji={emoji => setResponse(emoji)} emoji={response} />
                 </V>
             ) : (
-                <V bg="WhiteM" br={3} m={3} p={3} style={{ height: 200 }}>
+                <V bg="WhiteM" br={3} m={3} style={{ height: 200 }}>
                     <TextInput
                         style={styles.input}
                         onChangeText={text => setResponse(text)}
@@ -45,7 +46,9 @@ const styles = StyleSheet.create({
     input: {
         ...Fonts.style.body1,
         flex: 1,
-        color: Colors.Black
+        color: Colors.Black,
+        padding: Metrics.padding.scale[3],
+        paddingTop: Metrics.padding.scale[3]
     },
     title: {
         ...Fonts.style.titleS,

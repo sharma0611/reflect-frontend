@@ -8,8 +8,8 @@ import T from 'Components/T'
 import { FlatGrid } from 'react-native-super-grid'
 import { getEmojis } from 'Data/EmojiService'
 
-const EmojiSelector = ({ onSelectEmoji }) => {
-    const [selected, setSelected] = useState('')
+const EmojiSelector = ({ emoji, onSelectEmoji }) => {
+    const [selected, setSelected] = useState(emoji)
 
     const emojis = getEmojis()
 
