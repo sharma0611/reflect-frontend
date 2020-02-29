@@ -23,7 +23,6 @@ const ActivityEditScreen = ({ navigation }) => {
         }))
         .reduce((prevVal, currVal) => ({ ...prevVal, ...currVal }))
     const [responses, setResponses] = useState(initialResponseState)
-    console.log(`👨‍🌾 => `, responses)
 
     const setResponse = (i, response) => {
         setResponses({
