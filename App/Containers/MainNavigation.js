@@ -11,8 +11,6 @@ import { modalFriendlyTransition } from './transitions'
 import { fadeIn, fromRight } from 'react-navigation-transitions'
 
 // Screens
-// import HomeScreen from './HomeScreen'
-// import OnboardingScreen from './OnboardingScreen'
 import JournalsScreen from './JournalsScreen'
 import EmojiScreen from './EmojiScreen'
 import JournalScreen from './JournalScreen'
@@ -40,6 +38,7 @@ import ResetPassword from '../MellowContainers/ResetPassword'
 import MellowHomeScreen from '../MellowContainers/HomeScreen'
 import JourneyScreen from '../MellowContainers/JourneyScreen'
 import MultiQuestionScreen from '../MellowContainers/MultiQuestionScreen'
+import ActivityEditScreen from '../MellowContainers/ActivityEditScreen'
 
 const styles = StyleSheet.create({
     activeIcon: {
@@ -143,8 +142,14 @@ const Tabs = createBottomTabNavigator(
     }
 )
 
-const DailyReflectionStack = createStackNavigator(
+const TabsStack = createStackNavigator(
     {
+        Tabs: {
+            screen: Tabs
+        },
+        ActivityEdit: {
+            screen: ActivityEditScreen
+        },
         MultiQuestion: {
             screen: MultiQuestionScreen
         },
@@ -157,20 +162,6 @@ const DailyReflectionStack = createStackNavigator(
             header: null
         },
         transitionConfig: () => fromRight()
-    }
-)
-
-const TabsStack = createStackNavigator(
-    {
-        Tabs: {
-            screen: Tabs
-        },
-        DailyReflection: DailyReflectionStack
-    },
-    {
-        defaultNavigationOptions: {
-            header: null
-        }
     }
 )
 

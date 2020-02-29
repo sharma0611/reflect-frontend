@@ -12,6 +12,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { withNavigation } from 'react-navigation'
 import MainButton from 'MellowComponents/MainButton'
 import EmojiSelector from 'MellowComponents/EmojiSelector'
+import Question from 'MellowComponents/Question'
 
 const WaveHeightRatio = 0.3
 
@@ -96,27 +97,7 @@ const MultiQuestionScreen = ({ navigation }) => {
                 <T heading3 color="Gray1" pt={3} pl={3}>
                     {`${index + 1}/${questions.length}`}
                 </T>
-                <T pl={3} p={2} heading4>
-                    {questionText}
-                </T>
-                {useEmoji ? (
-                    <V bg="WhiteM" br={3} m={3} style={{ height: 350, overflow: 'hidden' }}>
-                        <EmojiSelector onSelectEmoji={emoji => setResponse(emoji)} />
-                    </V>
-                ) : (
-                    <V bg="WhiteM" br={3} m={3} p={3} style={{ height: 200 }}>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={text => setResponse(text)}
-                            value={response}
-                            multiline={true}
-                            autoGrow={true}
-                            autoFocus={false}
-                            placeholderTextColor={Colors.GreyM}
-                            selectionColor={Colors.Black}
-                        />
-                    </V>
-                )}
+                <Question {...{ response, questionText, useEmoji, setResponse }} />
                 {nextQuestionExists ? (
                     <Touchable onPress={nextQuestion}>
                         <V jc="flex-end" row pr={4}>
@@ -144,23 +125,5 @@ const MultiQuestionScreen = ({ navigation }) => {
         </WaveBackground>
     )
 }
-
-const styles = StyleSheet.create({
-    input: {
-        ...Fonts.style.body1,
-        flex: 1,
-        color: Colors.Black
-    },
-    title: {
-        ...Fonts.style.titleS,
-        color: Colors.GreyL
-    },
-    bottomRightButtonContainer: {
-        // margin: Metrics.padding.xxLarge
-    },
-    bottomLeftButtonContainer: {
-        // margin: Metrics.padding.xxLarge
-    }
-})
 
 export default withNavigation(MultiQuestionScreen)
