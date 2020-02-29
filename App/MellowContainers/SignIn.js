@@ -16,7 +16,10 @@ import Analytics from 'Controllers/AnalyticsController'
 import BlueBackground from 'MellowComponents/BlueBackground'
 import { Formik } from 'formik'
 import FIcon from 'react-native-vector-icons/Feather'
-import auth, { firebase } from '@react-native-firebase/auth'
+import {
+    signInWithFacebookCredential,
+    signInWithGoogleCredential,
+} from '../Controllers/FirebaseController'
 import { LoginManager, AccessToken } from 'react-native-fbsdk'
 import { GoogleSignin } from '@react-native-community/google-signin'
 
@@ -85,15 +88,13 @@ class SignIn extends React.Component<Props, State> {
             this.setState({ error: 'Error: Something went wrong getting the access token.' })
         }
 
-        const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken)
-
-        await auth().signInWithCredential(credential)
+        await signInWithFacebookCredential(data.accessToken)
     }
 
     googleSignIn = async () => {
         const { accessToken, idToken } = await GoogleSignin.signIn()
-        const credential = firebase.auth.GoogleAuthProvider.credential(idToken, accessToken)
-        await firebase.auth().signInWithCredential(credential)
+        await signInWithGoogleCredential(idToken, accessToken)
+        this.props.navigation.navigate('Home')
     }
 
     forgotPassword = () => {
