@@ -4,7 +4,11 @@ import ScrollingScreen from 'MellowComponents/ScrollingScreen'
 import Section from 'MellowComponents/Section'
 import MainButton from '../MellowComponents/MainButton'
 import V from '../Components/V'
-import { signOut, deleteUser } from '../Controllers/FirebaseController'
+import {
+    signOut,
+    deleteUser,
+    findOrCloneActivityToResponse
+} from '../Controllers/FirebaseController'
 
 export default function ProfileScreen({ navigation }) {
     const handleSignOut = async () => {
@@ -17,6 +21,10 @@ export default function ProfileScreen({ navigation }) {
         navigation.navigate('Onboarding')
     }
 
+    const handleActivity = async () => {
+        await findOrCloneActivityToResponse('example')
+    }
+
     return (
         <ScrollingScreen>
             <Section>
@@ -27,6 +35,11 @@ export default function ProfileScreen({ navigation }) {
             <Section>
                 <V ai="center">
                     <MainButton text={'Delete Account'} onPress={handleDelete} />
+                </V>
+            </Section>
+            <Section>
+                <V ai="center">
+                    <MainButton text={'Find or clone activity'} onPress={handleActivity} />
                 </V>
             </Section>
         </ScrollingScreen>
