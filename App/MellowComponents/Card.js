@@ -5,20 +5,15 @@ import { AppStyles } from 'Themes'
 import T from 'Components/T'
 import V from 'Components/V'
 
-type Props = {}
-
-type State = {}
-
 // to use flex inside the card you need to specify height!
-class Card extends React.Component<Props, State> {
-    render() {
-        const { children, style, flexbox, ...rest } = this.props
-        return (
-            <V {...rest} style={{ ...styles.card, ...style }}>
-                <V style={[styles.innerCard, flexbox && styles.innerFlexBox]}>{children}</V>
-            </V>
-        )
-    }
+const Card = ({ children, style, flexbox, alt, ...rest }) => {
+    const cardStyle = alt ? styles.altCard : styles.card
+    const innerCardStyle = alt ? styles.innerAltCard : styles.innerCard
+    return (
+        <V {...rest} style={[cardStyle, style]}>
+            <V style={[innerCardStyle, flexbox && styles.innerFlexBox]}>{children}</V>
+        </V>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -34,6 +29,20 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 10,
         borderTopRightRadius: 10,
         borderTopLeftRadius: 30,
+        overflow: 'hidden'
+    },
+    altCard: {
+        borderBottomRightRadius: 10,
+        borderBottomLeftRadius: 10,
+        borderTopRightRadius: 10,
+        borderTopLeftRadius: 10,
+        ...AppStyles.dropShadow.big
+    },
+    innerAltCard: {
+        borderBottomRightRadius: 10,
+        borderBottomLeftRadius: 10,
+        borderTopRightRadius: 10,
+        borderTopLeftRadius: 10,
         overflow: 'hidden'
     },
     innerFlexBox: {

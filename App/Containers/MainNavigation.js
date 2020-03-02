@@ -39,6 +39,8 @@ import MellowHomeScreen from '../MellowContainers/HomeScreen'
 import JourneyScreen from '../MellowContainers/JourneyScreen'
 import MultiQuestionScreen from '../MellowContainers/MultiQuestionScreen'
 import ActivityEditScreen from '../MellowContainers/ActivityEditScreen'
+import ProfileScreen from '../MellowContainers/ProfileScreen'
+import EditProfileScreen from '../MellowContainers/EditProfileScreen'
 
 const styles = StyleSheet.create({
     activeIcon: {
@@ -102,7 +104,8 @@ const Tabs = createBottomTabNavigator(
         // Journey: JournalsStack,
         Journey: JourneyScreen,
         Home: HomeStack,
-        Profile: MoodCalendarScreen
+        // Profile: MoodCalendarScreen
+        Profile: ProfileScreen
     },
     {
         defaultNavigationOptions: ({ navigation }) => ({
@@ -155,6 +158,9 @@ const TabsStack = createStackNavigator(
         },
         ReflectionQuestion: {
             screen: ReflectionQuestionScreen
+        },
+        EditProfile: {
+            screen: EditProfileScreen
         }
     },
     {

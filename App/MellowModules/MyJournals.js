@@ -118,6 +118,7 @@ const MyJournals = ({ renderHeader }) => {
 
     return (
         <SectionList
+            bounces={false}
             renderItem={renderJournalActivity}
             renderSectionHeader={renderSectionHeader}
             sections={sections}

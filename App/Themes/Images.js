@@ -38,5 +38,11 @@ export default {
     achievements: require('Images/achievements.png'),
     profile: require('Images/profile.png'),
     waveGlyphF: require('Images/WaveGlyphF.png'),
-    edit: require('Images/edit.png')
+    edit: require('Images/edit.png'),
+    smallProfile: require('Images/smallProfile.png'),
+    bell: require('Images/bell.png'),
+    shield: require('Images/shield.png'),
+    logout: require('Images/logout.png'),
+    night: require('Images/night.png'),
+    smallRightChevron: require('Images/smallRightChevron.png')
 }
