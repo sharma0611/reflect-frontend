@@ -1,4 +1,4 @@
-import { useGlobal, useEffect, setGlobal } from 'reactn'
+import { useGlobal, useEffect, setGlobal, useState } from 'reactn'
 import firebase from '@react-native-firebase/app'
 import initAuth from '@react-native-firebase/auth'
 import initFirestore from '@react-native-firebase/firestore'
@@ -8,8 +8,7 @@ import get from 'lodash-es/get'
 
 // reactn properties
 export const INITIALIZED = 'initialized'
-export const USER = 'user'
-export const PROFILE = 'profile'
+export const PROFILE_DETAILS = 'profileDetails'
 export const HAS_PRO = 'hasPro'
 
 // static db collections
@@ -59,7 +58,7 @@ export const activityRef = id => id && activitiesRef.doc(id)
 export const categoryRef = id => id && categoriesRef.doc(id)
 export const questionRef = id => id && questionsRef.doc(id)
 export const adminRef = id => id && adminsRef.doc(id)
-export const profileRef = id => (id || currentUser()) && profilesRef().doc(id || currentUser().uid)
+export const profileRef = id => (id || currentUser()) && profilesRef.doc(id || currentUser().uid)
 export const activityResponseRef = id => id && activityResponsesRef.doc(id)
 
 // db helpers
@@ -74,9 +73,9 @@ export const findOrCreateProfile = async user => {
     const profile = { uid, email, displayName }
     const ref = profileRef(uid)
     try {
-        setGlobal({ profile })
         const doc = await ref.get()
         if (!doc.exists) ref.set(profile)
+        return profile
     } catch (err) {
         console.warn('Error creating profile:', err)
     }
@@ -160,9 +159,8 @@ export const updateActivityResponse = async (id, data) => {
  */
 export function useUser() {
     const [initialized] = useGlobal(INITIALIZED)
-    const [user] = useGlobal(USER)
-    const [profile] = useGlobal(PROFILE)
-    const [hasPro] = useGlobal(HAS_PRO)
+    const [profileDetails] = useGlobal(PROFILE_DETAILS)
+    const { hasPro, user, profile } = profileDetails
 
     return { initialized, user, profile, hasPro }
 }
@@ -174,17 +172,16 @@ export function useUser() {
  */
 export function useGlobalUserListener() {
     const [initialized, setInitialized] = useGlobal(INITIALIZED)
-    const [user, setUser] = useGlobal(USER)
-    const [profile, setProfile] = useGlobal(PROFILE)
-    const [hasPro, setHasPro] = useGlobal(HAS_PRO)
+    const [profileDetails, setProfileDetails] = useGlobal(PROFILE_DETAILS)
 
     const handler = async user => {
-        setUser(user)
-
         // stop listening if user does not exist
-        if (!user || !user.uid) {
-            setProfile({})
-            setHasPro(false)
+        if (!user) {
+            setProfileDetails({
+                user: null,
+                profile: null,
+                hasPro: null
+            })
             if (!initialized) setInitialized(true)
             return
         }
@@ -193,21 +190,19 @@ export function useGlobalUserListener() {
         Purchases.setDebugLogsEnabled(true)
         Purchases.setup('AsrJhdgHqgRWbbrENjMfQrpPAKarCQQb', user.uid)
         const pro = get(await Purchases.getPurchaserInfo(), 'entitlements.active.pro')
-        setHasPro(!!pro)
+        const profile = await profileRef(user.uid).get()
 
-        // listen for profile doc changes
-        return profileRef(user.uid).onSnapshot(
-            doc => {
-                setProfile(doc.data() || {})
-                if (!initialized) setInitialized(true)
-            },
-            err => {
-                console.warn('Error retrieving profile:', err)
-            }
-        )
+        setProfileDetails({
+            user,
+            profile: profile.data(),
+            hasPro: !!pro
+        })
+        if (!initialized) setInitialized(true)
     }
 
     useEffect(() => auth.onAuthStateChanged(handler), [])
+
+    const { user, profile, hasPro } = profileDetails
 
     return { initialized, user, profile, hasPro }
 }

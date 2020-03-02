@@ -11,10 +11,15 @@ import * as Sentry from '@sentry/react-native'
 Sentry.init({
     dsn: 'https://578f3466d9ae487c9755bd9f1c7bb4c4@sentry.io/1878431'
 })
+
 // Set an initial global state directly:
 setGlobal({
-    hasPro: false,
-    user: null
+    profileDetails: {
+        user: null,
+        profile: null,
+        hasPro: null
+    },
+    initialized: false
 })
 
 const App = () => {

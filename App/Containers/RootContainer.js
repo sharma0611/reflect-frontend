@@ -62,9 +62,8 @@ PushNotification.configure({
 })
 
 function RootContainer() {
-    const [dataLoading, setDataLoading] = useState(true)
-    const { initialized, user, hasPro } = useGlobalUserListener()
-
+    const [dataLoading, setDataLoading] = useState(false)
+    const { initialized, profile } = useGlobalUserListener()
     const setupGoogle = async () => {
         await GoogleSignin.configure({
             webClientId: '581167811549-ejlhck80ioqmngika3ceeufqalfqu6me.apps.googleusercontent.com' // required
@@ -132,7 +131,7 @@ function RootContainer() {
             <AppearanceProvider>
                 <V flex={1} bg="WhiteM">
                     <StatusBar barStyle="dark-content" />
-                    {renderAppContainer(!!user)}
+                    {renderAppContainer(!!profile)}
                 </V>
             </AppearanceProvider>
         </ErrorBoundary>
