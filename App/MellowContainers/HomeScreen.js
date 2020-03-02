@@ -12,13 +12,13 @@ import LoadingSpinner from 'Components/LoadingSpinner'
 import { useUser } from '../Controllers/FirebaseController'
 
 const HomeScreen = () => {
-    // const { profile, initialized } = useUser()
-    // if (!initialized) return (<LoadingSpinner />)
+    const { profile, initialized } = useUser()
+    if (!initialized || !profile) return <LoadingSpinner />
     return (
         <ScrollingScreen>
             <Section>
                 <T heading3 color="Gray2">
-                    {/* {`Hi ${profile.displayName}!`} */}
+                    {`Hi ${profile.displayName}!`}
                 </T>
                 <SectionHeader
                     {...{ header: 'Today', subtitle: 'Hit pause. Reflect on what happened.' }}
