@@ -352,7 +352,7 @@ PODS:
     - React
   - RNCPushNotificationIOS (1.0.2):
     - React
-  - RNDateTimePicker (2.1.0):
+  - RNDateTimePicker (2.2.2):
     - React
   - RNDeviceInfo (3.1.4):
     - React
@@ -603,7 +603,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 60a80e72d95bf02a01cace55d3697d9724f0d77f
   RNCPicker: 8b82a13aab110340272d3b1234a3a1ddf831d608
   RNCPushNotificationIOS: 0b8d06ff190d84627dd17501bfb96652375970e4
-  RNDateTimePicker: 9db00606d689f5653f08aa601c81b9d3266a0a19
+  RNDateTimePicker: 65eadfa62b069b415a6ac1d20a81cacfa26cb37a
   RNDeviceInfo: 88099e84466f053bae3f34c307b506738b2b6946
   RNFBApp: 7d4006751de8bb5cafa2e8d2e7d94ee250df81db
   RNFBAuth: ed8b865db45f7ded9dbf535e390cba2ba672aede

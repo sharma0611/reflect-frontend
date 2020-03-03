@@ -41,6 +41,7 @@ import MultiQuestionScreen from '../MellowContainers/MultiQuestionScreen'
 import ActivityEditScreen from '../MellowContainers/ActivityEditScreen'
 import ProfileScreen from '../MellowContainers/ProfileScreen'
 import EditProfileScreen from '../MellowContainers/EditProfileScreen'
+import EditDailyReminderScreen from '../MellowContainers/EditDailyReminderScreen'
 
 const styles = StyleSheet.create({
     activeIcon: {
@@ -161,6 +162,12 @@ const TabsStack = createStackNavigator(
         },
         EditProfile: {
             screen: EditProfileScreen
+        },
+        EditDailyReminder: {
+            screen: EditDailyReminderScreen
+        },
+        ResetPasswordLoggedIn: {
+            screen: ResetPassword
         }
     },
     {

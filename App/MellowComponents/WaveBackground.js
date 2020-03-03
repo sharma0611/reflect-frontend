@@ -13,10 +13,12 @@ type Props = {
 
 type State = {}
 
+const DEFAULT_HEIGHT_RATIO = 0.3
+
 class WaveBackground extends React.Component<Props, State> {
     render() {
         const { boat, heightRatio, fullScreen, children } = this.props
-        const ratio = heightRatio ? heightRatio : 0.3
+        const ratio = heightRatio ? heightRatio : DEFAULT_HEIGHT_RATIO
         const glyph = boat ? Images.waveBoatGlyph : Images.waveGlyph
         return (
             <BlueBackground {...{ fullScreen }}>

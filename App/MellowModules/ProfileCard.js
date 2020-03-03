@@ -51,6 +51,15 @@ const ProfileCard = ({ navigation }) => {
     const navigateToEditName = () => {
         navigation.navigate('EditProfile')
     }
+
+    const navigateToEditDailyReminder = () => {
+        navigation.navigate('EditDailyReminder')
+    }
+
+    const navigateToResetPassword = () => {
+        navigation.navigate('ResetPasswordLoggedIn')
+    }
+
     return (
         <Card bg="WhiteM" alt>
             <V p={1} py={2}>
@@ -66,14 +75,16 @@ const ProfileCard = ({ navigation }) => {
                     <ProfileRow
                         {...{
                             title: 'Setup a daily reminder time',
-                            leftImage: Images.bell
+                            leftImage: Images.bell,
+                            onPress: navigateToEditDailyReminder
                         }}
                     />
                     <Seperator />
                     <ProfileRow
                         {...{
                             title: 'Reset password',
-                            leftImage: Images.shield
+                            leftImage: Images.shield,
+                            onPress: navigateToResetPassword
                         }}
                     />
                     <Seperator />
