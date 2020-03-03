@@ -1,16 +1,7 @@
-import { useGlobal, useEffect, setGlobal } from 'reactn'
 import firebase from '@react-native-firebase/app'
 import initAuth from '@react-native-firebase/auth'
 import initFirestore from '@react-native-firebase/firestore'
 import initFunctions from '@react-native-firebase/functions'
-import Purchases from 'react-native-purchases'
-import get from 'lodash-es/get'
-
-// reactn properties
-export const INITIALIZED = 'initialized'
-export const USER = 'user'
-export const PROFILE = 'profile'
-export const HAS_PRO = 'hasPro'
 
 // static db collections
 export const ACTIVITIES = 'activities' // static activities like daily reflection
@@ -33,18 +24,31 @@ export const currentUser = () => auth.currentUser
 export const currentUid = () => auth.currentUser.uid
 export const signOut = () => auth.signOut()
 
-export const signInWithFacebookCredential = async token => {
-    const { user } = await auth.signInWithCredential(facebookProvider.credential(token))
-    await findOrCreateProfile(user)
-    return user
+export const createUserWithEmailAndPassword = async ({ email, password, ...rest }) => {
+    await auth.createUserWithEmailAndPassword(email, password)
+    await finishSignUp({ ...rest })
 }
 
-export const signInWithGoogleCredential = async (idToken, accessToken) => {
-    const { user } = await auth.signInWithCredential(
-        googleProvider.credential(idToken, accessToken)
-    )
-    await findOrCreateProfile(user)
-    return user
+export const signInWithAndEmailPassword = async ({ email, password, ...rest }) => {
+    await auth.signInWithEmailAndPassword(email, password)
+    await finishSignUp({ ...rest })
+}
+
+export const signInWithFacebookCredential = async ({ accessToken, ...rest }) => {
+    await auth.signInWithCredential(facebookProvider.credential(accessToken))
+    await finishSignUp({ ...rest })
+}
+
+export const signInWithGoogleCredential = async ({ idToken, accessToken, ...rest }) => {
+    await auth.signInWithCredential(googleProvider.credential(idToken, accessToken))
+    await finishSignUp({ ...rest })
+}
+
+export const finishSignUp = async ({ displayName = '' }) => {
+    if (!auth.currentUser.displayName || displayName) {
+        await auth.currentUser.updateProfile({ displayName })
+    }
+    await findOrCreateProfile()
 }
 
 // db
@@ -59,7 +63,7 @@ export const activityRef = id => id && activitiesRef.doc(id)
 export const categoryRef = id => id && categoriesRef.doc(id)
 export const questionRef = id => id && questionsRef.doc(id)
 export const adminRef = id => id && adminsRef.doc(id)
-export const profileRef = id => (id || currentUser()) && profilesRef().doc(id || currentUser().uid)
+export const profileRef = id => (id || currentUser()) && profilesRef.doc(id || currentUser().uid)
 export const activityResponseRef = id => id && activityResponsesRef.doc(id)
 
 // db helpers
@@ -69,16 +73,26 @@ export const startOfToday = () =>
 export const refData = async ref => (await ref.get()).data()
 
 // db interactions
-export const findOrCreateProfile = async user => {
-    const { uid, email, displayName } = user
-    const profile = { uid, email, displayName }
-    const ref = profileRef(uid)
+export const findOrCreateProfile = async () => {
     try {
-        setGlobal({ profile })
+        const { uid, email, displayName } = auth.currentUser
+        const profile = { uid, email, displayName }
+        const ref = profileRef(uid)
         const doc = await ref.get()
-        if (!doc.exists) ref.set(profile)
+        return doc.exists ? await ref.update(profile) : await ref.set(profile)
     } catch (err) {
-        console.warn('Error creating profile:', err)
+        console.warn('Error finding or creating profile:', err)
+    }
+}
+
+export const fetchProfile = async () => {
+    try {
+        const { uid } = auth.currentUser
+        const ref = profileRef(uid)
+        const doc = await ref.get()
+        return doc.data()
+    } catch (err) {
+        console.warn('Error fetching profile:', err)
     }
 }
 
@@ -150,66 +164,6 @@ export const updateActivityResponse = async (id, data) => {
     } catch (err) {
         console.warn('Error updating activity response:', err)
     }
-}
-
-// hooks
-
-/**
- * returns values instantiated by useGlobalUserListener()
- * @returns {{ initialized, user, profile, hasPro }}
- */
-export function useUser() {
-    const [initialized] = useGlobal(INITIALIZED)
-    const [user] = useGlobal(USER)
-    const [profile] = useGlobal(PROFILE)
-    const [hasPro] = useGlobal(HAS_PRO)
-
-    return { initialized, user, profile, hasPro }
-}
-
-/**
- * listens for auth user and profile doc changes,
- * configuring initialized, user, profile, hasPro global state
- * @returns {{ initialized, user, profile, hasPro }}
- */
-export function useGlobalUserListener() {
-    const [initialized, setInitialized] = useGlobal(INITIALIZED)
-    const [user, setUser] = useGlobal(USER)
-    const [profile, setProfile] = useGlobal(PROFILE)
-    const [hasPro, setHasPro] = useGlobal(HAS_PRO)
-
-    const handler = async user => {
-        setUser(user)
-
-        // stop listening if user does not exist
-        if (!user || !user.uid) {
-            setProfile({})
-            setHasPro(false)
-            if (!initialized) setInitialized(true)
-            return
-        }
-
-        // purchases
-        Purchases.setDebugLogsEnabled(true)
-        Purchases.setup('AsrJhdgHqgRWbbrENjMfQrpPAKarCQQb', user.uid)
-        const pro = get(await Purchases.getPurchaserInfo(), 'entitlements.active.pro')
-        setHasPro(!!pro)
-
-        // listen for profile doc changes
-        return profileRef(user.uid).onSnapshot(
-            doc => {
-                setProfile(doc.data() || {})
-                if (!initialized) setInitialized(true)
-            },
-            err => {
-                console.warn('Error retrieving profile:', err)
-            }
-        )
-    }
-
-    useEffect(() => auth.onAuthStateChanged(handler), [])
-
-    return { initialized, user, profile, hasPro }
 }
 
 export default firebase

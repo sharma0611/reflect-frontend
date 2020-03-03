@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React from 'reactn'
 import { StyleSheet, TextInput, ScrollView } from 'react-native'
 import { AppStyles, Metrics, Colors, Images, Fonts } from 'Themes'
 import T from 'Components/T'
@@ -16,15 +16,17 @@ import Analytics from 'Controllers/AnalyticsController'
 import BlueBackground from 'MellowComponents/BlueBackground'
 import { Formik } from 'formik'
 import FIcon from 'react-native-vector-icons/Feather'
-import auth, { firebase } from '@react-native-firebase/auth'
 import { LoginManager, AccessToken } from 'react-native-fbsdk'
 import { GoogleSignin } from '@react-native-community/google-signin'
+import {
+    createUserWithEmailAndPassword,
+    signInWithFacebookCredential,
+    signInWithGoogleCredential
+} from '../Controllers/FirebaseController'
 
 type Props = {}
 
-type State = {
-    name: string
-}
+type State = {}
 
 const FieldIcon = ({ icon }) => {
     return <FIcon name={icon} size={20} color={Colors.Gray4} />
@@ -58,9 +60,10 @@ class CreateAccount extends React.Component<Props, State> {
 
     submit = async formData => {
         const { email, password } = formData
+        const { name: displayName } = this.global
         try {
             await this.setState({ error: '' })
-            await auth().createUserWithEmailAndPassword(email, password)
+            await createUserWithEmailAndPassword({ email, password, displayName })
         } catch (e) {
             await this.setState({ error: e.message })
         }
@@ -71,6 +74,7 @@ class CreateAccount extends React.Component<Props, State> {
     }
 
     fbSignIn = async () => {
+        const { name: displayName } = this.global
         const result = await LoginManager.logInWithPermissions(['public_profile', 'email'])
 
         if (result.isCancelled) {
@@ -78,22 +82,20 @@ class CreateAccount extends React.Component<Props, State> {
             this.setState({ error: 'Error: Login Cancelled.' })
         }
 
-        const data = await AccessToken.getCurrentAccessToken()
+        const { accessToken } = await AccessToken.getCurrentAccessToken()
 
-        if (!data) {
+        if (!accessToken) {
             // throw new Error('Something went wrong obtaining access token')
             this.setState({ error: 'Error: Something went wrong getting the access token.' })
         }
 
-        const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken)
-
-        await auth().signInWithCredential(credential)
+        await signInWithFacebookCredential({ accessToken, displayName })
     }
 
     googleSignIn = async () => {
+        const { name: displayName } = this.global
         const { accessToken, idToken } = await GoogleSignin.signIn()
-        const credential = firebase.auth.GoogleAuthProvider.credential(idToken, accessToken)
-        await firebase.auth().signInWithCredential(credential)
+        await signInWithGoogleCredential({ accessToken, idToken, displayName })
     }
 
     render() {
