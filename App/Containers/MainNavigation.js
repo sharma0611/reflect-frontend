@@ -42,6 +42,8 @@ import ActivityEditScreen from '../MellowContainers/ActivityEditScreen'
 import ProfileScreen from '../MellowContainers/ProfileScreen'
 import EditProfileScreen from '../MellowContainers/EditProfileScreen'
 import EditDailyReminderScreen from '../MellowContainers/EditDailyReminderScreen'
+import SplashScreen from '../MellowContainers/SplashScreen'
+import { useGlobalUserListener } from '../Hooks/useUser'
 
 const styles = StyleSheet.create({
     activeIcon: {
@@ -105,7 +107,6 @@ const Tabs = createBottomTabNavigator(
         // Journey: JournalsStack,
         Journey: JourneyScreen,
         Home: HomeStack,
-        // Profile: MoodCalendarScreen
         Profile: ProfileScreen
     },
     {
@@ -251,16 +252,18 @@ const OnboardingStack = createStackNavigator(
     }
 )
 
-const createMainNavigation = (loggedIn: boolean) => {
+function createMainNavigation() {
+    const dt = useGlobalUserListener(true)
+    console.log(dt)
+
     const nav = createSwitchNavigator(
         {
-            LoggedIn: LoggedInStack,
-            // Onboarding: OnboardingScreen
-            // Onboarding: CreateAccount
-            Onboarding: OnboardingStack
+            Onboarding: OnboardingStack,
+            Splash: SplashScreen,
+            LoggedIn: LoggedInStack
         },
         {
-            initialRouteName: loggedIn ? 'LoggedIn' : 'Onboarding'
+            initialRouteName: 'Splash'
         }
     )
 

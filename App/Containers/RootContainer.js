@@ -1,23 +1,19 @@
 /**
  * @flow
  */
-import React, { useState, useGlobal, useEffect } from 'reactn'
+import React, { useState, useEffect } from 'react'
 import { StatusBar, PushNotificationIOS } from 'react-native'
 import { createAppContainer } from 'react-navigation'
 import createMainNav from './MainNavigation'
 import V from 'Components/V'
-import T from 'Components/T'
 import ErrorBoundary from 'Components/ErrorBoundary'
 import PushNotification from 'react-native-push-notification'
 import Analytics from 'Controllers/AnalyticsController'
 import updateToken from '../Apollo/interface/updateToken'
 import legacyLoginUser from '../Apollo/interface/loginUser'
 import setDefaultReflectionTime from '../Apollo/interface/setDefaultReflectionTime'
-import LoadingSpinner from 'Components/LoadingSpinner'
-import Purchases from 'react-native-purchases'
 import { AppearanceProvider } from 'react-native-appearance'
 import * as Sentry from '@sentry/react-native'
-import auth from '@react-native-firebase/auth'
 import { GoogleSignin } from '@react-native-community/google-signin'
 
 function getActiveRouteName(navigationState) {
@@ -63,35 +59,8 @@ PushNotification.configure({
     requestPermissions: true
 })
 
-const RootContainer = () => {
+function RootContainer() {
     const [dataLoading, setDataLoading] = useState(true)
-    const [initializing, setInitializing] = useState(true)
-    const [hasPro, setHasPro] = useGlobal('hasPro')
-    const [user, setUser] = useGlobal('user')
-
-    const setupPurchases = async userId => {
-        Purchases.setDebugLogsEnabled(true)
-        Purchases.setup('AsrJhdgHqgRWbbrENjMfQrpPAKarCQQb', userId)
-        try {
-            const purchaserInfo = await Purchases.getPurchaserInfo()
-            if (typeof purchaserInfo.entitlements.active.pro !== 'undefined') {
-                await setHasPro(true)
-            } else {
-                await setHasPro(false)
-            }
-        } catch (e) {
-            throw e
-            // Error fetching purchaser info
-        }
-    }
-
-    const onAuthStateChanged = async user => {
-        if (user) {
-            await setUser(user)
-            await setupPurchases(user.uid)
-        }
-        if (initializing) await setInitializing(false)
-    }
 
     const setupGoogle = async () => {
         await GoogleSignin.configure({
@@ -130,8 +99,6 @@ const RootContainer = () => {
 
     useEffect(() => {
         bootstrapData()
-        const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
-        return subscriber // unsubscribe on unmount
     }, [])
 
     const renderAppContainer = loggedIn => {
@@ -153,16 +120,12 @@ const RootContainer = () => {
         )
     }
 
-    if (dataLoading || initializing) {
-        return <LoadingSpinner />
-    }
-
     return (
         <ErrorBoundary>
             <AppearanceProvider>
                 <V flex={1} bg="WhiteM">
                     <StatusBar barStyle="dark-content" />
-                    {renderAppContainer(!!user)}
+                    {renderAppContainer()}
                 </V>
             </AppearanceProvider>
         </ErrorBoundary>

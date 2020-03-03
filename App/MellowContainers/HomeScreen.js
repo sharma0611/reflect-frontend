@@ -6,15 +6,17 @@ import Section from 'MellowComponents/Section'
 import SectionHeader from 'MellowComponents/SectionHeader'
 import ScrollingScreen from 'MellowComponents/ScrollingScreen'
 import DailyReflectionCard from 'MellowModules/DailyReflectionCard'
-import ActivityScroller from 'MellowModules/ActivityScroller'
-import CategoryScoller from 'MellowModules/CategoryScroller'
+import ActivityScroller from '../MellowModules/ActivityScroller'
+import CategoryScoller from '../MellowModules/CategoryScroller'
+import useUser from '../Hooks/useUser'
 
 const HomeScreen = () => {
+    const { profile } = useUser()
     return (
         <ScrollingScreen>
             <Section>
                 <T heading3 color="Gray2">
-                    Hi Shivam!
+                    {`Hi ${profile.displayName}!`}
                 </T>
                 <SectionHeader
                     {...{ header: 'Today', subtitle: 'Hit pause. Reflect on what happened.' }}
