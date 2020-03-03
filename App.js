@@ -7,14 +7,15 @@ import { ApolloProvider } from 'react-apollo'
 import ApolloClient from 'Apollo/client'
 import { Provider as UnstatedProvider } from 'unstated'
 import * as Sentry from '@sentry/react-native'
+import { USER_DETAILS, initialUserDetailState } from './App/Hooks/useUser'
 
 Sentry.init({
     dsn: 'https://578f3466d9ae487c9755bd9f1c7bb4c4@sentry.io/1878431'
 })
 // Set an initial global state directly:
 setGlobal({
-    hasPro: false,
-    user: null
+    [USER_DETAILS]: initialUserDetailState,
+    name: ''
 })
 
 const App = () => {

@@ -8,12 +8,10 @@ import ScrollingScreen from 'MellowComponents/ScrollingScreen'
 import DailyReflectionCard from 'MellowModules/DailyReflectionCard'
 import ActivityScroller from '../MellowModules/ActivityScroller'
 import CategoryScoller from '../MellowModules/CategoryScroller'
-import LoadingSpinner from 'Components/LoadingSpinner'
-import { useUser } from '../Controllers/FirebaseController'
+import useUser from '../Hooks/useUser'
 
 const HomeScreen = () => {
-    const { profile, initialized } = useUser()
-    if (!initialized) return (<LoadingSpinner />)
+    const { profile } = useUser()
     return (
         <ScrollingScreen>
             <Section>

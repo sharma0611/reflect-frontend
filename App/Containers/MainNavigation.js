@@ -40,6 +40,8 @@ import JourneyScreen from '../MellowContainers/JourneyScreen'
 import MultiQuestionScreen from '../MellowContainers/MultiQuestionScreen'
 import ActivityEditScreen from '../MellowContainers/ActivityEditScreen'
 import ProfileScreen from '../MellowContainers/ProfileScreen'
+import SplashScreen from '../MellowContainers/SplashScreen'
+import { useGlobalUserListener } from '../Hooks/useUser'
 
 const styles = StyleSheet.create({
     activeIcon: {
@@ -239,14 +241,18 @@ const OnboardingStack = createStackNavigator(
     }
 )
 
-function createMainNavigation(loggedIn: boolean) {
+function createMainNavigation() {
+    const dt = useGlobalUserListener(true)
+    console.log(dt)
+
     const nav = createSwitchNavigator(
         {
-            LoggedIn: LoggedInStack,
-            Onboarding: OnboardingStack
+            Onboarding: OnboardingStack,
+            Splash: SplashScreen,
+            LoggedIn: LoggedInStack
         },
         {
-            initialRouteName: loggedIn ? 'LoggedIn' : 'Onboarding'
+            initialRouteName: 'Splash'
         }
     )
 

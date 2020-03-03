@@ -12,11 +12,9 @@ import Analytics from 'Controllers/AnalyticsController'
 import updateToken from '../Apollo/interface/updateToken'
 import legacyLoginUser from '../Apollo/interface/loginUser'
 import setDefaultReflectionTime from '../Apollo/interface/setDefaultReflectionTime'
-import LoadingSpinner from 'Components/LoadingSpinner'
 import { AppearanceProvider } from 'react-native-appearance'
 import * as Sentry from '@sentry/react-native'
 import { GoogleSignin } from '@react-native-community/google-signin'
-import { useGlobalUserListener } from '../Controllers/FirebaseController'
 
 function getActiveRouteName(navigationState) {
     if (!navigationState) {
@@ -63,7 +61,6 @@ PushNotification.configure({
 
 function RootContainer() {
     const [dataLoading, setDataLoading] = useState(true)
-    const { initialized, user, hasPro } = useGlobalUserListener()
 
     const setupGoogle = async () => {
         await GoogleSignin.configure({
@@ -123,16 +120,12 @@ function RootContainer() {
         )
     }
 
-    if (dataLoading || !initialized) {
-        return <LoadingSpinner />
-    }
-
     return (
         <ErrorBoundary>
             <AppearanceProvider>
                 <V flex={1} bg="WhiteM">
                     <StatusBar barStyle="dark-content" />
-                    {renderAppContainer(!!user)}
+                    {renderAppContainer()}
                 </V>
             </AppearanceProvider>
         </ErrorBoundary>
