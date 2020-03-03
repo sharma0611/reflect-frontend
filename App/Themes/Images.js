@@ -44,5 +44,8 @@ export default {
     shield: require('Images/shield.png'),
     logout: require('Images/logout.png'),
     night: require('Images/night.png'),
-    smallRightChevron: require('Images/smallRightChevron.png')
+    smallRightChevron: require('Images/smallRightChevron.png'),
+    fb: require('Images/fb.png'),
+    twitter: require('Images/twitter.png'),
+    insta: require('Images/insta.png')
 }
