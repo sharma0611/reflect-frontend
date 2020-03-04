@@ -109,10 +109,6 @@ class SignIn extends React.Component<Props, State> {
                     <T heading3 color="Gray1">
                         Welcome back!
                     </T>
-                    {/* <Image
-                        source={Images.meditate}
-                        style={{ height: 200, resizeMode: 'contain' }}
-                    /> */}
                 </V>
                 <V flex={1} bg="WhiteM" style={styles.whiteContainer}>
                     <ScrollView>
