@@ -136,7 +136,7 @@ class PersonalizeB extends React.Component<Props, State> {
                         disabled={this.state.wantToFeel === ''}
                         onPress={() => this.submit()}
                         text={`I want to feel ${
-                            this.state.wantToFeel ? this.state.wantToFeel : '_'
+                            this.state.wantToFeel ? this.state.wantToFeel : '...'
                         }`}
                     />
                 </V>
