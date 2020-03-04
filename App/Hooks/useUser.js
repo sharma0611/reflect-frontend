@@ -29,8 +29,8 @@ export function useGlobalUserListener(listenToProfile = false) {
         await setDetails(profile, pro)
 
         // if (listenToProfile) {
-            const unsubscribe = ref.onSnapshot(doc => doc && setDetails(doc.data(), pro))
-            return unsubscribe
+        const unsubscribe = ref.onSnapshot(doc => doc && setDetails(doc.data(), pro))
+        return unsubscribe
         // }
     }
 

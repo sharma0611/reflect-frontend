@@ -78,16 +78,16 @@ class SignIn extends React.Component<Props, State> {
         if (result.isCancelled) {
             // throw new Error('Error: login cancelled')
             this.setState({ error: 'Error: Login Cancelled.' })
+        } else {
+            const { accessToken } = await AccessToken.getCurrentAccessToken()
+
+            if (!accessToken) {
+                // throw new Error('Something went wrong obtaining access token')
+                this.setState({ error: 'Error: Something went wrong getting the access token.' })
+            }
+
+            await signInWithFacebookCredential({ accessToken })
         }
-
-        const { accessToken } = await AccessToken.getCurrentAccessToken()
-
-        if (!accessToken) {
-            // throw new Error('Something went wrong obtaining access token')
-            this.setState({ error: 'Error: Something went wrong getting the access token.' })
-        }
-
-        await signInWithFacebookCredential({ accessToken })
     }
 
     googleSignIn = async () => {

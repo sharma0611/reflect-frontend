@@ -29,7 +29,7 @@ export const createUserWithEmailAndPassword = async ({ email, password, ...rest 
     await finishSignUp({ ...rest })
 }
 
-export const signInWithAndEmailPassword = async ({ email, password, ...rest }) => {
+export const signInWithEmailAndPassword = async ({ email, password, ...rest }) => {
     await auth.signInWithEmailAndPassword(email, password)
     await finishSignUp({ ...rest })
 }
