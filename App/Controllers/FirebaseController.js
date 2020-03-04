@@ -96,6 +96,12 @@ export const fetchProfile = async () => {
     }
 }
 
+export const listenToProfile = (onSnapshot, onError) => {
+    const { uid } = auth.currentUser
+    const ref = profileRef(uid)
+    return ref.onSnapshot(onSnapshot, onError)
+}
+
 export const updateProfile = async ({ displayName }) => {
     try {
         const { uid } = auth.currentUser

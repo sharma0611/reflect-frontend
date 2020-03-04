@@ -7,8 +7,6 @@ import Touchable from 'Components/Touchable'
 import Card from 'MellowComponents/Card'
 import { withNavigation } from 'react-navigation'
 import { signOut } from 'Controllers/FirebaseController'
-import useUser from 'Hooks/useUser'
-import LoadingSpinner from '../Components/LoadingSpinner'
 
 const ProfileRow = ({ leftImage, title, onPress }) => {
     return (
@@ -50,8 +48,7 @@ const Seperator = () => {
     )
 }
 
-const ProfileCard = ({ navigation }) => {
-    const { initialized, profile } = useUser()
+const ProfileCard = ({ navigation, profile }) => {
     const navigateToEditName = () => {
         navigation.navigate('EditProfile')
     }
@@ -67,8 +64,6 @@ const ProfileCard = ({ navigation }) => {
     const logout = () => {
         signOut()
     }
-
-    if (!profile || !initialized) return <LoadingSpinner />
 
     return (
         <Card bg="WhiteM" alt>

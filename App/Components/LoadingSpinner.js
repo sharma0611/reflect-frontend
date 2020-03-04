@@ -31,7 +31,7 @@ const LoadingSpinner = () => (
 
 const styles = StyleSheet.create({
     loadingSpinner: {
-        tintColor: Colors.BrandM,
+        tintColor: Colors.Blue2,
         width: 180,
         resizeMode: 'contain'
     }

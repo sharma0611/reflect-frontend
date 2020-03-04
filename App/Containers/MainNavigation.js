@@ -253,8 +253,17 @@ const OnboardingStack = createStackNavigator(
 )
 
 function createMainNavigation() {
-    const dt = useGlobalUserListener(true)
-    console.log(dt)
+    const { initialized, uid } = useGlobalUserListener()
+
+    const getInitialRouteName = (initialized, uid) => {
+        if (!initialized) {
+            return 'Splash'
+        }
+        if (uid) {
+            return 'LoggedIn'
+        }
+        return 'Onboarding'
+    }
 
     const nav = createSwitchNavigator(
         {
@@ -263,7 +272,7 @@ function createMainNavigation() {
             LoggedIn: LoggedInStack
         },
         {
-            initialRouteName: 'Splash'
+            initialRouteName: getInitialRouteName(initialized, uid)
         }
     )
 

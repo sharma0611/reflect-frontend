@@ -6,7 +6,7 @@ import { hasProByUid } from '../Controllers/PurchasesController'
 export const USER_DETAILS = 'userDetails'
 export const initialUserDetailState = {
     initialized: false,
-    profile: undefined,
+    uid: undefined,
     hasPro: false
 }
 
@@ -14,23 +14,24 @@ export const initialUserDetailState = {
  * listens for auth user and profile doc changes and configures global state
  * @returns {{ initialized, profile, hasPro }}
  */
-export function useGlobalUserListener(listenToProfile = false) {
+export function useGlobalUserListener() {
     const [userDetails, setUserDetails] = useGlobal(USER_DETAILS)
-    const setDetails = (profile, hasPro) => setUserDetails({ initialized: true, profile, hasPro })
+    const setDetails = (uid, hasPro) => setUserDetails({ initialized: true, uid, hasPro })
 
     const handler = async () => {
         const user = auth.currentUser
         if (!user) return setDetails(undefined, false)
 
-        const ref = profileRef(user.uid)
-        const profile = (await ref.get()).data()
-        const pro = await hasProByUid(user.uid)
+        const uid = user.uid
+        // const ref = profileRef(uid)
+        // const profile = (await ref.get()).data()
+        const pro = await hasProByUid(uid)
 
-        await setDetails(profile, pro)
+        await setDetails(uid, pro)
 
         // if (listenToProfile) {
-        const unsubscribe = ref.onSnapshot(doc => doc && setDetails(doc.data(), pro))
-        return unsubscribe
+        // const unsubscribe = ref.onSnapshot(doc => doc && setDetails(doc.data(), pro))
+        // return unsubscribe
         // }
     }
 

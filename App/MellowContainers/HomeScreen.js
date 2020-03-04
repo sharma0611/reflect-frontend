@@ -8,10 +8,14 @@ import ScrollingScreen from 'MellowComponents/ScrollingScreen'
 import DailyReflectionCard from 'MellowModules/DailyReflectionCard'
 import ActivityScroller from '../MellowModules/ActivityScroller'
 import CategoryScoller from '../MellowModules/CategoryScroller'
-import useUser from '../Hooks/useUser'
+import useProfile from '../Hooks/useProfile'
+import Loading from 'MellowComponents/Loading'
+import Error from 'MellowComponents/Error'
 
 const HomeScreen = () => {
-    const { profile } = useUser()
+    const { loading, error, profile } = useProfile()
+    if (loading) return <Loading />
+    if (error) return <Error {...{ error }} />
     return (
         <ScrollingScreen>
             <Section>

@@ -7,8 +7,14 @@ import SectionHeader from 'MellowComponents/SectionHeader'
 import ScrollingScreen from 'MellowComponents/ScrollingScreen'
 import ProfileCard from '../MellowModules/ProfileCard'
 import MissionCard from '../MellowModules/MissionCard'
+import Loading from '../MellowComponents/Loading'
+import Error from '../MellowComponents/Error'
+import useProfile from '../Hooks/useProfile'
 
 const ProfileScreen = () => {
+    const { loading, error, profile } = useProfile()
+    if (loading) return <Loading />
+    if (error) return <Error {...{ error }} />
     return (
         <ScrollingScreen>
             <Section>
@@ -16,7 +22,7 @@ const ProfileScreen = () => {
                     My Profile
                 </T>
                 <V pt={3}>
-                    <ProfileCard />
+                    <ProfileCard {...{ profile }} />
                 </V>
             </Section>
             <Section>
