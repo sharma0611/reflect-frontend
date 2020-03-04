@@ -43,7 +43,7 @@ import ProfileScreen from '../MellowContainers/ProfileScreen'
 import EditProfileScreen from '../MellowContainers/EditProfileScreen'
 import EditDailyReminderScreen from '../MellowContainers/EditDailyReminderScreen'
 import SplashScreen from '../MellowContainers/SplashScreen'
-import { useGlobalUserListener } from '../Hooks/useUser'
+import useUser from '../Hooks/useUser'
 
 const styles = StyleSheet.create({
     activeIcon: {
@@ -253,17 +253,7 @@ const OnboardingStack = createStackNavigator(
 )
 
 function createMainNavigation() {
-    const { initialized, uid } = useGlobalUserListener()
-
-    const getInitialRouteName = (initialized, uid) => {
-        if (!initialized) {
-            return 'Splash'
-        }
-        if (uid) {
-            return 'LoggedIn'
-        }
-        return 'Onboarding'
-    }
+    const { loading, uid } = useUser({ listen: true, timeout: 700 })
 
     const nav = createSwitchNavigator(
         {
@@ -272,7 +262,7 @@ function createMainNavigation() {
             LoggedIn: LoggedInStack
         },
         {
-            initialRouteName: getInitialRouteName(initialized, uid)
+            initialRouteName: loading ? 'Splash' : uid ? 'LoggedIn' : 'Onboarding'
         }
     )
 
