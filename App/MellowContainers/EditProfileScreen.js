@@ -7,6 +7,7 @@ import WaveBackground from 'MellowComponents/WaveBackground'
 import LeftChevron from 'MellowComponents/LeftChevron'
 import WhiteField from 'MellowComponents/WhiteField'
 import { withNavigation } from 'react-navigation'
+import { updateProfile } from 'Controllers/FirebaseController'
 
 type Props = {}
 
@@ -19,7 +20,8 @@ class EditProfileScreen extends React.Component<Props, State> {
         name: ''
     }
 
-    submit = () => {
+    submit = async () => {
+        await updateProfile({ displayName: this.state.name })
         this.props.navigation.goBack()
     }
 

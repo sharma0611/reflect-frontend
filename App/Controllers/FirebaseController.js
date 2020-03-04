@@ -96,6 +96,16 @@ export const fetchProfile = async () => {
     }
 }
 
+export const updateProfile = async ({ displayName }) => {
+    try {
+        const { uid } = auth.currentUser
+        const ref = profileRef(uid)
+        return await ref.update({ displayName })
+    } catch (err) {
+        console.warn('Error fetching profile:', err)
+    }
+}
+
 export const deleteUser = async () => {
     const ref = profileRef()
     await ref.delete()
