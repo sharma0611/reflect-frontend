@@ -9,7 +9,7 @@ export default function useProfile() {
     const [{ loading, error, profile }, setProfile] = useState({ loading: true, error: false })
     useEffect(() => {
         function onSnapshot(doc) {
-            // setProfile({ profile: doc.data(), loading: false, error: false })
+            setProfile({ profile: doc.data(), loading: false, error: false })
         }
         function onError(err) {
             setProfile({ profile: undefined, loading: false, error: 'Error: Profile not found.' })
@@ -17,8 +17,7 @@ export default function useProfile() {
         }
         try {
             const unsubscribe = listenToProfile(onSnapshot, onError)
-            throw new Error('yo')
-            // return unsubscribe
+            return unsubscribe
         } catch (e) {
             onError(e)
         }
