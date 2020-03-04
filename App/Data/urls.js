@@ -9,6 +9,7 @@
 // }
 
 export const FEEDBACK_URL = 'https://shivamsharma852467.typeform.com/to/Brvt3v'
+export const BUGFORM_URL = 'https://shivamsharma852467.typeform.com/to/oexpvC'
 
 export const PRIVACY_POLICY_URL = 'https://www.thereflect.app/privacy-policy'
 export const TERMS_OF_USE_URL = 'https://www.thereflect.app/terms-of-use'

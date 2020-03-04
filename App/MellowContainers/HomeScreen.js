@@ -10,12 +10,12 @@ import ActivityScroller from '../MellowModules/ActivityScroller'
 import CategoryScoller from '../MellowModules/CategoryScroller'
 import useProfile from '../Hooks/useProfile'
 import Loading from 'MellowComponents/Loading'
-import Error from 'MellowComponents/Error'
+import ErrorScreen from 'MellowContainers/ErrorScreen'
 
 const HomeScreen = () => {
     const { loading, error, profile } = useProfile()
     if (loading) return <Loading />
-    if (error) return <Error {...{ error }} />
+    if (error) return <ErrorScreen {...{ error }} />
     return (
         <ScrollingScreen>
             <Section>

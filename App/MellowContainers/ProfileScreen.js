@@ -8,13 +8,13 @@ import ScrollingScreen from 'MellowComponents/ScrollingScreen'
 import ProfileCard from '../MellowModules/ProfileCard'
 import MissionCard from '../MellowModules/MissionCard'
 import Loading from '../MellowComponents/Loading'
-import Error from '../MellowComponents/Error'
+import ErrorScreen from '../MellowContainers/ErrorScreen'
 import useProfile from '../Hooks/useProfile'
 
 const ProfileScreen = () => {
     const { loading, error, profile } = useProfile()
     if (loading) return <Loading />
-    if (error) return <Error {...{ error }} />
+    if (error) return <ErrorScreen {...{ error }} />
     return (
         <ScrollingScreen>
             <Section>

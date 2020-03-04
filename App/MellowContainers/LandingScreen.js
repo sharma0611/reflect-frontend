@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import { StyleSheet, Image } from 'react-native'
-import { AppStyles, Metrics, Colors, Images } from 'Themes'
+import { Metrics, Colors, Images } from 'Themes'
 import T from 'Components/T'
 import V from 'Components/V'
 import MainButton from 'MellowComponents/MainButton'
