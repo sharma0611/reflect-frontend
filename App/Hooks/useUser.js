@@ -1,52 +1,36 @@
 import { useGlobal, useEffect } from 'reactn'
-import { auth, profileRef } from '../Controllers/FirebaseController'
+import { auth } from '../Controllers/FirebaseController'
 import { hasProByUid } from '../Controllers/PurchasesController'
 
-// reactn
-export const USER_DETAILS = 'userDetails'
-export const initialUserDetailState = {
-    initialized: false,
-    uid: undefined,
-    hasPro: false
-}
-
+export const USER = 'user'
+export const initialUserState = { loading: true, hasPro: false, uid: undefined }
 /**
- * listens for auth user and profile doc changes and configures global state
- * @returns {{ initialized, profile, hasPro }}
+ * returns user state
+ * @param {Boolean} listen Specifies if data is refetched when the firebase currentUser changes
+ * @returns {{ loading, hasPro, uid, refetch }}
  */
-export function useGlobalUserListener() {
-    const [userDetails, setUserDetails] = useGlobal(USER_DETAILS)
-    const setDetails = (uid, hasPro) => setUserDetails({ initialized: true, uid, hasPro })
+export default function useUser({ listen = false, timeout = undefined }) {
+    const [{ loading, hasPro, uid }, setUser] = useGlobal(USER)
 
-    const handler = async () => {
-        const user = auth.currentUser
-        if (!user) return setDetails(undefined, false)
+    const setUserTimeout = user => {
+        setUser({ loading: true, hasPro, uid })
+        const timer = setTimeout(() => {
+            setUser(user)
+        }, timeout)
+        return () => clearTimeout(timer)
+    }
 
-        const uid = user.uid
-        // const ref = profileRef(uid)
-        // const profile = (await ref.get()).data()
-        const pro = await hasProByUid(uid)
-
-        await setDetails(uid, pro)
-
-        // if (listenToProfile) {
-        // const unsubscribe = ref.onSnapshot(doc => doc && setDetails(doc.data(), pro))
-        // return unsubscribe
-        // }
+    const refetch = async () => {
+        const { uid } = auth.currentUser || {}
+        const hasPro = await hasProByUid(uid)
+        const setter = timeout ? setUserTimeout : setUser
+        return setter({ loading: false, hasPro, uid })
     }
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(handler)
-        return unsubscribe
+        if (listen) return auth.onAuthStateChanged(refetch)
+        return refetch()
     }, [])
-    return userDetails
-}
 
-/**
- * returns global state instantiated by useGlobalUserListener()
- * @returns {{ initialized, user, profile, hasPro }}
- */
-export default function useUser() {
-    const [userDetails] = useGlobal(USER_DETAILS)
-    return userDetails
+    return { loading, uid, hasPro, refetch }
 }
