@@ -9,7 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "async": "^3.2.0",
+    "convert-array-to-csv": "^1.0.10",
     "firebase-admin": "^8.9.2",
-    "google-spreadsheet": "^3.0.9"
+    "google-spreadsheet": "^3.0.9",
+    "json2csv": "^4.5.4"
   }
 }

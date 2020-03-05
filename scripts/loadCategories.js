@@ -3,6 +3,7 @@ const admin = require('firebase-admin')
 const API_KEY = 'AIzaSyAw_0_Cq34PwLQfG7q0q3vUo59Bq7I3VME'
 const DOC_ID = '1fRvL7qpY9Lms_gGxqsDutYmHEqxrOaXzJKQpo9-jyu8'
 const CATEGORY_SHEET_INDEX = 0
+const waterfall = require('async/waterfall')
 
 // Authentication
 const getSheetWithKey = () => {
@@ -125,12 +126,14 @@ const loadCategoriesAndQuestions = async () => {
 
     // now for each categoryId, get the question sheet, go row by row saving each to firestore & updating id column
     const questionSheets = fetchQuestionSheetsByTitle(doc)
-    await Promise.all(
-        categories.map(async ({ id: categoryId }) => {
+    waterfall(
+        categories.map(({ id: categoryId }) => async () => {
             const questionSheet = questionSheets[categoryId]
             const questions = await questionSheet.getRows()
-            await Promise.all(
-                questions.map(async row => {
+            await new Promise(r => setTimeout(r, 1000))
+            waterfall(
+                questions.map(row => async () => {
+                    await new Promise(r => setTimeout(r, 1000))
                     const { id, remove, ...rest } = await convertRowToJson(questionSheet, row)
                     const questionData = { ...rest, categoryId }
                     if (remove) {
