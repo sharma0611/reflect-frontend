@@ -59,6 +59,8 @@ export const adminsRef = db.collection(ADMINS)
 export const profilesRef = db.collection(PROFILES)
 export const activityResponsesRef = db.collection(ACTIVITY_RESPONSES)
 
+export const getDocWithId = doc => ({ ...doc.data(), id: doc.id })
+
 export const activityRef = id => id && activitiesRef.doc(id)
 export const categoryRef = id => id && categoriesRef.doc(id)
 export const questionRef = id => id && questionsRef.doc(id)
@@ -192,6 +194,32 @@ export const fetchCategories = async () => {
 export const listenToCategories = (onSnapshot, onError) => {
     const categoriesRef = db.collection(CATEGORIES)
     return categoriesRef.where('ama', '==', true).onSnapshot(onSnapshot, onError)
+}
+
+export const getRandomQuestion = async categoryId => {
+    const questionsRef = db.collection(QUESTIONS)
+    const key = questionsRef.doc().id
+    const greaterSnapshot = await questionsRef
+        .where('categoryId', '==', categoryId)
+        .where(initFirestore.FieldPath.documentId(), '>=', key)
+        .limit(1)
+        .get()
+    let question
+    if (greaterSnapshot.size > 0) {
+        greaterSnapshot.forEach(doc => {
+            question = getDocWithId(doc)
+        })
+    } else {
+        const lessSnapshot = await questionsRef
+            .where('categoryId', '==', categoryId)
+            .where(initFirestore.FieldPath.documentId(), '<', key)
+            .limit(1)
+            .get()
+        lessSnapshot.forEach(doc => {
+            question = getDocWithId(doc)
+        })
+    }
+    return question
 }
 
 export default firebase
