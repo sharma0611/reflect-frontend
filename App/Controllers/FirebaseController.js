@@ -182,4 +182,16 @@ export const updateActivityResponse = async (id, data) => {
     }
 }
 
+export const fetchCategories = async () => {
+    const categoriesRef = db.collection(CATEGORIES)
+    const docs = await categoriesRef.where('ama', '==', true).get()
+    const data = docs.map(doc => doc.data())
+    return data
+}
+
+export const listenToCategories = (onSnapshot, onError) => {
+    const categoriesRef = db.collection(CATEGORIES)
+    return categoriesRef.where('ama', '==', true).onSnapshot(onSnapshot, onError)
+}
+
 export default firebase

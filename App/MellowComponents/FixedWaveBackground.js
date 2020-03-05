@@ -6,7 +6,7 @@ import WaveBackground from 'MellowComponents/WaveBackground'
 import BlueBackground from 'MellowComponents/BlueBackground'
 
 const FixedWaveBackground = ({ children, fullScreen, ...rest }) => (
-    <BlueBackground flex={1} style={styles.outerbox}>
+    <BlueBackground flex={1} {...{ fullScreen }} style={styles.outerbox}>
         <V pabs style={StyleSheet.absoluteFill}>
             <WaveBackground {...{ fullScreen, ...rest }} />
         </V>

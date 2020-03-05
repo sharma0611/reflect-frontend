@@ -130,10 +130,10 @@ const loadCategoriesAndQuestions = async () => {
         categories.map(({ id: categoryId }) => async () => {
             const questionSheet = questionSheets[categoryId]
             const questions = await questionSheet.getRows()
-            await new Promise(r => setTimeout(r, 1000))
+            await Promise(r => setTimeout(r, 3000))
             waterfall(
                 questions.map(row => async () => {
-                    await new Promise(r => setTimeout(r, 1000))
+                    await Promise(r => setTimeout(r, 3000))
                     const { id, remove, ...rest } = await convertRowToJson(questionSheet, row)
                     const questionData = { ...rest, categoryId }
                     if (remove) {

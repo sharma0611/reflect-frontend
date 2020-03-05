@@ -8,34 +8,6 @@ import CategoryCard, { CATEGORY_CARD_WIDTH, CATEGORY_CARD_MARGIN } from './Categ
 
 const SNAP_INTERVAL = CATEGORY_CARD_WIDTH + CATEGORY_CARD_MARGIN
 
-const CATEGORIES = [
-    {
-        id: 'Productivity',
-        name: 'Productivity 🤯',
-        color: Colors.getColor('PastelRed')
-    },
-    {
-        id: 'Mindfulness',
-        name: 'Mindfulness 🌊',
-        color: Colors.getColor('PastelOrangeL')
-    },
-    {
-        id: 'Mental',
-        name: 'Mental 🧠',
-        color: Colors.getColor('TealM')
-    },
-    {
-        id: 'Physical',
-        name: 'Physical 💪',
-        color: '#A8E7C1'
-    },
-    {
-        id: 'Social',
-        name: 'Social 💃',
-        color: Colors.getColor('PastelPurplePink')
-    }
-]
-
 const getQuestion = categoryId => {
     // make this a call to an API to get a question for a given category
     return {
@@ -45,7 +17,7 @@ const getQuestion = categoryId => {
     }
 }
 
-const CategoryScoller = ({ navigation }) => {
+const CategoryScoller = ({ navigation, categories }) => {
     const navigateToQuestion = (categoryId, color) => {
         const question = getQuestion(categoryId)
         navigation.navigate({
@@ -72,7 +44,7 @@ const CategoryScoller = ({ navigation }) => {
             }}
         >
             <V mt={3} mb={3} row>
-                {CATEGORIES.map(({ id, name, color }) => (
+                {categories.map(({ id, name, color }) => (
                     <CategoryCard
                         {...{ name, color }}
                         key={name}
