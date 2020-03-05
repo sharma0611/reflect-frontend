@@ -126,14 +126,14 @@ const loadCategoriesAndQuestions = async () => {
 
     // now for each categoryId, get the question sheet, go row by row saving each to firestore & updating id column
     const questionSheets = fetchQuestionSheetsByTitle(doc)
-    waterfall(
+    await waterfall(
         categories.map(({ id: categoryId }) => async () => {
             const questionSheet = questionSheets[categoryId]
             const questions = await questionSheet.getRows()
-            await Promise(r => setTimeout(r, 3000))
-            waterfall(
+            await new Promise(r => setTimeout(r, 2000))
+            await waterfall(
                 questions.map(row => async () => {
-                    await Promise(r => setTimeout(r, 3000))
+                    await new Promise(r => setTimeout(r, 2000))
                     const { id, remove, ...rest } = await convertRowToJson(questionSheet, row)
                     const questionData = { ...rest, categoryId }
                     if (remove) {
