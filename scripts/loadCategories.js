@@ -102,7 +102,9 @@ const fetchQuestions = async doc => {
     return questions
 }
 
-const upsertQuestionRow = async row => {}
+// const questionRowToJson = async (sheet, row) => {
+//     const json = await convertRowToJson(sheet, row)
+// }
 
 const upsertCategories = async (db, categories) => {
     await Promise.all(
@@ -113,7 +115,7 @@ const upsertCategories = async (db, categories) => {
     )
 }
 
-const loadCategories = async () => {
+const loadCategoriesAndQuestions = async () => {
     const db = getDbFromCreds()
     const doc = await fetchMasterSheet()
     const categories = await fetchCategories(doc)
@@ -122,26 +124,37 @@ const loadCategories = async () => {
     upsertCategories(db, categories)
 
     // now for each categoryId, get the question sheet, go row by row saving each to firestore & updating id column
-    // const questionSheets = fetchQuestionSheetsByTitle(doc)
-    // await Promise.all(
-    //     categories.map(async ({ id: categoryId }) => {
-    //         console.log(`👨‍🌾 => `, categoryId)
-    //         const questionSheet = questionSheets[categoryId]
-    //         const questions = await questionSheet.getRows()
-    //         await Promise.all(
-    //             questions.map(async row => {
-    //                 const q = await convertRowToJson(questionSheet, row)
-    //                 const questionData = { ...q, categoryId }
-    //                 // row.id = 'man'
-    //                 // await row.save()
-    //                 console.log(`👨‍🌾 => `, questionData)
-    //             })
-    //         )
-    //     })
-    // )
-
-    // const qs = await fetchQuestions(doc)
-    // console.log(`👨‍🌾 => `, qs)
+    const questionSheets = fetchQuestionSheetsByTitle(doc)
+    await Promise.all(
+        categories.map(async ({ id: categoryId }) => {
+            const questionSheet = questionSheets[categoryId]
+            const questions = await questionSheet.getRows()
+            await Promise.all(
+                questions.map(async row => {
+                    const { id, remove, ...rest } = await convertRowToJson(questionSheet, row)
+                    const questionData = { ...rest, categoryId }
+                    if (remove) {
+                        const docRef = db.collection('questions').doc(id)
+                        await docRef.delete()
+                        await row.delete()
+                        return
+                    }
+                    if (id) {
+                        // update
+                        const docRef = db.collection('questions').doc(id)
+                        await docRef.set(questionData)
+                    } else {
+                        // insert
+                        const docRef = db.collection('questions').doc()
+                        await docRef.set(questionData)
+                        // save id back to google sheet
+                        row.id = docRef.id
+                        await row.save()
+                    }
+                })
+            )
+        })
+    )
 }
 
-loadCategories()
+loadCategoriesAndQuestions()
