@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
-import LoadingSpinner from '../Components/LoadingSpinner'
+import V from '../Components/V'
 
 export default function SplashScreen({ navigation }) {
-    return <LoadingSpinner />
+    return <V flex={1} bg="BabyBlueL" />
 }

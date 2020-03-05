@@ -3,14 +3,15 @@ import { StyleSheet } from 'react-native'
 import { Metrics } from 'Themes'
 import V from 'Components/V'
 import WaveBackground from 'MellowComponents/WaveBackground'
+import BlueBackground from 'MellowComponents/BlueBackground'
 
-const FixedWaveBackground = ({ children, ...rest }) => (
-    <V flex={1} style={styles.outerbox}>
+const FixedWaveBackground = ({ children, fullScreen, ...rest }) => (
+    <BlueBackground flex={1} style={styles.outerbox}>
         <V pabs style={StyleSheet.absoluteFill}>
-            <WaveBackground {...rest} />
+            <WaveBackground {...{ fullScreen, ...rest }} />
         </V>
         {children}
-    </V>
+    </BlueBackground>
 )
 
 const styles = StyleSheet.create({

@@ -1,6 +1,6 @@
 import React from 'react'
 import { ScrollView } from 'react-native'
-import WaveBackground from 'MellowComponents/WaveBackground'
+import FixedWaveBackground from 'MellowComponents/FixedWaveBackground'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const WaveHeightRatio = 0.3
@@ -20,11 +20,11 @@ const ScrollingScreen = ({ children, keyboardAware, fullScreen, ...rest }) => {
     const ScrollComponent = keyboardAware ? KeyboardAware : ScrollView
     const contentContainerStyle = { flexGrow: 1 }
     return (
-        <ScrollComponent bounces={false} {...{ contentContainerStyle, ...rest }}>
-            <WaveBackground {...{ fullScreen, heightRatio: WaveHeightRatio }}>
+        <FixedWaveBackground {...{ heightRatio: WaveHeightRatio }}>
+            <ScrollComponent bounces={false} {...{ contentContainerStyle, ...rest }}>
                 {children}
-            </WaveBackground>
-        </ScrollComponent>
+            </ScrollComponent>
+        </FixedWaveBackground>
     )
 }
 
