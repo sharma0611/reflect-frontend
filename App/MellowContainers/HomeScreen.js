@@ -14,7 +14,6 @@ import ErrorScreen from 'MellowContainers/ErrorScreen'
 
 const HomeScreen = () => {
     const { loading, error, profile, categories, activities } = useHomeScreenData()
-    console.log(`activiti => `, activities)
     if (loading) return <Loading />
     if (error) return <ErrorScreen {...{ error }} />
     return (

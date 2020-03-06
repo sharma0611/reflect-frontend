@@ -88,9 +88,6 @@ const ACTIVITIES = [
 ]
 
 const ActivityScroller = ({ navigation, activities }) => {
-    console.log(`👨‍🌾 => `, 'yp')
-    console.log(`👨‍🌾 => `, activities)
-    console.log(`👨‍🌾 => `, activities.length)
     return (
         <ScrollView
             horizontal
@@ -106,7 +103,7 @@ const ActivityScroller = ({ navigation, activities }) => {
             <V mt={3} row>
                 {activities.map(({ id, name: title, color, subtitle, questions }) => (
                     <ActivityCard
-                        {...{ title, color, subtitle: 'asd' }}
+                        {...{ title, color, subtitle }}
                         key={title}
                         onPress={() =>
                             navigation.navigate({
