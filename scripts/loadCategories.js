@@ -140,7 +140,7 @@ const upsertCategories = async (db, categories) => {
 const upsertActivities = async (db, activities) => {
     await Promise.all(
         activities.map(async ({ id, ...rest }) => {
-            const docRef = db.collection('categories').doc(id)
+            const docRef = db.collection('activities').doc(id)
             await docRef.set(rest)
         })
     )
