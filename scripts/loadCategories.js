@@ -3,6 +3,7 @@ const admin = require('firebase-admin')
 const API_KEY = 'AIzaSyAw_0_Cq34PwLQfG7q0q3vUo59Bq7I3VME'
 const DOC_ID = '1fRvL7qpY9Lms_gGxqsDutYmHEqxrOaXzJKQpo9-jyu8'
 const CATEGORY_SHEET_INDEX = 0
+const ACTIVITY_SHEET_INDEX = 1
 const waterfall = require('async/waterfall')
 
 // Authentication
@@ -56,11 +57,24 @@ const intStringToBool = str => {
     return Boolean(parseInt(str, 10))
 }
 
+const stringToIdList = str => {
+    return str.split(',').map(id => id.trim())
+}
+
 const processCategoryJson = raw => {
     return raw.map(category => ({
         ...category,
         isPro: intStringToBool(category.isPro),
         ama: intStringToBool(category.ama)
+    }))
+}
+
+const processActivityJson = raw => {
+    return raw.map(activity => ({
+        ...activity,
+        isPro: intStringToBool(activity.isPro),
+        published: intStringToBool(activity.published),
+        questionIds: stringToIdList(activity.questionIds)
     }))
 }
 
@@ -75,6 +89,13 @@ const fetchCategories = async doc => {
     const categoryRawJson = await convertSheetToJson(categorySheet)
     const categoryJson = processCategoryJson(categoryRawJson)
     return categoryJson
+}
+
+const fetchActivities = async doc => {
+    const activitySheet = doc.sheetsByIndex[ACTIVITY_SHEET_INDEX]
+    const activityRawJson = await convertSheetToJson(activitySheet)
+    const activityJson = processActivityJson(activityRawJson)
+    return activityJson
 }
 
 const fetchQuestionSheets = doc => {
@@ -116,13 +137,24 @@ const upsertCategories = async (db, categories) => {
     )
 }
 
+const upsertActivities = async (db, activities) => {
+    await Promise.all(
+        activities.map(async ({ id, ...rest }) => {
+            const docRef = db.collection('categories').doc(id)
+            await docRef.set(rest)
+        })
+    )
+}
+
 const loadCategoriesAndQuestions = async () => {
     const db = getDbFromCreds()
     const doc = await fetchMasterSheet()
+
     const categories = await fetchCategories(doc)
-    // save all categories to firestore
-    // do that here
     upsertCategories(db, categories)
+
+    const activities = await fetchActivities(doc)
+    upsertActivities(db, activities)
 
     // now for each categoryId, get the question sheet, go row by row saving each to firestore & updating id column
     const questionSheets = fetchQuestionSheetsByTitle(doc)
