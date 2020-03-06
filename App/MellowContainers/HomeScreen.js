@@ -13,7 +13,8 @@ import Loading from 'MellowComponents/Loading'
 import ErrorScreen from 'MellowContainers/ErrorScreen'
 
 const HomeScreen = () => {
-    const { loading, error, profile, categories } = useHomeScreenData()
+    const { loading, error, profile, categories, activities } = useHomeScreenData()
+    console.log(`activiti => `, activities)
     if (loading) return <Loading />
     if (error) return <ErrorScreen {...{ error }} />
     return (
@@ -34,7 +35,7 @@ const HomeScreen = () => {
                     {...{ header: 'On my mind', subtitle: 'Activities to unload my thoughts.' }}
                 />
             </Section>
-            <ActivityScroller />
+            <ActivityScroller {...{ activities }} />
             <Section>
                 <SectionHeader
                     {...{

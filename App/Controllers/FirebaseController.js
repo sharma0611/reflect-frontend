@@ -196,6 +196,11 @@ export const listenToCategories = (onSnapshot, onError) => {
     return categoriesRef.where('ama', '==', true).onSnapshot(onSnapshot, onError)
 }
 
+export const listenToActivities = (onSnapshot, onError) => {
+    const activitiesRef = db.collection(ACTIVITIES)
+    return activitiesRef.where('published', '==', true).onSnapshot(onSnapshot, onError)
+}
+
 export const getRandomQuestion = async categoryId => {
     const questionsRef = db.collection(QUESTIONS)
     const key = questionsRef.doc().id
@@ -219,6 +224,13 @@ export const getRandomQuestion = async categoryId => {
             question = getDocWithId(doc)
         })
     }
+    return question
+}
+
+export const getQuestionFromId = async id => {
+    const questionsRef = db.collection(QUESTIONS)
+    const questionRef = await questionsRef.doc(id).get()
+    const question = getDocWithId(questionRef)
     return question
 }
 
