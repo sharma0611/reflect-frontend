@@ -17,6 +17,8 @@ export const ACTIVITY_CARD_MARGIN = Metrics.padding.scale[CARD_MARGIN]
 
 const ActivityCard = ({ activity, navigation }) => {
     const { name: title, subtitle, color } = activity
+
+    // without an ID so that we can save it as a new response
     const { id, ...rest } = activity
     const onPress = () =>
         navigation.navigate({

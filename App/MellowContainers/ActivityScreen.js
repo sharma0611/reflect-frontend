@@ -1,18 +1,16 @@
 // @flow
 import React, { useState } from 'react'
-import { ScrollView, StyleSheet, TextInput } from 'react-native'
 import T from 'Components/T'
 import V from 'Components/V'
 import Header, { HEADER_HEIGHT } from 'MellowComponents/Header'
-import { Fonts, Colors } from 'Themes'
 import WaveBackground from 'MellowComponents/WaveBackground'
 import RightChevron from 'MellowComponents/RightChevron'
 import Touchable from 'Components/Touchable'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { withNavigation } from 'react-navigation'
 import MainButton from 'MellowComponents/MainButton'
-import EmojiSelector from 'MellowComponents/EmojiSelector'
 import Question from 'MellowComponents/Question'
+import { upsertActivityResponse } from '../Controllers/FirebaseController'
 
 const WaveHeightRatio = 0.3
 const CIRCLE_WIDTH = 60
@@ -39,9 +37,18 @@ const ActivityScreen = ({ navigation }) => {
         return updatedQuestions
     }
 
-    const nextQuestion = () => {
+    const nextQuestion = async () => {
         const updatedQuestions = persistResponse()
-        const newActivity = { ...activity, questions: updatedQuestions }
+        let newActivity
+        newActivity = { ...activity, questions: updatedQuestions }
+        if (!newActivity.id) {
+            // wait and get ID before passing it on
+            newActivity = await upsertActivityResponse(newActivity)
+        } else {
+            // we already have an id, so just get on with the show and
+            //      we'll save this in the background :-)
+            upsertActivityResponse(newActivity)
+        }
         if (nextQuestionExists) {
             navigate({
                 routeName: 'Activity',
@@ -52,15 +59,9 @@ const ActivityScreen = ({ navigation }) => {
                 key: index + 1
             })
         } else {
+            navigate('Tabs')
             // navigate to success screen in the future
         }
-    }
-
-    const submitResponses = () => {
-        const updatedQuestions = persistResponse()
-        console.log(`👨‍🌾 => `, updatedQuestions)
-        // add submit logic here
-        navigate('Tabs')
     }
 
     // When we add a back button, use this. (or when we navigate directly to journal)
@@ -113,7 +114,7 @@ const ActivityScreen = ({ navigation }) => {
                     </Touchable>
                 ) : (
                     <V ai="center" pt={2}>
-                        <MainButton onPress={submitResponses} text={`Submit`} />
+                        <MainButton onPress={nextQuestion} text={`Submit`} />
                     </V>
                 )}
             </KeyboardAwareScrollView>

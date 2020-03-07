@@ -234,4 +234,21 @@ export const getQuestionFromId = async id => {
     return question
 }
 
+export const upsertActivityResponse = async activity => {
+    const { id, ...rest } = activity
+    const uid = currentUid()
+    const activityResponse = { ...rest, uid }
+    let docRef
+    if (id) {
+        docRef = db.collection(ACTIVITY_RESPONSES).doc(id)
+        await docRef.set(activityResponse)
+    } else {
+        docRef = db.collection(ACTIVITY_RESPONSES).doc()
+        await docRef.set(activityResponse)
+    }
+    const doc = await docRef.get()
+    const data = getDocWithId(doc)
+    return data
+}
+
 export default firebase
