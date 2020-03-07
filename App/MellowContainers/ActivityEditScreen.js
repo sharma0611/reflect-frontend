@@ -38,7 +38,6 @@ const ActivityEditScreen = ({ navigation }) => {
 
     const submitResponses = () => {
         const updatedJournalEntries = persistResponses()
-        console.log(`👨‍🌾 => `, updatedJournalEntries)
         // maybe construct activity object here and pass to firebase?
         navigate('Tabs')
     }

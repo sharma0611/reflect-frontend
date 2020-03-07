@@ -23,9 +23,6 @@ const EmojiSelector = ({ emoji, onSelectEmoji }) => {
         let bg
         if (selected === emoji) {
             bg = 'BabyBlueM'
-            // console.log(`👨‍🌾 => `, 'yo')
-            // console.log(`👨‍🌾 => `, item)
-            // console.log(`👨‍🌾 => `, emojis)
         }
         return (
             <Touchable onPress={() => onSelect(emoji)} key={emoji}>

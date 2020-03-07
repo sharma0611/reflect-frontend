@@ -11,7 +11,7 @@ import { withNavigation } from 'react-navigation'
 const CIRCLE_DIAMETER = 25
 
 const JournalActivityCard = ({ activity, navigation }) => {
-    const { activityTitle, color, questions } = activity
+    const { name: activityTitle, color, questions } = activity
 
     const renderJournalEntry = (entry, index) => {
         const { questionText, responseText } = entry
@@ -36,10 +36,12 @@ const JournalActivityCard = ({ activity, navigation }) => {
                         {questionText}
                     </T>
                     <V pt={1}>
-                        <T caption color="Gray1">
-                            {responseText.slice(0, 40)}
-                            {responseText.length > 40 && '...'}
-                        </T>
+                        {!!responseText && (
+                            <T caption color="Gray1">
+                                {responseText.slice(0, 40)}
+                                {responseText.length > 40 && '...'}
+                            </T>
+                        )}
                     </V>
                 </V>
             </V>

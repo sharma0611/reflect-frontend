@@ -8,8 +8,16 @@ import WaveBackground from 'MellowComponents/WaveBackground'
 import DailyMoodCard from 'MellowModules/DailyMoodCard'
 import MyJournals from 'MellowModules/MyJournals'
 import { Metrics } from 'Themes'
+import { NavigationEvents } from 'react-navigation'
+import useActivityResponses from 'Hooks/useActivityResponses'
+import Loading from 'MellowComponents/Loading'
+import ErrorScreen from 'MellowContainers/ErrorScreen'
 
 const JourneyScreen = () => {
+    const { loading, error, refetch, loadMore, activityResponses } = useActivityResponses()
+    if (loading) return <Loading />
+    if (error) return <ErrorScreen {...{ error }} />
+
     const renderHeader = () => {
         return (
             <V style={{ marginTop: Metrics.statusBarHeight }}>
@@ -29,11 +37,17 @@ const JourneyScreen = () => {
             </V>
         )
     }
+
     // we render the header inside the Journals screen since we do not want to nest a
     // virtualized list inside of a scrollview. Otherwise we would use scrollingscreen here
     return (
         <WaveBackground heightRatio={0.3} fullScreen>
-            <MyJournals {...{ renderHeader }} />
+            <NavigationEvents
+                onWillFocus={() => {
+                    refetch()
+                }}
+            />
+            <MyJournals {...{ renderHeader, activityResponses, loadMore }} />
         </WaveBackground>
     )
 }

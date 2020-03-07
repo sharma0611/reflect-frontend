@@ -11,6 +11,7 @@ import { formatDate } from 'Containers/utils'
 import Prompts from 'Data/prompts'
 import JournalActivityCard from 'MellowModules/JournalActivityCard'
 import Section from 'MellowComponents/Section'
+import Card from 'MellowComponents/Card'
 
 const JournalEntries = [
     {
@@ -54,8 +55,43 @@ const sections = [
     }
 ]
 
-const MyJournals = ({ renderHeader }) => {
+const MyJournals = ({ renderHeader, activityResponses, loadMore }) => {
     const [legacyJournals, setLegacyJournals] = useState([])
+
+    const mapResponsestoSections = responses => {
+        // const alt = responses.map(resp => resp.timestamp)
+        const dateGroupedResponses = groupBy(responses, function({ timestamp }) {
+            const date = timestamp.toDate()
+            return moment(date)
+                .startOf('day')
+                .format()
+        })
+        const sections = Object.entries(dateGroupedResponses).map((entry, index) => {
+            const [date, currJournals] = entry
+            const formattedDate = formatDate(new Date(date))
+            currJournals.sort(function(a, b) {
+                const keyA = a.timestamp.toDate(),
+                    keyB = b.timestamp.toDate()
+                // Compare the 2 dates
+                if (keyA < keyB) return 1
+                if (keyA > keyB) return -1
+                return 0
+            })
+            return { title: formattedDate, data: currJournals }
+        })
+        return sections
+    }
+
+    const sections = mapResponsestoSections(activityResponses)
+    // console.log(`👨‍🌾 => `, sectionsA)
+
+    // if (!loading && hasMore) {
+    //     console.log(`👨‍🌾 => `, activityResponses)
+    //     console.log(`👨‍🌾 => `, hasMore)
+    //     loadMore()
+    // }
+    // setTimeout(() => loadMore(), 3000)
+
     const loadAllJournalData = async () => {
         const journals = await MongoController.getAllJournals()
         const dateGroupedJournals = groupBy(journals, function({ date }) {
@@ -84,7 +120,6 @@ const MyJournals = ({ renderHeader }) => {
             if (keyA > keyB) return -1
             return 0
         })
-        console.log(`👨‍🌾 => `, sections)
         // setLegacyJournals(sections)
     }
 
@@ -96,7 +131,7 @@ const MyJournals = ({ renderHeader }) => {
 
     // const renderJournalActivity = {}
 
-    loadAllJournalData()
+    // loadAllJournalData()
 
     const renderJournalActivity = ({ item: activity, section, index }) => {
         return (
@@ -116,6 +151,21 @@ const MyJournals = ({ renderHeader }) => {
         )
     }
 
+    const renderEmptyComponent = () => (
+        <Section pt={4} pb={2}>
+            <Card alt bg="WhiteM">
+                <V p={3}>
+                    <V pb={2}>
+                        <T heading4>No journals yet</T>
+                    </V>
+                    <V pb={2}>
+                        <T>Try a journal activity from the home screen 😁</T>
+                    </V>
+                </V>
+            </Card>
+        </Section>
+    )
+
     return (
         <SectionList
             bounces={false}
@@ -124,8 +174,13 @@ const MyJournals = ({ renderHeader }) => {
             sections={sections}
             // keyExtractor={(item, index) => item._id}
             stickySectionHeadersEnabled={false}
-            // ListEmptyComponent={this.renderEmptyComponent}
+            ListEmptyComponent={renderEmptyComponent}
             ListHeaderComponent={renderHeader}
+            onEndReached={() => {
+                console.log('endreached')
+                loadMore()
+            }}
+            onEndReachedThreshold={0.1}
         />
     )
 }

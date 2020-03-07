@@ -9,7 +9,6 @@ const setDefaultReflectionTime = async () => {
         defaultReflectionMin
     )
     const deviceId = await AppConfig.getDeviceId()
-    console.log(`👨‍🌾 => `, deviceId)
     return setDefaultReflectionTimeMutation(
         deviceId,
         defaultReflectionTimeHour,

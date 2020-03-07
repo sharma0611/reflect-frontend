@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import {
     listenToActivities,
-    getDocWithId,
+    getDataFromDocWithId,
     getQuestionFromId
 } from '../Controllers/FirebaseController'
 import * as Sentry from '@sentry/react-native'
@@ -16,7 +16,7 @@ export default function useActivities() {
             let activities = []
             await new Promise.all(
                 querySnapshot.docs.map(async doc => {
-                    const { questionIds, published, ...restOfActivity } = getDocWithId(doc)
+                    const { questionIds, published, ...restOfActivity } = getDataFromDocWithId(doc)
                     const rawQuestions = await new Promise.all(
                         questionIds.map(async qId => {
                             const question = await getQuestionFromId(qId)

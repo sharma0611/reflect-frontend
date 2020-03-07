@@ -59,7 +59,11 @@ export const adminsRef = db.collection(ADMINS)
 export const profilesRef = db.collection(PROFILES)
 export const activityResponsesRef = db.collection(ACTIVITY_RESPONSES)
 
-export const getDocWithId = doc => ({ ...doc.data(), id: doc.id })
+export const getDataFromDocWithId = doc => ({ ...doc.data(), id: doc.id })
+export const getDataFromRefWithId = async ref => {
+    const doc = await ref.get()
+    return getDataFromDocWithId(doc)
+}
 
 export const activityRef = id => id && activitiesRef.doc(id)
 export const categoryRef = id => id && categoriesRef.doc(id)
@@ -201,6 +205,30 @@ export const listenToActivities = (onSnapshot, onError) => {
     return activitiesRef.where('published', '==', true).onSnapshot(onSnapshot, onError)
 }
 
+export const listenToActivityResponses = (onSnapshot, onError, limit, lastDoc) => {
+    const uid = currentUid()
+    const activitiesRespRef = db.collection(ACTIVITY_RESPONSES)
+    let query = activitiesRespRef.where('uid', '==', uid) //.orderBy('timestamp')
+    if (lastDoc) {
+        query = query.startAfter(lastDoc)
+    }
+    query = query.limit(limit)
+    return query.onSnapshot(onSnapshot, onError)
+}
+
+export const fetchActivityResponsesDocs = async (limit, lastDoc) => {
+    const uid = currentUid()
+    const activitiesRespRef = db.collection(ACTIVITY_RESPONSES)
+    let query = activitiesRespRef.where('uid', '==', uid) //.orderBy('timestamp')
+    if (lastDoc) {
+        query = query.startAfter(lastDoc)
+    }
+    query = query.limit(limit)
+    const querySnapshot = await query.get()
+    return querySnapshot.docs
+    // const data = docs.map(doc => doc.data())
+}
+
 export const getRandomQuestion = async categoryId => {
     const questionsRef = db.collection(QUESTIONS)
     const key = questionsRef.doc().id
@@ -212,7 +240,7 @@ export const getRandomQuestion = async categoryId => {
     let question
     if (greaterSnapshot.size > 0) {
         greaterSnapshot.forEach(doc => {
-            question = getDocWithId(doc)
+            question = getDataFromDocWithId(doc)
         })
     } else {
         const lessSnapshot = await questionsRef
@@ -221,7 +249,7 @@ export const getRandomQuestion = async categoryId => {
             .limit(1)
             .get()
         lessSnapshot.forEach(doc => {
-            question = getDocWithId(doc)
+            question = getDataFromDocWithId(doc)
         })
     }
     return question
@@ -244,10 +272,13 @@ export const upsertActivityResponse = async activity => {
         await docRef.set(activityResponse)
     } else {
         docRef = db.collection(ACTIVITY_RESPONSES).doc()
-        await docRef.set(activityResponse)
+        await docRef.set({
+            ...activityResponse,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        })
     }
     const doc = await docRef.get()
-    const data = getDocWithId(doc)
+    const data = getDataFromDocWithId(doc)
     return data
 }
 

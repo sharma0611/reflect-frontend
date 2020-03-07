@@ -15,7 +15,6 @@ const EditDailyReminderScreen = ({ navigation }) => {
     }
 
     const onSubmit = () => {
-        console.log(`👨‍🌾 => `, time)
         navigation.goBack()
     }
 
