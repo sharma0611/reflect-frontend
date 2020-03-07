@@ -14,7 +14,7 @@ import Loading from 'MellowComponents/Loading'
 import ErrorScreen from 'MellowContainers/ErrorScreen'
 
 const JourneyScreen = () => {
-    const { loading, error, refetch, loadMore, activityResponses } = useActivityResponses()
+    const { loading, error, clear, loadMore, hasMore, activityResponses } = useActivityResponses()
     if (loading) return <Loading />
     if (error) return <ErrorScreen {...{ error }} />
 
@@ -44,10 +44,11 @@ const JourneyScreen = () => {
         <WaveBackground heightRatio={0.3} fullScreen>
             <NavigationEvents
                 onWillFocus={() => {
-                    refetch()
+                    clear()
+                    loadMore()
                 }}
             />
-            <MyJournals {...{ renderHeader, activityResponses, loadMore }} />
+            <MyJournals {...{ renderHeader, activityResponses, hasMore, loadMore }} />
         </WaveBackground>
     )
 }

@@ -55,7 +55,7 @@ const sections = [
     }
 ]
 
-const MyJournals = ({ renderHeader, activityResponses, loadMore }) => {
+const MyJournals = ({ renderHeader, activityResponses, hasMore, loadMore }) => {
     const [legacyJournals, setLegacyJournals] = useState([])
 
     const mapResponsestoSections = responses => {
@@ -172,13 +172,12 @@ const MyJournals = ({ renderHeader, activityResponses, loadMore }) => {
             renderItem={renderJournalActivity}
             renderSectionHeader={renderSectionHeader}
             sections={sections}
-            // keyExtractor={(item, index) => item._id}
+            keyExtractor={(item, index) => item.id}
             stickySectionHeadersEnabled={false}
             ListEmptyComponent={renderEmptyComponent}
             ListHeaderComponent={renderHeader}
             onEndReached={() => {
-                console.log('endreached')
-                loadMore()
+                hasMore && loadMore({ fresh: false })
             }}
             onEndReachedThreshold={0.1}
         />

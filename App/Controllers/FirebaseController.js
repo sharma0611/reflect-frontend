@@ -208,7 +208,7 @@ export const listenToActivities = (onSnapshot, onError) => {
 export const listenToActivityResponses = (onSnapshot, onError, limit, lastDoc) => {
     const uid = currentUid()
     const activitiesRespRef = db.collection(ACTIVITY_RESPONSES)
-    let query = activitiesRespRef.where('uid', '==', uid) //.orderBy('timestamp')
+    let query = activitiesRespRef.orderBy('timestamp').where('uid', '==', uid)
     if (lastDoc) {
         query = query.startAfter(lastDoc)
     }
@@ -219,7 +219,7 @@ export const listenToActivityResponses = (onSnapshot, onError, limit, lastDoc) =
 export const fetchActivityResponsesDocs = async (limit, lastDoc) => {
     const uid = currentUid()
     const activitiesRespRef = db.collection(ACTIVITY_RESPONSES)
-    let query = activitiesRespRef.where('uid', '==', uid) //.orderBy('timestamp')
+    let query = activitiesRespRef.where('uid', '==', uid).orderBy('timestamp', 'desc')
     if (lastDoc) {
         query = query.startAfter(lastDoc)
     }
