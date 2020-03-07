@@ -229,8 +229,8 @@ export const getRandomQuestion = async categoryId => {
 
 export const getQuestionFromId = async id => {
     const questionsRef = db.collection(QUESTIONS)
-    const questionRef = await questionsRef.doc(id).get()
-    const question = getDocWithId(questionRef)
+    const questionRef = questionsRef.doc(id)
+    const question = await refData(questionRef)
     return question
 }
 

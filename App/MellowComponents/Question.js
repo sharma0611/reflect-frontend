@@ -1,20 +1,12 @@
 // @flow
 import React, { useState } from 'react'
-import { ScrollView, StyleSheet, TextInput } from 'react-native'
+import { StyleSheet, TextInput } from 'react-native'
 import T from 'Components/T'
 import V from 'Components/V'
-import Header, { HEADER_HEIGHT } from 'MellowComponents/Header'
-import { Fonts, Colors } from 'Themes'
-import WaveBackground from 'MellowComponents/WaveBackground'
-import RightChevron from 'MellowComponents/RightChevron'
-import Touchable from 'Components/Touchable'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { withNavigation } from 'react-navigation'
-import MainButton from 'MellowComponents/MainButton'
+import { Fonts, Colors, Metrics } from 'Themes'
 import EmojiSelector from 'MellowComponents/EmojiSelector'
-import { Metrics } from 'Themes'
 
-const Question = ({ questionText, response, useEmoji, setResponse }) => {
+const Question = ({ questionText, response, useEmoji, setResponse, caption }) => {
     return (
         <V>
             <T pl={3} p={2} heading4>
@@ -36,6 +28,13 @@ const Question = ({ questionText, response, useEmoji, setResponse }) => {
                         placeholderTextColor={Colors.GreyM}
                         selectionColor={Colors.Black}
                     />
+                </V>
+            )}
+            {!!caption && (
+                <V mx={4} mb={3}>
+                    <T b1 px={1}>
+                        {caption}
+                    </T>
                 </V>
             )}
         </V>

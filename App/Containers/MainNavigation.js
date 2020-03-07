@@ -36,7 +36,7 @@ import SignIn from '../MellowContainers/SignIn'
 import ResetPassword from '../MellowContainers/ResetPassword'
 import MellowHomeScreen from '../MellowContainers/HomeScreen'
 import JourneyScreen from '../MellowContainers/JourneyScreen'
-import MultiQuestionScreen from '../MellowContainers/MultiQuestionScreen'
+import ActivityScreen from '../MellowContainers/ActivityScreen'
 import ActivityEditScreen from '../MellowContainers/ActivityEditScreen'
 import ProfileScreen from '../MellowContainers/ProfileScreen'
 import EditProfileScreen from '../MellowContainers/EditProfileScreen'
@@ -154,8 +154,8 @@ const TabsStack = createStackNavigator(
         ActivityEdit: {
             screen: ActivityEditScreen
         },
-        MultiQuestion: {
-            screen: MultiQuestionScreen
+        Activity: {
+            screen: ActivityScreen
         },
         ReflectionQuestion: {
             screen: ReflectionQuestionScreen

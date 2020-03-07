@@ -48,7 +48,7 @@ const convertRowToJson = async (sheet, row) => {
     const header = sheet.headerValues
     return header
         .map(key => ({
-            [key]: row[key]
+            [key]: row[key] ? row[key] : ''
         }))
         .reduce((prevVal, currVal) => ({ ...prevVal, ...currVal }))
 }
@@ -100,13 +100,13 @@ const fetchActivities = async doc => {
 
 const fetchQuestionSheets = doc => {
     const numSheets = doc.sheetsByIndex.length
-    const questionSheets = doc.sheetsByIndex.splice(CATEGORY_SHEET_INDEX + 1, numSheets - 1)
+    const questionSheets = doc.sheetsByIndex.splice(ACTIVITY_SHEET_INDEX + 1, numSheets - 1)
     return questionSheets
 }
 
 const fetchQuestionSheetsByTitle = doc => {
     const numSheets = doc.sheetsByIndex.length
-    const questionSheets = doc.sheetsByIndex.splice(CATEGORY_SHEET_INDEX + 1, numSheets - 1)
+    const questionSheets = doc.sheetsByIndex.splice(ACTIVITY_SHEET_INDEX + 1, numSheets - 1)
     return questionSheets
         .map(sheet => ({ [sheet.title]: sheet }))
         .reduce((prevVal, currVal) => ({ ...prevVal, ...currVal }))
@@ -151,21 +151,24 @@ const loadCategoriesAndQuestions = async () => {
     const doc = await fetchMasterSheet()
 
     const categories = await fetchCategories(doc)
-    upsertCategories(db, categories)
+    // upsertCategories(db, categories)
 
-    const activities = await fetchActivities(doc)
-    upsertActivities(db, activities)
+    // const activities = await fetchActivities(doc)
+    // upsertActivities(db, activities)
 
     // now for each categoryId, get the question sheet, go row by row saving each to firestore & updating id column
     const questionSheets = fetchQuestionSheetsByTitle(doc)
     await waterfall(
         categories.map(({ id: categoryId }) => async () => {
             const questionSheet = questionSheets[categoryId]
+            if (questionSheet.title !== 'activity') {
+                return
+            }
             const questions = await questionSheet.getRows()
-            await new Promise(r => setTimeout(r, 2000))
+            // await new Promise(r => setTimeout(r, 2000))
             await waterfall(
                 questions.map(row => async () => {
-                    await new Promise(r => setTimeout(r, 2000))
+                    // await new Promise(r => setTimeout(r, 2000))
                     const { id, remove, ...rest } = await convertRowToJson(questionSheet, row)
                     const questionData = { ...rest, categoryId }
                     if (remove) {

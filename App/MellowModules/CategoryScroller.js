@@ -14,18 +14,17 @@ const getQuestion = async (categoryId, categoryName) => {
     return {
         ...question,
         header: categoryName
-        // questionText: 'What do I wish was different in my life?',
-        // caption: 'This is a part of my circle of concern; the things I’m worried about.'
     }
 }
 
 const CategoryScoller = ({ navigation, categories }) => {
     const navigateToQuestion = async (categoryId, categoryName, color) => {
         const question = await getQuestion(categoryId, categoryName)
+        const activity = { color, questions: [question] }
         navigation.navigate({
-            routeName: 'MultiQuestion',
+            routeName: 'Activity',
             params: {
-                questions: [question],
+                activity,
                 color,
                 index: 0
             },

@@ -29,16 +29,17 @@ const QUESTIONS = [
 ]
 
 const DailyReflectionCard = ({ navigation }) => {
+    const navigateToDailyReflection = () => {
+        navigation.navigate('Activity', {
+            activity: {
+                questions: QUESTIONS,
+                color: Colors.PastelPurple
+            },
+            index: 0
+        })
+    }
     return (
-        <Touchable
-            onPress={() =>
-                navigation.navigate('MultiQuestion', {
-                    questions: QUESTIONS,
-                    color: Colors.PastelPurple,
-                    index: 0
-                })
-            }
-        >
+        <Touchable onPress={navigateToDailyReflection}>
             <Card bg="PastelPurple" style={{ width: '100%' }} mb={3}>
                 <V ai="flex-end" pt={3} pb={3} pr={5}>
                     <V style={{ width: 60, height: 35 }}>

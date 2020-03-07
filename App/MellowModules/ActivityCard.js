@@ -6,6 +6,7 @@ import V from 'Components/V'
 import T from 'Components/T'
 import Touchable from 'Components/Touchable'
 import Card from 'MellowComponents/Card'
+import { withNavigation } from 'react-navigation'
 
 export const ACTIVITY_CARD_WIDTH = 220
 export const ACTIVITY_CARD_HEIGHT = 160
@@ -14,7 +15,19 @@ const CARD_MARGIN = 3
 
 export const ACTIVITY_CARD_MARGIN = Metrics.padding.scale[CARD_MARGIN]
 
-const ActivityCard = ({ title, subtitle, color, onPress }) => {
+const ActivityCard = ({ activity, navigation }) => {
+    const { name: title, subtitle, color } = activity
+    const { id, ...rest } = activity
+    const onPress = () =>
+        navigation.navigate({
+            routeName: 'Activity',
+            params: {
+                activity: { ...rest },
+                index: 0
+            },
+            key: 0
+        })
+
     return (
         <Touchable onPress={onPress}>
             <Card
@@ -54,4 +67,4 @@ const ActivityCard = ({ title, subtitle, color, onPress }) => {
     )
 }
 
-export default ActivityCard
+export default withNavigation(ActivityCard)

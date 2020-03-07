@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react'
-import { StyleSheet } from 'react-native'
 import { AppStyles, Metrics, Colors, Images } from 'Themes'
 import T from 'Components/T'
 import V from 'Components/V'
@@ -59,7 +58,5 @@ class Header extends React.Component<Props, State> {
         )
     }
 }
-
-const styles = StyleSheet.create({})
 
 export default withNavigation(Header)

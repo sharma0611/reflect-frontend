@@ -15,17 +15,13 @@ import EmojiSelector from 'MellowComponents/EmojiSelector'
 import Question from 'MellowComponents/Question'
 
 const WaveHeightRatio = 0.3
-
-type Props = {}
-
-type State = {}
-
 const CIRCLE_WIDTH = 60
 
-const MultiQuestionScreen = ({ navigation }) => {
+const ActivityScreen = ({ navigation }) => {
     const { state, navigate } = navigation
     const params = state.params
-    const { questions, color, index } = params
+    const { activity, index } = params
+    const { color, questions } = activity
     const currentQuestion = questions[index]
     const { header, questionText, responseText, caption, useEmoji } = currentQuestion
     const [response, setResponse] = useState(responseText)
@@ -45,13 +41,13 @@ const MultiQuestionScreen = ({ navigation }) => {
 
     const nextQuestion = () => {
         const updatedQuestions = persistResponse()
+        const newActivity = { ...activity, questions: updatedQuestions }
         if (nextQuestionExists) {
             navigate({
-                routeName: 'MultiQuestion',
+                routeName: 'Activity',
                 params: {
-                    questions: updatedQuestions,
-                    index: index + 1,
-                    color
+                    activity: newActivity,
+                    index: index + 1
                 },
                 key: index + 1
             })
@@ -97,7 +93,7 @@ const MultiQuestionScreen = ({ navigation }) => {
                 <T heading3 color="Gray1" pt={3} pl={3}>
                     {`${index + 1}/${questions.length}`}
                 </T>
-                <Question {...{ response, questionText, useEmoji, setResponse }} />
+                <Question {...{ response, questionText, useEmoji, setResponse, caption }} />
                 {nextQuestionExists ? (
                     <Touchable onPress={nextQuestion}>
                         <V jc="flex-end" row pr={4}>
@@ -126,4 +122,4 @@ const MultiQuestionScreen = ({ navigation }) => {
     )
 }
 
-export default withNavigation(MultiQuestionScreen)
+export default withNavigation(ActivityScreen)
