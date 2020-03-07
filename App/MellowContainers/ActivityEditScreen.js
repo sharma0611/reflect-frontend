@@ -7,12 +7,13 @@ import ScrollingScreen from 'MellowComponents/ScrollingScreen'
 import { withNavigation } from 'react-navigation'
 import MainButton from 'MellowComponents/MainButton'
 import Question from 'MellowComponents/Question'
+import { upsertActivityResponse } from '../Controllers/FirebaseController'
 
 const ActivityEditScreen = ({ navigation }) => {
     const { state, navigate } = navigation
     const params = state.params
     const { activity } = params
-    const { questions, color, activityTitle } = activity
+    const { questions, color, name: activityTitle } = activity
     // const { header, questionText, responseText, caption, useEmoji } = currentQuestion
     const initialResponseState = questions
         .map(({ responseText }, i) => ({
@@ -37,8 +38,9 @@ const ActivityEditScreen = ({ navigation }) => {
     }
 
     const submitResponses = () => {
-        const updatedJournalEntries = persistResponses()
-        // maybe construct activity object here and pass to firebase?
+        const updatedQuestions = persistResponses()
+        const newActivity = { ...activity, questions: updatedQuestions }
+        upsertActivityResponse(newActivity)
         navigate('Tabs')
     }
 

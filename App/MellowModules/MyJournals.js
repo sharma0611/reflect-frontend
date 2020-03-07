@@ -43,7 +43,6 @@ const JournalActivityA = {
     color: Colors.PastelPurple,
     questions: JournalEntries
 }
-
 const sections = [
     {
         title: '11/24/20',
@@ -165,7 +164,6 @@ const MyJournals = ({ renderHeader, activityResponses, hasMore, loadMore }) => {
             </Card>
         </Section>
     )
-
     return (
         <SectionList
             bounces={false}
