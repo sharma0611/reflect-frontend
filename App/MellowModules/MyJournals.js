@@ -40,7 +40,7 @@ const JournalActivityA = {
     activityTitle: 'Daily Reflection',
     activityId: 'DAILY_REFLECTION',
     color: Colors.PastelPurple,
-    journalEntries: JournalEntries
+    questions: JournalEntries
 }
 
 const sections = [

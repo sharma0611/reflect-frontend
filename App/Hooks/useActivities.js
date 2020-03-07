@@ -16,12 +16,18 @@ export default function useActivities() {
             let activities = []
             await new Promise.all(
                 querySnapshot.docs.map(async doc => {
-                    const activity = getDocWithId(doc)
+                    const { questionIds, published, ...restOfActivity } = getDocWithId(doc)
                     const rawQuestions = await new Promise.all(
-                        activity.questionIds.map(qId => getQuestionFromId(qId))
+                        questionIds.map(async qId => {
+                            const question = await getQuestionFromId(qId)
+                            return { ...question, questionId: qId }
+                        })
                     )
-                    const questions = rawQuestions.map(doc => ({ ...doc, header: activity.name }))
-                    activities.push({ ...activity, questions })
+                    const questions = rawQuestions.map(doc => ({
+                        ...doc,
+                        header: restOfActivity.name
+                    }))
+                    activities.push({ ...restOfActivity, questions })
                 })
             )
             setActivities({ activities, loading: false, error: false })

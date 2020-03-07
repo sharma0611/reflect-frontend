@@ -12,9 +12,9 @@ const ActivityEditScreen = ({ navigation }) => {
     const { state, navigate } = navigation
     const params = state.params
     const { activity } = params
-    const { journalEntries, color, activityTitle } = activity
+    const { questions, color, activityTitle } = activity
     // const { header, questionText, responseText, caption, useEmoji } = currentQuestion
-    const initialResponseState = journalEntries
+    const initialResponseState = questions
         .map(({ responseText }, i) => ({
             [i]: responseText
         }))
@@ -29,7 +29,7 @@ const ActivityEditScreen = ({ navigation }) => {
     }
 
     const persistResponses = () => {
-        const updatedJournalEntries = journalEntries.map((journal, ind) => ({
+        const updatedJournalEntries = questions.map((journal, ind) => ({
             ...journal,
             responseText: responses[ind]
         }))
@@ -46,10 +46,10 @@ const ActivityEditScreen = ({ navigation }) => {
     return (
         <V>
             <ScrollingScreen keyboardAware fullScreen style={{ marginTop: HEADER_HEIGHT }}>
-                {journalEntries.map(({ questionText, useEmoji }, index) => (
+                {questions.map(({ questionText, useEmoji }, index) => (
                     <V>
                         <T heading3 color="Gray1" pt={3} pl={3}>
-                            {`${index + 1}/${journalEntries.length}`}
+                            {`${index + 1}/${questions.length}`}
                         </T>
                         <Question
                             {...{

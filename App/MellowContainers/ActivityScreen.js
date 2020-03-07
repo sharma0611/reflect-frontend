@@ -27,7 +27,7 @@ const ActivityScreen = ({ navigation }) => {
     const nextQuestionExists = index < questions.length - 1
 
     const persistResponse = () => {
-        const questionWithText = { ...currentQuestion, text: response }
+        const questionWithText = { ...currentQuestion, responseText: response }
         const updatedQuestions = questions.map((question, ind) => {
             if (index === ind) {
                 return questionWithText
