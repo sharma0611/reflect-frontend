@@ -282,4 +282,9 @@ export const upsertActivityResponse = async activity => {
     return data
 }
 
+export const deleteActivityResponse = async id => {
+    const docRef = db.collection(ACTIVITY_RESPONSES).doc(id)
+    await docRef.delete()
+}
+
 export default firebase

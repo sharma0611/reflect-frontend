@@ -1,5 +1,6 @@
 // @flow
 import React, { useState } from 'react'
+import { Image } from 'react-native'
 import V from 'Components/V'
 import T from 'Components/T'
 import Header, { HEADER_HEIGHT } from 'MellowComponents/Header'
@@ -7,7 +8,9 @@ import ScrollingScreen from 'MellowComponents/ScrollingScreen'
 import { withNavigation } from 'react-navigation'
 import MainButton from 'MellowComponents/MainButton'
 import Question from 'MellowComponents/Question'
-import { upsertActivityResponse } from '../Controllers/FirebaseController'
+import Touchable from 'Components/Touchable'
+import { upsertActivityResponse, deleteActivityResponse } from '../Controllers/FirebaseController'
+import { Colors, Images } from 'Themes'
 
 const ActivityEditScreen = ({ navigation }) => {
     const { state, navigate } = navigation
@@ -44,8 +47,24 @@ const ActivityEditScreen = ({ navigation }) => {
         navigate('Tabs')
     }
 
+    const deleteResponse = async () => {
+        await deleteActivityResponse(activity.id)
+        navigate('Tabs')
+    }
+
+    const LeftIcon = () => {
+        return (
+            <Touchable onPress={deleteResponse}>
+                <Image
+                    source={Images.trash}
+                    style={{ height: 30, width: 30, tintColor: Colors.WhiteM }}
+                />
+            </Touchable>
+        )
+    }
+
     return (
-        <V>
+        <V flex={1}>
             <ScrollingScreen keyboardAware fullScreen style={{ marginTop: HEADER_HEIGHT }}>
                 {questions.map(({ questionText, useEmoji }, index) => (
                     <V>
@@ -66,7 +85,7 @@ const ActivityEditScreen = ({ navigation }) => {
                     <MainButton onPress={submitResponses} text={`Save`} />
                 </V>
             </ScrollingScreen>
-            <Header headerTitle={activityTitle} exit color={color} />
+            <Header headerTitle={activityTitle} exit color={color} LeftIcon={LeftIcon} />
         </V>
     )
 }

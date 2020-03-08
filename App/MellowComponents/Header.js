@@ -19,7 +19,7 @@ export const HEADER_HEIGHT = Metrics.statusBarHeight + 70
 
 class Header extends React.Component<Props, State> {
     render() {
-        const { headerTitle, goBack, exit, onClose, color } = this.props
+        const { headerTitle, goBack, exit, onClose, color, LeftIcon } = this.props
         return (
             <V
                 pabs
@@ -36,16 +36,21 @@ class Header extends React.Component<Props, State> {
                     <T heading4 ta="center" color="WhiteM">
                         {headerTitle}
                     </T>
+                    {!!LeftIcon && (
+                        <V pl={3} pabs>
+                            <LeftIcon />
+                        </V>
+                    )}
                     {goBack && (
                         <V pabs pl={3}>
                             <LeftChevron tintColor="WhiteM" />
                         </V>
                     )}
                     {exit && (
-                        <V pabs pr={4} style={{ right: 0 }}>
+                        <V pabs pr={3} style={{ right: 0 }}>
                             <PressableImage
-                                source={Images.cross}
-                                style={{ tintColor: Colors.WhiteM }}
+                                source={Images.exit}
+                                style={{ tintColor: Colors.WhiteM, height: 30, width: 30 }}
                                 onPress={() => {
                                     onClose && onClose()
                                     this.props.navigation.navigate('Tabs')

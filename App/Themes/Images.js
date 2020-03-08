@@ -47,5 +47,6 @@ export default {
     smallRightChevron: require('Images/smallRightChevron.png'),
     fb: require('Images/fb.png'),
     twitter: require('Images/twitter.png'),
-    insta: require('Images/insta.png')
+    insta: require('Images/insta.png'),
+    trash: require('Images/trash.png')
 }

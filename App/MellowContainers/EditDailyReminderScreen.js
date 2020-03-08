@@ -16,14 +16,8 @@ import LoadingSpinner from 'Components/LoadingSpinner'
 
 const EditDailyReminderScreen = ({ navigation }) => {
     const [{ reflectionTimeHour, reflectionTimeMin, reflectionTime }, setTime] = useState({})
-    // const [time, setTime] = useState()
 
     const onChange = (event, selectedTime) => {
-        // let reflectionTime = new Date()
-        // if (reflectionTimeHour) {
-        //     reflectionTime.setHours(reflectionTimeHour)
-        //     reflectionTime.setMinutes(reflectionTimeMin)
-        // }
         const hour = selectedTime.getHours()
         const min = selectedTime.getMinutes()
         setTime({
@@ -45,7 +39,6 @@ const EditDailyReminderScreen = ({ navigation }) => {
         )
         await updateUserReflectionTime(AppConfig.DEVICE_ID, utcHours, utcMinutes)
         // Analytics.setDailyReflectionReminder()
-        // this.hideTimePicker()
     }
 
     const getLocalTimeFromData = data => {
