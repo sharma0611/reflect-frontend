@@ -17,17 +17,19 @@ const DailyReflectionCompletedCard = ({ streak }) => {
                 }}
             />
             <V p={3} px={4}>
-                <V row pb={1} ai="center" jc="center">
-                    <T style={{ fontSize: 48 }} pr={2}>
-                        {streak}
-                    </T>
-                    <V pr={3}>
-                        <T subtitle1>day</T>
-                        <T subtitle1>streak</T>
+                <V row pb={1} ai="center" jc="space-between">
+                    <V row ai="center">
+                        <T style={{ fontSize: 48 }} pr={2}>
+                            {streak}
+                        </T>
+                        <V pr={3}>
+                            <T subtitle1>day</T>
+                            <T subtitle1>streak</T>
+                        </V>
                     </V>
                     <T style={{ fontSize: 48 }}>🏅</T>
                 </V>
-                <T subtitle1 color="Gray1" ta="center" pt={2}>
+                <T subtitle1 color="Gray1" pt={2}>
                     All done for today!
                 </T>
             </V>
