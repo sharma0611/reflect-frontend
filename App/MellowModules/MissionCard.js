@@ -93,13 +93,6 @@ const MissionCard = ({ navigation }) => {
                 <V py={1}>
                     <MissionRow
                         {...{
-                            title: 'Read our story',
-                            leftEmoji: '🧘‍♀️'
-                        }}
-                    />
-                    <Seperator />
-                    <MissionRow
-                        {...{
                             title: 'Give us feedback',
                             leftEmoji: '💌',
                             onPress: navigateToFeedbackForm
@@ -122,7 +115,6 @@ const MissionCard = ({ navigation }) => {
                         }}
                     />
                 </V>
-                <SocialBar />
             </V>
         </Card>
     )
