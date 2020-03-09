@@ -23,7 +23,6 @@ const ActivityScreen = ({ navigation }) => {
     const currentQuestion = questions[index]
     const { header, questionText, responseText, caption, useEmoji } = currentQuestion
     const [response, setResponse] = useState(responseText)
-    console.log(`👨‍🌾 => `, response)
     const nextQuestionExists = index < questions.length - 1
 
     const persistResponse = () => {
@@ -41,7 +40,6 @@ const ActivityScreen = ({ navigation }) => {
         const updatedQuestions = persistResponse()
         let newActivity
         newActivity = { ...activity, questions: updatedQuestions }
-        console.log(`👨‍🌾 => `, newActivity)
         if (!newActivity.id) {
             // wait and get ID before passing it on
             newActivity = await upsertActivityResponse(newActivity)

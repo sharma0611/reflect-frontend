@@ -18,7 +18,6 @@ const JourneyScreen = () => {
     if (loading) return <Loading />
     if (error) return <ErrorScreen {...{ error }} />
 
-    console.log(`👨‍🌾 => `, activityResponses)
     const renderHeader = () => {
         return (
             <V style={{ marginTop: Metrics.statusBarHeight }}>
