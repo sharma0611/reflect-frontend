@@ -22,7 +22,7 @@ const ActivityScroller = ({ activities }) => {
         >
             <V mt={3} row>
                 {activities.map(activity => (
-                    <ActivityCard {...{ activity }} key={activity.title} />
+                    <ActivityCard {...{ activity }} key={activity.id} />
                 ))}
             </V>
         </ScrollView>

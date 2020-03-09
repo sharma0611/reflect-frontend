@@ -15,7 +15,7 @@ const EmojiSelector = ({ emoji, onSelectEmoji }) => {
 
     const onSelect = emoji => {
         setSelected(emoji)
-        onSelectEmoji()
+        onSelectEmoji(emoji)
     }
 
     const renderEmoji = ({ item, index }) => {

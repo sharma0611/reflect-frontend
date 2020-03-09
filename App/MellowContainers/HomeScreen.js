@@ -13,7 +13,7 @@ import Loading from 'MellowComponents/Loading'
 import ErrorScreen from 'MellowContainers/ErrorScreen'
 
 const HomeScreen = () => {
-    const { loading, error, profile, categories, activities } = useHomeScreenData()
+    const { loading, error, profile, categories, dailyReflection, activities } = useHomeScreenData()
     if (loading) return <Loading />
     if (error) return <ErrorScreen {...{ error }} />
     return (
@@ -26,7 +26,7 @@ const HomeScreen = () => {
                     {...{ header: 'Today', subtitle: 'Hit pause. Reflect on what happened.' }}
                 />
                 <V pt={3} p={2}>
-                    <DailyReflectionCard />
+                    <DailyReflectionCard {...{ dailyReflection }} />
                 </V>
             </Section>
             <Section>
