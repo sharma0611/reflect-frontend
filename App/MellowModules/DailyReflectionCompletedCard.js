@@ -17,7 +17,7 @@ const DailyReflectionCompletedCard = ({ streak }) => {
                 }}
             />
             <V p={3} px={4}>
-                <V row pb={1} ai="center">
+                <V row pb={1} ai="center" jc="center">
                     <T style={{ fontSize: 48 }} pr={2}>
                         {streak}
                     </T>
@@ -27,7 +27,7 @@ const DailyReflectionCompletedCard = ({ streak }) => {
                     </V>
                     <T style={{ fontSize: 48 }}>🏅</T>
                 </V>
-                <T subtitle1 color="Gray1" ta="right" pt={2}>
+                <T subtitle1 color="Gray1" ta="center" pt={2}>
                     All done for today!
                 </T>
             </V>
