@@ -16,20 +16,18 @@ const DailyReflectionCompletedCard = ({ streak }) => {
                     tintColor: Colors.PastelGold
                 }}
             />
-            <V p={3}>
+            <V p={3} px={4}>
                 <V row pb={1} ai="center">
-                    <T style={{ fontSize: 48 }} pr={2}>
-                        🏅
-                    </T>
                     <T style={{ fontSize: 48 }} pr={2}>
                         {streak}
                     </T>
-                    <V>
+                    <V pr={3}>
                         <T subtitle1>day</T>
                         <T subtitle1>streak</T>
                     </V>
+                    <T style={{ fontSize: 48 }}>🏅</T>
                 </V>
-                <T b1 color="Gray1" ta="right">
+                <T subtitle1 color="Gray1" ta="right" pt={2}>
                     All done for today!
                 </T>
             </V>
