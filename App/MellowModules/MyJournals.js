@@ -58,12 +58,14 @@ const MyJournals = ({ renderHeader, activityResponses, hasMore, loadMore }) => {
     const [legacyJournals, setLegacyJournals] = useState([])
 
     const mapResponsestoSections = responses => {
-        // const alt = responses.map(resp => resp.timestamp)
         const dateGroupedResponses = groupBy(responses, function({ timestamp }) {
-            const date = timestamp.toDate()
-            return moment(date)
-                .startOf('day')
-                .format()
+            // check if timestamp, since for local journals timestamp is not available until saved on server
+            if (timestamp) {
+                const date = timestamp.toDate()
+                return moment(date)
+                    .startOf('day')
+                    .format()
+            }
         })
         const sections = Object.entries(dateGroupedResponses).map((entry, index) => {
             const [date, currJournals] = entry
