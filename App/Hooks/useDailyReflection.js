@@ -1,10 +1,17 @@
 import { useState, useEffect } from 'react'
-import { getRandomQuestion } from '../Controllers/FirebaseController'
+import {
+    getRandomQuestion,
+    fetchCurrentStreak,
+    listenToDailyReflectionCompleted
+} from '../Controllers/FirebaseController'
 import * as Sentry from '@sentry/react-native'
 import { Colors } from 'Themes'
 
 export default function useActivities() {
-    const [{ loading, error, dailyReflection }, setDailyReflection] = useState({
+    const [
+        { loading, error, dailyReflection, completedDailyReflection, streak },
+        setDailyReflection
+    ] = useState({
         loading: true,
         error: false
     })
@@ -17,8 +24,17 @@ export default function useActivities() {
             })
             Sentry.captureException(err)
         }
-        const fetchData = async () => {
-            try {
+        async function onSnapshot(querySnapshot) {
+            if (querySnapshot.docs.length > 0) {
+                const streak = await fetchCurrentStreak()
+                setDailyReflection({
+                    loading: false,
+                    error: false,
+                    dailyReflection: undefined,
+                    completedDailyReflection: true,
+                    streak
+                })
+            } else {
                 const positive = await getRandomQuestion('positive')
                 const retro = await getRandomQuestion('negative')
                 const questions = [
@@ -49,13 +65,12 @@ export default function useActivities() {
                 setDailyReflection({
                     loading: false,
                     error: false,
-                    dailyReflection: activity
+                    dailyReflection: activity,
+                    completedDailyReflection: false
                 })
-            } catch (e) {
-                onError(e)
             }
         }
-        fetchData()
+        return listenToDailyReflectionCompleted(onSnapshot, onError)
     }, [])
-    return { loading, error, dailyReflection }
+    return { loading, error, dailyReflection, completedDailyReflection, streak }
 }

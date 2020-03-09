@@ -11,9 +11,19 @@ import CategoryScoller from '../MellowModules/CategoryScroller'
 import useHomeScreenData from '../Hooks/useHomeScreenData'
 import Loading from 'MellowComponents/Loading'
 import ErrorScreen from 'MellowContainers/ErrorScreen'
+import DailyReflectionCompletedCard from 'MellowModules/DailyReflectionCompletedCard'
 
 const HomeScreen = () => {
-    const { loading, error, profile, categories, dailyReflection, activities } = useHomeScreenData()
+    const {
+        loading,
+        error,
+        profile,
+        categories,
+        activities,
+        dailyReflection,
+        completedDailyReflection,
+        streak
+    } = useHomeScreenData()
     if (loading) return <Loading />
     if (error) return <ErrorScreen {...{ error }} />
     return (
@@ -26,7 +36,11 @@ const HomeScreen = () => {
                     {...{ header: 'Today', subtitle: 'Hit pause. Reflect on what happened.' }}
                 />
                 <V pt={3} p={2}>
-                    <DailyReflectionCard {...{ dailyReflection }} />
+                    {completedDailyReflection ? (
+                        <DailyReflectionCompletedCard {...{ streak }} />
+                    ) : (
+                        <DailyReflectionCard {...{ dailyReflection }} />
+                    )}
                 </V>
             </Section>
             <Section>

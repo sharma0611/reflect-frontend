@@ -48,7 +48,9 @@ const DailyReflectionCard = ({ navigation, dailyReflection }) => {
                 >
                     <V>
                         <T subtitle1>Start my</T>
-                        <T heading4>Daily Reflection</T>
+                        <T heading4 color="Gray1">
+                            Daily Reflection
+                        </T>
                         <V
                             pabs
                             style={{

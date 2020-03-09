@@ -10,9 +10,20 @@ export default function useHomeScreenData() {
     const {
         loading: dailyReflectionLoading,
         error: dailyReflectionError,
-        dailyReflection
+        dailyReflection,
+        completedDailyReflection,
+        streak
     } = useDailyReflection()
     const loading = profileLoading || categoryLoading || activityLoading || dailyReflectionLoading
     const error = profileError || categoryError || activityError || dailyReflectionError
-    return { loading, error, profile, categories, activities, dailyReflection }
+    return {
+        loading,
+        error,
+        profile,
+        categories,
+        activities,
+        dailyReflection,
+        completedDailyReflection,
+        streak
+    }
 }

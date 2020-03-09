@@ -2,6 +2,8 @@ import firebase from '@react-native-firebase/app'
 import initAuth from '@react-native-firebase/auth'
 import initFirestore from '@react-native-firebase/firestore'
 import initFunctions from '@react-native-firebase/functions'
+import moment from 'moment'
+import { summary } from 'date-streaks'
 
 // static db collections
 export const ACTIVITIES = 'activities' // static activities like daily reflection
@@ -285,6 +287,65 @@ export const upsertActivityResponse = async activity => {
 export const deleteActivityResponse = async id => {
     const docRef = db.collection(ACTIVITY_RESPONSES).doc(id)
     await docRef.delete()
+}
+
+export const listenToDailyReflectionCompleted = (onSnapshot, onError) => {
+    const uid = currentUid()
+    const activitiesRespRef = db.collection(ACTIVITY_RESPONSES)
+    const today = firebase.firestore.Timestamp.now().toDate()
+    const startOfToday = moment(today)
+        .startOf('day')
+        .toDate()
+    const query = activitiesRespRef
+        .where('uid', '==', uid)
+        .where('timestamp', '>=', startOfToday)
+        .where('activityId', '==', 'daily')
+    return query.onSnapshot(onSnapshot, onError)
+    // return querySnapshot.docs.length > 0
+}
+
+// export const fetchCurrentStreak = async () => {
+//     const uid = currentUid()
+//     const activitiesRespRef = db.collection(ACTIVITY_RESPONSES)
+//     let day = firebase.firestore.Timestamp.now().toDate()
+//     let streak = 0
+//     let pastNumEntries = 0
+//     let startOfDay = moment(day)
+//         .startOf('day')
+//         .toDate()
+//     let query = activitiesRespRef
+//         .where('uid', '==', uid)
+//         .where('timestamp', '>=', startOfDay)
+//         .where('activityId', '==', 'daily')
+//     let currNumEntries = (await query.get()).docs.length
+//     while (currNumEntries > pastNumEntries) {
+//         streak += 1
+//         pastNumEntries = currNumEntries
+//         startOfDay = moment(startOfDay)
+//             .subtract(1, 'days')
+//             .toDate()
+//         query = activitiesRespRef
+//             .where('uid', '==', uid)
+//             .where('timestamp', '>=', startOfDay)
+//             .where('activityId', '==', 'daily')
+//         currNumEntries = (await query.get()).docs.length
+//     }
+//     return streak
+// }
+
+export const fetchCurrentStreak = async () => {
+    const uid = currentUid()
+    const activitiesRespRef = db.collection(ACTIVITY_RESPONSES)
+    let query = activitiesRespRef.where('uid', '==', uid).where('activityId', '==', 'daily')
+    const querySnapshot = await query.get()
+    const dates = querySnapshot.docs.map(function(doc) {
+        const date = moment(doc.data().timestamp.toDate()).format('MM/DD/YY')
+        return new Date(date)
+    })
+    const { currentStreak, longestStreak, todayInStreak, withinCurrentStreak } = summary({
+        dates
+    })
+    return currentStreak
 }
 
 export default firebase
