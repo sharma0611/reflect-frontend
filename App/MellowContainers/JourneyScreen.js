@@ -23,16 +23,15 @@ const JourneyScreen = () => {
             <V style={{ marginTop: Metrics.statusBarHeight }}>
                 <Section>
                     <T heading3 color="Gray2">
-                        My Journey
+                        My Journals
                     </T>
-                    {/* <SectionHeader {...{ header: 'Progress check' }} /> */}
-                    <SectionHeader {...{ header: 'My mood' }} />
+                    {/* <SectionHeader {...{ header: 'My mood' }} />
                     <V pt={3}>
                         <DailyMoodCard />
                     </V>
                 </Section>
                 <Section>
-                    <SectionHeader {...{ header: 'My journals' }} />
+                    <SectionHeader {...{ header: 'My journals' }} /> */}
                 </Section>
             </V>
         )

@@ -6,7 +6,7 @@ import DeviceInfo from 'react-native-device-info'
  * when you point the simulator to production
  *
  * */
-const isDev = !__DEV__
+const isDev = __DEV__
 
 class AppConfig {
     constructor() {
