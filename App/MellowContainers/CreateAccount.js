@@ -101,20 +101,20 @@ class CreateAccount extends React.Component<Props, State> {
     render() {
         return (
             <BlueBackground>
-                <V p={4}>
-                    <LeftChevron />
-                </V>
-                <V p={4} pt={0}>
-                    <T heading3 color="Gray1">
-                        One last thing!
-                    </T>
-                    <T b1 color="Gray1" pt={4}>
-                        Backup your entries, see your progress, and encrypt your data with an
-                        account.
-                    </T>
-                </V>
-                <V flex={1} bg="WhiteM" style={styles.whiteContainer}>
-                    <ScrollView>
+                <ScrollView keyboardShouldPersistTaps="handled" bounces={false}>
+                    <V p={4}>
+                        <LeftChevron />
+                    </V>
+                    <V p={4} pt={0}>
+                        <T heading3 color="Gray1">
+                            One last thing!
+                        </T>
+                        <T b1 color="Gray1" pt={4}>
+                            Backup your entries, see your progress, and encrypt your data with an
+                            account.
+                        </T>
+                    </V>
+                    <V flex={1} bg="WhiteM" style={styles.whiteContainer}>
                         <V p={5}>
                             <T heading4 color="Gray1">
                                 Create your account
@@ -133,7 +133,7 @@ class CreateAccount extends React.Component<Props, State> {
                                                     onBlur={handleBlur('email')}
                                                     value={values.email}
                                                     autoCompleteType="email"
-                                                    autoFocus={true}
+                                                    autoFocus={false}
                                                 />
                                             </V>
                                             <Field
@@ -196,8 +196,8 @@ class CreateAccount extends React.Component<Props, State> {
                                 </Formik>
                             </V>
                         </V>
-                    </ScrollView>
-                </V>
+                    </V>
+                </ScrollView>
             </BlueBackground>
         )
     }

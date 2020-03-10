@@ -102,16 +102,16 @@ class SignIn extends React.Component<Props, State> {
     render() {
         return (
             <BlueBackground>
-                <V p={4}>
-                    <LeftChevron />
-                </V>
-                <V p={4} pt={0} ai="center">
-                    <T heading3 color="Gray1">
-                        Welcome back!
-                    </T>
-                </V>
-                <V flex={1} bg="WhiteM" style={styles.whiteContainer}>
-                    <ScrollView>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
+                    <V p={4}>
+                        <LeftChevron />
+                    </V>
+                    <V p={4} pt={0} ai="center">
+                        <T heading3 color="Gray1">
+                            Welcome back!
+                        </T>
+                    </V>
+                    <V flex={1} bg="WhiteM" style={styles.whiteContainer}>
                         <V p={5}>
                             <T heading4 color="Gray1">
                                 Please sign in
@@ -194,8 +194,8 @@ class SignIn extends React.Component<Props, State> {
                                 </Formik>
                             </V>
                         </V>
-                    </ScrollView>
-                </V>
+                    </V>
+                </ScrollView>
             </BlueBackground>
         )
     }

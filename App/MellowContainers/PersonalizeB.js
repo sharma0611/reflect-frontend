@@ -51,7 +51,7 @@ class PersonalizeB extends React.Component<Props, State> {
     renderCategory = category => {
         const { name, color } = category
         return (
-            <Touchable onPress={() => this.setState({ wantToFeel: name })}>
+            <Touchable onPress={() => this.setState({ wantToFeel: name })} key={name}>
                 <Card bg={color} style={{ width: CATEGORY_CARD_WIDTH }} mr={CATEGORY_MARGIN} mb={3}>
                     {this.state.wantToFeel === name && (
                         <V pabs style={{ right: 0, top: 0 }} pt={2} pr={2}>

@@ -25,7 +25,7 @@ class WaveBackground extends React.Component<Props, State> {
                 <V pabs style={StyleSheet.absoluteFill}>
                     <V flex={1} />
                     <V style={{ height: Metrics.screenHeight * ratio }}>
-                        <Image source={glyph} />
+                        <Image source={glyph} style={{ width: '100%' }} />
                         <V bg="BabyBlueM" flex={1} />
                     </V>
                 </V>
