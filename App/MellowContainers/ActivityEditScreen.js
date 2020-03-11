@@ -7,10 +7,12 @@ import Header, { HEADER_HEIGHT } from 'MellowComponents/Header'
 import ScrollingScreen from 'MellowComponents/ScrollingScreen'
 import { withNavigation } from 'react-navigation'
 import MainButton from 'MellowComponents/MainButton'
+import SecondaryButton from 'MellowComponents/SecondaryButton'
 import Question from 'MellowComponents/Question'
 import Touchable from 'Components/Touchable'
 import { upsertActivityResponse, deleteActivityResponse } from '../Controllers/FirebaseController'
 import { Colors, Images } from 'Themes'
+import { FEEDBACK_URL } from 'Data/urls'
 
 const ActivityEditScreen = ({ navigation }) => {
     const { state, navigate } = navigation
@@ -64,6 +66,10 @@ const ActivityEditScreen = ({ navigation }) => {
         )
     }
 
+    const navigateToRequestForm = () => {
+        navigation.navigate('WebView', { url: FEEDBACK_URL })
+    }
+
     return (
         <V flex={1}>
             <ScrollingScreen keyboardAware fullScreen style={{ marginTop: HEADER_HEIGHT }}>
@@ -85,14 +91,22 @@ const ActivityEditScreen = ({ navigation }) => {
                 ))}
                 <V ai="center" pt={2} pb={6}>
                     <MainButton onPress={submitResponses} text={`Save`} disabled={!!legacy} />
+                    {legacy && (
+                        <V pt={3} px={4}>
+                            <T subtitle1 ta="center" color="Gray1">
+                                Unfortunately, we don't support editing for legacy journals saved
+                                before March 11 😢 Please request this feature below if you'd like
+                                it and we will take the time to make it.
+                            </T>
+                            <V ai="center" pt={3}>
+                                <SecondaryButton
+                                    onPress={navigateToRequestForm}
+                                    text={'Give us Feedback!'}
+                                />
+                            </V>
+                        </V>
+                    )}
                 </V>
-                {legacy && (
-                    <T subtitle1>
-                        Unfortunately, we don't support editing for legacy journals saved before
-                        March 11 😢 Please request this feature if you'd like it and we will take
-                        the time to make it.
-                    </T>
-                )}
             </ScrollingScreen>
             <Header headerTitle={activityTitle} exit color={color} LeftIcon={LeftIcon} />
         </V>

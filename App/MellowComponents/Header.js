@@ -25,7 +25,8 @@ class Header extends React.Component<Props, State> {
                 pabs
                 style={{
                     height: HEADER_HEIGHT,
-                    width: Metrics.screenWidth,
+                    left: 0,
+                    right: 0,
                     paddingTop: Metrics.statusBarHeight,
                     ...{ backgroundColor: color ? color : Colors.PastelPurple },
                     ...AppStyles.dropShadow.normal

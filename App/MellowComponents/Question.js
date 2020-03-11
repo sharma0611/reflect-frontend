@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react'
+import React from 'react'
 import { StyleSheet, TextInput } from 'react-native'
 import T from 'Components/T'
 import V from 'Components/V'
@@ -24,7 +24,7 @@ const Question = ({ questionText, response, useEmoji, setResponse, caption, disa
                         value={response}
                         multiline={true}
                         autoGrow={true}
-                        disabled={disabled}
+                        editable={!disabled}
                         autoFocus={false}
                         placeholderTextColor={Colors.GreyM}
                         selectionColor={Colors.Black}
