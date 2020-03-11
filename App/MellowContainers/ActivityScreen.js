@@ -93,7 +93,15 @@ const ActivityScreen = ({ navigation }) => {
                 <T heading3 color="Gray1" pt={3} pl={3}>
                     {`${index + 1}/${questions.length}`}
                 </T>
-                <Question {...{ response, questionText, useEmoji, setResponse, caption }} />
+                <Question
+                    {...{
+                        response,
+                        questionText,
+                        useEmoji,
+                        setResponse,
+                        caption
+                    }}
+                />
                 {nextQuestionExists ? (
                     <Touchable onPress={nextQuestion}>
                         <V jc="flex-end" row pr={4}>

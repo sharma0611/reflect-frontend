@@ -6,7 +6,7 @@ import V from 'Components/V'
 import { Fonts, Colors, Metrics } from 'Themes'
 import EmojiSelector from 'MellowComponents/EmojiSelector'
 
-const Question = ({ questionText, response, useEmoji, setResponse, caption }) => {
+const Question = ({ questionText, response, useEmoji, setResponse, caption, disabled }) => {
     return (
         <V>
             <T pl={3} p={2} heading4>
@@ -24,6 +24,7 @@ const Question = ({ questionText, response, useEmoji, setResponse, caption }) =>
                         value={response}
                         multiline={true}
                         autoGrow={true}
+                        disabled={disabled}
                         autoFocus={false}
                         placeholderTextColor={Colors.GreyM}
                         selectionColor={Colors.Black}

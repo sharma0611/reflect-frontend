@@ -25,7 +25,6 @@ const JourneyScreen = () => {
                     <T heading3 color="Gray2">
                         My Journey
                     </T>
-                    {/* <SectionHeader {...{ header: 'Progress check' }} /> */}
                     <SectionHeader {...{ header: 'My mood' }} />
                     <V pt={3}>
                         <DailyMoodCard />

@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { SectionList } from 'react-native'
 import { Colors } from 'Themes'
 import V from 'Components/V'
@@ -12,6 +12,7 @@ import Prompts from 'Data/prompts'
 import JournalActivityCard from 'MellowModules/JournalActivityCard'
 import Section from 'MellowComponents/Section'
 import Card from 'MellowComponents/Card'
+import { currentUid, dateToFirestoreTimestamp } from 'Controllers/FirebaseController'
 
 const JournalEntries = [
     {
@@ -43,6 +44,7 @@ const JournalActivityA = {
     color: Colors.PastelPurple,
     questions: JournalEntries
 }
+
 const sections = [
     {
         title: '11/24/20',
@@ -56,6 +58,9 @@ const sections = [
 
 const MyJournals = ({ renderHeader, activityResponses, hasMore, loadMore }) => {
     const [legacyJournals, setLegacyJournals] = useState([])
+    useEffect(() => {
+        loadAllJournalData()
+    }, [])
 
     const mapResponsestoSections = responses => {
         const dateGroupedResponses = groupBy(responses, function({ timestamp }) {
@@ -83,45 +88,70 @@ const MyJournals = ({ renderHeader, activityResponses, hasMore, loadMore }) => {
         return sections
     }
 
-    const sections = mapResponsestoSections(activityResponses)
-    // console.log(`👨‍🌾 => `, sectionsA)
+    let responses = activityResponses
+    if (!hasMore) {
+        responses = [...activityResponses, ...legacyJournals]
+    }
 
-    // if (!loading && hasMore) {
-    //     console.log(`👨‍🌾 => `, activityResponses)
-    //     console.log(`👨‍🌾 => `, hasMore)
-    //     loadMore()
-    // }
-    // setTimeout(() => loadMore(), 3000)
+    const sections = mapResponsestoSections(responses)
+
+    const mapLegacyJournalsToActivityResponses = journals => {
+        const uid = currentUid()
+        return journals.map(journal => {
+            return {
+                legacy: true,
+                color: Colors[Prompts.getCategoryColor(journal.journalType)],
+                id: journal._id,
+                isPro: false,
+                name: '',
+                subtitle: '',
+                uid,
+                timestamp: dateToFirestoreTimestamp(journal.date),
+                questions: [
+                    {
+                        caption: '',
+                        legacyCategoryId: journal.journalType,
+                        header: '',
+                        questionId: journal._id,
+                        questionText: journal.title,
+                        responseText: journal.text
+                    }
+                ]
+            }
+        })
+    }
 
     const loadAllJournalData = async () => {
-        const journals = await MongoController.getAllJournals()
-        const dateGroupedJournals = groupBy(journals, function({ date }) {
-            return moment(date)
-                .startOf('day')
-                .format()
-        })
-        const sections = Object.entries(dateGroupedJournals).map((entry, index) => {
-            const [date, currJournals] = entry
-            const formattedDate = formatDate(new Date(date))
-            currJournals.sort(function(a, b) {
-                const keyA = new Date(a.timestamp),
-                    keyB = new Date(b.timestamp)
-                // Compare the 2 dates
-                if (keyA < keyB) return 1
-                if (keyA > keyB) return -1
-                return 0
-            })
-            return { title: formattedDate, data: currJournals }
-        })
-        sections.sort(function(a, b) {
-            const keyA = new Date(a.title),
-                keyB = new Date(b.title)
-            // Compare the 2 dates
-            if (keyA < keyB) return 1
-            if (keyA > keyB) return -1
-            return 0
-        })
-        // setLegacyJournals(sections)
+        let journals = await MongoController.getAllJournals()
+        journals = mapLegacyJournalsToActivityResponses(journals)
+        // console.log(`legacy‍ => `, journals)
+        // const dateGroupedJournals = groupBy(journals, function({ date }) {
+        //     return moment(date)
+        //         .startOf('day')
+        //         .format()
+        // })
+        // const sections = Object.entries(dateGroupedJournals).map((entry, index) => {
+        //     const [date, currJournals] = entry
+        //     const formattedDate = formatDate(new Date(date))
+        //     currJournals.sort(function(a, b) {
+        //         const keyA = new Date(a.timestamp),
+        //             keyB = new Date(b.timestamp)
+        //         // Compare the 2 dates
+        //         if (keyA < keyB) return 1
+        //         if (keyA > keyB) return -1
+        //         return 0
+        //     })
+        //     return { title: formattedDate, data: currJournals }
+        // })
+        // sections.sort(function(a, b) {
+        //     const keyA = new Date(a.title),
+        //         keyB = new Date(b.title)
+        //     // Compare the 2 dates
+        //     if (keyA < keyB) return 1
+        //     if (keyA > keyB) return -1
+        //     return 0
+        // })
+        setLegacyJournals(journals)
     }
 
     // const renderJournalEntry = ({ index, item, section }) => {
@@ -131,8 +161,6 @@ const MyJournals = ({ renderHeader, activityResponses, hasMore, loadMore }) => {
     // }
 
     // const renderJournalActivity = {}
-
-    // loadAllJournalData()
 
     const renderJournalActivity = ({ item: activity, section, index }) => {
         return (

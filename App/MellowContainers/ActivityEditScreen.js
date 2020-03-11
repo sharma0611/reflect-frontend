@@ -16,8 +16,9 @@ const ActivityEditScreen = ({ navigation }) => {
     const { state, navigate } = navigation
     const params = state.params
     const { activity } = params
-    const { questions, color, name: activityTitle } = activity
+    const { questions, color, name: activityTitle, legacy } = activity
     // const { header, questionText, responseText, caption, useEmoji } = currentQuestion
+
     const initialResponseState = questions
         .map(({ responseText }, i) => ({
             [i]: responseText
@@ -76,14 +77,22 @@ const ActivityEditScreen = ({ navigation }) => {
                                 questionText,
                                 useEmoji,
                                 response: responses[index],
-                                setResponse: r => setResponse(index, r)
+                                setResponse: r => setResponse(index, r),
+                                disabled: !!legacy
                             }}
                         />
                     </V>
                 ))}
                 <V ai="center" pt={2} pb={6}>
-                    <MainButton onPress={submitResponses} text={`Save`} />
+                    <MainButton onPress={submitResponses} text={`Save`} disabled={!!legacy} />
                 </V>
+                {legacy && (
+                    <T subtitle1>
+                        Unfortunately, we don't support editing for legacy journals saved before
+                        March 11 😢 Please request this feature if you'd like it and we will take
+                        the time to make it.
+                    </T>
+                )}
             </ScrollingScreen>
             <Header headerTitle={activityTitle} exit color={color} LeftIcon={LeftIcon} />
         </V>

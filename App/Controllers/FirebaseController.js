@@ -79,6 +79,7 @@ export const nowTimestamp = () => firebase.firestore.FieldValue.serverTimestamp(
 export const startOfToday = () =>
     new Date(firebase.firestore.Timestamp.now().toMillis() - 24 * 60 * 60 * 1000)
 export const refData = async ref => (await ref.get()).data()
+export const dateToFirestoreTimestamp = date => firebase.firestore.Timestamp.fromDate(date)
 
 // db interactions
 export const findOrCreateProfile = async () => {

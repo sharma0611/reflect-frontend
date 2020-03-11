@@ -5,7 +5,6 @@ import React, { setGlobal } from 'reactn'
 import RootContainer from 'Containers/RootContainer'
 import { ApolloProvider } from 'react-apollo'
 import ApolloClient from 'Apollo/client'
-import { Provider as UnstatedProvider } from 'unstated'
 import * as Sentry from '@sentry/react-native'
 import { USER, initialUserState } from './App/Hooks/useUser'
 
@@ -21,9 +20,7 @@ setGlobal({
 const App = () => {
     return (
         <ApolloProvider client={ApolloClient}>
-            <UnstatedProvider>
-                <RootContainer />
-            </UnstatedProvider>
+            <RootContainer />
         </ApolloProvider>
     )
 }
