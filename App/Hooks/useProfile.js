@@ -6,11 +6,7 @@ export default function useProfile() {
     const [{ loading, error, profile }, setProfile] = useState({ loading: true, error: false })
     useEffect(() => {
         function onSnapshot(doc) {
-            if (doc.exists) {
-                setProfile({ profile: doc.data(), loading: false, error: false })
-            } else {
-                signOut()
-            }
+            setProfile({ profile: doc.data(), loading: false, error: false })
         }
         function onError(err) {
             setProfile({ profile: undefined, loading: false, error: 'Error: Profile not found.' })

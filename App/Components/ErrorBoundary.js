@@ -3,6 +3,8 @@ import React from 'react'
 import T from 'Components/T'
 import V from 'Components/V'
 import * as Sentry from '@sentry/react-native'
+import SecondaryButton from 'MellowComponents/SecondaryButton'
+import { signOut } from '../Controllers/FirebaseController'
 
 type Props = {
     children: React.Node
@@ -32,11 +34,12 @@ class ErrorBoundary extends React.Component<Props, State> {
         if (this.state.hasError) {
             // You can render any custom fallback UI
             return (
-                <V flex={1} jc="center" ai="center" bg="WhiteM">
-                    <T heading>
+                <V flex={1} p={4} jc="center" ai="center" bg="WhiteM">
+                    <T heading pb={4}>
                         Sorry for the error! Please let us know in the feedback form on the main
                         screen or text me at 6479380024.
                     </T>
+                    <SecondaryButton onPress={signOut} text={'Sign out'} />
                 </V>
             )
         }

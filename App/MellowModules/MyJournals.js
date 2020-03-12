@@ -14,48 +14,6 @@ import Section from 'MellowComponents/Section'
 import Card from 'MellowComponents/Card'
 import { currentUid, dateToFirestoreTimestamp } from 'Controllers/FirebaseController'
 
-const JournalEntries = [
-    {
-        header: 'Daily Mood',
-        questionText: 'How am I feeling today?',
-        responseText: '😍',
-        useEmoji: true
-    },
-    {
-        header: 'Daily Mood',
-        questionText: 'What made me feel this way?',
-        responseText: 'I went to a friends place and they gave me ice cream'
-    },
-    {
-        header: 'Retrospective',
-        questionText: 'What moment would I go back and change today?',
-        responseText: 'I would go back and change my alarm'
-    },
-    {
-        header: 'Positive',
-        questionText: 'What am I looking forward to do tomorrow?',
-        responseText: 'Im looking forward to working'
-    }
-]
-
-const JournalActivityA = {
-    activityTitle: 'Daily Reflection',
-    activityId: 'DAILY_REFLECTION',
-    color: Colors.PastelPurple,
-    questions: JournalEntries
-}
-
-const sections = [
-    {
-        title: '11/24/20',
-        data: [JournalActivityA, JournalActivityA]
-    },
-    {
-        title: '11/22/20',
-        data: [JournalActivityA, JournalActivityA]
-    }
-]
-
 const MyJournals = ({ renderHeader, activityResponses, hasMore, loadMore }) => {
     const [legacyJournals, setLegacyJournals] = useState([])
     useEffect(() => {
@@ -107,7 +65,7 @@ const MyJournals = ({ renderHeader, activityResponses, hasMore, loadMore }) => {
                 subtitle: '',
                 uid,
                 timestamp: dateToFirestoreTimestamp(journal.date),
-                questions: [
+                entries: [
                     {
                         caption: '',
                         legacyCategoryId: journal.journalType,

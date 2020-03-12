@@ -18,10 +18,10 @@ const ActivityEditScreen = ({ navigation }) => {
     const { state, navigate } = navigation
     const params = state.params
     const { activity } = params
-    const { questions, color, name: activityTitle, legacy } = activity
+    const { entries, color, name: activityTitle, legacy } = activity
     // const { header, questionText, responseText, caption, useEmoji } = currentQuestion
 
-    const initialResponseState = questions
+    const initialResponseState = entries
         .map(({ responseText }, i) => ({
             [i]: responseText
         }))
@@ -35,8 +35,8 @@ const ActivityEditScreen = ({ navigation }) => {
         })
     }
 
-    const persistResponses = () => {
-        const updatedJournalEntries = questions.map((journal, ind) => ({
+    const persistEntries = () => {
+        const updatedJournalEntries = entries.map((journal, ind) => ({
             ...journal,
             responseText: responses[ind]
         }))
@@ -44,8 +44,8 @@ const ActivityEditScreen = ({ navigation }) => {
     }
 
     const submitResponses = () => {
-        const updatedQuestions = persistResponses()
-        const newActivity = { ...activity, questions: updatedQuestions }
+        const updatedEntries = persistEntries()
+        const newActivity = { ...activity, entries: updatedEntries }
         upsertActivityResponse(newActivity)
         navigate('Tabs')
     }
@@ -73,10 +73,10 @@ const ActivityEditScreen = ({ navigation }) => {
     return (
         <V flex={1}>
             <ScrollingScreen keyboardAware fullScreen style={{ marginTop: HEADER_HEIGHT }}>
-                {questions.map(({ questionText, useEmoji }, index) => (
-                    <V>
+                {entries.map(({ id, questionText, useEmoji }, index) => (
+                    <V key={id}>
                         <T heading3 color="Gray1" pt={3} pl={3}>
-                            {`${index + 1}/${questions.length}`}
+                            {`${index + 1}/${entries.length}`}
                         </T>
                         <Question
                             {...{
@@ -93,7 +93,7 @@ const ActivityEditScreen = ({ navigation }) => {
                     <MainButton onPress={submitResponses} text={`Save`} disabled={!!legacy} />
                     {legacy && (
                         <V pt={3} px={4}>
-                            <T subtitle1 ta="center" color="Gray1">
+                            <T tiny ta="center" color="BlackM">
                                 Unfortunately, we don't support editing for legacy journals saved
                                 before March 11 😢 Please request this feature below if you'd like
                                 it and we will take the time to make it.
@@ -108,7 +108,7 @@ const ActivityEditScreen = ({ navigation }) => {
                     )}
                 </V>
             </ScrollingScreen>
-            <Header headerTitle={activityTitle} exit color={color} LeftIcon={LeftIcon} />
+            <Header headerTitle={activityTitle} exit color={color} LeftIcon={!legacy && LeftIcon} />
         </V>
     )
 }

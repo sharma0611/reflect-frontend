@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import {
     getRandomQuestion,
     fetchCurrentStreak,
-    listenToDailyReflectionCompleted
+    listenToDailyReflectionCompleted,
+    DAILY_MOOD
 } from '../Controllers/FirebaseController'
 import * as Sentry from '@sentry/react-native'
 import { Colors } from 'Themes'
@@ -37,11 +38,12 @@ export default function useActivities() {
             } else {
                 const positive = await getRandomQuestion('positive')
                 const retro = await getRandomQuestion('negative')
-                const questions = [
+                const entries = [
                     {
                         header: 'Daily Mood',
                         questionText: 'How am I feeling today?',
-                        useEmoji: true
+                        useEmoji: true,
+                        type: DAILY_MOOD
                     },
                     {
                         header: 'Daily Mood',
@@ -57,7 +59,7 @@ export default function useActivities() {
                     }
                 ]
                 const activity = {
-                    questions,
+                    entries,
                     name: 'Daily Reflection',
                     color: Colors.PastelPurple,
                     activityId: 'daily'

@@ -11,7 +11,7 @@ import { withNavigation } from 'react-navigation'
 const CIRCLE_DIAMETER = 25
 
 const JournalActivityCard = ({ activity, navigation }) => {
-    const { name: activityTitle, color, questions } = activity
+    const { name: activityTitle, color, entries } = activity
 
     const renderJournalEntry = (entry, index) => {
         const { questionText, responseText } = entry
@@ -89,7 +89,7 @@ const JournalActivityCard = ({ activity, navigation }) => {
                         borderBottomLeftRadius: 10
                     }}
                 >
-                    {questions.map((entry, index) => renderJournalEntry(entry, index))}
+                    {entries.map((entry, index) => renderJournalEntry(entry, index))}
                 </V>
             </Card>
         </Touchable>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { fetchActivityResponsesDocs, getDataFromDocWithId } from '../Controllers/FirebaseController'
+import { fetchPaginatedActivityResponses } from '../Controllers/FirebaseController'
 import * as Sentry from '@sentry/react-native'
 
 const LIMIT = 5
@@ -19,20 +19,14 @@ export default function useActivityResponses() {
     ] = useState(initialState)
 
     const loadMore = async ({ fresh }) => {
-        let currActivityResponses = []
         let currHasMore = true
-        let currLastDoc = undefined
-        const docs = await fetchActivityResponsesDocs(LIMIT, fresh ? undefined : lastDoc)
-        if (docs.length < LIMIT) {
+        let [currActivityResponses, currLastDoc] = await fetchPaginatedActivityResponses(
+            LIMIT,
+            fresh ? undefined : lastDoc
+        )
+        if (currActivityResponses.length < LIMIT) {
             currHasMore = false
         }
-        docs.map((doc, index) => {
-            const activity = getDataFromDocWithId(doc)
-            currActivityResponses.push(activity)
-            if (index === docs.length - 1) {
-                currLastDoc = doc
-            }
-        })
         setActivityResponses({
             activityResponses: fresh
                 ? currActivityResponses

@@ -19,27 +19,27 @@ const ActivityScreen = ({ navigation }) => {
     const { state, navigate } = navigation
     const params = state.params
     const { activity, index } = params
-    const { color, questions } = activity
-    const currentQuestion = questions[index]
+    const { color, entries } = activity
+    const currentQuestion = entries[index]
     const { header, questionText, responseText, caption, useEmoji } = currentQuestion
     const [response, setResponse] = useState(responseText)
-    const nextQuestionExists = index < questions.length - 1
+    const nextQuestionExists = index < entries.length - 1
 
     const persistResponse = () => {
         const questionWithText = { ...currentQuestion, responseText: response }
-        const updatedQuestions = questions.map((question, ind) => {
+        const updatedEntries = entries.map((question, ind) => {
             if (index === ind) {
                 return questionWithText
             }
             return question
         })
-        return updatedQuestions
+        return updatedEntries
     }
 
     const nextQuestion = async () => {
-        const updatedQuestions = persistResponse()
+        const updatedEntries = persistResponse()
         let newActivity
-        newActivity = { ...activity, questions: updatedQuestions }
+        newActivity = { ...activity, entries: updatedEntries }
         if (!newActivity.id) {
             // wait and get ID before passing it on
             newActivity = await upsertActivityResponse(newActivity)
@@ -91,7 +91,7 @@ const ActivityScreen = ({ navigation }) => {
                 nestedScrollEnabled={true}
             >
                 <T heading3 color="Gray1" pt={3} pl={3}>
-                    {`${index + 1}/${questions.length}`}
+                    {`${index + 1}/${entries.length}`}
                 </T>
                 <Question
                     {...{

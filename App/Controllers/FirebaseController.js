@@ -9,10 +9,15 @@ import { summary } from 'date-streaks'
 export const ACTIVITIES = 'activities' // static activities like daily reflection
 export const CATEGORIES = 'categories' // static question categories
 export const QUESTIONS = 'questions' // static questions
+export const ENTRIES = 'entries' // journal entries
+
 // dynamic db collections
 export const ADMINS = 'admins' // authenticated admin profiles for the web admin app
 export const PROFILES = 'profiles' // authenticated user associated profiles
 export const ACTIVITY_RESPONSES = 'activity_responses' // activity responses related to a user
+
+// journal types
+export const DAILY_MOOD = 'dailyMood'
 
 //init
 export const auth = initAuth()
@@ -66,6 +71,10 @@ export const getDataFromRefWithId = async ref => {
     const doc = await ref.get()
     return getDataFromDocWithId(doc)
 }
+export const getDataFromRef = async ref => {
+    const doc = await ref.get()
+    return doc.data()
+}
 
 export const activityRef = id => id && activitiesRef.doc(id)
 export const categoryRef = id => id && categoriesRef.doc(id)
@@ -75,9 +84,8 @@ export const profileRef = id => (id || currentUser()) && profilesRef.doc(id || c
 export const activityResponseRef = id => id && activityResponsesRef.doc(id)
 
 // db helpers
-export const nowTimestamp = () => firebase.firestore.FieldValue.serverTimestamp()
-export const startOfToday = () =>
-    new Date(firebase.firestore.Timestamp.now().toMillis() - 24 * 60 * 60 * 1000)
+export const nowTimestamp = () => firebase.firestore.Timestamp.now()
+export const startOfToday = () => new Date(nowTimestamp().toMillis() - 24 * 60 * 60 * 1000)
 export const refData = async ref => (await ref.get()).data()
 export const dateToFirestoreTimestamp = date => firebase.firestore.Timestamp.fromDate(date)
 
@@ -219,7 +227,27 @@ export const listenToActivityResponses = (onSnapshot, onError, limit, lastDoc) =
     return query.onSnapshot(onSnapshot, onError)
 }
 
-export const fetchActivityResponsesDocs = async (limit, lastDoc) => {
+const fetchEntry = async id => {
+    const docRef = db.collection(ENTRIES).doc(id)
+    const doc = await docRef.get()
+    return getDataFromDocWithId(doc)
+}
+
+const fetchEntries = async entryIds => {
+    const entries = await new Promise.all(entryIds.map(fetchEntry))
+    return entries
+}
+
+const deleteEntry = async id => {
+    const docRef = db.collection(ENTRIES).doc(id)
+    await docRef.delete()
+}
+
+const deleteEntries = async entryIds => {
+    await new Promise.all(entryIds.map(deleteEntry))
+}
+
+export const fetchPaginatedActivityResponses = async (limit, lastDoc) => {
     const uid = currentUid()
     const activitiesRespRef = db.collection(ACTIVITY_RESPONSES)
     let query = activitiesRespRef.where('uid', '==', uid).orderBy('timestamp', 'desc')
@@ -228,8 +256,20 @@ export const fetchActivityResponsesDocs = async (limit, lastDoc) => {
     }
     query = query.limit(limit)
     const querySnapshot = await query.get()
-    return querySnapshot.docs
-    // const data = docs.map(doc => doc.data())
+    const docs = querySnapshot.docs
+    let currLastDoc
+    const activityResponses = await new Promise.all(
+        docs.map(async (doc, index) => {
+            const { entryIds, ...rest } = getDataFromDocWithId(doc)
+            const entries = await fetchEntries(entryIds)
+            const activity = { ...rest, entries }
+            if (index === docs.length - 1) {
+                currLastDoc = doc
+            }
+            return activity
+        })
+    )
+    return [activityResponses, currLastDoc]
 }
 
 export const getRandomQuestion = async categoryId => {
@@ -265,10 +305,36 @@ export const getQuestionFromId = async id => {
     return question
 }
 
-export const upsertActivityResponse = async activity => {
-    const { id, ...rest } = activity
+export const upsertEntry = async entry => {
+    const { id, ...rest } = entry
     const uid = currentUid()
-    const activityResponse = { ...rest, uid }
+    const entryResponse = { ...rest, uid }
+    let docRef
+    if (id) {
+        docRef = db.collection(ENTRIES).doc(id)
+        await docRef.set(entryResponse)
+    } else {
+        docRef = db.collection(ENTRIES).doc()
+        await docRef.set({
+            ...entryResponse,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        })
+    }
+    const doc = await docRef.get()
+    const data = getDataFromDocWithId(doc)
+    return data
+}
+
+export const upsertActivityResponse = async activity => {
+    const { id, entries, ...rest } = activity
+    const uid = currentUid()
+
+    // set all entries
+    const entriesWithIds = await new Promise.all(entries.map(upsertEntry))
+    const entryIds = entriesWithIds.map(({ id }) => id)
+
+    // set activity responses with entry IDS
+    const activityResponse = { ...rest, entryIds, uid }
     let docRef
     if (id) {
         docRef = db.collection(ACTIVITY_RESPONSES).doc(id)
@@ -280,20 +346,25 @@ export const upsertActivityResponse = async activity => {
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
         })
     }
+
+    // return data with entries instead of just IDs
     const doc = await docRef.get()
-    const data = getDataFromDocWithId(doc)
-    return data
+    const { entryIds: ids, ...data } = getDataFromDocWithId(doc)
+    return { ...data, entries: entriesWithIds }
 }
 
 export const deleteActivityResponse = async id => {
     const docRef = db.collection(ACTIVITY_RESPONSES).doc(id)
+    // delete associated entries too
+    const { entryIds } = await getDataFromRef(docRef)
+    await deleteEntries(entryIds)
     await docRef.delete()
 }
 
 export const listenToDailyReflectionCompleted = (onSnapshot, onError) => {
     const uid = currentUid()
     const activitiesRespRef = db.collection(ACTIVITY_RESPONSES)
-    const today = firebase.firestore.Timestamp.now().toDate()
+    const today = nowTimestamp().toDate()
     const startOfToday = moment(today)
         .startOf('day')
         .toDate()
@@ -348,5 +419,7 @@ export const fetchCurrentStreak = async () => {
     })
     return currentStreak
 }
+
+// export const listenToDailyMood = async date => {}
 
 export default firebase
