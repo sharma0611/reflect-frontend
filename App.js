@@ -3,11 +3,12 @@
  */
 import React, { setGlobal } from 'reactn'
 import RootContainer from 'Containers/RootContainer'
-import { ApolloProvider } from 'react-apollo'
-import ApolloClient from 'Apollo/client'
+import { ApolloProvider } from '@apollo/react-hooks'
+import useClientWithPersistedCache from 'Apollo/useClientWithPersistedCache'
 import AppConfig from 'Config/AppConfig'
 import * as Sentry from '@sentry/react-native'
 import { USER, initialUserState } from './App/Hooks/useUser'
+import Loading from 'MellowComponents/Loading'
 
 Sentry.init({
     dsn: 'https://578f3466d9ae487c9755bd9f1c7bb4c4@sentry.io/1878431',
@@ -22,12 +23,14 @@ setGlobal({
     [USER]: initialUserState
 })
 
-const App = () => {
+export default function App() {
+    const client = useClientWithPersistedCache()
+
+    if (client === undefined) return <Loading />
+
     return (
-        <ApolloProvider client={ApolloClient}>
+        <ApolloProvider client={client}>
             <RootContainer />
         </ApolloProvider>
     )
 }
-
-export default App

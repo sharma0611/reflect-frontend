@@ -2,6 +2,8 @@
 import React from 'react'
 import V from 'Components/V'
 import T from 'Components/T'
+import gql from 'graphql-tag'
+import { useQuery } from '@apollo/react-hooks'
 import Section from 'MellowComponents/Section'
 import SectionHeader from 'MellowComponents/SectionHeader'
 import ScrollingScreen from 'MellowComponents/ScrollingScreen'
@@ -12,6 +14,18 @@ import useHomeScreenData from '../Hooks/useHomeScreenData'
 import Loading from 'MellowComponents/Loading'
 import ErrorScreen from 'MellowContainers/ErrorScreen'
 import DailyReflectionCompletedCard from 'MellowModules/DailyReflectionCompletedCard'
+
+const PROFILE = gql`
+    {
+        profile @client {
+            id
+            displayName
+            activityResponses {
+                name
+            }
+        }
+    }
+` // TODO remove example
 
 const HomeScreen = () => {
     const {
@@ -24,6 +38,8 @@ const HomeScreen = () => {
         completedDailyReflection,
         streak
     } = useHomeScreenData()
+    const p = useQuery(PROFILE) // TODO remove example
+    console.log(p.data, p.error) // TODO remove example
     if (loading) return <Loading />
     if (error) return <ErrorScreen {...{ error }} />
     return (

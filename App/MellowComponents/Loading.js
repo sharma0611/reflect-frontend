@@ -2,10 +2,10 @@ import React from 'react'
 import LoadingSpinner from '../Components/LoadingSpinner'
 import FixedWaveBackground from 'MellowComponents/FixedWaveBackground'
 
-const Loading = () => (
-    <FixedWaveBackground>
-        <LoadingSpinner />
-    </FixedWaveBackground>
-)
-
-export default Loading
+export default function Loading() {
+    return (
+        <FixedWaveBackground>
+            <LoadingSpinner />
+        </FixedWaveBackground>
+    )
+}

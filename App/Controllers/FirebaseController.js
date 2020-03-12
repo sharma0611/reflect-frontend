@@ -113,7 +113,7 @@ export const fetchProfile = async () => {
         const { uid } = auth.currentUser
         const ref = profileRef(uid)
         const doc = await ref.get()
-        return doc.data()
+        return getDataFromDocWithId(doc)
     } catch (err) {
         console.warn('Error fetching profile:', err)
     }
@@ -278,10 +278,8 @@ export const fetchPaginatedActivityResponses = async (limit, lastDoc) => {
     const uid = currentUid()
     const activitiesRespRef = db.collection(ACTIVITY_RESPONSES)
     let query = activitiesRespRef.where('uid', '==', uid).orderBy('timestamp', 'desc')
-    if (lastDoc) {
-        query = query.startAfter(lastDoc)
-    }
-    query = query.limit(limit)
+    if (lastDoc) query = query.startAfter(lastDoc)
+    if (limit) query = query.limit(limit)
     const querySnapshot = await query.get()
     const docs = querySnapshot.docs
     let currLastDoc
@@ -295,6 +293,13 @@ export const fetchPaginatedActivityResponses = async (limit, lastDoc) => {
         })
     )
     return [activityResponses, currLastDoc]
+}
+
+export const fetchActivityResponses = async () => {
+    const { uid } = auth.currentUser
+    const query = activityResponsesRef.where('uid', '==', uid).orderBy('timestamp', 'desc')
+    const snapshot = await query.get()
+    return snapshot.docs.map(doc => getDataFromDocWithId(doc))
 }
 
 export const getRandomQuestion = async categoryId => {

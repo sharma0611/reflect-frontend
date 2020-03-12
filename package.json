@@ -24,6 +24,7 @@
         "@react-native-firebase/functions": "^6.3.4",
         "@sentry/react-native": "^1.2.1",
         "apollo-boost": "^0.4.4",
+        "apollo-cache-persist": "^0.1.1",
         "babel-plugin-transform-inline-environment-variables": "^0.4.3",
         "date-streaks": "^1.1.6",
         "emoji-datasource": "^5.0.1",
