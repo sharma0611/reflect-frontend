@@ -18,7 +18,7 @@ const MOOD_DATA = [
     { day: 'S', emoji: '' }
 ]
 
-const DailyMoodCard = () => {
+const DailyMoodCard = ({ moods }) => {
     return (
         <Card bg="WhiteM" style={{ width: '100%' }}>
             <Image
@@ -29,7 +29,7 @@ const DailyMoodCard = () => {
                 }}
             />
             <V p={2} pt={3}>
-                <MoodRow moodData={MOOD_DATA} />
+                <MoodRow moodData={moods} />
             </V>
             <Touchable>
                 <V pl={4} pr={4} pb={3} bg="WhiteM">

@@ -38,6 +38,7 @@ import MellowHomeScreen from '../MellowContainers/HomeScreen'
 import JourneyScreen from '../MellowContainers/JourneyScreen'
 import ActivityScreen from '../MellowContainers/ActivityScreen'
 import ActivityEditScreen from '../MellowContainers/ActivityEditScreen'
+import EntryScreen from '../MellowContainers/EntryScreen'
 import ProfileScreen from '../MellowContainers/ProfileScreen'
 import EditProfileScreen from '../MellowContainers/EditProfileScreen'
 import EditDailyReminderScreen from '../MellowContainers/EditDailyReminderScreen'
@@ -156,6 +157,9 @@ const TabsStack = createStackNavigator(
         },
         Activity: {
             screen: ActivityScreen
+        },
+        Entry: {
+            screen: EntryScreen
         },
         ReflectionQuestion: {
             screen: ReflectionQuestionScreen

@@ -9,12 +9,20 @@ import DailyMoodCard from 'MellowModules/DailyMoodCard'
 import MyJournals from 'MellowModules/MyJournals'
 import { Metrics } from 'Themes'
 import { NavigationEvents } from 'react-navigation'
-import useActivityResponses from 'Hooks/useActivityResponses'
+import useJourneyScreenData from 'Hooks/useJourneyScreenData'
 import Loading from 'MellowComponents/Loading'
 import ErrorScreen from 'MellowContainers/ErrorScreen'
 
 const JourneyScreen = () => {
-    const { loading, error, clear, loadMore, hasMore, activityResponses } = useActivityResponses()
+    const {
+        loading,
+        error,
+        clear,
+        loadMore,
+        hasMore,
+        activityResponses,
+        moods
+    } = useJourneyScreenData()
     if (loading) return <Loading />
     if (error) return <ErrorScreen {...{ error }} />
 
@@ -27,7 +35,7 @@ const JourneyScreen = () => {
                     </T>
                     <SectionHeader {...{ header: 'My mood' }} />
                     <V pt={3}>
-                        <DailyMoodCard />
+                        <DailyMoodCard {...{ moods }} />
                     </V>
                 </Section>
                 <Section>

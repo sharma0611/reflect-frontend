@@ -18,7 +18,11 @@ const CIRCLE_WIDTH = 60
 const ActivityScreen = ({ navigation }) => {
     const { state, navigate } = navigation
     const params = state.params
-    const { activity, index } = params
+    let index = 0
+    let { activity, index: indexSet } = params
+    if (indexSet) {
+        index = indexSet
+    }
     const { color, entries } = activity
     const currentQuestion = entries[index]
     const { header, questionText, responseText, caption, useEmoji } = currentQuestion

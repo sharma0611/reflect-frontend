@@ -3,6 +3,7 @@ import initAuth from '@react-native-firebase/auth'
 import initFirestore from '@react-native-firebase/firestore'
 import initFunctions from '@react-native-firebase/functions'
 import moment from 'moment'
+import { Colors } from 'Themes'
 import { summary } from 'date-streaks'
 
 // static db collections
@@ -227,7 +228,7 @@ export const listenToActivityResponses = (onSnapshot, onError, limit, lastDoc) =
     return query.onSnapshot(onSnapshot, onError)
 }
 
-const fetchEntry = async id => {
+export const fetchEntry = async id => {
     const docRef = db.collection(ENTRIES).doc(id)
     const doc = await docRef.get()
     return getDataFromDocWithId(doc)
@@ -305,7 +306,7 @@ export const getQuestionFromId = async id => {
     return question
 }
 
-export const upsertEntry = async entry => {
+export const upsertEntry = async (entry, date) => {
     const { id, ...rest } = entry
     const uid = currentUid()
     const entryResponse = { ...rest, uid }
@@ -314,10 +315,14 @@ export const upsertEntry = async entry => {
         docRef = db.collection(ENTRIES).doc(id)
         await docRef.set(entryResponse)
     } else {
+        let timestamp = nowTimestamp()
+        if (date) {
+            timestamp = dateToFirestoreTimestamp(date)
+        }
         docRef = db.collection(ENTRIES).doc()
         await docRef.set({
             ...entryResponse,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            timestamp
         })
     }
     const doc = await docRef.get()
@@ -420,6 +425,120 @@ export const fetchCurrentStreak = async () => {
     return currentStreak
 }
 
-// export const listenToDailyMood = async date => {}
+export const listenToMoods = (startDate, endDate, onSnapshot, onError) => {
+    const uid = currentUid()
+    const entriesRef = db.collection(ENTRIES)
+
+    const start = moment(startDate)
+        .startOf('day')
+        .toDate()
+    const end = moment(endDate)
+        .endOf('day')
+        .toDate()
+
+    const query = entriesRef
+        .where('uid', '==', uid)
+        .where('timestamp', '>=', start)
+        .where('timestamp', '<', end)
+        .where('type', '==', DAILY_MOOD)
+
+    return query.onSnapshot(onSnapshot, onError)
+}
+
+export const fetchMoodEntry = async date => {
+    const uid = currentUid()
+    const entriesRef = db.collection(ENTRIES)
+
+    const start = moment(date)
+        .startOf('day')
+        .toDate()
+    const end = moment(date)
+        .endOf('day')
+        .toDate()
+
+    const query = entriesRef
+        .where('uid', '==', uid)
+        .where('timestamp', '>=', start)
+        .where('timestamp', '<', end)
+        .where('type', '==', DAILY_MOOD)
+        .limit(1)
+
+    const snapshot = await query.get()
+    let mood
+    if (snapshot.docs.length === 1) {
+        const doc = snapshot.docs[0]
+        mood = getDataFromDocWithId(doc)
+    }
+    return mood
+}
+
+export const fetchDailyReflection = async date => {
+    const uid = currentUid()
+    // check if daily reflection exists
+    const activitiesRespRef = db.collection(ACTIVITY_RESPONSES)
+    const start = moment(date)
+        .startOf('day')
+        .toDate()
+    const end = moment(date)
+        .endOf('day')
+        .toDate()
+
+    const query = activitiesRespRef
+        .where('uid', '==', uid)
+        .where('timestamp', '>=', start)
+        .where('timestamp', '<', end)
+        .where('activityId', '==', 'daily')
+        .limit(1)
+
+    const snapshot = await query.get()
+
+    if (snapshot.docs.length === 1) {
+        const dailyReflection = getDataFromDocWithId(snapshot.docs[0])
+        return dailyReflection
+    } else {
+        // otherwise create one
+        // first check if daily mood exists, if it does, add it to the daily reflection
+        let moodEntry = await fetchMoodEntry(date)
+        if (!moodEntry) {
+            moodEntry = getEmptyMoodEntry()
+        }
+        const positive = await getRandomQuestion('positive')
+        const retro = await getRandomQuestion('negative')
+        const entries = [
+            moodEntry,
+            {
+                header: 'Daily Mood',
+                questionText: 'What made me feel this way?'
+            },
+            {
+                header: 'Retrospective',
+                ...retro
+            },
+            {
+                header: 'Positive',
+                ...positive
+            }
+        ]
+
+        const dailyReflection = {
+            entries,
+            name: 'Daily Reflection',
+            color: Colors.PastelPurple,
+            activityId: 'daily'
+        }
+        return dailyReflection
+    }
+}
+
+export const getEmptyMoodEntry = date => {
+    const timestamp = dateToFirestoreTimestamp(date)
+    return {
+        header: 'Daily Mood',
+        questionText: 'How am I feeling today?',
+        useEmoji: true,
+        type: DAILY_MOOD,
+        timestamp
+    }
+}
 
 export default firebase
