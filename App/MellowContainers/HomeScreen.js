@@ -22,6 +22,7 @@ const PROFILE = gql`
             displayName
             activityResponses {
                 name
+                timestamp
             }
         }
     }
@@ -38,8 +39,8 @@ const HomeScreen = () => {
         completedDailyReflection,
         streak
     } = useHomeScreenData()
-    const p = useQuery(PROFILE) // TODO remove example
-    console.log(p.data, p.error) // TODO remove example
+    const { data } = useQuery(PROFILE) // TODO remove example
+    console.log(data) // TODO remove example
     if (loading) return <Loading />
     if (error) return <ErrorScreen {...{ error }} />
     return (

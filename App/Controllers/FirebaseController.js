@@ -1,7 +1,7 @@
 import firebase from '@react-native-firebase/app'
 import initAuth from '@react-native-firebase/auth'
-import initFirestore from '@react-native-firebase/firestore'
-import initFunctions from '@react-native-firebase/functions'
+import firestore from '@react-native-firebase/firestore'
+import cloudFunctions from '@react-native-firebase/functions'
 import moment from 'moment'
 import { Colors } from 'Themes'
 import { summary } from 'date-streaks'
@@ -23,8 +23,8 @@ export const DAILY_MOOD = 'dailyMood'
 
 //init
 export const auth = initAuth()
-export const db = initFirestore()
-export const functions = initFunctions()
+export const db = firestore()
+export const functions = cloudFunctions()
 
 // auth
 export const facebookProvider = firebase.auth.FacebookAuthProvider
@@ -94,6 +94,9 @@ export const nowTimestamp = () => firebase.firestore.Timestamp.now()
 export const startOfToday = () => new Date(nowTimestamp().toMillis() - 24 * 60 * 60 * 1000)
 export const refData = async ref => (await ref.get()).data()
 export const dateToFirestoreTimestamp = date => firebase.firestore.Timestamp.fromDate(date)
+
+export const timestampFromDate = date => firestore.Timestamp.fromDate(date)
+export const dateFromTimestamp = timestamp => timestamp.toDate()
 
 // db interactions
 export const findOrCreateProfile = async () => {
@@ -307,7 +310,7 @@ export const getRandomQuestion = async categoryId => {
     const key = questionsRef.doc().id
     const greaterSnapshot = await questionsRef
         .where('categoryId', '==', categoryId)
-        .where(initFirestore.FieldPath.documentId(), '>=', key)
+        .where(firestore.FieldPath.documentId(), '>=', key)
         .limit(1)
         .get()
     let question
@@ -318,7 +321,7 @@ export const getRandomQuestion = async categoryId => {
     } else {
         const lessSnapshot = await questionsRef
             .where('categoryId', '==', categoryId)
-            .where(initFirestore.FieldPath.documentId(), '<', key)
+            .where(firestore.FieldPath.documentId(), '<', key)
             .limit(1)
             .get()
         lessSnapshot.forEach(doc => {
