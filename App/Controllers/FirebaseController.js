@@ -239,13 +239,34 @@ const fetchEntries = async entryIds => {
     return entries
 }
 
-const deleteEntry = async id => {
+export const deleteSafeEntry = async id => {
+    const uid = currentUid()
+    const activitiesRespRef = db.collection(ACTIVITY_RESPONSES)
+    let query = activitiesRespRef.where('uid', '==', uid).where('entryIds', 'array-contains', id)
+    const snapshot = await query.get()
+    snapshot.docs.forEach(activity =>
+        activity.update({
+            entryIds: firebase.firestore.FieldValue.arrayRemove(id)
+        })
+    )
+    const docRef = db.collection(ENTRIES).doc(id)
+    await docRef.delete()
+}
+
+const deleteRawEntry = async id => {
     const docRef = db.collection(ENTRIES).doc(id)
     await docRef.delete()
 }
 
 const deleteEntries = async entryIds => {
-    await new Promise.all(entryIds.map(deleteEntry))
+    await new Promise.all(entryIds.map(deleteRawEntry))
+}
+
+const mapDocToActivityResponse = async doc => {
+    const { entryIds, ...rest } = getDataFromDocWithId(doc)
+    const entries = await fetchEntries(entryIds)
+    const activity = { ...rest, entries }
+    return activity
 }
 
 export const fetchPaginatedActivityResponses = async (limit, lastDoc) => {
@@ -261,9 +282,7 @@ export const fetchPaginatedActivityResponses = async (limit, lastDoc) => {
     let currLastDoc
     const activityResponses = await new Promise.all(
         docs.map(async (doc, index) => {
-            const { entryIds, ...rest } = getDataFromDocWithId(doc)
-            const entries = await fetchEntries(entryIds)
-            const activity = { ...rest, entries }
+            const activity = await mapDocToActivityResponse(doc)
             if (index === docs.length - 1) {
                 currLastDoc = doc
             }
@@ -309,16 +328,16 @@ export const getQuestionFromId = async id => {
 export const upsertEntry = async (entry, date) => {
     const { id, ...rest } = entry
     const uid = currentUid()
+    let timestamp = nowTimestamp()
+    if (date) {
+        timestamp = dateToFirestoreTimestamp(date)
+    }
     const entryResponse = { ...rest, uid }
     let docRef
     if (id) {
         docRef = db.collection(ENTRIES).doc(id)
         await docRef.set(entryResponse)
     } else {
-        let timestamp = nowTimestamp()
-        if (date) {
-            timestamp = dateToFirestoreTimestamp(date)
-        }
         docRef = db.collection(ENTRIES).doc()
         await docRef.set({
             ...entryResponse,
@@ -330,12 +349,19 @@ export const upsertEntry = async (entry, date) => {
     return data
 }
 
-export const upsertActivityResponse = async activity => {
+export const upsertActivityResponse = async (activity, date) => {
     const { id, entries, ...rest } = activity
     const uid = currentUid()
 
+    let timestamp = nowTimestamp()
+    if (date) {
+        timestamp = dateToFirestoreTimestamp(date)
+    }
+
     // set all entries
-    const entriesWithIds = await new Promise.all(entries.map(upsertEntry))
+    const entriesWithIds = await new Promise.all(
+        entries.map(entry => upsertEntry(entry, timestamp.toDate()))
+    )
     const entryIds = entriesWithIds.map(({ id }) => id)
 
     // set activity responses with entry IDS
@@ -348,7 +374,7 @@ export const upsertActivityResponse = async activity => {
         docRef = db.collection(ACTIVITY_RESPONSES).doc()
         await docRef.set({
             ...activityResponse,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            timestamp
         })
     }
 
@@ -362,6 +388,7 @@ export const deleteActivityResponse = async id => {
     const docRef = db.collection(ACTIVITY_RESPONSES).doc(id)
     // delete associated entries too
     const { entryIds } = await getDataFromRef(docRef)
+    console.log(`👨‍🌾 => `, entryIds)
     await deleteEntries(entryIds)
     await docRef.delete()
 }
@@ -376,9 +403,8 @@ export const listenToDailyReflectionCompleted = (onSnapshot, onError) => {
     const query = activitiesRespRef
         .where('uid', '==', uid)
         .where('timestamp', '>=', startOfToday)
-        .where('activityId', '==', 'daily')
+        .where('activityType', '==', 'daily')
     return query.onSnapshot(onSnapshot, onError)
-    // return querySnapshot.docs.length > 0
 }
 
 // export const fetchCurrentStreak = async () => {
@@ -393,7 +419,7 @@ export const listenToDailyReflectionCompleted = (onSnapshot, onError) => {
 //     let query = activitiesRespRef
 //         .where('uid', '==', uid)
 //         .where('timestamp', '>=', startOfDay)
-//         .where('activityId', '==', 'daily')
+//         .where('activityType', '==', 'daily')
 //     let currNumEntries = (await query.get()).docs.length
 //     while (currNumEntries > pastNumEntries) {
 //         streak += 1
@@ -404,7 +430,7 @@ export const listenToDailyReflectionCompleted = (onSnapshot, onError) => {
 //         query = activitiesRespRef
 //             .where('uid', '==', uid)
 //             .where('timestamp', '>=', startOfDay)
-//             .where('activityId', '==', 'daily')
+//             .where('activityType', '==', 'daily')
 //         currNumEntries = (await query.get()).docs.length
 //     }
 //     return streak
@@ -413,7 +439,7 @@ export const listenToDailyReflectionCompleted = (onSnapshot, onError) => {
 export const fetchCurrentStreak = async () => {
     const uid = currentUid()
     const activitiesRespRef = db.collection(ACTIVITY_RESPONSES)
-    let query = activitiesRespRef.where('uid', '==', uid).where('activityId', '==', 'daily')
+    let query = activitiesRespRef.where('uid', '==', uid).where('activityType', '==', 'daily')
     const querySnapshot = await query.get()
     const dates = querySnapshot.docs.map(function(doc) {
         const date = moment(doc.data().timestamp.toDate()).format('MM/DD/YY')
@@ -472,6 +498,17 @@ export const fetchMoodEntry = async date => {
     return mood
 }
 
+export const getEmptyMoodEntry = date => {
+    const timestamp = dateToFirestoreTimestamp(date)
+    return {
+        header: 'Daily Mood',
+        questionText: 'How am I feeling today?',
+        useEmoji: true,
+        type: DAILY_MOOD,
+        timestamp
+    }
+}
+
 export const fetchDailyReflection = async date => {
     const uid = currentUid()
     // check if daily reflection exists
@@ -485,22 +522,22 @@ export const fetchDailyReflection = async date => {
 
     const query = activitiesRespRef
         .where('uid', '==', uid)
-        .where('timestamp', '>=', start)
-        .where('timestamp', '<', end)
-        .where('activityId', '==', 'daily')
+        // .where('timestamp', '>=', start)
+        // .where('timestamp', '<', end)
+        // .where('activityType', '==', 'daily')
         .limit(1)
 
     const snapshot = await query.get()
 
     if (snapshot.docs.length === 1) {
-        const dailyReflection = getDataFromDocWithId(snapshot.docs[0])
+        const dailyReflection = await mapDocToActivityResponse(snapshot.docs[0])
         return dailyReflection
     } else {
         // otherwise create one
         // first check if daily mood exists, if it does, add it to the daily reflection
         let moodEntry = await fetchMoodEntry(date)
         if (!moodEntry) {
-            moodEntry = getEmptyMoodEntry()
+            moodEntry = getEmptyMoodEntry(date)
         }
         const positive = await getRandomQuestion('positive')
         const retro = await getRandomQuestion('negative')
@@ -524,20 +561,9 @@ export const fetchDailyReflection = async date => {
             entries,
             name: 'Daily Reflection',
             color: Colors.PastelPurple,
-            activityId: 'daily'
+            activityType: 'daily'
         }
         return dailyReflection
-    }
-}
-
-export const getEmptyMoodEntry = date => {
-    const timestamp = dateToFirestoreTimestamp(date)
-    return {
-        header: 'Daily Mood',
-        questionText: 'How am I feeling today?',
-        useEmoji: true,
-        type: DAILY_MOOD,
-        timestamp
     }
 }
 

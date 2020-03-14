@@ -23,7 +23,7 @@ const ErrorScreen = ({ error, navigation }) => {
                         <V pb={2}>
                             <T>The following error has occured: </T>
                         </V>
-                        <T color="Red1">{error}</T>
+                        <T color="Red1">{`${error}`}</T>
                         <V ai="center" pt={3}>
                             <MainButton onPress={navigateToBugForm} text={'Report this bug! 🐛'} />
                         </V>

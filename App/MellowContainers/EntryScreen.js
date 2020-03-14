@@ -1,15 +1,17 @@
 // @flow
 import React, { useState } from 'react'
+import { Image } from 'react-native'
 import V from 'Components/V'
 import T from 'Components/T'
-import { Colors } from 'Themes'
+import { Colors, Images } from 'Themes'
 import Header, { HEADER_HEIGHT } from 'MellowComponents/Header'
 import WaveBackground from 'MellowComponents/WaveBackground'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { withNavigation } from 'react-navigation'
 import MainButton from 'MellowComponents/MainButton'
 import Question from 'MellowComponents/Question'
-import { upsertEntry } from '../Controllers/FirebaseController'
+import { upsertEntry, deleteSafeEntry } from '../Controllers/FirebaseController'
+import Touchable from 'Components/Touchable'
 import moment from 'moment'
 
 const WaveHeightRatio = 0.3
@@ -19,7 +21,7 @@ const EntryScreen = ({ navigation }) => {
     const params = state.params
     const { entry } = params
     const color = Colors.PastelPurple
-    const { header, questionText, responseText, caption, useEmoji, timestamp } = entry
+    const { header, questionText, responseText, caption, useEmoji, timestamp, id } = entry
     const [response, setResponse] = useState(responseText)
 
     const persistResponse = () => {
@@ -35,6 +37,23 @@ const EntryScreen = ({ navigation }) => {
     const dateString = moment(timestamp.toDate())
         .startOf('day')
         .format('dddd, MMM Do')
+
+    const deleteResponse = async () => {
+        await deleteSafeEntry(id)
+        navigate('Tabs')
+    }
+
+    const LeftIcon = () => {
+        return (
+            <Touchable onPress={deleteResponse}>
+                <Image
+                    source={Images.trash}
+                    style={{ height: 30, width: 30, tintColor: Colors.WhiteM }}
+                />
+            </Touchable>
+        )
+    }
+
     return (
         <WaveBackground heightRatio={WaveHeightRatio} fullScreen>
             <KeyboardAwareScrollView
@@ -59,7 +78,7 @@ const EntryScreen = ({ navigation }) => {
                     <MainButton onPress={submit} text={`Submit`} />
                 </V>
             </KeyboardAwareScrollView>
-            <Header headerTitle={header} exit color={color} />
+            <Header headerTitle={header} exit color={color} LeftIcon={id && LeftIcon} />
         </WaveBackground>
     )
 }

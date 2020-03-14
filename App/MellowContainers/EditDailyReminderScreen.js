@@ -13,6 +13,7 @@ import AppConfig from 'Config/AppConfig'
 import ErrorScreen from './ErrorScreen'
 import Card from 'MellowComponents/Card'
 import LoadingSpinner from 'Components/LoadingSpinner'
+import { Appearance } from 'react-native-appearance'
 
 const EditDailyReminderScreen = ({ navigation }) => {
     const [{ reflectionTimeHour, reflectionTimeMin, reflectionTime }, setTime] = useState({})
@@ -56,6 +57,12 @@ const EditDailyReminderScreen = ({ navigation }) => {
         setTime({ reflectionTimeHour: hours, reflectionTimeMin: minutes })
     }
 
+    const colorScheme = Appearance.getColorScheme()
+    const darkMode = colorScheme === 'dark'
+    let cardBg = 'WhiteM'
+    if (darkMode) {
+        cardBg = 'BlackM'
+    }
     return (
         <WaveBackground>
             <V p={4}>
@@ -79,7 +86,7 @@ const EditDailyReminderScreen = ({ navigation }) => {
                                 <T heading4 color="Gray1" pt={4}>
                                     Set your reminder time!
                                 </T>
-                                <Card mt={4} alt bg="WhiteM">
+                                <Card mt={4} alt bg={cardBg}>
                                     <DateTimePicker
                                         testID="dateTimePicker"
                                         value={reflectionTime ? reflectionTime : time}

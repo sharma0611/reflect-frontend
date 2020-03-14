@@ -2,7 +2,7 @@
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { withNavigation } from 'react-navigation'
-import { Metrics, Colors } from 'Themes'
+import { Metrics } from 'Themes'
 import V from 'Components/V'
 import CategoryCard, { CATEGORY_CARD_WIDTH, CATEGORY_CARD_MARGIN } from './CategoryCard'
 import { getRandomQuestion } from 'Controllers/FirebaseController'
