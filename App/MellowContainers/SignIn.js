@@ -130,7 +130,7 @@ class SignIn extends React.Component<Props, State> {
                                                     onBlur={handleBlur('email')}
                                                     value={values.email}
                                                     autoCompleteType="email"
-                                                    autoFocus={true}
+                                                    autoFocus={false}
                                                 />
                                             </V>
                                             <Field

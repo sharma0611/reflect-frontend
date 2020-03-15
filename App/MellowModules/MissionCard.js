@@ -127,8 +127,8 @@ const MissionCard = ({ navigation }) => {
                     <Seperator />
                     <MissionRow
                         {...{
-                            title: 'Support our devs',
-                            leftEmoji: '💸',
+                            title: 'Get premium',
+                            leftEmoji: '🚀',
                             onPress: navigateToPaywall
                         }}
                     />

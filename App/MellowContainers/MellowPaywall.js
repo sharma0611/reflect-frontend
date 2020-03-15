@@ -18,13 +18,15 @@ const MellowPaywall = () => {
         <ScrollingScreen>
             <V ai="center" jc="center" flex={1}>
                 <V>
-                    <T subtitle1 color="Gray2">
-                        welcome to
-                    </T>
                     <V style={styles.logoBar} row jc="flex-end" ai="center">
-                        <T heading1 color="Gray2">
-                            reflect
-                        </T>
+                        <V>
+                            <T heading1 color="Gray2">
+                                reflect
+                            </T>
+                            <T subtitle1 color="Gray2">
+                                premium
+                            </T>
+                        </V>
                         <V pl={2}>
                             <Image style={styles.logo} source={Images.logo} />
                         </V>

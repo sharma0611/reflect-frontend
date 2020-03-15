@@ -19,10 +19,10 @@ const DAYS = [
     { day: 6, dayString: 'S' }
 ]
 
-const MoodColumn = ({ day, emoji, onPress, bold }) => {
+const MoodColumn = ({ day, emoji, onPress, bold, disabled }) => {
     let Component = V
 
-    if (onPress) {
+    if (onPress && !disabled) {
         Component = Touchable
     }
 
@@ -50,7 +50,7 @@ const MoodColumn = ({ day, emoji, onPress, bold }) => {
     )
 }
 
-const MoodRow = ({ moodData, navigation }) => {
+const MoodRow = ({ moodData, navigation, disabled }) => {
     return (
         <V row jc="space-between">
             {DAYS.map(({ day, dayString }) => {
@@ -71,7 +71,12 @@ const MoodRow = ({ moodData, navigation }) => {
                             entry
                         })
                     }
-                    return <MoodColumn {...{ day: dayString, emoji, onPress, bold }} key={day} />
+                    return (
+                        <MoodColumn
+                            {...{ day: dayString, emoji, onPress, bold, disabled }}
+                            key={day}
+                        />
+                    )
                 }
                 const date = moment()
                     .day(day)
@@ -82,7 +87,9 @@ const MoodRow = ({ moodData, navigation }) => {
                         entry
                     })
                 }
-                return <MoodColumn {...{ day: dayString, emoji, onPress, bold }} key={day} />
+                return (
+                    <MoodColumn {...{ day: dayString, emoji, onPress, bold, disabled }} key={day} />
+                )
             })}
         </V>
     )
