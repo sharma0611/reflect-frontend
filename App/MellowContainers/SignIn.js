@@ -19,7 +19,8 @@ import FIcon from 'react-native-vector-icons/Feather'
 import {
     signInWithEmailAndPassword,
     signInWithFacebookCredential,
-    signInWithGoogleCredential
+    signInWithGoogleCredential,
+    currentUid
 } from '../Controllers/FirebaseController'
 import { LoginManager, AccessToken } from 'react-native-fbsdk'
 import { GoogleSignin } from '@react-native-community/google-signin'
@@ -63,6 +64,8 @@ class SignIn extends React.Component<Props, State> {
         try {
             await this.setState({ error: '' })
             await signInWithEmailAndPassword({ email, password })
+            const uid = currentUid()
+            Analytics.identifyByUid(uid)
         } catch (e) {
             await this.setState({ error: e.message })
         }
@@ -87,12 +90,16 @@ class SignIn extends React.Component<Props, State> {
             }
 
             await signInWithFacebookCredential({ accessToken })
+            const uid = currentUid()
+            Analytics.identifyByUid(uid)
         }
     }
 
     googleSignIn = async () => {
         const { accessToken, idToken } = await GoogleSignin.signIn()
         await signInWithGoogleCredential({ idToken, accessToken })
+        const uid = currentUid()
+        Analytics.identifyByUid(uid)
     }
 
     forgotPassword = () => {

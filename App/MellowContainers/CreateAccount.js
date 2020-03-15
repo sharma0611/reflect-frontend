@@ -21,7 +21,8 @@ import { GoogleSignin } from '@react-native-community/google-signin'
 import {
     createUserWithEmailAndPassword,
     signInWithFacebookCredential,
-    signInWithGoogleCredential
+    signInWithGoogleCredential,
+    currentUid
 } from '../Controllers/FirebaseController'
 
 type Props = {}
@@ -64,6 +65,8 @@ class CreateAccount extends React.Component<Props, State> {
         try {
             await this.setState({ error: '' })
             await createUserWithEmailAndPassword({ email, password, displayName })
+            const uid = currentUid()
+            Analytics.aliasByUid(uid)
         } catch (e) {
             await this.setState({ error: e.message })
         }
@@ -90,12 +93,16 @@ class CreateAccount extends React.Component<Props, State> {
         }
 
         await signInWithFacebookCredential({ accessToken, displayName })
+        const uid = currentUid()
+        Analytics.aliasByUid(uid)
     }
 
     googleSignIn = async () => {
         const { name: displayName } = this.global
         const { accessToken, idToken } = await GoogleSignin.signIn()
         await signInWithGoogleCredential({ accessToken, idToken, displayName })
+        const uid = currentUid()
+        Analytics.aliasByUid(uid)
     }
 
     render() {
