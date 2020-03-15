@@ -71,6 +71,9 @@ const MissionCard = ({ navigation }) => {
     const navigateToFeedbackForm = () => {
         navigation.navigate('WebView', { url: FEEDBACK_URL })
     }
+    const navigateToPaywall = () => {
+        navigation.navigate('MellowPaywall')
+    }
 
     const shareTheApp = async () => {
         const shareContent = {
@@ -91,13 +94,13 @@ const MissionCard = ({ navigation }) => {
         <Card bg="WhiteM" alt>
             <V p={1} py={2}>
                 <V py={1}>
-                    <MissionRow
+                    {/* <MissionRow
                         {...{
                             title: 'Read our story',
                             leftEmoji: '🧘‍♀️'
                         }}
-                    />
-                    <Seperator />
+                    /> */}
+                    {/* <Seperator /> */}
                     <MissionRow
                         {...{
                             title: 'Give us feedback',
@@ -119,6 +122,14 @@ const MissionCard = ({ navigation }) => {
                             title: 'Share the app',
                             leftEmoji: '📢',
                             onPress: shareTheApp
+                        }}
+                    />
+                    <Seperator />
+                    <MissionRow
+                        {...{
+                            title: 'Support our devs',
+                            leftEmoji: '💸',
+                            onPress: navigateToPaywall
                         }}
                     />
                 </V>

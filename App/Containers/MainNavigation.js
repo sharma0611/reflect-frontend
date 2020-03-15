@@ -43,6 +43,7 @@ import ProfileScreen from '../MellowContainers/ProfileScreen'
 import EditProfileScreen from '../MellowContainers/EditProfileScreen'
 import EditDailyReminderScreen from '../MellowContainers/EditDailyReminderScreen'
 import SplashScreen from '../MellowContainers/SplashScreen'
+import MellowPaywall from '../MellowContainers/MellowPaywall'
 import useUser from '../Hooks/useUser'
 
 const styles = StyleSheet.create({
@@ -224,6 +225,9 @@ const LoggedInStack = createStackNavigator(
         },
         Journal: {
             screen: JournalScreen
+        },
+        MellowPaywall: {
+            screen: MellowPaywall
         },
         WebView
     },
