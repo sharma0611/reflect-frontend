@@ -57,8 +57,8 @@ export const HEADER_HEIGHT = 60
 
 const styles = StyleSheet.create({
     exit: {
-        width: 15,
-        height: 15,
+        width: 20,
+        height: 20,
         margin: 20,
         tintColor: Colors.GreyD
     },

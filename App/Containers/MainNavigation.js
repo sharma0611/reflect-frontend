@@ -8,13 +8,9 @@ import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { Images, Colors, AppStyles, Fonts } from 'Themes'
 import { modalFriendlyTransition } from './transitions'
-import { fadeIn } from 'react-navigation-transitions'
-
-// Components
-import V from 'Components/V'
+import { fadeIn, fromRight } from 'react-navigation-transitions'
 
 // Screens
-import HomeScreen from './HomeScreen'
 import JournalsScreen from './JournalsScreen'
 import EmojiScreen from './EmojiScreen'
 import JournalScreen from './JournalScreen'
@@ -23,8 +19,6 @@ import ComingSoonScreen from './ComingSoonScreen'
 import WebView from './WebView'
 import JournalCategoryScreen from './JournalCategoryScreen'
 import SettingsScreen from './SettingsScreen'
-// import OnboardingScreen from './OnboardingScreen'
-import MoodCalendarScreen from './MoodCalendarScreen'
 import JournalReviewScreen from './JournalReviewScreen'
 import DailyGoalsScreen from './DailyGoalsScreen'
 import GoalSelectScreen from './GoalSelectScreen'
@@ -40,24 +34,38 @@ import CreateAccount from '../MellowContainers/CreateAccount'
 import ReflectionQuestionScreen from '../MellowContainers/ReflectionQuestionScreen'
 import SignIn from '../MellowContainers/SignIn'
 import ResetPassword from '../MellowContainers/ResetPassword'
+import MellowHomeScreen from '../MellowContainers/HomeScreen'
+import JourneyScreen from '../MellowContainers/JourneyScreen'
+import ActivityScreen from '../MellowContainers/ActivityScreen'
+import ActivityEditScreen from '../MellowContainers/ActivityEditScreen'
+import EntryScreen from '../MellowContainers/EntryScreen'
+import ProfileScreen from '../MellowContainers/ProfileScreen'
+import EditProfileScreen from '../MellowContainers/EditProfileScreen'
+import EditDailyReminderScreen from '../MellowContainers/EditDailyReminderScreen'
+import SplashScreen from '../MellowContainers/SplashScreen'
+import MellowPaywall from '../MellowContainers/MellowPaywall'
+import useUser from '../Hooks/useUser'
 
 const styles = StyleSheet.create({
     activeIcon: {
         opacity: 1,
-        tintColor: Colors.BrandM,
+        tintColor: Colors.Blue2,
         resizeMode: 'contain',
         height: 30
     },
     inactiveIcon: {
-        opacity: 0.35,
-        tintColor: Colors.GreyM,
+        tintColor: Colors.GreyXL,
         resizeMode: 'contain',
         height: 30
     },
     tabBarStyle: {
         backgroundColor: Colors.WhiteM,
         borderTopWidth: 1,
-        borderTopColor: Colors.FrostL
+        borderTopColor: Colors.FrostL,
+        shadowOffset: { width: 0, height: -2 },
+        shadowRadius: 10,
+        shadowColor: 'black',
+        shadowOpacity: 0.1
     }
 })
 
@@ -76,11 +84,11 @@ const defaultTopNavigationStyle = {
 
 const HomeStack = createStackNavigator(
     {
-        HomeScreen,
+        MellowHomeScreen,
         Settings: SettingsScreen
     },
     {
-        initialRouteName: 'HomeScreen',
+        initialRouteName: 'MellowHomeScreen',
         defaultNavigationOptions: defaultTopNavigationStyle
     }
 )
@@ -97,9 +105,10 @@ const JournalsStack = createStackNavigator(
 
 const Tabs = createBottomTabNavigator(
     {
-        Journals: JournalsStack,
+        // Journey: JournalsStack,
+        Journey: JourneyScreen,
         Home: HomeStack,
-        MoodCalendar: MoodCalendarScreen
+        Profile: ProfileScreen
     },
     {
         defaultNavigationOptions: ({ navigation }) => ({
@@ -108,10 +117,10 @@ const Tabs = createBottomTabNavigator(
                 let icon
                 if (routeName === 'Home') {
                     icon = Images.tinyLogo
-                } else if (routeName === 'Journals') {
-                    icon = Images.journal
-                } else if (routeName === 'MoodCalendar') {
-                    icon = Images.calendar
+                } else if (routeName === 'Journey') {
+                    icon = Images.achievements
+                } else if (routeName === 'Profile') {
+                    icon = Images.profile
                 }
                 // You can return any component that you like here!
                 // return <IconComponent name={iconName} size={25} color={tintColor} />
@@ -139,31 +148,38 @@ const Tabs = createBottomTabNavigator(
     }
 )
 
-const DailyReflectionStack = createStackNavigator(
-    {
-        ReflectionQuestion: {
-            screen: ReflectionQuestionScreen
-        }
-    },
-    {
-        defaultNavigationOptions: {
-            header: null
-        },
-        transitionConfig: () => fadeIn()
-    }
-)
-
 const TabsStack = createStackNavigator(
     {
         Tabs: {
             screen: Tabs
         },
-        DailyReflection: DailyReflectionStack
+        ActivityEdit: {
+            screen: ActivityEditScreen
+        },
+        Activity: {
+            screen: ActivityScreen
+        },
+        Entry: {
+            screen: EntryScreen
+        },
+        ReflectionQuestion: {
+            screen: ReflectionQuestionScreen
+        },
+        EditProfile: {
+            screen: EditProfileScreen
+        },
+        EditDailyReminder: {
+            screen: EditDailyReminderScreen
+        },
+        ResetPasswordLoggedIn: {
+            screen: ResetPassword
+        }
     },
     {
         defaultNavigationOptions: {
             header: null
-        }
+        },
+        transitionConfig: () => fromRight()
     }
 )
 
@@ -210,6 +226,9 @@ const LoggedInStack = createStackNavigator(
         Journal: {
             screen: JournalScreen
         },
+        MellowPaywall: {
+            screen: MellowPaywall
+        },
         WebView
     },
     {
@@ -240,16 +259,17 @@ const OnboardingStack = createStackNavigator(
     }
 )
 
-const createMainNavigation = (loggedIn: boolean) => {
+function createMainNavigation() {
+    const { loading, uid } = useUser({ listen: true, timeout: 700 })
+
     const nav = createSwitchNavigator(
         {
-            LoggedIn: LoggedInStack,
-            // Onboarding: OnboardingScreen
-            // Onboarding: CreateAccount
-            Onboarding: OnboardingStack
+            Onboarding: OnboardingStack,
+            Splash: SplashScreen,
+            LoggedIn: LoggedInStack
         },
         {
-            initialRouteName: loggedIn ? 'LoggedIn' : 'Onboarding'
+            initialRouteName: loading ? 'Splash' : uid ? 'LoggedIn' : 'Onboarding'
         }
     )
 

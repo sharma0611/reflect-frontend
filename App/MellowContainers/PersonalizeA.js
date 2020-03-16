@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react'
+import * as React from 'reactn'
 import { StyleSheet, TextInput, TouchableWithoutFeedback } from 'react-native'
 import { AppStyles, Metrics, Colors, Images, Fonts } from 'Themes'
 import T from 'Components/T'
@@ -28,7 +28,9 @@ class PersonalizeA extends React.Component<Props, State> {
     }
 
     submit = async () => {
-        await AsyncStorageController.setName(this.state.name)
+        const { name } = this.state
+        await AsyncStorageController.setName(name)
+        await this.setGlobal({ ...global, name })
         this.props.navigation.navigate('PersonalizeB')
     }
 

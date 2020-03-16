@@ -111,7 +111,7 @@ class PersonalizeB extends React.Component<Props, State> {
                             borderBottomLeftRadius: 10
                         }}
                     >
-                        <T body3>{name}</T>
+                        <T b3>{name}</T>
                     </V>
                 </Card>
             </Touchable>

@@ -11,13 +11,15 @@ type State = {}
 
 class BlueBackground extends React.Component<Props, State> {
     render() {
-        const { fullScreen, children } = this.props
+        const { fullScreen, children, style, ...rest } = this.props
         return (
             <V
-                style={
-                    fullScreen ? AppStyles.fullScreenContainer : AppStyles.fullSafeScreenContainer
-                }
+                style={[
+                    fullScreen ? AppStyles.fullScreenContainer : AppStyles.fullSafeScreenContainer,
+                    style
+                ]}
                 bg="BabyBlueL"
+                {...rest}
             >
                 {children}
             </V>

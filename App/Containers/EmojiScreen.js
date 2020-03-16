@@ -1,13 +1,12 @@
 // @flow
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, ScrollView } from 'react-native'
 import { Colors } from 'Themes'
 import V from 'Components/V'
 import EmojiSelector, { Categories } from 'react-native-emoji-selector'
 import AsModal from 'HOC/AsModal'
 import Header, { HEADER_HEIGHT } from 'Components/Header'
 import Screen from 'Components/Screen'
-import { ScrollView } from 'react-native-gesture-handler'
 
 type Props = {}
 
@@ -34,7 +33,6 @@ class EmojiScreen extends React.Component<Props, State> {
             <Screen pt={HEADER_HEIGHT}>
                 <ScrollView>
                     <EmojiSelector
-                        category={Categories.people}
                         onEmojiSelected={emoji => this.onSelectEmoji(emoji)}
                         showTabs={false}
                         theme={Colors.NavyM}

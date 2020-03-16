@@ -20,9 +20,9 @@ type State = {}
 const WaveHeightRatio = 0.3
 
 const MOOD_DATA = [
-    { day: 'S', emoji: '🤣' },
-    { day: 'M', emoji: '‍️🤓' },
-    { day: 'T', emoji: '😛' },
+    { day: 0, emoji: '🤣' },
+    { day: 1, emoji: '‍️🤓' },
+    { day: 2, emoji: '😛' },
     { day: 'W', emoji: '' },
     { day: 'T', emoji: '' },
     { day: 'F', emoji: '' },
@@ -53,7 +53,7 @@ class OnboardingB extends React.Component<Props, State> {
                                 }}
                             />
                             <V p={3}>
-                                <MoodRow moodData={MOOD_DATA} />
+                                <MoodRow moodData={MOOD_DATA} disabled />
                             </V>
                             <V pl={4} pb={3} bg="WhiteM" pt={2}>
                                 <T heading4>Daily Mood</T>

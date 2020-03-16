@@ -7,6 +7,10 @@ import moment from 'moment'
 class Tracking {
     constructor() {
         Mixpanel.sharedInstanceWithToken(config.MIXPANEL_TOKEN)
+        // .then(
+        // () =>
+        //     Mixpanel.identify(config.getDeviceId())
+        // )
     }
     // Send and event name with no properties
     _track = (eventName: string) => {
@@ -46,6 +50,14 @@ class Tracking {
 
     _alias = (identity: string) => {
         Mixpanel.createAlias(identity)
+    }
+
+    identifyByUid = (uid: string) => {
+        Mixpanel._identify(uid)
+    }
+
+    aliasByUid = (uid: string) => {
+        Mixpanel._alias(uid)
     }
 
     viewScreen = (screenName: string) => {

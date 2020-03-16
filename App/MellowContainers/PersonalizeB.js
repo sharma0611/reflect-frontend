@@ -51,7 +51,7 @@ class PersonalizeB extends React.Component<Props, State> {
     renderCategory = category => {
         const { name, color } = category
         return (
-            <Touchable onPress={() => this.setState({ wantToFeel: name })}>
+            <Touchable onPress={() => this.setState({ wantToFeel: name })} key={name}>
                 <Card bg={color} style={{ width: CATEGORY_CARD_WIDTH }} mr={CATEGORY_MARGIN} mb={3}>
                     {this.state.wantToFeel === name && (
                         <V pabs style={{ right: 0, top: 0 }} pt={2} pr={2}>
@@ -136,7 +136,7 @@ class PersonalizeB extends React.Component<Props, State> {
                         disabled={this.state.wantToFeel === ''}
                         onPress={() => this.submit()}
                         text={`I want to feel ${
-                            this.state.wantToFeel ? this.state.wantToFeel : '_'
+                            this.state.wantToFeel ? this.state.wantToFeel : '...'
                         }`}
                     />
                 </V>

@@ -58,6 +58,8 @@ const colors = {
     PastelPurplePink: '#C7A8E7',
     PastelPurpleL: '#C9C5F8',
 
+    PastelGold: '#FFEAA1',
+
     TealD: '#8DC9BD',
     TealM: '#A5DDD3',
 

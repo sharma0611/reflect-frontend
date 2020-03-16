@@ -16,15 +16,18 @@ import Analytics from 'Controllers/AnalyticsController'
 import BlueBackground from 'MellowComponents/BlueBackground'
 import { Formik } from 'formik'
 import FIcon from 'react-native-vector-icons/Feather'
-import auth, { firebase } from '@react-native-firebase/auth'
+import {
+    signInWithEmailAndPassword,
+    signInWithFacebookCredential,
+    signInWithGoogleCredential,
+    currentUid
+} from '../Controllers/FirebaseController'
 import { LoginManager, AccessToken } from 'react-native-fbsdk'
 import { GoogleSignin } from '@react-native-community/google-signin'
 
 type Props = {}
 
-type State = {
-    name: string
-}
+type State = {}
 
 const FieldIcon = ({ icon }) => {
     return <FIcon name={icon} size={20} color={Colors.Gray4} />
@@ -60,7 +63,9 @@ class SignIn extends React.Component<Props, State> {
         const { email, password } = formData
         try {
             await this.setState({ error: '' })
-            await auth().signInWithEmailAndPassword(email, password)
+            await signInWithEmailAndPassword({ email, password })
+            const uid = currentUid()
+            Analytics.identifyByUid(uid)
         } catch (e) {
             await this.setState({ error: e.message })
         }
@@ -76,24 +81,25 @@ class SignIn extends React.Component<Props, State> {
         if (result.isCancelled) {
             // throw new Error('Error: login cancelled')
             this.setState({ error: 'Error: Login Cancelled.' })
+        } else {
+            const { accessToken } = await AccessToken.getCurrentAccessToken()
+
+            if (!accessToken) {
+                // throw new Error('Something went wrong obtaining access token')
+                this.setState({ error: 'Error: Something went wrong getting the access token.' })
+            }
+
+            await signInWithFacebookCredential({ accessToken })
+            const uid = currentUid()
+            Analytics.identifyByUid(uid)
         }
-
-        const data = await AccessToken.getCurrentAccessToken()
-
-        if (!data) {
-            // throw new Error('Something went wrong obtaining access token')
-            this.setState({ error: 'Error: Something went wrong getting the access token.' })
-        }
-
-        const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken)
-
-        await auth().signInWithCredential(credential)
     }
 
     googleSignIn = async () => {
         const { accessToken, idToken } = await GoogleSignin.signIn()
-        const credential = firebase.auth.GoogleAuthProvider.credential(idToken, accessToken)
-        await firebase.auth().signInWithCredential(credential)
+        await signInWithGoogleCredential({ idToken, accessToken })
+        const uid = currentUid()
+        Analytics.identifyByUid(uid)
     }
 
     forgotPassword = () => {
@@ -103,20 +109,16 @@ class SignIn extends React.Component<Props, State> {
     render() {
         return (
             <BlueBackground>
-                <V p={4}>
-                    <LeftChevron />
-                </V>
-                <V p={4} pt={0} ai="center">
-                    <T heading3 color="Gray1">
-                        Welcome back!
-                    </T>
-                    {/* <Image
-                        source={Images.meditate}
-                        style={{ height: 200, resizeMode: 'contain' }}
-                    /> */}
-                </V>
-                <V flex={1} bg="WhiteM" style={styles.whiteContainer}>
-                    <ScrollView>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
+                    <V p={4}>
+                        <LeftChevron />
+                    </V>
+                    <V p={4} pt={0} ai="center">
+                        <T heading3 color="Gray1">
+                            Welcome back!
+                        </T>
+                    </V>
+                    <V flex={1} bg="WhiteM" style={styles.whiteContainer}>
                         <V p={5}>
                             <T heading4 color="Gray1">
                                 Please sign in
@@ -135,7 +137,7 @@ class SignIn extends React.Component<Props, State> {
                                                     onBlur={handleBlur('email')}
                                                     value={values.email}
                                                     autoCompleteType="email"
-                                                    autoFocus={true}
+                                                    autoFocus={false}
                                                 />
                                             </V>
                                             <Field
@@ -199,8 +201,8 @@ class SignIn extends React.Component<Props, State> {
                                 </Formik>
                             </V>
                         </V>
-                    </ScrollView>
-                </V>
+                    </V>
+                </ScrollView>
             </BlueBackground>
         )
     }

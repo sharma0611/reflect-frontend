@@ -10,7 +10,7 @@ import * as React from 'react'
 import { Subscribe } from 'unstated'
 import invariant from 'invariant'
 import isArray from 'lodash/isArray'
-import { stateContainers } from './'
+import stateContainers from './userExposedTo'
 
 const withState = (Component, stateContainerKeys: Array<string> | string) => {
     class WithStateWrapperNew extends React.Component {
