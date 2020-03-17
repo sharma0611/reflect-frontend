@@ -64,12 +64,7 @@ class Tracking {
         this._track('View ' + screenName)
     }
 
-    saveJournal = (
-        journalType: string,
-        journalLength: number,
-        title: string,
-        journalText: string
-    ) => {
+    saveJournal = (journalType: string, journalLength: number, title: string) => {
         this._trackWithProperties('Save Journal', {
             'Journal Type': journalType,
             'Journal Length': journalLength,
@@ -194,6 +189,35 @@ class Tracking {
 
     lockPro() {
         this._track('Lock Pro')
+    }
+
+    // mellow
+
+    signIn(method: string) {
+        this._trackWithProperties('Sign In', { Method: method })
+    }
+
+    pressGetStarted() {
+        this._track('Press Get Started')
+    }
+
+    pressPersonalizeNext = content => {
+        this._trackWithProperties('Press personalize next', { Content: content })
+    }
+
+    pressActivity = activity => {
+        this._trackWithProperties('Press Activity', { Activity: activity })
+    }
+
+    pressCategory = category => {
+        this._trackWithProperties('Press Category', { Category: category })
+    }
+
+    saveEntry = (header: string, question: string) => {
+        this._trackWithProperties('Save Journal', {
+            Question: question,
+            Header: header
+        })
     }
 }
 

@@ -13,6 +13,9 @@ Sentry.init({
     dsn: 'https://578f3466d9ae487c9755bd9f1c7bb4c4@sentry.io/1878431',
     environment: AppConfig.isDev ? 'dev' : 'production'
 })
+
+// console.disableYellowBox = true
+
 // Set an initial global state directly:
 setGlobal({
     name: '',

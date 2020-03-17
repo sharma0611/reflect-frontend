@@ -13,6 +13,7 @@ import Card from 'MellowComponents/Card'
 import WhiteField from 'MellowComponents/WhiteField'
 import { withNavigation } from 'react-navigation'
 import AsyncStorageController from 'Controllers/AsyncStorageController'
+import Analytics from 'Controllers/AnalyticsController'
 
 type Props = {}
 
@@ -32,6 +33,7 @@ class PersonalizeA extends React.Component<Props, State> {
         await AsyncStorageController.setName(name)
         await this.setGlobal({ ...global, name })
         this.props.navigation.navigate('PersonalizeB')
+        Analytics.pressPersonalizeNext('Submit Name')
     }
 
     render() {

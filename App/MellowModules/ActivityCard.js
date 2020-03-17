@@ -7,6 +7,7 @@ import T from 'Components/T'
 import Touchable from 'Components/Touchable'
 import Card from 'MellowComponents/Card'
 import { withNavigation } from 'react-navigation'
+import Analytics from 'Controllers/AnalyticsController'
 
 export const ACTIVITY_CARD_WIDTH = 220
 export const ACTIVITY_CARD_HEIGHT = 160
@@ -20,7 +21,8 @@ const ActivityCard = ({ activity, navigation }) => {
 
     // without an ID so that we can save it as a new response
     const { id, ...rest } = activity
-    const onPress = () =>
+    const onPress = () => {
+        Analytics.pressActivity(title)
         navigation.navigate({
             routeName: 'Activity',
             params: {
@@ -29,6 +31,7 @@ const ActivityCard = ({ activity, navigation }) => {
             },
             key: 0
         })
+    }
 
     return (
         <Touchable onPress={onPress}>

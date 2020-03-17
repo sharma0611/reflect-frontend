@@ -8,6 +8,7 @@ import MainButton from 'MellowComponents/MainButton'
 import SecondaryButton from 'MellowComponents/SecondaryButton'
 import WaveBackground from 'MellowComponents/WaveBackground'
 import { withNavigation } from 'react-navigation'
+import Analytics from 'Controllers/AnalyticsController'
 
 type Props = {}
 
@@ -15,11 +16,14 @@ type State = {}
 
 class LandingScreen extends React.Component<Props, State> {
     getStarted = () => {
+        Analytics.pressGetStarted()
         this.props.navigation.navigate('OnboardingA')
     }
+
     goToSignIn = () => {
         this.props.navigation.navigate('SignIn')
     }
+
     render() {
         return (
             <WaveBackground boat heightRatio={0.5}>
