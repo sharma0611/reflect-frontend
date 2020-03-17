@@ -44,7 +44,9 @@ class LandingScreen extends React.Component<Props, State> {
                 </V>
                 <V flex={1} ai="center" jc="flex-end" pb={6}>
                     <MainButton onPress={this.getStarted} text={'Get started'} />
-                    <SecondaryButton onPress={this.goToSignIn} text={'Sign in'} />
+                    <V pt={2}>
+                        <SecondaryButton onPress={this.goToSignIn} text={'Sign in'} />
+                    </V>
                 </V>
             </WaveBackground>
         )
