@@ -388,7 +388,6 @@ export const deleteActivityResponse = async id => {
     const docRef = db.collection(ACTIVITY_RESPONSES).doc(id)
     // delete associated entries too
     const { entryIds } = await getDataFromRef(docRef)
-    console.log(`👨‍🌾 => `, entryIds)
     await deleteEntries(entryIds)
     await docRef.delete()
 }
