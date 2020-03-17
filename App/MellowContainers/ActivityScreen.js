@@ -11,6 +11,7 @@ import { withNavigation } from 'react-navigation'
 import MainButton from 'MellowComponents/MainButton'
 import Question from 'MellowComponents/Question'
 import { upsertActivityResponse } from '../Controllers/FirebaseController'
+import Analytics from 'Controllers/AnalyticsController'
 
 const WaveHeightRatio = 0.3
 const CIRCLE_WIDTH = 60
@@ -31,6 +32,7 @@ const ActivityScreen = ({ navigation }) => {
 
     const persistResponse = () => {
         const questionWithText = { ...currentQuestion, responseText: response }
+        Analytics.saveEntry(header, response?.length || 0)
         const updatedEntries = entries.map((question, ind) => {
             if (index === ind) {
                 return questionWithText

@@ -5,6 +5,7 @@ import initFunctions from '@react-native-firebase/functions'
 import moment from 'moment'
 import { Colors } from 'Themes'
 import { summary } from 'date-streaks'
+import Analytics from 'Controllers/AnalyticsController'
 
 // static db collections
 export const ACTIVITIES = 'activities' // static activities like daily reflection
@@ -35,21 +36,25 @@ export const signOut = () => auth.signOut()
 export const createUserWithEmailAndPassword = async ({ email, password, ...rest }) => {
     await auth.createUserWithEmailAndPassword(email, password)
     await finishSignUp({ ...rest })
+    Analytics.signIn('email')
 }
 
 export const signInWithEmailAndPassword = async ({ email, password, ...rest }) => {
     await auth.signInWithEmailAndPassword(email, password)
     await finishSignUp({ ...rest })
+    Analytics.signIn('email')
 }
 
 export const signInWithFacebookCredential = async ({ accessToken, ...rest }) => {
     await auth.signInWithCredential(facebookProvider.credential(accessToken))
     await finishSignUp({ ...rest })
+    Analytics.signIn('facebook')
 }
 
 export const signInWithGoogleCredential = async ({ idToken, accessToken, ...rest }) => {
     await auth.signInWithCredential(googleProvider.credential(idToken, accessToken))
     await finishSignUp({ ...rest })
+    Analytics.signIn('google')
 }
 
 export const finishSignUp = async ({ displayName = '' }) => {

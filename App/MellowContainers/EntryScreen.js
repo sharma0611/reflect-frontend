@@ -13,6 +13,7 @@ import Question from 'MellowComponents/Question'
 import { upsertEntry, deleteSafeEntry } from '../Controllers/FirebaseController'
 import Touchable from 'Components/Touchable'
 import moment from 'moment'
+import Analytics from 'Controllers/AnalyticsController'
 
 const WaveHeightRatio = 0.3
 
@@ -25,6 +26,7 @@ const EntryScreen = ({ navigation }) => {
     const [response, setResponse] = useState(responseText)
 
     const persistResponse = () => {
+        Analytics.saveEntry(header, response?.length || 0)
         const updatedEntry = { ...entry, responseText: response }
         return updatedEntry
     }

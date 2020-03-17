@@ -12,6 +12,7 @@ import LeftChevron from 'MellowComponents/LeftChevron'
 import Card from 'MellowComponents/Card'
 import MoodRow from 'MellowComponents/MoodRow'
 import { withNavigation } from 'react-navigation'
+import Analytics from 'Controllers/AnalyticsController'
 
 type Props = {}
 
@@ -31,6 +32,7 @@ const MOOD_DATA = [
 
 class OnboardingB extends React.Component<Props, State> {
     next = () => {
+        Analytics.pressOnboardingNext('OnboardingC')
         this.props.navigation.navigate('OnboardingD')
     }
     render() {
