@@ -522,9 +522,9 @@ export const fetchDailyReflection = async date => {
 
     const query = activitiesRespRef
         .where('uid', '==', uid)
-        // .where('timestamp', '>=', start)
-        // .where('timestamp', '<', end)
-        // .where('activityType', '==', 'daily')
+        .where('timestamp', '>=', start)
+        .where('timestamp', '<', end)
+        .where('activityType', '==', 'daily')
         .limit(1)
 
     const snapshot = await query.get()
