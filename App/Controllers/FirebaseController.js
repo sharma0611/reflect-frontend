@@ -388,7 +388,6 @@ export const deleteActivityResponse = async id => {
     const docRef = db.collection(ACTIVITY_RESPONSES).doc(id)
     // delete associated entries too
     const { entryIds } = await getDataFromRef(docRef)
-    console.log(`👨‍🌾 => `, entryIds)
     await deleteEntries(entryIds)
     await docRef.delete()
 }
@@ -522,9 +521,9 @@ export const fetchDailyReflection = async date => {
 
     const query = activitiesRespRef
         .where('uid', '==', uid)
-        // .where('timestamp', '>=', start)
-        // .where('timestamp', '<', end)
-        // .where('activityType', '==', 'daily')
+        .where('timestamp', '>=', start)
+        .where('timestamp', '<', end)
+        .where('activityType', '==', 'daily')
         .limit(1)
 
     const snapshot = await query.get()

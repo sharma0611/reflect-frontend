@@ -53,11 +53,11 @@ class Tracking {
     }
 
     identifyByUid = (uid: string) => {
-        Mixpanel._identify(uid)
+        this._identify(uid)
     }
 
     aliasByUid = (uid: string) => {
-        Mixpanel._alias(uid)
+        this._alias(uid)
     }
 
     viewScreen = (screenName: string) => {
