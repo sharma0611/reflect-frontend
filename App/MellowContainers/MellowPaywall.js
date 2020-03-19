@@ -8,13 +8,34 @@ import Section from 'MellowComponents/Section'
 import Card from 'MellowComponents/Card'
 import WaveCard from 'MellowComponents/WaveCard'
 import ScrollingScreen from 'MellowComponents/ScrollingScreen'
+import usePrices from '../Hooks/usePrices'
+import Loading from '../MellowComponents/Loading'
+import ErrorScreen from '../MellowContainers/ErrorScreen'
+import Touchable from 'Components/Touchable'
+import { withNavigation } from 'react-navigation'
+import { purchaseMonthly, purchaseYearly } from 'Controllers/PurchasesController'
+import SecondaryButton from 'MellowComponents/SecondaryButton'
 
 const CIRCLE_DIAMETER = 25
 const NEXT_CIRCLE_DIAMETER = 40
 
 const VALUE_PROPS = ['Unlimited Mood Data', 'Personalized Reflections', '1000+ Journal Prompts']
 
-const MellowPaywall = () => {
+const MellowPaywall = ({ navigation }) => {
+    const { loading, error, prices } = usePrices()
+    if (loading) return <Loading />
+    if (error) return <ErrorScreen {...{ error }} />
+    const { yearly, monthly } = prices
+
+    const buyYearly = async () => {
+        await purchaseYearly()
+        navigation.goBack()
+    }
+    const buyMonthly = async () => {
+        await purchaseMonthly()
+        navigation.goBack()
+    }
+
     return (
         <ScrollingScreen>
             <V row jc="flex-end">
@@ -66,79 +87,87 @@ const MellowPaywall = () => {
                     </V>
                 </Card>
             </Section>
+            <V flex={1} />
             <Section>
-                <WaveCard tintColor={Colors.BabyBlueM}>
-                    <V row p={3} ai="center" jc="space-between" flex={1}>
-                        <T>
-                            <T heading3 color="Gray2">
-                                $2.99
+                <Touchable onPress={buyMonthly}>
+                    <WaveCard tintColor={Colors.BabyBlueM}>
+                        <V row p={3} ai="center" jc="space-between" flex={1}>
+                            <T>
+                                <T heading3 color="Gray2">
+                                    {monthly}
+                                </T>
+                                <T subtitle1 color="Gray1">
+                                    {' '}
+                                    monthly
+                                </T>
                             </T>
-                            <T subtitle1 color="Gray1">
-                                {' '}
-                                monthly
-                            </T>
-                        </T>
-                        <V
-                            style={{
-                                width: NEXT_CIRCLE_DIAMETER,
-                                height: NEXT_CIRCLE_DIAMETER,
-                                borderRadius: NEXT_CIRCLE_DIAMETER / 2,
-                                ...AppStyles.dropShadow.small
-                            }}
-                            bg="BabyBlueM"
-                            ai="center"
-                            jc="center"
-                        >
-                            <Image
-                                source={Images.leftChevron}
+                            <V
                                 style={{
-                                    tintColor: Colors.WhiteM,
-                                    height: NEXT_CIRCLE_DIAMETER - 15,
-                                    width: NEXT_CIRCLE_DIAMETER - 15,
-                                    resizeMode: 'contain',
-                                    transform: [{ rotate: '180deg' }]
+                                    width: NEXT_CIRCLE_DIAMETER,
+                                    height: NEXT_CIRCLE_DIAMETER,
+                                    borderRadius: NEXT_CIRCLE_DIAMETER / 2,
+                                    ...AppStyles.dropShadow.small
                                 }}
-                            />
+                                bg="BabyBlueM"
+                                ai="center"
+                                jc="center"
+                            >
+                                <Image
+                                    source={Images.leftChevron}
+                                    style={{
+                                        tintColor: Colors.WhiteM,
+                                        height: NEXT_CIRCLE_DIAMETER - 15,
+                                        width: NEXT_CIRCLE_DIAMETER - 15,
+                                        resizeMode: 'contain',
+                                        transform: [{ rotate: '180deg' }]
+                                    }}
+                                />
+                            </V>
                         </V>
-                    </V>
-                </WaveCard>
+                    </WaveCard>
+                </Touchable>
             </Section>
             <Section>
-                <WaveCard tintColor={Colors.PastelGold}>
-                    <V row p={3} ai="center" jc="space-between" flex={1}>
-                        <T>
-                            <T heading3 color="Gray2">
-                                $2.99
+                <Touchable onPress={buyYearly}>
+                    <WaveCard tintColor={Colors.PastelGold}>
+                        <V row p={3} ai="center" jc="space-between" flex={1}>
+                            <T>
+                                <T heading3 color="Gray2">
+                                    {yearly}
+                                </T>
+                                <T subtitle1 color="Gray1">
+                                    {' '}
+                                    yearly
+                                </T>
                             </T>
-                            <T subtitle1 color="Gray1">
-                                {' '}
-                                yearly
-                            </T>
-                        </T>
-                        <V
-                            style={{
-                                width: NEXT_CIRCLE_DIAMETER,
-                                height: NEXT_CIRCLE_DIAMETER,
-                                borderRadius: NEXT_CIRCLE_DIAMETER / 2,
-                                ...AppStyles.dropShadow.small
-                            }}
-                            bg="PastelGold"
-                            ai="center"
-                            jc="center"
-                        >
-                            <Image
-                                source={Images.leftChevron}
+                            <V
                                 style={{
-                                    tintColor: Colors.Gray2,
-                                    height: NEXT_CIRCLE_DIAMETER - 15,
-                                    width: NEXT_CIRCLE_DIAMETER - 15,
-                                    resizeMode: 'contain',
-                                    transform: [{ rotate: '180deg' }]
+                                    width: NEXT_CIRCLE_DIAMETER,
+                                    height: NEXT_CIRCLE_DIAMETER,
+                                    borderRadius: NEXT_CIRCLE_DIAMETER / 2,
+                                    ...AppStyles.dropShadow.small
                                 }}
-                            />
+                                bg="PastelGold"
+                                ai="center"
+                                jc="center"
+                            >
+                                <Image
+                                    source={Images.leftChevron}
+                                    style={{
+                                        tintColor: Colors.Gray2,
+                                        height: NEXT_CIRCLE_DIAMETER - 15,
+                                        width: NEXT_CIRCLE_DIAMETER - 15,
+                                        resizeMode: 'contain',
+                                        transform: [{ rotate: '180deg' }]
+                                    }}
+                                />
+                            </V>
                         </V>
-                    </V>
-                </WaveCard>
+                    </WaveCard>
+                </Touchable>
+            </Section>
+            <Section ai="center" pb={4}>
+                <SecondaryButton onPress={() => navigation.goBack()} text={'Later'} />
             </Section>
         </ScrollingScreen>
     )
@@ -168,4 +197,4 @@ MellowPaywall.navigationOptions = {
     header: null
 }
 
-export default MellowPaywall
+export default withNavigation(MellowPaywall)
