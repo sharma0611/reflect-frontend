@@ -46,6 +46,7 @@ import SplashScreen from '../MellowContainers/SplashScreen'
 import MellowPaywall from '../MellowContainers/MellowPaywall'
 import useUser from '../Hooks/useUser'
 import MoodCalendarScreen from '../MellowContainers/MoodCalendarScreen'
+import Splash from 'react-native-splash-screen'
 
 const styles = StyleSheet.create({
     activeIcon: {
@@ -265,6 +266,10 @@ const OnboardingStack = createStackNavigator(
 
 function createMainNavigation() {
     const { loading, uid } = useUser({ listen: true, timeout: 700 })
+
+    if (!loading) {
+        Splash.hide()
+    }
 
     const nav = createSwitchNavigator(
         {
