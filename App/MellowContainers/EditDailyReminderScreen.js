@@ -14,23 +14,36 @@ import ErrorScreen from './ErrorScreen'
 import Card from 'MellowComponents/Card'
 import LoadingSpinner from 'Components/LoadingSpinner'
 import { Appearance } from 'react-native-appearance'
+import { Platform } from 'react-native'
 
 const EditDailyReminderScreen = ({ navigation }) => {
     const [{ reflectionTimeHour, reflectionTimeMin, reflectionTime }, setTime] = useState({})
-
-    const onChange = (event, selectedTime) => {
-        const hour = selectedTime.getHours()
-        const min = selectedTime.getMinutes()
-        setTime({
-            reflectionTimeHour: hour,
-            reflectionTimeMin: min,
-            reflectionTime: selectedTime
-        })
-    }
+    const [showTimePicker, setShowTimePicker] = useState(true)
 
     const onSubmit = async () => {
         await submitTime()
         navigation.goBack()
+    }
+
+    const onChange = async (event, selectedTime) => {
+        if (Platform.OS === 'android' && selectedTime === undefined) {
+            navigation.goBack()
+        } else if (Platform.OS === 'android') {
+            const hour = selectedTime.getHours()
+            const min = selectedTime.getMinutes()
+            const { hours: utcHours, minutes: utcMinutes } = localToUtcTime(hour, min)
+            setShowTimePicker(false)
+            await updateUserReflectionTime(AppConfig.DEVICE_ID, utcHours, utcMinutes)
+            navigation.goBack()
+        } else {
+            const hour = selectedTime.getHours()
+            const min = selectedTime.getMinutes()
+            setTime({
+                reflectionTimeHour: hour,
+                reflectionTimeMin: min,
+                reflectionTime: selectedTime
+            })
+        }
     }
 
     const submitTime = async () => {
@@ -80,6 +93,7 @@ const EditDailyReminderScreen = ({ navigation }) => {
                     const { hours, minutes } = getLocalTimeFromData(data)
                     time.setHours(hours)
                     time.setMinutes(minutes)
+                    const value = reflectionTime ? reflectionTime : time
                     return (
                         <>
                             <V p={4} pt={0}>
@@ -87,15 +101,20 @@ const EditDailyReminderScreen = ({ navigation }) => {
                                     Set your reminder time!
                                 </T>
                                 <Card mt={4} alt bg={cardBg}>
-                                    <DateTimePicker
-                                        testID="dateTimePicker"
-                                        value={reflectionTime ? reflectionTime : time}
-                                        mode={'time'}
-                                        display="default"
-                                        onChange={onChange}
-                                    />
+                                    {showTimePicker && (
+                                        <DateTimePicker
+                                            testID="dateTimePicker"
+                                            value={value}
+                                            mode={'time'}
+                                            display="default"
+                                            onChange={onChange}
+                                        />
+                                    )}
                                 </Card>
                             </V>
+                            {/* <V ai="center">
+                                <T h5>Selected time: {moment(value).format('hh:mm a')}</T>
+                            </V> */}
                             <V ai="center" pt={2}>
                                 <MainButton onPress={onSubmit} text={`Set time`} />
                             </V>

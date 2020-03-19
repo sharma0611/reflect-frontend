@@ -1,34 +1,30 @@
 // @flow
 import React from 'react'
 import V from 'Components/V'
+import T from 'Components/T'
 import MoodRow from 'MellowComponents/MoodRow'
 import WaveCard from 'MellowComponents/WaveCard'
+import Touchable from 'Components/Touchable'
+import { withNavigation } from 'react-navigation'
 
-const MOOD_DATA = [
-    { day: 'S', emoji: '🤣' },
-    { day: 'M', emoji: '‍️🤓' },
-    { day: 'T', emoji: '😛' },
-    { day: 'W', emoji: '' },
-    { day: 'T', emoji: '' },
-    { day: 'F', emoji: '' },
-    { day: 'S', emoji: '' }
-]
-
-const DailyMoodCard = ({ moods }) => {
+const DailyMoodCard = ({ moods, navigation }) => {
+    const navigateToMoodCalendar = () => {
+        navigation.navigate('MoodCalendar')
+    }
     return (
         <WaveCard>
             <V p={2} pt={3}>
                 <MoodRow moodData={moods} />
             </V>
-            {/* <Touchable>
+            <Touchable onPress={navigateToMoodCalendar}>
                 <V pl={4} pr={4} pb={3} bg="WhiteM">
                     <T ta="right" b1 color="Blue2">
                         See all >
                     </T>
                 </V>
-            </Touchable> */}
+            </Touchable>
         </WaveCard>
     )
 }
 
-export default DailyMoodCard
+export default withNavigation(DailyMoodCard)
