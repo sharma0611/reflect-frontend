@@ -1004,7 +1004,14 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/picker/-/picker-1.1.3.tgz#f46e52e7b87799c7848d158e9a10a96a10a7a6d1"
   integrity sha512-cWjgqqKnvjmjV13nAjJ/+Hm8tqIn3mCFaq17teASyPGUYZ3iM5w0Q6QaOpOXDYlN38EGtVIK5watAlnZUfvv5g==
 
-"@react-native-community/push-notification-ios@^1.0.1", "@react-native-community/push-notification-ios@^1.0.2":
+"@react-native-community/push-notification-ios@^1.0.1":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/push-notification-ios/-/push-notification-ios-1.1.0.tgz#b0aa8196d60505866764937af641cc0390a60bd4"
+  integrity sha512-LBEPQAV55GduftmuwIG0pDB5GtAN93211BYQMaYLqEUSF+LtvSnsAp+F4P91q2qPp6byk/V1+wTRNzdDor7KDg==
+  dependencies:
+    invariant "^2.2.4"
+
+"@react-native-community/push-notification-ios@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@react-native-community/push-notification-ios/-/push-notification-ios-1.0.2.tgz#541bc8ce088d726c4a98fff0e261b4d0f555cacf"
   integrity sha512-9lWaw+zBGvT8Yw9HZmiLkYbnmF5AzrWexYh2qmRt/shpfZawCTPmPBrq09N7JhiPV4g/gEbeLXlndxl1JQeB0g==
@@ -6620,9 +6627,9 @@ react-native-animatable@^1.3.3:
     prop-types "^15.7.2"
 
 react-native-appearance@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/react-native-appearance/-/react-native-appearance-0.3.2.tgz#e458e76917778eb1fcb8d17c09a78096115704c9"
-  integrity sha512-4laRJovChQe5ualJczWoPyThOlYc0m2jmipdnrx34kAFzzk/JqYZwbkRE3uuLRNnPhaWWZZ8YlFhq0RNFB/G+A==
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/react-native-appearance/-/react-native-appearance-0.3.3.tgz#7267eccbc7a0bc7ea743eecd85c68aabc37f81d4"
+  integrity sha512-XETmdFGMH1j07mIrri74dG+qUvW/vme7SIZWbFup9Ra5p/eiEkl6kWbQljap4+G+PUIsPjU5OdbUaNz8Zs9DAg==
   dependencies:
     fbemitter "^2.1.1"
     invariant "^2.2.4"
@@ -8071,9 +8078,9 @@ typescript@^3.6.4:
   integrity sha512-unoCll1+l+YK4i4F8f22TaNVPRHcD9PA3yCuZ8g5e0qGqlVlJ/8FSateOLLSagn+Yg5+ZwuPkL8LFUc0Jcvksg==
 
 ua-parser-js@^0.7.18:
-  version "0.7.20"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.20.tgz#7527178b82f6a62a0f243d1f94fd30e3e3c21098"
-  integrity sha512-8OaIKfzL5cpx8eCMAhhvTlft8GYF8b2eQr6JkCyVdrgjcytyOmPCXrqXFcUnhonRpLlh5yxEZVohm6mzaowUOw==
+  version "0.7.21"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.21.tgz#853cf9ce93f642f67174273cc34565ae6f308777"
+  integrity sha512-+O8/qh/Qj8CgC6eYBVBykMrNtp5Gebn4dlGD/kKXVkJNDwyrAwSIqwz8CDf+tsAIWVycKcku6gIXJ0qwx/ZXaQ==
 
 uglify-es@^3.1.9:
   version "3.3.9"
@@ -8196,9 +8203,9 @@ use-force-update@^1.0.5:
   integrity sha512-k5dppYhO+I5X/cd7ildbrzeMZJkWwdAh5adaIk0qKN2euh7J0h2GBGBcB4QZ385eyHHnp7LIygvebdRx3XKdwA==
 
 use-subscription@^1.0.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/use-subscription/-/use-subscription-1.3.0.tgz#3df13a798e826c8d462899423293289a3362e4e6"
-  integrity sha512-buZV7FUtnbOr+65dN7PHK7chHhQGfk/yjgqfpRLoWuHIAc4klAD/rdot2FsPNtFthN1ZydvA8tR/mWBMQ+/fDQ==
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/use-subscription/-/use-subscription-1.4.0.tgz#c4e808cfed6fe6e1ac875df1369c63f3ddae9522"
+  integrity sha512-R7P7JWpeHp+dtEYsgDzIIgOmVqRfJjRjLOO0YIYk6twctUkUYe6Tz0pcabyTDGcMMRt9uMbFMfwBfxKHg9gCSw==
   dependencies:
     object-assign "^4.1.1"
 
