@@ -132,8 +132,8 @@ android {
         applicationId "com.reflectapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
-        versionName "1.1.0"
+        versionCode 5
+        versionName "1.2"
         multiDexEnabled = true
     }
     dexOptions {
@@ -154,6 +154,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file('release.keystore')
+            storePassword '#Shred12'
+            keyAlias 'upload'
+            keyPassword '#Shred12'
+        }
     }
     buildTypes {
         debug {
@@ -162,7 +168,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
