@@ -45,6 +45,7 @@ import EditDailyReminderScreen from '../MellowContainers/EditDailyReminderScreen
 import SplashScreen from '../MellowContainers/SplashScreen'
 import MellowPaywall from '../MellowContainers/MellowPaywall'
 import useUser from '../Hooks/useUser'
+import MoodCalendarScreen from '../MellowContainers/MoodCalendarScreen'
 
 const styles = StyleSheet.create({
     activeIcon: {
@@ -164,6 +165,9 @@ const TabsStack = createStackNavigator(
         },
         ReflectionQuestion: {
             screen: ReflectionQuestionScreen
+        },
+        MoodCalendar: {
+            screen: MoodCalendarScreen
         },
         EditProfile: {
             screen: EditProfileScreen

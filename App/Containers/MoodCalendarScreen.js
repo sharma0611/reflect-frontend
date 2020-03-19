@@ -168,6 +168,4 @@ class MoodCalendarScreen extends React.Component<Props, State> {
     }
 }
 
-const styles = StyleSheet.create({})
-
 export default withNavigation(MoodCalendarScreen)
