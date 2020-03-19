@@ -5,6 +5,7 @@ import initFunctions from '@react-native-firebase/functions'
 import moment from 'moment'
 import { Colors } from 'Themes'
 import { summary } from 'date-streaks'
+import Analytics from 'Controllers/AnalyticsController'
 
 // static db collections
 export const ACTIVITIES = 'activities' // static activities like daily reflection
@@ -35,21 +36,25 @@ export const signOut = () => auth.signOut()
 export const createUserWithEmailAndPassword = async ({ email, password, ...rest }) => {
     await auth.createUserWithEmailAndPassword(email, password)
     await finishSignUp({ ...rest })
+    Analytics.signIn('email')
 }
 
 export const signInWithEmailAndPassword = async ({ email, password, ...rest }) => {
     await auth.signInWithEmailAndPassword(email, password)
     await finishSignUp({ ...rest })
+    Analytics.signIn('email')
 }
 
 export const signInWithFacebookCredential = async ({ accessToken, ...rest }) => {
     await auth.signInWithCredential(facebookProvider.credential(accessToken))
     await finishSignUp({ ...rest })
+    Analytics.signIn('facebook')
 }
 
 export const signInWithGoogleCredential = async ({ idToken, accessToken, ...rest }) => {
     await auth.signInWithCredential(googleProvider.credential(idToken, accessToken))
     await finishSignUp({ ...rest })
+    Analytics.signIn('google')
 }
 
 export const finishSignUp = async ({ displayName = '' }) => {
@@ -388,7 +393,6 @@ export const deleteActivityResponse = async id => {
     const docRef = db.collection(ACTIVITY_RESPONSES).doc(id)
     // delete associated entries too
     const { entryIds } = await getDataFromRef(docRef)
-    console.log(`👨‍🌾 => `, entryIds)
     await deleteEntries(entryIds)
     await docRef.delete()
 }
@@ -522,9 +526,9 @@ export const fetchDailyReflection = async date => {
 
     const query = activitiesRespRef
         .where('uid', '==', uid)
-        // .where('timestamp', '>=', start)
-        // .where('timestamp', '<', end)
-        // .where('activityType', '==', 'daily')
+        .where('timestamp', '>=', start)
+        .where('timestamp', '<', end)
+        .where('activityType', '==', 'daily')
         .limit(1)
 
     const snapshot = await query.get()

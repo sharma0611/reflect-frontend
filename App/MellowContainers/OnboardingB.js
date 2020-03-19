@@ -11,6 +11,7 @@ import WaveBackground from 'MellowComponents/WaveBackground'
 import LeftChevron from 'MellowComponents/LeftChevron'
 import Card from 'MellowComponents/Card'
 import { withNavigation } from 'react-navigation'
+import Analytics from 'Controllers/AnalyticsController'
 
 type Props = {}
 
@@ -20,6 +21,7 @@ const WaveHeightRatio = 0.3
 
 class OnboardingB extends React.Component<Props, State> {
     next = () => {
+        Analytics.pressOnboardingNext('OnboardingB')
         this.props.navigation.navigate('OnboardingC')
     }
     render() {

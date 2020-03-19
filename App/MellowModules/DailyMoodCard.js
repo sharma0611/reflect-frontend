@@ -31,13 +31,13 @@ const DailyMoodCard = ({ moods }) => {
             <V p={2} pt={3}>
                 <MoodRow moodData={moods} />
             </V>
-            <Touchable>
+            {/* <Touchable>
                 <V pl={4} pr={4} pb={3} bg="WhiteM">
                     <T ta="right" b1 color="Blue2">
                         See all >
                     </T>
                 </V>
-            </Touchable>
+            </Touchable> */}
         </Card>
     )
 }

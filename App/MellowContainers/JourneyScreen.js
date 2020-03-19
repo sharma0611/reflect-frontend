@@ -52,7 +52,6 @@ const JourneyScreen = () => {
             <NavigationEvents
                 onWillFocus={() => {
                     clear()
-                    loadMore()
                 }}
             />
             <MyJournals {...{ renderHeader, activityResponses, hasMore, loadMore }} />
