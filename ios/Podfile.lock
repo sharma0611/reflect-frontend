@@ -495,7 +495,7 @@ PODS:
     - React-cxxreact (= 0.61.2)
     - React-jsi (= 0.61.2)
   - React-jsinspector (0.61.2)
-  - react-native-appearance (0.3.2):
+  - react-native-appearance (0.3.3):
     - React
   - react-native-fbsdk (1.1.1):
     - React
@@ -825,7 +825,7 @@ SPEC CHECKSUMS:
   React-jsi: 32285a21b1b24c36060493ed3057a34677d58d09
   React-jsiexecutor: 8909917ff7d8f21a57e443a866fd8d4560e50c65
   React-jsinspector: 111d7d342b07a904c400592e02a2b958f1098b60
-  react-native-appearance: c2e0666225d999f7f0e7d9a9cb6c627c6e4c4b92
+  react-native-appearance: 98e4530857c366de634f58e5db91bf97feaa96ff
   react-native-fbsdk: b94a83971c496a35803f38b921aec6d637ba07b5
   react-native-mixpanel: f7ca1a4a436f1d3c19d9ca5d57aa47b848e97292
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
