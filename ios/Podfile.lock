@@ -514,6 +514,8 @@ PODS:
   - react-native-mixpanel (0.0.6):
     - Mixpanel (~> 3.4.5)
     - React
+  - react-native-splash-screen (3.2.0):
+    - React
   - react-native-webview (7.2.7):
     - React
   - React-RCTActionSheet (0.61.2):
@@ -619,6 +621,7 @@ DEPENDENCIES:
   - react-native-appearance (from `../node_modules/react-native-appearance`)
   - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
   - react-native-mixpanel (from `../node_modules/react-native-mixpanel`)
+  - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -719,6 +722,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-fbsdk"
   react-native-mixpanel:
     :path: "../node_modules/react-native-mixpanel"
+  react-native-splash-screen:
+    :path: "../node_modules/react-native-splash-screen"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-RCTActionSheet:
@@ -823,6 +828,7 @@ SPEC CHECKSUMS:
   react-native-appearance: c2e0666225d999f7f0e7d9a9cb6c627c6e4c4b92
   react-native-fbsdk: b94a83971c496a35803f38b921aec6d637ba07b5
   react-native-mixpanel: f7ca1a4a436f1d3c19d9ca5d57aa47b848e97292
+  react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-webview: d143130e6993ea015098add115c19a765a7e1422
   React-RCTActionSheet: 89b037c0fb7d2671607cb645760164e7e0c013f6
   React-RCTAnimation: e3cefa93c38c004c318f7ec04b883eb14b8b8235

@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     input: {
         ...Fonts.style.body1,
         flex: 1,
+        textAlignVertical: 'top',
         color: Colors.Black,
         padding: Metrics.padding.scale[3],
         paddingTop: Metrics.padding.scale[3]
