@@ -1,12 +1,8 @@
 // @flow
 import React from 'react'
-import { Image } from 'react-native'
-import { Images, Colors } from 'Themes'
 import V from 'Components/V'
-import T from 'Components/T'
-import Card from 'MellowComponents/Card'
-import Touchable from 'Components/Touchable'
 import MoodRow from 'MellowComponents/MoodRow'
+import WaveCard from 'MellowComponents/WaveCard'
 
 const MOOD_DATA = [
     { day: 'S', emoji: '🤣' },
@@ -20,14 +16,7 @@ const MOOD_DATA = [
 
 const DailyMoodCard = ({ moods }) => {
     return (
-        <Card bg="WhiteM" style={{ width: '100%' }}>
-            <Image
-                source={Images.cardWaveF}
-                style={{
-                    width: '100%',
-                    tintColor: Colors.PastelPurple
-                }}
-            />
+        <WaveCard>
             <V p={2} pt={3}>
                 <MoodRow moodData={moods} />
             </V>
@@ -38,7 +27,7 @@ const DailyMoodCard = ({ moods }) => {
                     </T>
                 </V>
             </Touchable> */}
-        </Card>
+        </WaveCard>
     )
 }
 

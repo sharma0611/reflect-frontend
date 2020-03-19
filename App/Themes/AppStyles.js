@@ -58,8 +58,8 @@ const ApplicationStyles = {
                 width: 0,
                 height: 1
             },
-            shadowOpacity: 0.3,
-            shadowRadius: 1.8,
+            shadowOpacity: 0.1,
+            shadowRadius: 3,
             elevation: 2
         },
         smallReverse: {
