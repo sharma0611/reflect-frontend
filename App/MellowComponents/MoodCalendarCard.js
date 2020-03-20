@@ -50,7 +50,7 @@ LocaleConfig.defaultLocale = 'en'
 
 const DayComponent = ({ date, state, navigation }) => {
     const dt = moment(date.dateString, 'YYYY-MM-DD').toDate()
-    const [emoji, setEmoji] = useState('')
+    const [legacyEmoji, setLegacyEmoji] = useState('')
     const { loading, error, moods } = useMoods({
         startDate: dt,
         endDate: dt
@@ -63,17 +63,19 @@ const DayComponent = ({ date, state, navigation }) => {
         } else {
             entry = getEmptyMoodEntry(dt)
         }
-        navigation.navigate('Entry', {
-            entry
-        })
+        if (!legacyEmoji) {
+            navigation.navigate('Entry', {
+                entry
+            })
+        }
     }
 
     const getData = async () => {
         const mood = await MongoController.getDailyMood(dt)
         if (mood) {
-            await setEmoji(mood.emoji)
+            await setLegacyEmoji(mood.emoji)
         } else {
-            await setEmoji('')
+            await setLegacyEmoji('')
         }
     }
 
@@ -81,7 +83,7 @@ const DayComponent = ({ date, state, navigation }) => {
         getData()
     }, [])
 
-    let displayEmoji = emoji
+    let displayEmoji = legacyEmoji
     if (moods.length > 0) {
         const entry = moods[0]
         displayEmoji = entry.responseText
