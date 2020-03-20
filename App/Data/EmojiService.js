@@ -1,5 +1,5 @@
 import emojisData from './emojis.json'
-import emoji from 'emoji-datasource'
+// import emoji from 'emoji-datasource'
 // import appleEmojis from 'emoji-datasource-apple/img/apple/64'
 
 export const Categories = {
@@ -50,6 +50,7 @@ export const Categories = {
 }
 
 export const getLiveEmojis = () => {
+    const emoji = [] // use emoji from emoji-datasource
     // Get live emojis
     const charFromUtf16 = utf16 => String.fromCodePoint(...utf16.split('-').map(u => '0x' + u))
     const charFromEmojiObject = obj => charFromUtf16(obj.unified)
