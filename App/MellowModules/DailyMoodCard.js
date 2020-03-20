@@ -1,12 +1,10 @@
 // @flow
 import React from 'react'
-import { Image } from 'react-native'
-import { Images, Colors } from 'Themes'
 import V from 'Components/V'
 import T from 'Components/T'
-import Card from 'MellowComponents/Card'
-import Touchable from 'Components/Touchable'
 import MoodRow from 'MellowComponents/MoodRow'
+import WaveCard from 'MellowComponents/WaveCard'
+import Touchable from 'Components/Touchable'
 import { withNavigation } from 'react-navigation'
 
 const DailyMoodCard = ({ moods, navigation }) => {
@@ -14,14 +12,7 @@ const DailyMoodCard = ({ moods, navigation }) => {
         navigation.navigate('MoodCalendar')
     }
     return (
-        <Card bg="WhiteM" style={{ width: '100%' }}>
-            <Image
-                source={Images.cardWaveF}
-                style={{
-                    width: '100%',
-                    tintColor: Colors.PastelPurple
-                }}
-            />
+        <WaveCard>
             <V p={2} pt={3}>
                 <MoodRow moodData={moods} />
             </V>
@@ -32,7 +23,7 @@ const DailyMoodCard = ({ moods, navigation }) => {
                     </T>
                 </V>
             </Touchable>
-        </Card>
+        </WaveCard>
     )
 }
 

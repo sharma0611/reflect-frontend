@@ -125,13 +125,13 @@ const MissionCard = ({ navigation }) => {
                         }}
                     />
                     <Seperator />
-                    {/* <MissionRow
+                    <MissionRow
                         {...{
                             title: 'Get premium',
                             leftEmoji: '🚀',
                             onPress: navigateToPaywall
                         }}
-                    /> */}
+                    />
                 </V>
                 <SocialBar />
             </V>
