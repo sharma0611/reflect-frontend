@@ -1,7 +1,12 @@
 // @flow
 import firestore from '@react-native-firebase/firestore'
 import AppConfig from '../../Config/AppConfig'
-import { mapDateValuesToTimestamp, mapTimestampValuesToDate, nowTimestamp } from '../helpers'
+import {
+    mapDateValuesToTimestamp,
+    mapTimestampValuesToDate,
+    nowTimestamp,
+    orderObjectsByIds
+} from '../helpers'
 
 const COLLECTION_PREFIX = AppConfig.isDev ? 'test_' : ''
 
@@ -27,7 +32,7 @@ export default class Model {
         return this.docRef(id).get()
     }
 
-    dataFromDoc(doc: firestore.DocumentSnapshot): {} {
+    dataFromDoc(doc: firestore.DocumentSnapshot): any {
         const data = doc.data()
         const id = doc.id
         return { ...mapTimestampValuesToDate(data), id }
@@ -43,8 +48,20 @@ export default class Model {
     }
 
     async dataFromQuery(query: firestore.Query): Promise<Array<{}>> {
-        const docs = await query.get()
-        return this.mapDataFromDocs(docs)
+        const querySnapshot = await query.get()
+        return this.mapDataFromDocs(querySnapshot.docs)
+    }
+
+    async dataFromIds(ids: Array<string>): Promise<Array<any> | void> {
+        if (ids.length > 10) {
+            console.warn('in operator only supports up to 10 comparison values')
+            return
+        }
+
+        const query = this.collectionRef.where(firestore.FieldPath.documentId(), 'in', ids)
+        const querySnapshot = await query.get()
+        const data = this.mapDataFromDocs(querySnapshot.docs)
+        return orderObjectsByIds(ids, data)
     }
 
     dataFromId(id: string): Promise<{}> {
