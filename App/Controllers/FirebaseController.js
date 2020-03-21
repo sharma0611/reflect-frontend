@@ -306,7 +306,7 @@ export const getRandomQuestion = async categoryId => {
     let question
     if (greaterSnapshot.size > 0) {
         greaterSnapshot.forEach(doc => {
-            question = getDataFromDocWithId(doc)
+            question = doc.data()
         })
     } else {
         const lessSnapshot = await questionsRef
@@ -315,7 +315,7 @@ export const getRandomQuestion = async categoryId => {
             .limit(1)
             .get()
         lessSnapshot.forEach(doc => {
-            question = getDataFromDocWithId(doc)
+            question = doc.data()
         })
     }
     return question
