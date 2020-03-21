@@ -8,12 +8,8 @@ export default function useActivities() {
         error: false
     })
     useEffect(() => {
-        // async function onData(data) {
-        //     const activities = await Promise.all(
-        //         data.map(activity => Activity.withEntries(activity))
-        //     )
-
         function onData(activities) {
+            console.log(`👨‍🌾 => `, activities)
             setActivities({ activities, loading: false, error: false })
         }
         function onError(err) {

@@ -8,14 +8,16 @@ const COLLECTION_NAME = 'entries'
 const DAILY_MOOD = 'dailyMood'
 
 export type EntryFields = {
-    caption: string,
+    caption?: string,
     categoryId: string,
     header: string,
     questionId: string,
     questionText: string,
-    responseText: string,
-    timestamp: Date,
-    uid: string
+    // Post Save Fields
+    responseText?: string,
+    timestamp?: Date,
+    uid?: string,
+    id?: string
 }
 
 class EntryModel extends Model {

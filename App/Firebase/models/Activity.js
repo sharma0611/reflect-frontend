@@ -3,6 +3,7 @@ import firestore from '@react-native-firebase/firestore'
 import Model from './Model'
 import Question from 'Firebase/models/Question'
 import type { EntryFields } from './Entry'
+import type { QuestionFields } from './Question'
 
 const COLLECTION_NAME = 'activities'
 
@@ -39,38 +40,14 @@ class ActivityModel extends Model {
         return this.listenToQuery(this.publishedQuery(), onData, onError)
     }
 
-    async withEntries(activity: ActivityFields) {
-        const { questionIds, name } = activity
-        const questions: Array<any> = await Question.dataFromIds(questionIds)
-        const entries = questions.map<any>((question: any) => ({
-            ...question,
-            questionId: question.id,
-            header: name,
-            id: undefined
-        }))
-        return { ...activity, entries }
-    }
-
-    // _activityToSkeleton = async (activityData: ActivityFields): Promise<ActivitySkeletonFields> => {
-    //     const { questionIds, published, ...restOfActivity } = activityData
-    //     const rawQuestions = await new Promise.all(
-    //         questionIds.map(async qId => {
-    //             const { order, id, ...question } = await Question.dataFromId(qId)
-    //             return { ...question, questionId: qId }
-    //         })
-    //     )
-    //     const entries = rawQuestions.map(doc => ({
-    //         ...doc,
-    //         header: restOfActivity.name
-    //     }))
-    //     return { ...restOfActivity, entries }
-    // }
-
-    _activityToSkeleton = async (activityData: ActivityFields): Promise<ActivitySkeletonFields> => {
-        const activityWithEntries = await this.withEntries(activityData)
-        // strip fields
-        const { published, ...restOfActivity } = activityWithEntries
-        return { ...restOfActivity }
+    async withEntries(activity: ActivityFields): Promise<ActivitySkeletonFields> {
+        const { questionIds, published, name, ...restOfActivity } = activity
+        const questions: Array<QuestionFields> = await Question.dataFromIds(questionIds)
+        const entries = questions.map<EntryFields>((question: QuestionFields) => {
+            const { order, id, ...restOfQuestion } = question
+            return { ...restOfQuestion, questionId: question.id, header: name }
+        })
+        return { ...restOfActivity, name, entries }
     }
 
     listenToActivitySkeletons = (
@@ -81,7 +58,7 @@ class ActivityModel extends Model {
             let activitySkeletons = []
             await new Promise.all(
                 activitiesData.map(async activityData => {
-                    const activitySkeleton = await this._activityToSkeleton(activityData)
+                    const activitySkeleton = await this.withEntries(activityData)
                     activitySkeletons.push(activitySkeleton)
                 })
             )
