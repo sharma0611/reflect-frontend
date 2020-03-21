@@ -5,12 +5,23 @@ import moment from 'moment'
 import { Colors } from 'Themes'
 import { summary } from 'date-streaks'
 import Analytics from 'Controllers/AnalyticsController'
+import AppConfig from 'Config/AppConfig'
 
 // static db collections
-export const ACTIVITIES = 'activities' // static activities like daily reflection
-export const CATEGORIES = 'categories' // static question categories
-export const QUESTIONS = 'questions' // static questions
-export const ENTRIES = 'entries' // journal entries
+let ACTIVITIES = 'activities' // static activities like daily reflection
+let CATEGORIES = 'categories' // static question categories
+let QUESTIONS = 'questions' // static questions
+let ENTRIES = 'entries' // journal entries
+
+if (AppConfig.isDev) {
+    const TEST = 'test_'
+    CATEGORIES = TEST + CATEGORIES
+    ACTIVITIES = TEST + ACTIVITIES
+    QUESTIONS = TEST + QUESTIONS
+    ENTRIES = TEST + ENTRIES
+}
+
+export { ACTIVITIES, CATEGORIES, QUESTIONS, ENTRIES }
 
 // dynamic db collections
 export const ADMINS = 'admins' // authenticated admin profiles for the web admin app

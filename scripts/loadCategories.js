@@ -4,7 +4,24 @@ const API_KEY = 'AIzaSyAw_0_Cq34PwLQfG7q0q3vUo59Bq7I3VME'
 const DOC_ID = '1fRvL7qpY9Lms_gGxqsDutYmHEqxrOaXzJKQpo9-jyu8'
 const CATEGORY_SHEET_INDEX = 0
 const ACTIVITY_SHEET_INDEX = 1
+const EMOJI_SHEET_INDEX = 2
 const waterfall = require('async/waterfall')
+
+const DEV = true // set this to false to ship to prod
+
+// firebase collections
+let CATEGORIES = 'categories'
+let ACTIVITIES = 'activities'
+let QUESTIONS = 'questions'
+let EMOJIS = 'emojis'
+
+if (DEV) {
+    const TEST = 'test_'
+    CATEGORIES = TEST + CATEGORIES
+    ACTIVITIES = TEST + ACTIVITIES
+    QUESTIONS = TEST + QUESTIONS
+    EMOJIS = TEST + EMOJIS
+}
 
 // Authentication
 const getSheetWithKey = () => {
@@ -61,6 +78,20 @@ const stringToIdList = str => {
     return str.split(',').map(id => id.trim())
 }
 
+const deleteCollection = async (db, collection) => {
+    let batch = db.batch()
+    await db
+        .collection(collection)
+        .listDocuments()
+        .then(val => {
+            val.map(val => {
+                batch.delete(val)
+            })
+
+            batch.commit()
+        })
+}
+
 const processCategoryJson = raw => {
     return raw.map(category => ({
         ...category,
@@ -75,6 +106,13 @@ const processActivityJson = raw => {
         isPro: intStringToBool(activity.isPro),
         published: intStringToBool(activity.published),
         questionIds: stringToIdList(activity.questionIds)
+    }))
+}
+
+const processEmojiJson = raw => {
+    return raw.map((emoji, index) => ({
+        ...emoji,
+        order: index
     }))
 }
 
@@ -98,15 +136,22 @@ const fetchActivities = async doc => {
     return activityJson
 }
 
+const fetchEmojis = async doc => {
+    const emojiSheet = doc.sheetsByIndex[EMOJI_SHEET_INDEX]
+    const emojiRawJson = await convertSheetToJson(emojiSheet)
+    const emojiJson = processEmojiJson(emojiRawJson)
+    return emojiJson
+}
+
 const fetchQuestionSheets = doc => {
     const numSheets = doc.sheetsByIndex.length
-    const questionSheets = doc.sheetsByIndex.splice(ACTIVITY_SHEET_INDEX + 1, numSheets - 1)
+    const questionSheets = doc.sheetsByIndex.splice(EMOJI_SHEET_INDEX + 1, numSheets - 1)
     return questionSheets
 }
 
 const fetchQuestionSheetsByTitle = doc => {
     const numSheets = doc.sheetsByIndex.length
-    const questionSheets = doc.sheetsByIndex.splice(ACTIVITY_SHEET_INDEX + 1, numSheets - 1)
+    const questionSheets = doc.sheetsByIndex.splice(EMOJI_SHEET_INDEX + 1, numSheets - 1)
     return questionSheets
         .map(sheet => ({ [sheet.title]: sheet }))
         .reduce((prevVal, currVal) => ({ ...prevVal, ...currVal }))
@@ -131,7 +176,7 @@ const fetchQuestions = async doc => {
 const upsertCategories = async (db, categories) => {
     await Promise.all(
         categories.map(async ({ id, ...rest }) => {
-            const docRef = db.collection('categories').doc(id)
+            const docRef = db.collection(CATEGORIES).doc(id)
             await docRef.set(rest)
         })
     )
@@ -140,50 +185,77 @@ const upsertCategories = async (db, categories) => {
 const upsertActivities = async (db, activities) => {
     await Promise.all(
         activities.map(async ({ id, ...rest }) => {
-            const docRef = db.collection('activities').doc(id)
+            const docRef = db.collection(ACTIVITIES).doc(id)
             await docRef.set(rest)
         })
     )
 }
 
-const loadCategoriesAndQuestions = async () => {
+const upsertEmojis = async (db, emojis) => {
+    // wipe emojis
+    await deleteCollection(db, EMOJIS)
+
+    // upload emojis
+    await Promise.all(
+        emojis.map(async emoji => {
+            const docRef = db.collection(EMOJIS).doc()
+            await docRef.set(emoji)
+        })
+    )
+}
+
+const loadCategoriesActivitiesEmojisQuestions = async () => {
     const db = getDbFromCreds()
     const doc = await fetchMasterSheet()
 
     const categories = await fetchCategories(doc)
-    // upsertCategories(db, categories)
+    upsertCategories(db, categories)
 
-    // const activities = await fetchActivities(doc)
-    // upsertActivities(db, activities)
+    const activities = await fetchActivities(doc)
+    upsertActivities(db, activities)
+
+    const emojis = await fetchEmojis(doc)
+    await upsertEmojis(db, emojis)
 
     // now for each categoryId, get the question sheet, go row by row saving each to firestore & updating id column
     const questionSheets = fetchQuestionSheetsByTitle(doc)
+
     await waterfall(
         categories.map(({ id: categoryId }) => async () => {
             const questionSheet = questionSheets[categoryId]
-            if (questionSheet.title !== 'activity') {
-                return
-            }
+            // to do it just for one category:
+            // if (questionSheet.title !== 'activity') {
+            //     return
+            // }
             const questions = await questionSheet.getRows()
-            // await new Promise(r => setTimeout(r, 2000))
+            await new Promise(r => setTimeout(r, 2000))
             await waterfall(
-                questions.map(row => async () => {
-                    // await new Promise(r => setTimeout(r, 2000))
-                    const { id, remove, ...rest } = await convertRowToJson(questionSheet, row)
-                    const questionData = { ...rest, categoryId }
-                    if (remove) {
-                        const docRef = db.collection('questions').doc(id)
-                        await docRef.delete()
-                        await row.delete()
-                        return
-                    }
+                questions.map((row, index) => async () => {
+                    await new Promise(r => setTimeout(r, 2000))
+                    const { id, remove, order, ...rest } = await convertRowToJson(
+                        questionSheet,
+                        row
+                    )
+                    const questionData = { ...rest, order: index, categoryId }
+                    // removal process is now manual, delete the firestore question & sheet row
+                    // if (remove) {
+                    //     const docRef = db.collection(QUESTIONS).doc(id)
+                    //     await docRef.delete()
+                    //     await row.delete()
+                    //     return
+                    // }
                     if (id) {
                         // update
-                        const docRef = db.collection('questions').doc(id)
+                        const docRef = db.collection(QUESTIONS).doc(id)
                         await docRef.set(questionData)
+                        if (!order || parseInt(order, 10) !== index) {
+                            // if the order is different or undef, update the order in the sheet (potentially from deleted rows)
+                            row.order = index
+                            await row.save()
+                        }
                     } else {
                         // insert
-                        const docRef = db.collection('questions').doc()
+                        const docRef = db.collection(QUESTIONS).doc()
                         await docRef.set(questionData)
                         // save id back to google sheet
                         row.id = docRef.id
@@ -195,4 +267,4 @@ const loadCategoriesAndQuestions = async () => {
     )
 }
 
-loadCategoriesAndQuestions()
+loadCategoriesActivitiesEmojisQuestions()
