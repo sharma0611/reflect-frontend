@@ -20,7 +20,12 @@ const getQuestion = async (categoryId, categoryName) => {
 const CategoryScoller = ({ navigation, categories }) => {
     const navigateToQuestion = async (categoryId, categoryName, color) => {
         const { id: questionId, ...rest } = await getQuestion(categoryId, categoryName)
-        const activity = { color, name: categoryName, entries: [{ ...rest, questionId }] }
+        const activity = {
+            color,
+            activityType: categoryId,
+            name: categoryName,
+            entries: [{ ...rest, questionId }]
+        }
         navigation.navigate({
             routeName: 'Activity',
             params: {

@@ -27,7 +27,7 @@ const ActivityScreen = ({ navigation }) => {
     if (indexSet) {
         index = indexSet
     }
-    const { color, entries } = activity
+    const { color, entries, activityType } = activity
     const currentQuestion = entries[index]
     const { header, questionText, responseText, caption, useEmoji } = currentQuestion
     const [response, setResponse] = useState(responseText)
@@ -62,6 +62,7 @@ const ActivityScreen = ({ navigation }) => {
     }
 
     const submitQuestion = async () => {
+        Analytics.saveActivity(activityType)
         const updatedEntries = persistResponse()
         let newActivity
         newActivity = { ...activity, entries: updatedEntries }
@@ -96,10 +97,13 @@ const ActivityScreen = ({ navigation }) => {
         setShowModal(false)
     }
 
-    const loseProgress = () => {
+    const loseProgress = async () => {
+        Analytics.loseProgress(activityType, index)
         closeModal()
+        await new Promise(r => setTimeout(r, 350))
         navigate('Tabs')
     }
+
     return (
         <WaveBackground heightRatio={WaveHeightRatio} fullScreen>
             <KeyboardAwareScrollView
