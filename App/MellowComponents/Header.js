@@ -53,8 +53,11 @@ class Header extends React.Component<Props, State> {
                                 source={Images.exit}
                                 style={{ tintColor: Colors.WhiteM, height: 30, width: 30 }}
                                 onPress={() => {
-                                    onClose && onClose()
-                                    this.props.navigation.navigate('Tabs')
+                                    if (onClose) {
+                                        onClose()
+                                    } else {
+                                        this.props.navigation.navigate('Tabs')
+                                    }
                                 }}
                             />
                         </V>

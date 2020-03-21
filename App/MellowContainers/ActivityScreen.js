@@ -6,12 +6,15 @@ import Header, { HEADER_HEIGHT } from 'MellowComponents/Header'
 import WaveBackground from 'MellowComponents/WaveBackground'
 import RightChevron from 'MellowComponents/RightChevron'
 import Touchable from 'Components/Touchable'
+import Card from 'MellowComponents/Card'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { withNavigation } from 'react-navigation'
 import MainButton from 'MellowComponents/MainButton'
 import Question from 'MellowComponents/Question'
 import { upsertActivityResponse } from '../Controllers/FirebaseController'
 import Analytics from 'Controllers/AnalyticsController'
+import Modal from 'react-native-modal'
+import SecondaryButton from 'MellowComponents/SecondaryButton'
 
 const WaveHeightRatio = 0.3
 const CIRCLE_WIDTH = 60
@@ -30,6 +33,8 @@ const ActivityScreen = ({ navigation }) => {
     const [response, setResponse] = useState(responseText)
     const nextQuestionExists = index < entries.length - 1
 
+    const [showModal, setShowModal] = useState(false)
+
     const persistResponse = () => {
         const questionWithText = { ...currentQuestion, responseText: response }
         Analytics.saveEntry(header, response?.length || 0)
@@ -42,31 +47,26 @@ const ActivityScreen = ({ navigation }) => {
         return updatedEntries
     }
 
-    const nextQuestion = async () => {
+    const nextQuestion = () => {
         const updatedEntries = persistResponse()
         let newActivity
         newActivity = { ...activity, entries: updatedEntries }
-        if (!newActivity.id) {
-            // wait and get ID before passing it on
-            newActivity = await upsertActivityResponse(newActivity)
-        } else {
-            // we already have an id, so just get on with the show and
-            //      we'll save this in the background :-)
-            upsertActivityResponse(newActivity)
-        }
-        if (nextQuestionExists) {
-            navigate({
-                routeName: 'Activity',
-                params: {
-                    activity: newActivity,
-                    index: index + 1
-                },
-                key: index + 1
-            })
-        } else {
-            navigate('Tabs')
-            // navigate to success screen in the future
-        }
+        navigate({
+            routeName: 'Activity',
+            params: {
+                activity: newActivity,
+                index: index + 1
+            },
+            key: index + 1
+        })
+    }
+
+    const submitQuestion = async () => {
+        const updatedEntries = persistResponse()
+        let newActivity
+        newActivity = { ...activity, entries: updatedEntries }
+        await upsertActivityResponse(newActivity)
+        navigate('Tabs')
     }
 
     // When we add a back button, use this. (or when we navigate directly to journal)
@@ -88,6 +88,18 @@ const ActivityScreen = ({ navigation }) => {
         }
     }
 
+    const onExit = () => {
+        setShowModal(true)
+    }
+
+    const closeModal = () => {
+        setShowModal(false)
+    }
+
+    const loseProgress = () => {
+        closeModal()
+        navigate('Tabs')
+    }
     return (
         <WaveBackground heightRatio={WaveHeightRatio} fullScreen>
             <KeyboardAwareScrollView
@@ -127,11 +139,34 @@ const ActivityScreen = ({ navigation }) => {
                     </Touchable>
                 ) : (
                     <V ai="center" pt={2}>
-                        <MainButton onPress={nextQuestion} text={`Submit`} />
+                        <MainButton onPress={submitQuestion} text={`Submit`} />
                     </V>
                 )}
             </KeyboardAwareScrollView>
-            <Header headerTitle={header} exit color={color} />
+            <Modal
+                isVisible={showModal}
+                onBackdropPress={closeModal}
+                hideModalContentWhileAnimating={true}
+                avoidKeyboard={true}
+            >
+                <Card bg="WhiteM" alt>
+                    <V p={4}>
+                        <V pb={2}>
+                            <T heading4>Warning! 🛑</T>
+                        </V>
+                        <V pb={2}>
+                            <T b1>Your progress will be lost if you exit!</T>
+                        </V>
+                        <V ai="center" pt={3}>
+                            <MainButton onPress={closeModal} text={'Keep at it'} />
+                        </V>
+                        <V ai="center" pt={2}>
+                            <SecondaryButton onPress={loseProgress} text={'Lose my progress'} />
+                        </V>
+                    </V>
+                </Card>
+            </Modal>
+            <Header headerTitle={header} onClose={onExit} exit color={color} />
         </WaveBackground>
     )
 }
