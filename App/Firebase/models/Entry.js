@@ -7,7 +7,7 @@ import { startOfDay, endOfDay } from '../helpers'
 const COLLECTION_NAME = 'entries'
 const DAILY_MOOD = 'dailyMood'
 
-type fields = {
+export type EntryFields = {
     caption: string,
     categoryId: string,
     header: string,
