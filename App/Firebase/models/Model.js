@@ -8,6 +8,8 @@ import {
     orderObjectsByIds
 } from '../helpers'
 
+import type { PaginatedResponse } from './Types'
+
 const COLLECTION_PREFIX = AppConfig.isDev ? 'test_' : ''
 
 export default class Model {
@@ -52,7 +54,24 @@ export default class Model {
         return this.mapDataFromDocs(querySnapshot.docs)
     }
 
-    async dataFromIds(ids: Array<string>): Promise<Array<any>> {
+    async dataFromPaginatedQuery(
+        query: firestore.Query,
+        limit: number,
+        startAfter?: firestore.DocumentSnapshot
+    ): Promise<PaginatedResponse> {
+        let paginatedQuery = query
+        if (startAfter) {
+            paginatedQuery = paginatedQuery.startAfter(startAfter)
+        }
+        paginatedQuery = paginatedQuery.limit(limit)
+        const querySnapshot = await paginatedQuery.get()
+        return {
+            data: this.mapDataFromDocs(querySnapshot.docs),
+            lastDoc: querySnapshot.docs[querySnapshot.docs.length - 1]
+        }
+    }
+
+    async dataFromIds(ids: Array<string>): Promise<Array<any> | void> {
         if (ids.length > 10) {
             console.warn('in operator only supports up to 10 comparison values')
             return []
