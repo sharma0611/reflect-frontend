@@ -1,8 +1,15 @@
 // @flow
 import Mixpanel from 'react-native-mixpanel'
 import { AppEventsLogger } from 'react-native-fbsdk'
+import { firebase } from '@react-native-firebase/analytics'
 import config from 'Config/AppConfig'
 import moment from 'moment'
+
+const LogLocation = {
+    ALL: 0,
+    FB: 1,
+    GOOGLE: 2
+}
 
 class Tracking {
     constructor() {
@@ -12,16 +19,30 @@ class Tracking {
         //     Mixpanel.identify(config.getDeviceId())
         // )
     }
+    _trackLocation = (eventName: string, logLocation: int = 0) => {
+        switch (logLocation) {
+            case LogLocation.ALL:
+                AppEventsLogger.logEvent(eventName)
+                firebase.analytics().logEvent(eventName.replace(/ +/g, '_'))
+                break
+            case LogLocation.FB:
+                AppEventsLogger.logEvent(eventName)
+                break
+            case LogLocation.GOOGLE:
+                firebase.analytics().logEvent(eventName.replace(/ +/g, '_'))
+        }
+    }
     // Send and event name with no properties
-    _track = (eventName: string) => {
+    _track = (eventName: string, logLocation: int = 0) => {
         Mixpanel.track(eventName)
-        AppEventsLogger.logEvent(eventName)
+        this._trackLocation(eventName, logLocation)
     }
 
     // Track event with properties
     _trackWithProperties = (eventName: string, props: any) => {
         Mixpanel.trackWithProperties(eventName, props)
         AppEventsLogger.logEvent(eventName, null, props)
+        firebase.analytics().logEvent(eventName.replace(/ +/g, '_'), props)
     }
 
     // set people properties
