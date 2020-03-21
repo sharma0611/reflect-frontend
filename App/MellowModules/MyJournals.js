@@ -12,7 +12,8 @@ import Prompts from 'Data/prompts'
 import JournalActivityCard from 'MellowModules/JournalActivityCard'
 import Section from 'MellowComponents/Section'
 import Card from 'MellowComponents/Card'
-import { currentUid, dateToFirestoreTimestamp } from 'Controllers/FirebaseController'
+import { dateToFirestoreTimestamp } from 'Controllers/FirebaseController'
+import Profile from '../Firebase/models/Profile'
 
 const MyJournals = ({ renderHeader, activityResponses, hasMore, loadMore }) => {
     const [legacyJournals, setLegacyJournals] = useState([])
@@ -54,7 +55,7 @@ const MyJournals = ({ renderHeader, activityResponses, hasMore, loadMore }) => {
     const sections = mapResponsestoSections(responses)
 
     const mapLegacyJournalsToActivityResponses = journals => {
-        const uid = currentUid()
+        const uid = Profile.uid()
         return journals.map(journal => {
             return {
                 legacy: true,

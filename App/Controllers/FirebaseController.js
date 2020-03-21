@@ -31,37 +31,6 @@ export const currentUser = () => auth.currentUser
 export const currentUid = () => auth.currentUser.uid
 export const signOut = () => auth.signOut()
 
-export const createUserWithEmailAndPassword = async ({ email, password, ...rest }) => {
-    await auth.createUserWithEmailAndPassword(email, password)
-    await finishSignUp({ ...rest })
-    Analytics.signIn('email')
-}
-
-export const signInWithEmailAndPassword = async ({ email, password, ...rest }) => {
-    await auth.signInWithEmailAndPassword(email, password)
-    await finishSignUp({ ...rest })
-    Analytics.signIn('email')
-}
-
-export const signInWithFacebookCredential = async ({ accessToken, ...rest }) => {
-    await auth.signInWithCredential(facebookProvider.credential(accessToken))
-    await finishSignUp({ ...rest })
-    Analytics.signIn('facebook')
-}
-
-export const signInWithGoogleCredential = async ({ idToken, accessToken, ...rest }) => {
-    await auth.signInWithCredential(googleProvider.credential(idToken, accessToken))
-    await finishSignUp({ ...rest })
-    Analytics.signIn('google')
-}
-
-export const finishSignUp = async ({ displayName = '' }) => {
-    if (!auth.currentUser.displayName || displayName) {
-        await auth.currentUser.updateProfile({ displayName })
-    }
-    await findOrCreateProfile()
-}
-
 // db
 export const activitiesRef = db.collection(ACTIVITIES)
 export const categoriesRef = db.collection(CATEGORIES)

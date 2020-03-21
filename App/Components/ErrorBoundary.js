@@ -4,7 +4,7 @@ import T from 'Components/T'
 import V from 'Components/V'
 import * as Sentry from '@sentry/react-native'
 import SecondaryButton from 'MellowComponents/SecondaryButton'
-import { signOut } from '../Controllers/FirebaseController'
+import Profile from '../Firebase/models/Profile'
 
 type Props = {
     children: React.Node
@@ -30,6 +30,10 @@ class ErrorBoundary extends React.Component<Props, State> {
         Sentry.captureException(error)
     }
 
+    handleSignOut() {
+        Profile.signOut()
+    }
+
     render() {
         if (this.state.hasError) {
             // You can render any custom fallback UI
@@ -39,7 +43,7 @@ class ErrorBoundary extends React.Component<Props, State> {
                         Sorry for the error! Please let us know in the feedback form on the main
                         screen or text me at 6479380024.
                     </T>
-                    <SecondaryButton onPress={signOut} text={'Sign out'} />
+                    <SecondaryButton onPress={this.handleSignOut} text={'Sign out'} />
                 </V>
             )
         }
