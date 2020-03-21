@@ -3,7 +3,7 @@ import Model from './Model'
 
 const COLLECTION_NAME = 'entries'
 
-type fields = {
+export type EntryFields = {
     caption: string,
     categoryId: string,
     header: string,

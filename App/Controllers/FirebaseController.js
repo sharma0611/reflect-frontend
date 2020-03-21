@@ -1,7 +1,6 @@
 import firebase from '@react-native-firebase/app'
 import initAuth from '@react-native-firebase/auth'
 import initFirestore from '@react-native-firebase/firestore'
-import initFunctions from '@react-native-firebase/functions'
 import moment from 'moment'
 import { Colors } from 'Themes'
 import { summary } from 'date-streaks'
@@ -24,7 +23,6 @@ export const DAILY_MOOD = 'dailyMood'
 //init
 export const auth = initAuth()
 export const db = initFirestore()
-export const functions = initFunctions()
 
 // auth
 export const facebookProvider = firebase.auth.FacebookAuthProvider
@@ -277,7 +275,7 @@ export const getRandomQuestion = async categoryId => {
     let question
     if (greaterSnapshot.size > 0) {
         greaterSnapshot.forEach(doc => {
-            question = getDataFromDocWithId(doc)
+            question = doc.data()
         })
     } else {
         const lessSnapshot = await questionsRef
@@ -286,7 +284,7 @@ export const getRandomQuestion = async categoryId => {
             .limit(1)
             .get()
         lessSnapshot.forEach(doc => {
-            question = getDataFromDocWithId(doc)
+            question = doc.data()
         })
     }
     return question

@@ -13,6 +13,7 @@
 #import <RNCPushNotificationIOS.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <Firebase.h>
+#import "RNSplashScreen.h"
 
 @implementation AppDelegate
 
@@ -35,6 +36,7 @@
      }
   [[FBSDKApplicationDelegate sharedInstance] application:application
   didFinishLaunchingWithOptions:launchOptions];
+  [RNSplashScreen show];
   return YES;
 }
 

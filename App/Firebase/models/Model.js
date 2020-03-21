@@ -54,8 +54,8 @@ export default class Model {
 
     listenToDocRef(
         docRef: firestore.DocumentReference,
-        onData: (data: {}) => void,
-        onError: (error: Error) => void
+        onData: (data: {}) => any,
+        onError: (error: Error) => any
     ) {
         return docRef.onSnapshot(doc => {
             const data = this.dataFromDoc(doc)
@@ -65,8 +65,8 @@ export default class Model {
 
     listenToQuery(
         query: firestore.Query,
-        onData: (data: Array<{}>) => void,
-        onError: (error: Error) => void
+        onData: (data: Array<any>) => any,
+        onError: (error: Error) => any
     ) {
         return query.onSnapshot(querySnapshot => {
             const data = this.mapDataFromDocs(querySnapshot.docs)
