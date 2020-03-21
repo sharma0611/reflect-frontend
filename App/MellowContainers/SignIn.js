@@ -16,12 +16,7 @@ import Analytics from 'Controllers/AnalyticsController'
 import BlueBackground from 'MellowComponents/BlueBackground'
 import { Formik } from 'formik'
 import FIcon from 'react-native-vector-icons/Feather'
-import {
-    signInWithEmailAndPassword,
-    signInWithFacebookCredential,
-    signInWithGoogleCredential,
-    currentUid
-} from '../Controllers/FirebaseController'
+import Profile from '../Firebase/models/Profile'
 import { LoginManager, AccessToken } from 'react-native-fbsdk'
 import { GoogleSignin } from '@react-native-community/google-signin'
 
@@ -63,9 +58,7 @@ class SignIn extends React.Component<Props, State> {
         const { email, password } = formData
         try {
             await this.setState({ error: '' })
-            await signInWithEmailAndPassword({ email, password })
-            const uid = currentUid()
-            Analytics.identifyByUid(uid)
+            await Profile.signInWithEmail(email, password)
         } catch (e) {
             await this.setState({ error: e.message })
         }
@@ -89,17 +82,13 @@ class SignIn extends React.Component<Props, State> {
                 this.setState({ error: 'Error: Something went wrong getting the access token.' })
             }
 
-            await signInWithFacebookCredential({ accessToken })
-            const uid = currentUid()
-            Analytics.identifyByUid(uid)
+            await Profile.signInWithFacebook(accessToken)
         }
     }
 
     googleSignIn = async () => {
-        const { accessToken, idToken } = await GoogleSignin.signIn()
-        await signInWithGoogleCredential({ idToken, accessToken })
-        const uid = currentUid()
-        Analytics.identifyByUid(uid)
+        const { idToken, accessToken } = await GoogleSignin.signIn()
+        await Profile.signInWithGoogle(idToken, accessToken)
     }
 
     forgotPassword = () => {
