@@ -2,11 +2,13 @@
 import firestore from '@react-native-firebase/firestore'
 import Model from './Model'
 import Profile from './Profile'
+import Entry from './Entry'
 import type { PaginatedResponse } from './Types'
+import type { EntryFields } from './Entry'
 
 const COLLECTION_NAME = 'activity_responses'
 
-type fields = {
+type ActivityResponseFields = {
     activityType: string,
     color: string,
     entryIds: Array<string>,
@@ -15,29 +17,39 @@ type fields = {
     uid: string
 }
 
+type ActivityResponseWithEntriesFields = {
+    activityType: string,
+    color: string,
+    entries: Array<EntryFields>,
+    name: string,
+    timestamp: Date,
+    uid: string
+}
+
 class ActivityResponseModel extends Model {
-    _getResponsesWithEntries = data => {
+    _getResponsesWithEntries = (
+        responses: Array<ActivityResponseFields>
+    ): Promise<Array<ActivityResponseWithEntriesFields>> => {
         return new Promise.all(
-            data.map(async (doc, index) => {
-                const activity = await mapDocToActivityResponse(doc)
-                if (index === docs.length - 1) {
-                    currLastDoc = doc
-                }
-                return activity
+            responses.map(async response => {
+                const responseWithEntry = await this._getResponseWithEntries(response)
+                return responseWithEntry
             })
         )
     }
 
-    _getResponseWithEntries = async response => {
+    _getResponseWithEntries = async (
+        response: ActivityResponseFields
+    ): Promise<ActivityResponseWithEntriesFields> => {
         const { entryIds, ...rest } = response
-        const entries = await fetchEntries(entryIds)
+        const entries = await Entry.dataFromIds(entryIds)
         const activity = { ...rest, entries }
         return activity
     }
 
     userActivityResponsesQuery(): firestore.Query {
         const uid = Profile.uid()
-        return this.collectionRef.where('uid', '==', uid)
+        return this.collectionRef.where('uid', '==', uid).orderBy('timestamp', 'desc')
     }
 
     paginatedResponses = (
@@ -52,7 +64,7 @@ class ActivityResponseModel extends Model {
         startAfter?: firestore.DocumentSnapshot
     ): Promise<PaginatedResponse> => {
         const { data, lastDoc } = await this.paginatedResponses(limit, startAfter)
-        const responsesWithEntries = this._getResponsesWithEntries(data)
+        const responsesWithEntries = await this._getResponsesWithEntries(data)
         return { data: responsesWithEntries, lastDoc }
     }
 }

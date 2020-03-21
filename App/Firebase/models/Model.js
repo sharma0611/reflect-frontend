@@ -101,7 +101,7 @@ export default class Model {
 
     listenToQuery(
         query: firestore.Query,
-        onData: (data: Array<{}>) => void,
+        onData: (data: Array<any>) => void,
         onError: (error: Error) => void
     ) {
         return query.onSnapshot(querySnapshot => {

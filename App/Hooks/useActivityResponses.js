@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import * as Sentry from '@sentry/react-native'
 import ActivityResponse from '../Firebase/models/ActivityResponse'
 
-const LIMIT = 5
+const LIMIT = 1
 
 export default function useActivityResponses() {
     const initialState = {
@@ -23,7 +23,7 @@ export default function useActivityResponses() {
         let {
             data: currActivityResponses,
             lastDoc: currLastDoc
-        } = await ActivityResponse.paginatedResponses(LIMIT, fresh ? undefined : lastDoc)
+        } = await ActivityResponse.paginatedResponsesWithEntries(LIMIT, fresh ? undefined : lastDoc)
         if (currActivityResponses.length < LIMIT) {
             currHasMore = false
         }

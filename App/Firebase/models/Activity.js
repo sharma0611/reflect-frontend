@@ -39,7 +39,7 @@ class ActivityModel extends Model {
         return this.listenToQuery(this.publishedQuery(), onData, onError)
     }
 
-    async withEntries(activity: fields) {
+    async withEntries(activity: ActivityFields) {
         const { questionIds, name } = activity
         const questions: Array<any> = await Question.dataFromIds(questionIds)
         const entries = questions.map<any>((question: any) => ({
@@ -51,19 +51,26 @@ class ActivityModel extends Model {
         return { ...activity, entries }
     }
 
+    // _activityToSkeleton = async (activityData: ActivityFields): Promise<ActivitySkeletonFields> => {
+    //     const { questionIds, published, ...restOfActivity } = activityData
+    //     const rawQuestions = await new Promise.all(
+    //         questionIds.map(async qId => {
+    //             const { order, id, ...question } = await Question.dataFromId(qId)
+    //             return { ...question, questionId: qId }
+    //         })
+    //     )
+    //     const entries = rawQuestions.map(doc => ({
+    //         ...doc,
+    //         header: restOfActivity.name
+    //     }))
+    //     return { ...restOfActivity, entries }
+    // }
+
     _activityToSkeleton = async (activityData: ActivityFields): Promise<ActivitySkeletonFields> => {
-        const { questionIds, published, ...restOfActivity } = activityData
-        const rawQuestions = await new Promise.all(
-            questionIds.map(async qId => {
-                const { order, id, ...question } = await Question.dataFromId(qId)
-                return { ...question, questionId: qId }
-            })
-        )
-        const entries = rawQuestions.map(doc => ({
-            ...doc,
-            header: restOfActivity.name
-        }))
-        return { ...restOfActivity, entries }
+        const activityWithEntries = await this.withEntries(activityData)
+        // strip fields
+        const { published, ...restOfActivity } = activityWithEntries
+        return { ...restOfActivity }
     }
 
     listenToActivitySkeletons = (
