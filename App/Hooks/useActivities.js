@@ -18,8 +18,7 @@ const activityToActivityResponse = async doc => {
     )
     const entries = rawQuestions.map(doc => ({
         ...doc,
-        header: restOfActivity.name,
-        activityType: restOfActivity.id
+        header: restOfActivity.name
     }))
     return { ...restOfActivity, entries }
 }
