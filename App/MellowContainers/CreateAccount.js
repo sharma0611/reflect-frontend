@@ -18,7 +18,7 @@ import { Formik } from 'formik'
 import FIcon from 'react-native-vector-icons/Feather'
 import { LoginManager, AccessToken } from 'react-native-fbsdk'
 import { GoogleSignin } from '@react-native-community/google-signin'
-import Profile from '../Firebase/models/Profile'
+import Profile from 'Firebase/models/Profile'
 
 type Props = {}
 

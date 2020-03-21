@@ -16,7 +16,7 @@ import Analytics from 'Controllers/AnalyticsController'
 import BlueBackground from 'MellowComponents/BlueBackground'
 import { Formik } from 'formik'
 import FIcon from 'react-native-vector-icons/Feather'
-import Profile from '../Firebase/models/Profile'
+import Profile from 'Firebase/models/Profile'
 import { LoginManager, AccessToken } from 'react-native-fbsdk'
 import { GoogleSignin } from '@react-native-community/google-signin'
 

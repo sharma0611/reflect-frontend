@@ -1,5 +1,5 @@
 import { useGlobal, useEffect } from 'reactn'
-import Profile from '../Firebase/models/Profile'
+import Profile from 'Firebase/models/Profile'
 
 export const USER = 'user'
 export const initialUserState = { loading: true, hasPro: false, uid: undefined }

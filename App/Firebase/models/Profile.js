@@ -2,8 +2,8 @@
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import Model from './Model'
-import Analytics from '../../Controllers/AnalyticsController'
-import { hasProByUid } from '../../Controllers/PurchasesController'
+import Analytics from 'Controllers/AnalyticsController'
+import { hasProByUid } from 'Controllers/PurchasesController'
 
 const COLLECTION_NAME = 'profiles'
 

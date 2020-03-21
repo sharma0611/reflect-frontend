@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Activity from '../Firebase/models/Activity'
+import Activity from 'Firebase/models/Activity'
 import * as Sentry from '@sentry/react-native'
 
 export default function useActivities() {

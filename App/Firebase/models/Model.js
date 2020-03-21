@@ -1,6 +1,6 @@
 // @flow
 import firestore from '@react-native-firebase/firestore'
-import AppConfig from '../../Config/AppConfig'
+import AppConfig from 'Config/AppConfig'
 import {
     mapDateValuesToTimestamp,
     mapTimestampValuesToDate,

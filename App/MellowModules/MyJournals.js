@@ -13,7 +13,7 @@ import JournalActivityCard from 'MellowModules/JournalActivityCard'
 import Section from 'MellowComponents/Section'
 import Card from 'MellowComponents/Card'
 import { dateToFirestoreTimestamp } from 'Controllers/FirebaseController'
-import Profile from '../Firebase/models/Profile'
+import Profile from 'Firebase/models/Profile'
 
 const MyJournals = ({ renderHeader, activityResponses, hasMore, loadMore }) => {
     const [legacyJournals, setLegacyJournals] = useState([])

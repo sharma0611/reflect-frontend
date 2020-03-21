@@ -7,7 +7,7 @@ import WaveBackground from 'MellowComponents/WaveBackground'
 import LeftChevron from 'MellowComponents/LeftChevron'
 import WhiteField from 'MellowComponents/WhiteField'
 import { withNavigation } from 'react-navigation'
-import Profile from '../Firebase/models/Profile'
+import Profile from 'Firebase/models/Profile'
 
 type Props = {}
 

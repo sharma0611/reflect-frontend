@@ -4,7 +4,7 @@ import T from 'Components/T'
 import V from 'Components/V'
 import * as Sentry from '@sentry/react-native'
 import SecondaryButton from 'MellowComponents/SecondaryButton'
-import Profile from '../Firebase/models/Profile'
+import Profile from 'Firebase/models/Profile'
 
 type Props = {
     children: React.Node

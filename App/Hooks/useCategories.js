@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Category from '../Firebase/models/Category'
+import Category from 'Firebase/models/Category'
 import * as Sentry from '@sentry/react-native'
 
 export default function useCategories() {

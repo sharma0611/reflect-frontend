@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Profile from '../Firebase/models/Profile'
+import Profile from 'Firebase/models/Profile'
 import * as Sentry from '@sentry/react-native'
 
 export default function useProfile() {
