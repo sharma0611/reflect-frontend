@@ -21,6 +21,7 @@ export default function useDailyReflection() {
                 loading: false,
                 error: 'Error: Daily Reflection not found.'
             })
+            console.warn(err)
             Sentry.captureException(err)
         }
         async function onSnapshot(querySnapshot) {

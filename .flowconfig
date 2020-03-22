@@ -34,6 +34,9 @@ module.file_ext=.js
 module.file_ext=.json
 module.file_ext=.ios.js
 
+module.system.node.resolve_dirname=node_modules
+module.system.node.resolve_dirname=App
+
 munge_underscores=true
 
 module.name_mapper='^react-native$' -> '<PROJECT_ROOT>/node_modules/react-native/Libraries/react-native/react-native-implementation'
@@ -57,7 +60,6 @@ untyped-type-import=warn
 nonstrict-import=warn
 deprecated-type=warn
 unsafe-getters-setters=warn
-inexact-spread=warn
 unnecessary-invariant=warn
 signature-verification-failure=warn
 deprecated-utility=error
@@ -72,4 +74,4 @@ untyped-import
 untyped-type-import
 
 [version]
-^0.105.0
+>=0.105.0

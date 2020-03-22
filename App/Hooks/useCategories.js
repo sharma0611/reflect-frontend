@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { listenToCategories, getDataFromDocWithId } from '../Controllers/FirebaseController'
+import Category from 'Firebase/models/Category'
 import * as Sentry from '@sentry/react-native'
 
 export default function useCategories() {
@@ -8,10 +8,8 @@ export default function useCategories() {
         error: false
     })
     useEffect(() => {
-        function onSnapshot(querySnapshot) {
-            let categories = []
-            querySnapshot.forEach(doc => categories.push(getDataFromDocWithId(doc)))
-            setCategories({ categories, loading: false, error: false })
+        function onData(data) {
+            setCategories({ categories: [...data], loading: false, error: false })
         }
         function onError(err) {
             setCategories({
@@ -22,7 +20,7 @@ export default function useCategories() {
             Sentry.captureException(err)
         }
         try {
-            const unsubscribe = listenToCategories(onSnapshot, onError)
+            const unsubscribe = Category.listenToAMAs(onData, onError)
             return unsubscribe
         } catch (e) {
             onError(e)

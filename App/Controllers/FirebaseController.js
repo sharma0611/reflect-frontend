@@ -4,18 +4,19 @@ import initFirestore from '@react-native-firebase/firestore'
 import moment from 'moment'
 import { Colors } from 'Themes'
 import { summary } from 'date-streaks'
-import Analytics from 'Controllers/AnalyticsController'
+import AppConfig from 'Config/AppConfig'
 
 // static db collections
-export const ACTIVITIES = 'activities' // static activities like daily reflection
-export const CATEGORIES = 'categories' // static question categories
-export const QUESTIONS = 'questions' // static questions
-export const ENTRIES = 'entries' // journal entries
+const COLLECTION_PREFIX = AppConfig.isDev ? 'test_' : ''
+export const ACTIVITIES = COLLECTION_PREFIX + 'activities' // static activities like daily reflection
+export const CATEGORIES = COLLECTION_PREFIX + 'categories' // static question categories
+export const QUESTIONS = COLLECTION_PREFIX + 'questions' // static questions
+export const ENTRIES = COLLECTION_PREFIX + 'entries' // journal entries
 
 // dynamic db collections
-export const ADMINS = 'admins' // authenticated admin profiles for the web admin app
-export const PROFILES = 'profiles' // authenticated user associated profiles
-export const ACTIVITY_RESPONSES = 'activity_responses' // activity responses related to a user
+export const ADMINS = COLLECTION_PREFIX + 'admins' // authenticated admin profiles for the web admin app
+export const PROFILES = COLLECTION_PREFIX + 'profiles' // authenticated user associated profiles
+export const ACTIVITY_RESPONSES = COLLECTION_PREFIX + 'activity_responses' // activity responses related to a user
 
 // journal types
 export const DAILY_MOOD = 'dailyMood'
@@ -30,37 +31,6 @@ export const googleProvider = firebase.auth.GoogleAuthProvider
 export const currentUser = () => auth.currentUser
 export const currentUid = () => auth.currentUser.uid
 export const signOut = () => auth.signOut()
-
-export const createUserWithEmailAndPassword = async ({ email, password, ...rest }) => {
-    await auth.createUserWithEmailAndPassword(email, password)
-    await finishSignUp({ ...rest })
-    Analytics.signIn('email')
-}
-
-export const signInWithEmailAndPassword = async ({ email, password, ...rest }) => {
-    await auth.signInWithEmailAndPassword(email, password)
-    await finishSignUp({ ...rest })
-    Analytics.signIn('email')
-}
-
-export const signInWithFacebookCredential = async ({ accessToken, ...rest }) => {
-    await auth.signInWithCredential(facebookProvider.credential(accessToken))
-    await finishSignUp({ ...rest })
-    Analytics.signIn('facebook')
-}
-
-export const signInWithGoogleCredential = async ({ idToken, accessToken, ...rest }) => {
-    await auth.signInWithCredential(googleProvider.credential(idToken, accessToken))
-    await finishSignUp({ ...rest })
-    Analytics.signIn('google')
-}
-
-export const finishSignUp = async ({ displayName = '' }) => {
-    if (!auth.currentUser.displayName || displayName) {
-        await auth.currentUser.updateProfile({ displayName })
-    }
-    await findOrCreateProfile()
-}
 
 // db
 export const activitiesRef = db.collection(ACTIVITIES)
@@ -493,6 +463,7 @@ export const fetchMoodEntry = async date => {
 
     const snapshot = await query.get()
     let mood
+
     if (snapshot.docs.length === 1) {
         const doc = snapshot.docs[0]
         mood = getDataFromDocWithId(doc)
