@@ -10,7 +10,7 @@ import type { EntryFields } from './Entry'
 
 const COLLECTION_NAME = 'activity_responses'
 
-type ActivityResponseFields = {
+export type ActivityResponseFields = {
     activityType: string,
     color: string,
     entryIds: Array<string>,
@@ -19,7 +19,7 @@ type ActivityResponseFields = {
     uid: string
 }
 
-type ActivityResponseWithEntriesFields = {
+export type ActivityResponseWithEntriesFields = {
     activityType: string,
     color: string,
     entries: Array<EntryFields>,

@@ -127,7 +127,7 @@ class PersonalizeB extends React.Component<Props, State> {
                             marginBottom: Metrics.padding.small
                         }}
                     >
-                        {CATEGORIES.map((category, index) => this.renderCategory(category))}
+                        {CATEGORIES.map(this.renderCategory)}
                     </ScrollView>
                 </V>
                 <V ai="center" pt={2} pl={4} pr={4}>

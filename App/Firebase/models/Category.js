@@ -4,7 +4,9 @@ import Model from './Model'
 
 const COLLECTION_NAME = 'categories'
 
-type fields = {
+// Category Model
+export type CategoryFields = {
+    id: string,
     ama: boolean,
     color: string,
     isPro: boolean,
@@ -16,11 +18,11 @@ class CategoryModel extends Model {
         return this.collectionRef.where('ama', '==', true)
     }
 
-    amas(): Promise<Array<{}>> {
+    amas(): Promise<Array<CategoryFields>> {
         return this.dataFromQuery(this.amasQuery())
     }
 
-    listenToAMAs(onData: (data: Array<{}>) => void, onError: (error: Error) => void) {
+    listenToAMAs(onData: (data: Array<CategoryFields>) => void, onError: (error: Error) => void) {
         return this.listenToQuery(this.amasQuery(), onData, onError)
     }
 }

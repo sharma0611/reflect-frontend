@@ -40,11 +40,11 @@ export default class Model {
         return { ...mapTimestampValuesToDate(data), id }
     }
 
-    mapDataFromDocs(docs: Array<firestore.DocumentSnapshot>): Array<{}> {
+    mapDataFromDocs(docs: Array<firestore.DocumentSnapshot>): Array<any> {
         return docs.map(doc => this.dataFromDoc(doc))
     }
 
-    async dataFromDocRef(docRef: firestore.DocumentReference): Promise<{}> {
+    async dataFromDocRef(docRef: firestore.DocumentReference): Promise<any> {
         const doc = await docRef.get()
         return this.dataFromDoc(doc)
     }
@@ -83,14 +83,14 @@ export default class Model {
         return orderObjectsByIds(ids, data)
     }
 
-    dataFromId(id: string): Promise<{}> {
+    dataFromId(id: string): Promise<any> {
         const docRef = this.docRef(id)
         return this.dataFromDocRef(docRef)
     }
 
     listenToDocRef(
         docRef: firestore.DocumentReference,
-        onData: (data: {}) => void,
+        onData: (data: any) => void,
         onError: (error: Error) => void
     ) {
         return docRef.onSnapshot(doc => {
@@ -110,12 +110,12 @@ export default class Model {
         }, onError)
     }
 
-    listenToDocRefById(id: string, onData: (data: {}) => void, onError: (error: Error) => void) {
+    listenToDocRefById(id: string, onData: (data: any) => void, onError: (error: Error) => void) {
         const docRef = this.docRef(id)
         return docRef.onSnapshot(onData, onError)
     }
 
-    listenToCollectionRef(onData: (data: Array<{}>) => void, onError: (error: Error) => void) {
+    listenToCollectionRef(onData: (data: Array<any>) => void, onError: (error: Error) => void) {
         return this.listenToQuery(this.collectionRef, onData, onError)
     }
 
@@ -156,7 +156,7 @@ export default class Model {
         await this.deleteByRef(docRef)
     }
 
-    async updateByRef(docRef: firestore.DocumentReference, fields: {}): Promise<void> {
+    async updateByRef(docRef: firestore.DocumentReference, fields: { ... }): Promise<void> {
         const doc = await docRef.get()
         if (!doc.exists) {
             console.warn(`document in ${this.collectionName} does not exist`)
@@ -165,7 +165,7 @@ export default class Model {
         await docRef.update({ ...mapDateValuesToTimestamp(fields) })
     }
 
-    async updateById(id: string, fields: {}): Promise<void> {
+    async updateById(id: string, fields: { ... }): Promise<void> {
         const docRef = this.docRef(id)
         await this.updateByRef(docRef, fields)
     }

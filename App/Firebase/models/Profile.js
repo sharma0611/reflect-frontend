@@ -7,7 +7,7 @@ import { hasProByUid } from 'Controllers/PurchasesController'
 
 const COLLECTION_NAME = 'profiles'
 
-type fields = {
+export type ProfileFields = {
     displayName: string,
     email: string,
     uid: string
@@ -50,7 +50,7 @@ class ProfileModel extends Model {
         await auth().currentUser.delete()
     }
 
-    listen(onData: (data: {}) => void, onError: () => void) {
+    listen(onData: (data: ProfileFields) => void, onError: () => void) {
         return this.listenToDocRef(this._ref(), onData, onError)
     }
 
@@ -75,14 +75,11 @@ class ProfileModel extends Model {
     }
 
     async _finishSignUp(newDisplayName?: string = ''): Promise<void> {
-        console.log('start')
         if (!auth().currentUser.displayName || newDisplayName) {
             await auth().currentUser.updateProfile({ displayName: newDisplayName })
         }
         const { uid, email, displayName } = auth().currentUser
-        console.log({ uid, displayName, email })
         const newDocRef = await super.createById(uid, { displayName, email, uid })
-        console.log({ newDocRef })
         this._aliasOrIdentify(!!newDocRef)
     }
 

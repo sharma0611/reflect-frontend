@@ -7,7 +7,7 @@ import type { QuestionFields } from './Question'
 
 const COLLECTION_NAME = 'activities'
 
-type ActivityFields = {
+export type ActivityFields = {
     color: string,
     isPro: boolean,
     name: string,
@@ -16,7 +16,7 @@ type ActivityFields = {
     subtitle: string
 }
 
-type ActivitySkeletonFields = {
+export type ActivitySkeletonFields = {
     color: string,
     isPro: boolean,
     name: string,
@@ -29,7 +29,7 @@ class ActivityModel extends Model {
         return this.collectionRef.where('published', '==', true)
     }
 
-    published() {
+    published(): Promise<Array<ActivityFields>> {
         return this.dataFromQuery(this.publishedQuery())
     }
 
