@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import * as Sentry from '@sentry/react-native'
 import ActivityResponse from '../Firebase/models/ActivityResponse'
 
-const LIMIT = 1
+const LIMIT = 5
 
 export default function useActivityResponses() {
     const initialState = {

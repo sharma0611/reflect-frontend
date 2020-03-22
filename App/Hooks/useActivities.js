@@ -9,7 +9,6 @@ export default function useActivities() {
     })
     useEffect(() => {
         function onData(activities) {
-            console.log(`👨‍🌾 => `, activities)
             setActivities({ activities, loading: false, error: false })
         }
         function onError(err) {

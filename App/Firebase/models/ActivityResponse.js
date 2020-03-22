@@ -1,8 +1,10 @@
 // @flow
 import firestore from '@react-native-firebase/firestore'
+import moment from 'moment'
 import Model from './Model'
 import Profile from './Profile'
 import Entry from './Entry'
+import { summary } from 'date-streaks'
 import type { PaginatedResponse } from './Types'
 import type { EntryFields } from './Entry'
 
@@ -50,6 +52,27 @@ class ActivityResponseModel extends Model {
     userActivityResponsesQuery(): firestore.Query {
         const uid = Profile.uid()
         return this.collectionRef.where('uid', '==', uid).orderBy('timestamp', 'desc')
+    }
+
+    userStreakQuery(): firestore.Query {
+        const uid = Profile.uid()
+        return this.collectionRef.where('uid', '==', uid).where('activityType', '==', 'daily')
+    }
+
+    userStreakData(): Promise<Array<ActivityResponseFields>> {
+        return this.dataFromQuery(this.userStreakQuery())
+    }
+
+    fetchCurrentStreak = async () => {
+        const data = await this.userStreakData()
+        const dates = data.map(({ timestamp }) => {
+            const date = moment(timestamp).format('MM/DD/YY')
+            return new Date(date)
+        })
+        const { currentStreak } = summary({
+            dates
+        })
+        return currentStreak
     }
 
     paginatedResponses = (

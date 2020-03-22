@@ -49,7 +49,7 @@ export default class Model {
         return this.dataFromDoc(doc)
     }
 
-    async dataFromQuery(query: firestore.Query): Promise<Array<{}>> {
+    async dataFromQuery(query: firestore.Query): Promise<Array<any>> {
         const querySnapshot = await query.get()
         return this.mapDataFromDocs(querySnapshot.docs)
     }
