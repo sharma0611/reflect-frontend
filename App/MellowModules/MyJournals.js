@@ -25,8 +25,7 @@ const MyJournals = ({ renderHeader, activityResponses, hasMore, loadMore }) => {
         const dateGroupedResponses = groupBy(responses, function({ timestamp }) {
             // check if timestamp, since for local journals timestamp is not available until saved on server
             if (timestamp) {
-                const date = timestamp.toDate()
-                return moment(date)
+                return moment(timestamp)
                     .startOf('day')
                     .format()
             }
@@ -35,8 +34,8 @@ const MyJournals = ({ renderHeader, activityResponses, hasMore, loadMore }) => {
             const [date, currJournals] = entry
             const formattedDate = formatDate(new Date(date))
             currJournals.sort(function(a, b) {
-                const keyA = a.timestamp.toDate(),
-                    keyB = b.timestamp.toDate()
+                const keyA = a.timestamp,
+                    keyB = b.timestamp
                 // Compare the 2 dates
                 if (keyA < keyB) return 1
                 if (keyA > keyB) return -1
@@ -65,7 +64,7 @@ const MyJournals = ({ renderHeader, activityResponses, hasMore, loadMore }) => {
                 name: '',
                 subtitle: '',
                 uid,
-                timestamp: dateToFirestoreTimestamp(journal.date),
+                timestamp: journal.date,
                 entries: [
                     {
                         caption: '',

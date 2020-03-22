@@ -3,7 +3,8 @@ import Model from './Model'
 
 const COLLECTION_NAME = 'questions'
 
-type fields = {
+export type QuestionFields = {
+    id: string,
     categoryId: string,
     order: number,
     questionText: string

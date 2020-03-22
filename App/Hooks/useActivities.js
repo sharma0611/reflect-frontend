@@ -8,10 +8,7 @@ export default function useActivities() {
         error: false
     })
     useEffect(() => {
-        async function onData(data) {
-            const activities = await Promise.all(
-                data.map(activity => Activity.withEntries(activity))
-            )
+        function onData(activities) {
             setActivities({ activities, loading: false, error: false })
         }
         function onError(err) {
@@ -23,7 +20,7 @@ export default function useActivities() {
             Sentry.captureException(err)
         }
         try {
-            const unsubscribe = Activity.listenToPublished(onData, onError)
+            const unsubscribe = Activity.listenToActivitySkeletons(onData, onError)
             return unsubscribe
         } catch (e) {
             onError(e)
