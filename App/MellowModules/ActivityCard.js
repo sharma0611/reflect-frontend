@@ -26,7 +26,7 @@ const ActivityCard = ({ activity, navigation }) => {
         navigation.navigate({
             routeName: 'Activity',
             params: {
-                activity: { ...rest },
+                activity: { activityType: id, ...rest },
                 index: 0
             },
             key: 0

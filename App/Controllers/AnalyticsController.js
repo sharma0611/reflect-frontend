@@ -219,6 +219,19 @@ class Tracking {
             Header: header
         })
     }
+
+    loseProgress = (activity: string, index: number) => {
+        this._trackWithProperties('Lose Progress', {
+            Activity: activity,
+            Index: index
+        })
+    }
+
+    saveActivity = (activity: string) => {
+        this._trackWithProperties('Save Activity', {
+            Activity: activity
+        })
+    }
 }
 
 const instance = new Tracking()
