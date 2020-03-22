@@ -63,7 +63,7 @@ class ActivityResponseModel extends Model {
         return this.dataFromQuery(this.userStreakQuery())
     }
 
-    fetchCurrentStreak = async () => {
+    fetchCurrentStreak = async (): Promise<number> => {
         const data = await this.userStreakData()
         const dates = data.map(({ timestamp }) => {
             const date = moment(timestamp).format('MM/DD/YY')
