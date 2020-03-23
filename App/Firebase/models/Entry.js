@@ -33,17 +33,34 @@ class EntryModel extends Model {
         return query
     }
 
-    moods(startDate?: Date, endDate?: Date) {
-        return this.moodsQuery(startDate, endDate)
+    moods(startDate: Date, endDate: Date): Promise<Array<EntryFields>> {
+        return this.dataFromQuery(this.moodsQuery(startDate, endDate))
+    }
+
+    mood = async (date: Date) => {
+        const moods = await this.moods(date, date)
+        if (moods.length === 0) {
+            return moods[0]
+        }
     }
 
     listenToMoods(
-        startDate?: Date,
-        endDate?: Date,
-        onData: (data: Array<{}>) => void,
+        startDate: Date,
+        endDate: Date,
+        onData: (data: Array<EntryFields>) => void,
         onError: (error: Error) => void
     ) {
         return this.listenToQuery(this.moodsQuery(startDate, endDate), onData, onError)
+    }
+
+    emptyMood = (date: Date) => {
+        return {
+            header: 'Daily Mood',
+            questionText: 'How am I feeling today?',
+            useEmoji: true,
+            type: DAILY_MOOD,
+            timestamp: date
+        }
     }
 }
 
