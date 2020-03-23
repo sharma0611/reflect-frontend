@@ -112,6 +112,15 @@ class ActivityResponseModel extends Model {
         return { data: responsesWithEntries, lastDoc }
     }
 
+    listenToDailyReflectionCompleted(onData: (data: boolean) => void, onError: () => void) {
+        const date = new Date()
+        const onReflectionData = (reflectionData: Array<ActivityResponseFields>) => {
+            const reflectionCompleted = reflectionData.length === 1
+            onData(reflectionCompleted)
+        }
+        return this.listenToQuery(this.dailyReflectionQuery(date), onReflectionData, onError)
+    }
+
     dailyReflection = async (date: Date) => {
         // check if daily reflection exists
         const data = await this.dataFromQuery(this.dailyReflectionQuery(date))
@@ -122,7 +131,7 @@ class ActivityResponseModel extends Model {
             // otherwise create one
             // first check if daily mood exists, if it does, add it to the daily reflection
             let moodEntry = await Entry.mood(date)
-            console.log(`👨‍🌾a => `, moodEntry)
+            console.log(`👨‍🌾 => `, moodEntry)
             if (!moodEntry) {
                 console.log(`👨‍🌾b => `, moodEntry)
                 moodEntry = Entry.emptyMood(date)

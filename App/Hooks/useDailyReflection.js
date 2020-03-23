@@ -1,10 +1,5 @@
 // @flow
 import { useState, useEffect } from 'react'
-import {
-    fetchDailyReflection,
-    fetchCurrentStreak,
-    listenToDailyReflectionCompleted
-} from '../Controllers/FirebaseController'
 import ActivityResponse from 'Firebase/models/ActivityResponse'
 import * as Sentry from '@sentry/react-native'
 
@@ -26,10 +21,9 @@ export default function useDailyReflection() {
             console.warn(err)
             Sentry.captureException(err)
         }
-        async function onSnapshot(querySnapshot) {
-            if (querySnapshot.docs.length > 0) {
+        async function onData(dailyReflectionComplete) {
+            if (dailyReflectionComplete) {
                 const streak = await ActivityResponse.currentStreak()
-                console.log(`👨‍🌾 => `, streak)
                 setDailyReflection({
                     loading: false,
                     error: false,
@@ -39,9 +33,7 @@ export default function useDailyReflection() {
                 })
             } else {
                 const date = new Date()
-                console.log(`👨‍🌾 => `, 'yo')
                 const activity = await ActivityResponse.dailyReflection(date)
-                console.log(`👨‍🌾 => `, activity)
                 setDailyReflection({
                     loading: false,
                     error: false,
@@ -50,7 +42,7 @@ export default function useDailyReflection() {
                 })
             }
         }
-        return listenToDailyReflectionCompleted(onSnapshot, onError)
+        return ActivityResponse.listenToDailyReflectionCompleted(onData, onError)
     }, [])
     return { loading, error, dailyReflection, completedDailyReflection, streak }
 }
