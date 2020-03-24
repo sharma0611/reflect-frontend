@@ -64,16 +64,16 @@ class ProfileModel extends Model {
         return user.uid
     }
 
-    pro = async (): Promise<boolean> => {
-        // const { isPro } = await this.dataFromDocRef(this._ref)
-        // console.log(`👨‍🌾 => `, isPro)
-        const hasPro = await hasProByUid(this.uid())
-        return hasPro
-    }
-    _ref(): firestore.DocumentReference {
+    _ref = (): firestore.DocumentReference => {
         const uid = this.uid()
         if (!uid) return
         return this.docRef(uid)
+    }
+
+    pro = async (): Promise<boolean> => {
+        const { isPro: provisionedPro } = await this.dataFromDocRef(this._ref())
+        const boughtPro = await hasProByUid(this.uid())
+        return boughtPro || provisionedPro
     }
 
     async _finishSignUp(newDisplayName?: string = ''): Promise<void> {
