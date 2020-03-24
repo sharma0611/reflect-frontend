@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { listenToMoods, getDataFromDocWithId } from '../Controllers/FirebaseController'
+import Entry from 'Firebase/models/Entry'
 import * as Sentry from '@sentry/react-native'
 
 export default function useMoods({ startDate, endDate }) {
@@ -10,12 +10,8 @@ export default function useMoods({ startDate, endDate }) {
     })
 
     useEffect(() => {
-        function onSnapshot(querySnapshot) {
-            let moodData = []
-            querySnapshot.forEach(doc => {
-                moodData.push(getDataFromDocWithId(doc))
-            })
-            setMoods({ moods: moodData, error: false, loading: false })
+        function onData(data) {
+            setMoods({ moods: data, error: false, loading: false })
         }
         function onError(err) {
             setMoods({
@@ -26,7 +22,7 @@ export default function useMoods({ startDate, endDate }) {
             Sentry.captureException(err)
         }
         try {
-            const unsubscribe = listenToMoods(startDate, endDate, onSnapshot, onError)
+            const unsubscribe = Entry.listenToMoods(startDate, endDate, onData, onError)
             return unsubscribe
         } catch (e) {
             onError(e)

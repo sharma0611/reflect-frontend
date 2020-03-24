@@ -1,54 +1,35 @@
+//@flow
 import { useState, useEffect } from 'react'
-import {
-    listenToActivities,
-    getDataFromDocWithId,
-    getQuestionFromId
-} from '../Controllers/FirebaseController'
+import Activity from 'Firebase/models/Activity'
 import * as Sentry from '@sentry/react-native'
+import type { ActivitySkeletonFields } from 'Firebase/models/Activity'
 
-// we get an activity & convert it to an empty Activity Response and keep it on the activity card
-// so that it can directly be passed to the activity screen
-const activityToActivityResponse = async doc => {
-    const { questionIds, published, ...restOfActivity } = getDataFromDocWithId(doc)
-    const rawQuestions = await new Promise.all(
-        questionIds.map(async qId => {
-            const question = await getQuestionFromId(qId)
-            return { ...question, questionId: qId }
-        })
-    )
-    const entries = rawQuestions.map(doc => ({
-        ...doc,
-        header: restOfActivity.name
-    }))
-    return { ...restOfActivity, entries }
+type State = {
+    loading: boolean,
+    error: string | boolean,
+    activities: Array<ActivitySkeletonFields>
 }
 
 export default function useActivities() {
-    const [{ loading, error, activities }, setActivities] = useState({
+    const [{ loading, error, activities }, setActivities]: [State, Function] = useState({
         loading: true,
-        error: false
+        error: false,
+        activities: []
     })
     useEffect(() => {
-        async function onSnapshot(querySnapshot) {
-            let activities = []
-            await new Promise.all(
-                querySnapshot.docs.map(async doc => {
-                    const emptyActivityResponse = await activityToActivityResponse(doc)
-                    activities.push(emptyActivityResponse)
-                })
-            )
+        function onData(activities: Array<ActivitySkeletonFields>) {
             setActivities({ activities, loading: false, error: false })
         }
         function onError(err) {
             setActivities({
-                activities: undefined,
+                activities: [],
                 loading: false,
                 error: 'Error: Activities not found.'
             })
             Sentry.captureException(err)
         }
         try {
-            const unsubscribe = listenToActivities(onSnapshot, onError)
+            const unsubscribe = Activity.listenToActivitySkeletons(onData, onError)
             return unsubscribe
         } catch (e) {
             onError(e)

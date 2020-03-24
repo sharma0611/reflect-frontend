@@ -5,7 +5,7 @@ import V from 'Components/V'
 import T from 'Components/T'
 import Touchable from 'Components/Touchable'
 import MongoController from 'Controllers/MongoController'
-import { getEmptyMoodEntry } from 'Controllers/FirebaseController'
+import Entry from 'Firebase/models/Entry'
 import { Calendar, LocaleConfig } from 'react-native-calendars'
 import moment from 'moment'
 import { withNavigation } from 'react-navigation'
@@ -61,7 +61,7 @@ const DayComponent = ({ date, state, navigation }) => {
         if (moods.length > 0) {
             entry = moods[0]
         } else {
-            entry = getEmptyMoodEntry(dt)
+            entry = Entry.emptyMood(dt)
         }
         if (!legacyEmoji) {
             navigation.navigate('Entry', {

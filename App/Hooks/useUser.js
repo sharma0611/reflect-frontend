@@ -1,6 +1,5 @@
 import { useGlobal, useEffect } from 'reactn'
-import { auth } from '../Controllers/FirebaseController'
-import { hasProByUid } from '../Controllers/PurchasesController'
+import Profile from 'Firebase/models/Profile'
 
 export const USER = 'user'
 export const initialUserState = { loading: true, hasPro: false, uid: undefined }
@@ -21,14 +20,14 @@ export default function useUser({ listen = false, timeout = undefined }) {
     }
 
     const refetch = async () => {
-        const { uid } = auth.currentUser || {}
-        const hasPro = await hasProByUid(uid)
+        const uid = Profile.uid()
+        const hasPro = await Profile.pro()
         const setter = timeout ? setUserTimeout : setUser
         return setter({ loading: false, hasPro, uid })
     }
 
     useEffect(() => {
-        if (listen) return auth.onAuthStateChanged(refetch)
+        if (listen) return Profile.listenToAuthState(refetch)
         return refetch()
     }, [])
 

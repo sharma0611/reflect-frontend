@@ -6,7 +6,7 @@ import T from 'Components/T'
 import Touchable from 'Components/Touchable'
 import Card from 'MellowComponents/Card'
 import { withNavigation } from 'react-navigation'
-import { signOut } from 'Controllers/FirebaseController'
+import Profile from 'Firebase/models/Profile'
 
 const ProfileRow = ({ leftImage, title, onPress }) => {
     return (
@@ -62,7 +62,7 @@ const ProfileCard = ({ navigation, profile }) => {
     }
 
     const logout = () => {
-        signOut()
+        Profile.signOut()
     }
 
     return (

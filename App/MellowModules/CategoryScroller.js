@@ -5,12 +5,12 @@ import { withNavigation } from 'react-navigation'
 import { Metrics } from 'Themes'
 import V from 'Components/V'
 import CategoryCard, { CATEGORY_CARD_WIDTH, CATEGORY_CARD_MARGIN } from './CategoryCard'
-import { getRandomQuestion } from 'Controllers/FirebaseController'
+import Question from 'Firebase/models/Question'
 
 const SNAP_INTERVAL = CATEGORY_CARD_WIDTH + CATEGORY_CARD_MARGIN
 
 const getQuestion = async (categoryId, categoryName) => {
-    const question = await getRandomQuestion(categoryId)
+    const question = await Question.getRandomQuestion(categoryId)
     return {
         ...question,
         header: categoryName
@@ -20,7 +20,12 @@ const getQuestion = async (categoryId, categoryName) => {
 const CategoryScoller = ({ navigation, categories }) => {
     const navigateToQuestion = async (categoryId, categoryName, color) => {
         const { id: questionId, ...rest } = await getQuestion(categoryId, categoryName)
-        const activity = { color, name: categoryName, entries: [{ ...rest, questionId }] }
+        const activity = {
+            color,
+            activityType: categoryId,
+            name: categoryName,
+            entries: [{ ...rest, questionId }]
+        }
         navigation.navigate({
             routeName: 'Activity',
             params: {

@@ -23,7 +23,7 @@ export default function useJourneyScreenData() {
     })
     const moods = moodData.map(mood => {
         const { responseText: emoji, timestamp, id } = mood
-        const day = timestamp.toDate().getDay()
+        const day = timestamp.getDay()
         return { day, emoji, id }
     })
 

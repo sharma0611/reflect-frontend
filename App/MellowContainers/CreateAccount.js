@@ -18,12 +18,7 @@ import { Formik } from 'formik'
 import FIcon from 'react-native-vector-icons/Feather'
 import { LoginManager, AccessToken } from 'react-native-fbsdk'
 import { GoogleSignin } from '@react-native-community/google-signin'
-import {
-    createUserWithEmailAndPassword,
-    signInWithFacebookCredential,
-    signInWithGoogleCredential,
-    currentUid
-} from '../Controllers/FirebaseController'
+import Profile from 'Firebase/models/Profile'
 
 type Props = {}
 
@@ -64,9 +59,7 @@ class CreateAccount extends React.Component<Props, State> {
         const { name: displayName } = this.global
         try {
             await this.setState({ error: '' })
-            await createUserWithEmailAndPassword({ email, password, displayName })
-            const uid = currentUid()
-            Analytics.aliasByUid(uid)
+            Profile.createWithEmail(email, password, displayName)
         } catch (e) {
             await this.setState({ error: e.message })
         }
@@ -92,17 +85,13 @@ class CreateAccount extends React.Component<Props, State> {
             this.setState({ error: 'Error: Something went wrong getting the access token.' })
         }
 
-        await signInWithFacebookCredential({ accessToken, displayName })
-        const uid = currentUid()
-        Analytics.aliasByUid(uid)
+        await Profile.signInWithFacebook(accessToken, displayName)
     }
 
     googleSignIn = async () => {
         const { name: displayName } = this.global
-        const { accessToken, idToken } = await GoogleSignin.signIn()
-        await signInWithGoogleCredential({ accessToken, idToken, displayName })
-        const uid = currentUid()
-        Analytics.aliasByUid(uid)
+        const { idToken, accessToken } = await GoogleSignin.signIn()
+        await Profile.signInWithGoogle(idToken, accessToken, displayName)
     }
 
     render() {
