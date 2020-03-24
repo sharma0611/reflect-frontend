@@ -64,10 +64,12 @@ class ProfileModel extends Model {
         return user.uid
     }
 
-    pro(): Promise<boolean> {
-        return hasProByUid(this.uid())
+    pro = async (): Promise<boolean> => {
+        // const { isPro } = await this.dataFromDocRef(this._ref)
+        // console.log(`👨‍🌾 => `, isPro)
+        const hasPro = await hasProByUid(this.uid())
+        return hasPro
     }
-
     _ref(): firestore.DocumentReference {
         const uid = this.uid()
         if (!uid) return

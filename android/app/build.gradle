@@ -132,7 +132,7 @@ android {
         applicationId "com.reflectapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 5
+        versionCode 3145737
         versionName "1.2"
         multiDexEnabled = true
     }
