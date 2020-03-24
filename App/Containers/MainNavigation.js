@@ -140,7 +140,6 @@ const Tabs = createBottomTabNavigator(
             showIcon: true,
             showLabel: false
         },
-        resetOnBlur: true,
         initialRouteName: 'Home',
         // activeColor: Colors.BrandM,
         // inactiveColor: Colors.GreyM,
