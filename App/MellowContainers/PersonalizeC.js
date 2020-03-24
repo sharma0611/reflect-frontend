@@ -61,7 +61,7 @@ class PersonalizeB extends React.Component<Props, State> {
     renderCategory = category => {
         const { name } = category
         return (
-            <Touchable onPress={() => this.toggleGoal(name)}>
+            <Touchable onPress={() => this.toggleGoal(name)} key={name}>
                 <Card
                     bg="BabyBlueM"
                     style={{ width: CATEGORY_CARD_WIDTH, height: 150 }}

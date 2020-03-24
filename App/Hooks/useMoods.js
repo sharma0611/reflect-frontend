@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { listenToMoods, getDataFromDocWithId } from '../Controllers/FirebaseController'
 import Entry from 'Firebase/models/Entry'
 import * as Sentry from '@sentry/react-native'
 

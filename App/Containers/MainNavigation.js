@@ -265,7 +265,7 @@ const OnboardingStack = createStackNavigator(
 )
 
 function createMainNavigation() {
-    const { loading, uid } = useUser({ listen: true, timeout: 700 })
+    const { loading, uid } = useUser({ listen: true, timeout: 3000 })
 
     if (!loading) {
         Splash.hide()

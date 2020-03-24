@@ -10,10 +10,10 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { withNavigation } from 'react-navigation'
 import MainButton from 'MellowComponents/MainButton'
 import Question from 'MellowComponents/Question'
-import { upsertEntry, deleteSafeEntry } from '../Controllers/FirebaseController'
 import Touchable from 'Components/Touchable'
 import moment from 'moment'
 import Analytics from 'Controllers/AnalyticsController'
+import Entry from 'Firebase/models/Entry'
 
 const WaveHeightRatio = 0.3
 
@@ -33,15 +33,15 @@ const EntryScreen = ({ navigation }) => {
 
     const submit = async () => {
         let updatedEntry = persistResponse()
-        await upsertEntry(updatedEntry, timestamp.toDate())
+        await Entry.upsert(updatedEntry, timestamp)
         navigate('Tabs')
     }
-    const dateString = moment(timestamp.toDate())
+    const dateString = moment(timestamp)
         .startOf('day')
         .format('dddd, MMM Do')
 
     const deleteResponse = async () => {
-        await deleteSafeEntry(id)
+        await Entry.cascadingDelete(id)
         navigate('Tabs')
     }
 

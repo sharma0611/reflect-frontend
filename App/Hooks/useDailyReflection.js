@@ -1,9 +1,7 @@
+// @flow
 import { useState, useEffect } from 'react'
-import {
-    fetchDailyReflection,
-    fetchCurrentStreak,
-    listenToDailyReflectionCompleted
-} from '../Controllers/FirebaseController'
+import ActivityResponse from 'Firebase/models/ActivityResponse'
+import Entry from 'Firebase/models/Entry'
 import * as Sentry from '@sentry/react-native'
 
 export default function useDailyReflection() {
@@ -24,9 +22,9 @@ export default function useDailyReflection() {
             console.warn(err)
             Sentry.captureException(err)
         }
-        async function onSnapshot(querySnapshot) {
-            if (querySnapshot.docs.length > 0) {
-                const streak = await fetchCurrentStreak()
+        async function onData(dailyReflectionComplete) {
+            if (dailyReflectionComplete) {
+                const streak = await ActivityResponse.currentStreak()
                 setDailyReflection({
                     loading: false,
                     error: false,
@@ -36,7 +34,7 @@ export default function useDailyReflection() {
                 })
             } else {
                 const date = new Date()
-                const activity = await fetchDailyReflection(date)
+                const activity = await ActivityResponse.dailyReflection(date)
                 setDailyReflection({
                     loading: false,
                     error: false,
@@ -45,7 +43,34 @@ export default function useDailyReflection() {
                 })
             }
         }
-        return listenToDailyReflectionCompleted(onSnapshot, onError)
+        return ActivityResponse.listenToDailyReflectionCompleted(onData, onError)
+    }, [])
+    useEffect(() => {
+        function onError(err) {
+            setDailyReflection({
+                dailyReflection: undefined,
+                loading: false,
+                error: 'Error: Daily Reflection not found.'
+            })
+            console.warn(err)
+            Sentry.captureException(err)
+        }
+        async function onData(mood) {
+            const date = new Date()
+            const isComplete = await ActivityResponse.isDailyReflectionCompleted(date)
+            if (!isComplete) {
+                // update the reflection with the mood from the other screen
+                const activity = await ActivityResponse.dailyReflection(date)
+                setDailyReflection({
+                    loading: false,
+                    error: false,
+                    dailyReflection: activity,
+                    completedDailyReflection: false
+                })
+            }
+        }
+        const date = new Date()
+        return Entry.listenToMood(date, onData, onError)
     }, [])
     return { loading, error, dailyReflection, completedDailyReflection, streak }
 }

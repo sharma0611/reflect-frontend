@@ -6,9 +6,9 @@ import V from 'Components/V'
 import BlueBackground from 'MellowComponents/BlueBackground'
 
 type Props = {
-    boat: boolean,
-    heightRatio: number,
-    fullScreen: boolean
+    boat?: boolean,
+    heightRatio?: number,
+    fullScreen?: boolean
 }
 
 type State = {}
