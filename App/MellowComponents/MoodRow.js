@@ -5,8 +5,7 @@ import T from 'Components/T'
 import V from 'Components/V'
 import Touchable from 'Components/Touchable'
 import { withNavigation } from 'react-navigation'
-import { fetchEntry } from 'Controllers/FirebaseController'
-import { getEmptyMoodEntry } from '../Controllers/FirebaseController'
+import Entry from 'Firebase/models/Entry'
 import moment from 'moment'
 
 const DAYS = [
@@ -61,12 +60,7 @@ const MoodRow = ({ moodData, navigation, disabled }) => {
                 if (currMood) {
                     const { emoji, id } = currMood
                     onPress = async () => {
-                        const entry = await fetchEntry(id)
-                        // const activity = {
-                        //     color: Colors.PastelPurple,
-                        //     name: 'Daily Mood',
-                        //     entries: [entry]
-                        // }
+                        const entry = await Entry.dataFromId(id)
                         navigation.navigate('Entry', {
                             entry
                         })
@@ -81,7 +75,7 @@ const MoodRow = ({ moodData, navigation, disabled }) => {
                 const date = moment()
                     .day(day)
                     .toDate()
-                const entry = getEmptyMoodEntry(date)
+                const entry = Entry.emptyMood(date)
                 onPress = () => {
                     navigation.navigate('Entry', {
                         entry

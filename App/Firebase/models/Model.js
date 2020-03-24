@@ -126,7 +126,7 @@ export default class Model {
         return docRef
     }
 
-    async createById(id: string, fields: any): Promise<firestore.DocumentReference | void> {
+    async createById(id: string, fields: any): Promise<firestore.DocumentReference> {
         if (!id) {
             console.warn('id parameter cannot be empty')
             return // TODO throw no id error
@@ -156,7 +156,11 @@ export default class Model {
         await this.deleteByRef(docRef)
     }
 
-    async updateByRef(docRef: firestore.DocumentReference, fields: { ... }): Promise<void> {
+    deleteByIds = async (ids: Array<string>): Promise<void> => {
+        await new Promise.all(ids.map(id => this.deleteById(id)))
+    }
+
+    async updateByRef(docRef: firestore.DocumentReference, fields: any): Promise<void> {
         const doc = await docRef.get()
         if (!doc.exists) {
             console.warn(`document in ${this.collectionName} does not exist`)
@@ -165,8 +169,9 @@ export default class Model {
         await docRef.update({ ...mapDateValuesToTimestamp(fields) })
     }
 
-    async updateById(id: string, fields: { ... }): Promise<void> {
+    async updateById(id: string, fields: any): Promise<firestore.DocumentReference> {
         const docRef = this.docRef(id)
         await this.updateByRef(docRef, fields)
+        return docRef
     }
 }

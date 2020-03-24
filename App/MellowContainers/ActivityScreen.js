@@ -11,7 +11,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { withNavigation } from 'react-navigation'
 import MainButton from 'MellowComponents/MainButton'
 import Question from 'MellowComponents/Question'
-import { upsertActivityResponse } from '../Controllers/FirebaseController'
+import ActivityResponse from 'Firebase/models/ActivityResponse'
 import Analytics from 'Controllers/AnalyticsController'
 import Modal from 'react-native-modal'
 import SecondaryButton from 'MellowComponents/SecondaryButton'
@@ -66,7 +66,7 @@ const ActivityScreen = ({ navigation }) => {
         const updatedEntries = persistResponse()
         let newActivity
         newActivity = { ...activity, entries: updatedEntries }
-        await upsertActivityResponse(newActivity)
+        await ActivityResponse.upsert(newActivity)
         navigate('Tabs')
     }
 

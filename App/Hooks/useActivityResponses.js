@@ -61,6 +61,5 @@ export default function useActivityResponses() {
             onError(e)
         }
     }, [])
-
     return { loading, error, hasMore, loadMore, clear, activityResponses }
 }

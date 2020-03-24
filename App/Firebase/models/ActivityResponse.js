@@ -27,7 +27,9 @@ export type ActivityResponseWithEntriesFields = {
     entries: Array<EntryFields>,
     name: string,
     timestamp: Date,
-    uid: string
+    uid: string,
+    // post save
+    id?: string
 }
 
 // Activity Types
@@ -121,6 +123,11 @@ class ActivityResponseModel extends Model {
         return this.listenToQuery(this.dailyReflectionQuery(date), onReflectionData, onError)
     }
 
+    isDailyReflectionCompleted = async (date: Date) => {
+        const data = await this.dataFromQuery(this.dailyReflectionQuery(date))
+        return data.length === 1
+    }
+
     dailyReflection = async (date: Date) => {
         // check if daily reflection exists
         const data = await this.dataFromQuery(this.dailyReflectionQuery(date))
@@ -131,13 +138,19 @@ class ActivityResponseModel extends Model {
             // otherwise create one
             // first check if daily mood exists, if it does, add it to the daily reflection
             let moodEntry = await Entry.mood(date)
-            console.log(`👨‍🌾 => `, moodEntry)
             if (!moodEntry) {
-                console.log(`👨‍🌾b => `, moodEntry)
                 moodEntry = Entry.emptyMood(date)
             }
-            const positive = await Question.getRandomPositive()
-            const retro = await Question.getRandomNegative()
+            const {
+                id: positiveQid,
+                order: positiveOrder,
+                ...positive
+            } = await Question.getRandomPositive()
+            const {
+                id: retroQid,
+                order: negativeOrder,
+                ...retro
+            } = await Question.getRandomNegative()
             const entries = [
                 moodEntry,
                 {
@@ -162,6 +175,51 @@ class ActivityResponseModel extends Model {
             }
             return dailyReflection
         }
+    }
+
+    upsert = async (
+        activity: ActivityResponseWithEntriesFields,
+        date?: Date
+    ): Promise<ActivityResponseWithEntriesFields> => {
+        const { id, entries, ...rest } = activity
+        const uid = Profile.uid()
+
+        let timestamp = new Date()
+        if (date) {
+            timestamp = date
+        }
+
+        // set all entries
+        const entriesWithIds = await new Promise.all(
+            entries.map(entry => Entry.upsert(entry, timestamp))
+        )
+        const entryIds = entriesWithIds.map(({ id }) => id)
+
+        // set activity responses with entry IDS
+        const activityResponse = { ...rest, entryIds, uid }
+        let docRef
+        if (id) {
+            docRef = await this.updateById(id, activityResponse)
+        } else {
+            docRef = await this.create({ ...activityResponse, timestamp })
+        }
+        const savedActivityResponse = await this.dataFromDocRef(docRef)
+
+        const { entryIds: ids, ...restOfActivity } = savedActivityResponse
+        return { ...restOfActivity, entries: entriesWithIds }
+    }
+
+    relatedResponsesQuery = (entryId: string) => {
+        const uid = Profile.uid()
+        return this.collectionRef
+            .where('uid', '==', uid)
+            .where('entryIds', 'array-contains', entryId)
+    }
+
+    cascadingDelete = async (id: string): Promise<void> => {
+        const { entryIds } = await this.dataFromId(id)
+        await Entry.deleteByIds(entryIds)
+        await this.deleteById(id)
     }
 }
 

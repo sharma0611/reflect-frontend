@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import Activity from 'Firebase/models/Activity'
 import * as Sentry from '@sentry/react-native'
-import type { ActivitySkeletonFields } from 'Firebase/models/Types'
+import type { ActivitySkeletonFields } from 'Firebase/models/Activity'
 
 type State = {
     loading: boolean,

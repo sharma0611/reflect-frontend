@@ -10,7 +10,7 @@ import MainButton from 'MellowComponents/MainButton'
 import SecondaryButton from 'MellowComponents/SecondaryButton'
 import Question from 'MellowComponents/Question'
 import Touchable from 'Components/Touchable'
-import { upsertActivityResponse, deleteActivityResponse } from '../Controllers/FirebaseController'
+import ActivityResponse from 'Firebase/models/ActivityResponse'
 import { Colors, Images } from 'Themes'
 import { FEEDBACK_URL } from 'Data/urls'
 
@@ -19,7 +19,6 @@ const ActivityEditScreen = ({ navigation }) => {
     const params = state.params
     const { activity } = params
     const { entries, color, name: activityTitle, legacy } = activity
-    // const { header, questionText, responseText, caption, useEmoji } = currentQuestion
 
     const initialResponseState = entries
         .map(({ responseText }, i) => ({
@@ -43,15 +42,15 @@ const ActivityEditScreen = ({ navigation }) => {
         return updatedJournalEntries
     }
 
-    const submitResponses = () => {
+    const submitResponses = async () => {
         const updatedEntries = persistEntries()
         const newActivity = { ...activity, entries: updatedEntries }
-        upsertActivityResponse(newActivity)
+        await ActivityResponse.upsert(newActivity)
         navigate('Tabs')
     }
 
     const deleteResponse = async () => {
-        await deleteActivityResponse(activity.id)
+        await ActivityResponse.cascadingDelete(activity.id)
         navigate('Tabs')
     }
 

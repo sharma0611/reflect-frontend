@@ -140,6 +140,7 @@ const Tabs = createBottomTabNavigator(
             showIcon: true,
             showLabel: false
         },
+        resetOnBlur: true,
         initialRouteName: 'Home',
         // activeColor: Colors.BrandM,
         // inactiveColor: Colors.GreyM,
@@ -265,7 +266,7 @@ const OnboardingStack = createStackNavigator(
 )
 
 function createMainNavigation() {
-    const { loading, uid } = useUser({ listen: true, timeout: 700 })
+    const { loading, uid } = useUser({ listen: true, timeout: 3000 })
 
     if (!loading) {
         Splash.hide()
