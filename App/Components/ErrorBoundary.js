@@ -5,13 +5,15 @@ import V from 'Components/V'
 import * as Sentry from '@sentry/react-native'
 import SecondaryButton from 'MellowComponents/SecondaryButton'
 import Profile from 'Firebase/models/Profile'
+import ErrorScreen from 'MellowContainers/ErrorScreen'
 
 type Props = {
     children: React.Node
 }
 
 type State = {
-    hasError: boolean
+    hasError: boolean,
+    error?: string
 }
 
 class ErrorBoundary extends React.Component<Props, State> {
@@ -27,6 +29,7 @@ class ErrorBoundary extends React.Component<Props, State> {
 
     componentDidCatch(error, errorInfo) {
         // You can also log the error to an error reporting service
+        this.setState({ error })
         Sentry.captureException(error)
     }
 
@@ -36,16 +39,9 @@ class ErrorBoundary extends React.Component<Props, State> {
 
     render() {
         if (this.state.hasError) {
+            const { error } = this.state
             // You can render any custom fallback UI
-            return (
-                <V flex={1} p={4} jc="center" ai="center" bg="WhiteM">
-                    <T heading pb={4}>
-                        Sorry for the error! Please let us know in the feedback form on the main
-                        screen or text me at 6479380024.
-                    </T>
-                    <SecondaryButton onPress={this.handleSignOut} text={'Sign out'} />
-                </V>
-            )
+            return <ErrorScreen {...{ error }} />
         }
 
         return this.props.children

@@ -2,7 +2,7 @@
  * @flow
  */
 import React, { useState, useEffect } from 'react'
-import { StatusBar, PushNotificationIOS } from 'react-native'
+import { StatusBar, PushNotificationIOS, Platform } from 'react-native'
 import { createAppContainer } from 'react-navigation'
 import createMainNav from './MainNavigation'
 import V from 'Components/V'
@@ -44,7 +44,9 @@ PushNotification.configure({
             Analytics.receivedPush()
         }
         // required on iOS only (see fetchCompletionHandler docs: https://facebook.github.io/react-native/docs/pushnotificationios.html)
-        notification.finish(PushNotificationIOS.FetchResult.NoData)
+        if (Platform.OS === 'ios') {
+            notification.finish(PushNotificationIOS.FetchResult.NoData)
+        }
     },
 
     // Should the initial notification be popped automatically

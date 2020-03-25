@@ -8,7 +8,7 @@ export const initialUserState = { loading: true, hasPro: false, uid: undefined }
  * @param {Boolean} listen Specifies if data is refetched when the firebase currentUser changes
  * @returns {{ loading, hasPro, uid, refetch }}
  */
-export default function useUser({ listen = false, timeout = undefined }) {
+export function setupUser({ listen = false, timeout = undefined }) {
     const [{ loading, hasPro, uid }, setUser] = useGlobal(USER)
 
     const setUserTimeout = user => {
@@ -33,3 +33,10 @@ export default function useUser({ listen = false, timeout = undefined }) {
 
     return { loading, uid, hasPro, refetch }
 }
+
+const useUser = () => {
+    const [{ loading, hasPro, uid }, setUser] = useGlobal(USER)
+    return { loading, uid, hasPro }
+}
+
+export default useUser

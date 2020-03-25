@@ -44,7 +44,7 @@ import EditProfileScreen from '../MellowContainers/EditProfileScreen'
 import EditDailyReminderScreen from '../MellowContainers/EditDailyReminderScreen'
 import SplashScreen from '../MellowContainers/SplashScreen'
 import MellowPaywall from '../MellowContainers/MellowPaywall'
-import useUser from '../Hooks/useUser'
+import { setupUser } from '../Hooks/useUser'
 import MoodCalendarScreen from '../MellowContainers/MoodCalendarScreen'
 import Splash from 'react-native-splash-screen'
 
@@ -265,7 +265,7 @@ const OnboardingStack = createStackNavigator(
 )
 
 function createMainNavigation() {
-    const { loading, uid } = useUser({ listen: true, timeout: 3000 })
+    const { loading, uid } = setupUser({ listen: true, timeout: 3000 })
 
     if (!loading) {
         Splash.hide()

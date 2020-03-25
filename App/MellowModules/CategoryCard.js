@@ -15,7 +15,7 @@ const CARD_MARGIN = 3
 
 export const CATEGORY_CARD_MARGIN = Metrics.padding.scale[CARD_MARGIN]
 
-const CategoryCard = ({ name, onPress, color }) => {
+const CategoryCard = ({ name, onPress, color, locked }) => {
     const onTouch = () => {
         Analytics.pressCategory(name)
         onPress()
@@ -28,6 +28,11 @@ const CategoryCard = ({ name, onPress, color }) => {
                 mr={CARD_MARGIN}
                 mb={3}
             >
+                {!!locked && (
+                    <V pabs style={{ top: 10, right: 10 }}>
+                        <Image source={Images.lock} />
+                    </V>
+                )}
                 <V ai="flex-end" pt={5} pb={4} />
                 <Image
                     source={Images.cardWaveGlyphC}
