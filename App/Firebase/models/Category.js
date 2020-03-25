@@ -15,7 +15,7 @@ export type CategoryFields = {
 
 class CategoryModel extends Model {
     amasQuery(): firestore.Query {
-        return this.collectionRef.where('ama', '==', true)
+        return this.collectionRef.where('ama', '==', true).orderBy('isPro')
     }
 
     amas(): Promise<Array<CategoryFields>> {

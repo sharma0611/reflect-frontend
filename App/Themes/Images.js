@@ -49,5 +49,6 @@ export default {
     twitter: require('Images/twitter.png'),
     insta: require('Images/insta.png'),
     trash: require('Images/trash.png'),
-    cloudAndSun: require('Images/cloudAndSun.png')
+    cloudAndSun: require('Images/cloudAndSun.png'),
+    lock: require('Images/smalllock.png')
 }

@@ -211,11 +211,11 @@ const loadCategoriesActivitiesEmojisQuestions = async () => {
     const categories = await fetchCategories(doc)
     upsertCategories(db, categories)
 
-    const activities = await fetchActivities(doc)
-    upsertActivities(db, activities)
+    // const activities = await fetchActivities(doc)
+    // upsertActivities(db, activities)
 
-    const emojis = await fetchEmojis(doc)
-    await upsertEmojis(db, emojis)
+    // const emojis = await fetchEmojis(doc)
+    // await upsertEmojis(db, emojis)
 
     // now for each categoryId, get the question sheet, go row by row saving each to firestore & updating id column
     const questionSheets = fetchQuestionSheetsByTitle(doc)
@@ -227,6 +227,9 @@ const loadCategoriesActivitiesEmojisQuestions = async () => {
             // if (questionSheet.title !== 'activity') {
             //     return
             // }
+            if (!['career', 'school', 'travel', 'dreams'].includes(questionSheet.title)) {
+                return
+            }
             const questions = await questionSheet.getRows()
             await new Promise(r => setTimeout(r, 2000))
             await waterfall(
