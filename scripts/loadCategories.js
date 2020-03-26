@@ -200,6 +200,9 @@ const upsertEmojis = async (db, emojis) => {
     await Promise.all(
         emojis.map(async emoji => {
             const docRef = db.collection(EMOJIS).doc(emoji.emoji)
+            if (docRef.exists) {
+                console.log(`👨‍🌾 => `, emoji.emoji)
+            }
             await docRef.set(emoji)
         })
     )
@@ -218,6 +221,7 @@ const loadCategoriesActivitiesEmojisQuestions = async () => {
     const emojis = await fetchEmojis(doc)
     await upsertEmojis(db, emojis)
 
+    return
     // now for each categoryId, get the question sheet, go row by row saving each to firestore & updating id column
     const questionSheets = fetchQuestionSheetsByTitle(doc)
 

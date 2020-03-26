@@ -22,12 +22,24 @@ const EntryScreen = ({ navigation }) => {
     const params = state.params
     const { entry } = params
     const color = Colors.PastelPurple
-    const { header, questionText, responseText, caption, useEmoji, timestamp, id } = entry
-    const [response, setResponse] = useState(responseText)
+    const {
+        header,
+        questionText,
+        responseText,
+        caption,
+        useEmoji,
+        timestamp,
+        positivity: initialPositivity,
+        id
+    } = entry
+    const [{ response, positivity }, setResponse] = useState({
+        response: responseText,
+        positivity: initialPositivity
+    })
 
     const persistResponse = () => {
         Analytics.saveEntry(header, response?.length || 0)
-        const updatedEntry = { ...entry, responseText: response }
+        const updatedEntry = { ...entry, responseText: response, ...(positivity && { positivity }) }
         return updatedEntry
     }
 

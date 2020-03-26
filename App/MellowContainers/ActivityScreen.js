@@ -29,14 +29,28 @@ const ActivityScreen = ({ navigation }) => {
     }
     const { color, entries, activityType } = activity
     const currentQuestion = entries[index]
-    const { header, questionText, responseText, caption, useEmoji } = currentQuestion
-    const [response, setResponse] = useState(responseText)
+    const {
+        header,
+        questionText,
+        responseText,
+        caption,
+        useEmoji,
+        positivity: initialPositivity
+    } = currentQuestion
+    const [{ response, positivity }, setResponse] = useState({
+        response: responseText,
+        positivity: initialPositivity
+    })
+
     const nextQuestionExists = index < entries.length - 1
 
     const [showModal, setShowModal] = useState(false)
-
     const persistResponse = () => {
-        const questionWithText = { ...currentQuestion, responseText: response }
+        const questionWithText = {
+            ...currentQuestion,
+            responseText: response,
+            ...(positivity && { positivity })
+        }
         Analytics.saveEntry(header, response?.length || 0)
         const updatedEntries = entries.map((question, ind) => {
             if (index === ind) {
