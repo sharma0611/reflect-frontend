@@ -21,7 +21,7 @@ export default function useJourneyScreenData() {
         startDate: startOfWeek,
         endDate: endOfWeek
     })
-    const moods = moodData.map(mood => {
+    const weekMoods = moodData.map(mood => {
         const { responseText: emoji, timestamp, id } = mood
         const day = timestamp.getDay()
         return { day, emoji, id }
@@ -36,6 +36,6 @@ export default function useJourneyScreenData() {
         loadMore,
         hasMore,
         activityResponses,
-        moods
+        weekMoods
     }
 }

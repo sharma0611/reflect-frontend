@@ -580,6 +580,8 @@ PODS:
   - RNSentry (1.2.1):
     - React
     - Sentry (~> 4.4.0)
+  - RNSVG (12.0.3):
+    - React
   - RNVectorIcons (6.6.0):
     - React
   - Sentry (4.4.3):
@@ -633,6 +635,7 @@ DEPENDENCIES:
   - RNPurchases (from `../node_modules/react-native-purchases`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
+  - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -754,6 +757,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNSentry:
     :path: "../node_modules/@sentry/react-native"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   Yoga:
@@ -831,6 +836,7 @@ SPEC CHECKSUMS:
   RNPurchases: 041eaff4db58e381ae3d55e7b4fad91834b1fe82
   RNReanimated: 6abbbae2e5e72609d85aabd92a982a94566885f1
   RNSentry: 9b1d983b2d5d1c215ba6490348fd2a4cc23a8a9d
+  RNSVG: 7e16ddfc6e00d5aa69c9eb83e699bcce5dcb85d4
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Sentry: 14bdd673870e8cf64932b149fad5bbbf39a9b390
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f

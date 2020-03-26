@@ -112,6 +112,7 @@ const processActivityJson = raw => {
 const processEmojiJson = raw => {
     return raw.map((emoji, index) => ({
         ...emoji,
+        positivity: parseFloat(emoji.positivity),
         order: index
     }))
 }
@@ -198,7 +199,10 @@ const upsertEmojis = async (db, emojis) => {
     // upload emojis
     await Promise.all(
         emojis.map(async emoji => {
-            const docRef = db.collection(EMOJIS).doc()
+            const docRef = db.collection(EMOJIS).doc(emoji.emoji)
+            if (docRef.exists) {
+                console.log(`👨‍🌾 => `, emoji.emoji)
+            }
             await docRef.set(emoji)
         })
     )
@@ -209,14 +213,15 @@ const loadCategoriesActivitiesEmojisQuestions = async () => {
     const doc = await fetchMasterSheet()
 
     const categories = await fetchCategories(doc)
-    upsertCategories(db, categories)
+    // upsertCategories(db, categories)
 
     // const activities = await fetchActivities(doc)
     // upsertActivities(db, activities)
 
-    // const emojis = await fetchEmojis(doc)
-    // await upsertEmojis(db, emojis)
+    const emojis = await fetchEmojis(doc)
+    await upsertEmojis(db, emojis)
 
+    return
     // now for each categoryId, get the question sheet, go row by row saving each to firestore & updating id column
     const questionSheets = fetchQuestionSheetsByTitle(doc)
 

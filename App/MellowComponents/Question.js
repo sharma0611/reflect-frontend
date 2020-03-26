@@ -14,13 +14,18 @@ const Question = ({ questionText, response, useEmoji, setResponse, caption, disa
             </T>
             {useEmoji ? (
                 <V bg="WhiteM" br={3} m={3} style={{ height: 350, overflow: 'hidden' }}>
-                    <EmojiSelector onSelectEmoji={emoji => setResponse(emoji)} emoji={response} />
+                    <EmojiSelector
+                        onSelectEmoji={({ emoji, positivity }) =>
+                            setResponse({ response: emoji, positivity })
+                        }
+                        emoji={response}
+                    />
                 </V>
             ) : (
                 <V bg="WhiteM" br={3} m={3} style={{ height: 200 }}>
                     <TextInput
                         style={styles.input}
-                        onChangeText={text => setResponse(text)}
+                        onChangeText={text => setResponse({ response: text })}
                         value={response}
                         multiline={true}
                         autoGrow={true}
