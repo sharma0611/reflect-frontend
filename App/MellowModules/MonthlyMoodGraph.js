@@ -11,57 +11,61 @@ import Entry from 'Firebase/models/Entry'
 import MoodGraph from 'MellowComponents/MoodGraph'
 
 type Props = {
-    month: moment
+    year: moment
 }
 
-const WeeklyMoodGraph = ({ month }: Props) => {
-    const [weeklyData, setWeeklyData] = useState([])
+const MonthlyMoodGraph = ({ year }: Props) => {
+    const [monthlyData, setMonthlyData] = useState([])
     const fetchMoods = async currMonth => {
-        const startOfMonth = month.startOf('month').toDate()
-        const endOfMonth = month.endOf('month').toDate()
-        const numWeeks = moment(endOfMonth).isoWeek() - moment(startOfMonth).isoWeek()
+        const startOfMonth = year.startOf('year').toDate()
+        const endOfMonth = year.endOf('year').toDate()
+        const numMonths = 12
         const moodData = await Entry.moods(startOfMonth, endOfMonth)
-        const weekMoods = moodData
+        const monthMoods = moodData
             .filter(({ positivity }) => !!positivity)
             .map(mood => {
                 const { responseText: emoji, positivity, timestamp } = mood
-                const week = moment(timestamp).isoWeek() - moment(startOfMonth).isoWeek()
-                return { week, emoji, positivity }
+                const month = moment(timestamp).month()
+                return { month, emoji, positivity }
             })
-        const weekGroupedMoods = groupBy(weekMoods, ({ week }) => week)
+        const monthGroupedMoods = groupBy(monthMoods, ({ month }) => month)
 
-        const weekData = range(numWeeks)
-            .map(weekNum => {
-                const currWeek = weekGroupedMoods[weekNum]
-                if (currWeek) {
-                    const weekAvg = meanBy(currWeek, ({ positivity }) => positivity)
-                    return weekAvg
+        const monthData = range(numMonths)
+            .map(monthNum => {
+                const currMonth = monthGroupedMoods[monthNum]
+                if (currMonth) {
+                    const avg = meanBy(currMonth, ({ positivity }) => positivity)
+                    return avg
                 }
                 return 0
             })
             .map(val => val + 1)
-        setWeeklyData(weekData)
+        setMonthlyData(monthData)
     }
     useEffect(() => {
         fetchMoods()
-    }, [month])
+    }, [year])
 
     const chartWidth =
         Metrics.screenWidth - 2 * Metrics.padding.scale[2] - 2 * Metrics.padding.scale[3]
     return (
         <V>
             <T ta="center" color="Gray1">
-                {month.format('MMMM YYYY')}{' '}
+                {year.format('YYYY')}
             </T>
             <V ai="center" pt={2}>
                 <MoodGraph
-                    data={weeklyData}
+                    data={monthlyData}
                     width={chartWidth}
-                    formatLabel={(value, index) => `W${index + 1}`}
+                    formatLabel={(value, index) =>
+                        moment()
+                            .month(index)
+                            .format('MMMM')[0]
+                    }
                 />
             </V>
         </V>
     )
 }
 
-export default WeeklyMoodGraph
+export default MonthlyMoodGraph

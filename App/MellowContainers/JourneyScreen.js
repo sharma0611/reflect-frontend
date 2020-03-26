@@ -52,7 +52,7 @@ const JourneyScreen = () => {
             case WEEKLY:
                 return <WeeklyMoodCard />
             case MONTHLY:
-                return <V />
+                return <MonthlyMoodCard />
         }
     }
 
