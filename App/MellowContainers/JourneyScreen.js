@@ -60,18 +60,18 @@ const JourneyScreen = () => {
         return (
             <V row>
                 <Pill
-                    {...{ text: 'day', active: filter === DAILY, onPress: () => setFilter(DAILY) }}
+                    {...{ text: 'week', active: filter === DAILY, onPress: () => setFilter(DAILY) }}
                 />
                 <Pill
                     {...{
-                        text: 'week',
+                        text: 'month',
                         active: filter === WEEKLY,
                         onPress: () => setFilter(WEEKLY)
                     }}
                 />
                 <Pill
                     {...{
-                        text: 'month',
+                        text: 'year',
                         active: filter === MONTHLY,
                         onPress: () => setFilter(MONTHLY)
                     }}
