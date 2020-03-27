@@ -7,7 +7,7 @@ const ACTIVITY_SHEET_INDEX = 1
 const EMOJI_SHEET_INDEX = 2
 const waterfall = require('async/waterfall')
 
-const DEV = true // set this to false to ship to prod
+const DEV = false // set this to false to ship to prod
 
 // firebase collections
 let CATEGORIES = 'categories'
