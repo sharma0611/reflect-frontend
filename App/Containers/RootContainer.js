@@ -2,7 +2,7 @@
  * @flow
  */
 import React, { useState, useEffect } from 'react'
-import { StatusBar, PushNotificationIOS, Platform } from 'react-native'
+import { StatusBar, Platform } from 'react-native'
 import { createAppContainer } from 'react-navigation'
 import createMainNav from './MainNavigation'
 import V from 'Components/V'
@@ -15,6 +15,7 @@ import setDefaultReflectionTime from '../Apollo/interface/setDefaultReflectionTi
 import { AppearanceProvider } from 'react-native-appearance'
 import * as Sentry from '@sentry/react-native'
 import { GoogleSignin } from '@react-native-community/google-signin'
+import PushNotificationIOS from '@react-native-community/push-notification-ios'
 
 function getActiveRouteName(navigationState) {
     if (!navigationState) {
@@ -75,6 +76,8 @@ function RootContainer() {
     const bootstrapData = async () => {
         try {
             // online
+            PushNotification.cancelAllLocalNotifications()
+            PushNotification.setApplicationIconBadgeNumber(0)
             await setupGoogle()
             const { data } = await legacyLoginUser()
             try {
@@ -90,8 +93,6 @@ function RootContainer() {
                 await setDefaultReflectionTime()
                 throw e
             }
-            PushNotification.cancelAllLocalNotifications()
-            PushNotification.setApplicationIconBadgeNumber(0)
         } catch (e) {
             Sentry.captureException(e)
             // offline
