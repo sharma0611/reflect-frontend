@@ -999,17 +999,10 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/google-signin/-/google-signin-3.0.4.tgz#0a28ff735162e29764b0044b282752793c94960f"
   integrity sha512-76FhtnQllErTLFVKTLqmnoHvDM8nK1IPl4p0enEW6F0ScsfA8gMx9o8KMPAUr7BZpcSQpIsFc+EXOh+LldyOWg==
 
-"@react-native-community/push-notification-ios@^1.0.1":
+"@react-native-community/push-notification-ios@^1.0.1", "@react-native-community/push-notification-ios@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/push-notification-ios/-/push-notification-ios-1.1.0.tgz#b0aa8196d60505866764937af641cc0390a60bd4"
   integrity sha512-LBEPQAV55GduftmuwIG0pDB5GtAN93211BYQMaYLqEUSF+LtvSnsAp+F4P91q2qPp6byk/V1+wTRNzdDor7KDg==
-  dependencies:
-    invariant "^2.2.4"
-
-"@react-native-community/push-notification-ios@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@react-native-community/push-notification-ios/-/push-notification-ios-1.0.2.tgz#541bc8ce088d726c4a98fff0e261b4d0f555cacf"
-  integrity sha512-9lWaw+zBGvT8Yw9HZmiLkYbnmF5AzrWexYh2qmRt/shpfZawCTPmPBrq09N7JhiPV4g/gEbeLXlndxl1JQeB0g==
   dependencies:
     invariant "^2.2.4"
 

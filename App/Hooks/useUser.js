@@ -3,35 +3,27 @@ import Profile from 'Firebase/models/Profile'
 
 export const USER = 'user'
 export const initialUserState = { loading: true, hasPro: false, uid: undefined }
-/**
- * returns user state
- * @param {Boolean} listen Specifies if data is refetched when the firebase currentUser changes
- * @returns {{ loading, hasPro, uid, refetch }}
- */
-export function setupUser({ listen = false, timeout = undefined }) {
+
+export function setupUser() {
     const [{ loading, hasPro, uid }, setUser] = useGlobal(USER)
 
-    const setUserTimeout = user => {
-        setUser({ loading: true, hasPro, uid })
-        const timer = setTimeout(() => {
-            setUser(user)
-        }, timeout)
-        return () => clearTimeout(timer)
-    }
-
-    const refetch = async () => {
-        const uid = Profile.uid()
-        const hasPro = await Profile.pro()
-        const setter = timeout ? setUserTimeout : setUser
-        return setter({ loading: false, hasPro, uid })
+    const refetch = async user => {
+        let { hasPro, uid } = initialUserState
+        if (user) {
+            const { uid } = user
+            const hasPro = await Profile.pro(uid)
+            return setUser({ loading: false, hasPro, uid })
+        } else {
+            return setUser({ loading: false, hasPro, uid })
+        }
     }
 
     useEffect(() => {
-        if (listen) return Profile.listenToAuthState(refetch)
-        return refetch()
+        const unsubscribe = Profile.listenToAuthState(refetch)
+        return unsubscribe
     }, [])
 
-    return { loading, uid, hasPro, refetch }
+    return { loading, uid, hasPro }
 }
 
 const useUser = () => {

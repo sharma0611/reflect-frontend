@@ -134,8 +134,8 @@ export default class Model {
         const docRef = this.docRef(id)
         const doc = await docRef.get()
         if (doc.exists) {
-            console.warn(`document with id ${id} in ${this.collectionName} already exists`)
-            return // TODO throw already exists error
+            // console.warn(`document with id ${id} in ${this.collectionName} already exists`)
+            return
         }
         const createdAt = nowTimestamp()
         await docRef.set({ ...mapDateValuesToTimestamp(fields), createdAt })
