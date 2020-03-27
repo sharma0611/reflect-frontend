@@ -13,6 +13,9 @@ export type ProfileFields = {
     uid: string
 }
 
+// Note
+// For anything that gets setup on initial load or render, do not use auth.currentUser() methods
+// instead pass in the UID from useUser hook
 class ProfileModel extends Model {
     signOut(): Promise<void> {
         return auth().signOut()
@@ -50,28 +53,26 @@ class ProfileModel extends Model {
         await auth().currentUser.delete()
     }
 
-    listen(onData: (data: ProfileFields) => void, onError: () => void) {
-        return this.listenToDocRef(this._ref(), onData, onError)
+    listen(onData: (data: ProfileFields) => void, onError: () => void, uid?: string) {
+        // pass in UID here to avoid uninitialized firebase state on setup
+        return this.listenToDocRef(this._ref(uid), onData, onError)
     }
 
     listenToAuthState(listener: (user: any | void) => void) {
         return auth().onAuthStateChanged(listener)
     }
 
-    uid(): string | void {
+    uid(): string {
         const user = auth().currentUser
-        if (!user) return
         return user.uid
     }
 
-    _ref = (): firestore.DocumentReference => {
-        const uid = this.uid()
-        if (!uid) return
+    _ref = (uid?: string = this.uid()): firestore.DocumentReference => {
         return this.docRef(uid)
     }
 
-    pro = async (): Promise<boolean> => {
-        const { isPro: provisionedPro } = await this.dataFromDocRef(this._ref())
+    pro = async (uid?: string): Promise<boolean> => {
+        const { isPro: provisionedPro } = await this.dataFromDocRef(this._ref(uid))
         const boughtPro = await hasProByUid(this.uid())
         return boughtPro || provisionedPro
     }
