@@ -142,6 +142,7 @@ class PersonalizeB extends React.Component<Props, State> {
                         contentContainerStyle={{
                             marginLeft: Metrics.padding.xLarge,
                             paddingRight: Metrics.padding.xLarge,
+                            paddingBottom: Metrics.padding.small,
                             marginBottom: Metrics.padding.large
                         }}
                     >
