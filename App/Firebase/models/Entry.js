@@ -14,7 +14,7 @@ export type EntryFields = {
     header: string,
     questionId: string,
     questionText: string,
-    positivity: number,
+    positivity?: number,
     // Post Save Fields
     responseText?: string,
     timestamp?: Date,

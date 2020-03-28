@@ -7,7 +7,7 @@ const ACTIVITY_SHEET_INDEX = 1
 const EMOJI_SHEET_INDEX = 2
 const waterfall = require('async/waterfall')
 
-const DEV = false // set this to false to ship to prod
+const DEV = true // set this to false to ship to prod
 
 // firebase collections
 let CATEGORIES = 'categories'
@@ -93,19 +93,21 @@ const deleteCollection = async (db, collection) => {
 }
 
 const processCategoryJson = raw => {
-    return raw.map(category => ({
+    return raw.map((category, index) => ({
         ...category,
         isPro: intStringToBool(category.isPro),
-        ama: intStringToBool(category.ama)
+        ama: intStringToBool(category.ama),
+        order: index
     }))
 }
 
 const processActivityJson = raw => {
-    return raw.map(activity => ({
+    return raw.map((activity, index) => ({
         ...activity,
         isPro: intStringToBool(activity.isPro),
         published: intStringToBool(activity.published),
-        questionIds: stringToIdList(activity.questionIds)
+        questionIds: stringToIdList(activity.questionIds),
+        order: index
     }))
 }
 
@@ -175,6 +177,9 @@ const fetchQuestions = async doc => {
 // }
 
 const upsertCategories = async (db, categories) => {
+    // wipe emojis
+    await deleteCollection(db, CATEGORIES)
+
     await Promise.all(
         categories.map(async ({ id, ...rest }) => {
             const docRef = db.collection(CATEGORIES).doc(id)
@@ -184,6 +189,9 @@ const upsertCategories = async (db, categories) => {
 }
 
 const upsertActivities = async (db, activities) => {
+    // wipe emojis
+    await deleteCollection(db, ACTIVITIES)
+
     await Promise.all(
         activities.map(async ({ id, ...rest }) => {
             const docRef = db.collection(ACTIVITIES).doc(id)
@@ -200,9 +208,6 @@ const upsertEmojis = async (db, emojis) => {
     await Promise.all(
         emojis.map(async emoji => {
             const docRef = db.collection(EMOJIS).doc(emoji.emoji)
-            if (docRef.exists) {
-                console.log(`👨‍🌾 => `, emoji.emoji)
-            }
             await docRef.set(emoji)
         })
     )
@@ -213,15 +218,14 @@ const loadCategoriesActivitiesEmojisQuestions = async () => {
     const doc = await fetchMasterSheet()
 
     const categories = await fetchCategories(doc)
-    // upsertCategories(db, categories)
+    upsertCategories(db, categories)
 
-    // const activities = await fetchActivities(doc)
-    // upsertActivities(db, activities)
+    const activities = await fetchActivities(doc)
+    upsertActivities(db, activities)
 
-    const emojis = await fetchEmojis(doc)
-    await upsertEmojis(db, emojis)
+    // const emojis = await fetchEmojis(doc)
+    // await upsertEmojis(db, emojis)
 
-    return
     // now for each categoryId, get the question sheet, go row by row saving each to firestore & updating id column
     const questionSheets = fetchQuestionSheetsByTitle(doc)
 
@@ -229,12 +233,12 @@ const loadCategoriesActivitiesEmojisQuestions = async () => {
         categories.map(({ id: categoryId }) => async () => {
             const questionSheet = questionSheets[categoryId]
             // to do it just for one category:
-            // if (questionSheet.title !== 'activity') {
-            //     return
-            // }
-            if (!['career', 'school', 'travel', 'dreams'].includes(questionSheet.title)) {
+            if (questionSheet.title !== 'activity') {
                 return
             }
+            // if (!['career', 'school', 'travel', 'dreams'].includes(questionSheet.title)) {
+            //     return
+            // }
             const questions = await questionSheet.getRows()
             await new Promise(r => setTimeout(r, 2000))
             await waterfall(

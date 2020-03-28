@@ -71,7 +71,7 @@ export default class Model {
         }
     }
 
-    async dataFromIds(ids: Array<string>): Promise<Array<any> | void> {
+    async dataFromIds(ids: Array<string>): Promise<Array<any>> {
         if (ids.length > 10) {
             console.warn('in operator only supports up to 10 comparison values')
             return []

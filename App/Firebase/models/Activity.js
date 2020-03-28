@@ -4,6 +4,7 @@ import Model from './Model'
 import Question from 'Firebase/models/Question'
 import type { EntryFields } from './Entry'
 import type { QuestionFields } from './Question'
+import sortBy from 'lodash/sortBy'
 
 const COLLECTION_NAME = 'activities'
 
@@ -26,7 +27,7 @@ export type ActivitySkeletonFields = {
 
 class ActivityModel extends Model {
     publishedQuery(): firestore.Query {
-        return this.collectionRef.where('published', '==', true)
+        return this.collectionRef.where('published', '==', true).orderBy('order')
     }
 
     published(): Promise<Array<ActivityFields>> {
@@ -42,7 +43,7 @@ class ActivityModel extends Model {
 
     async withEntries(activity: ActivityFields): Promise<ActivitySkeletonFields> {
         const { questionIds, published, name, ...restOfActivity } = activity
-        const questions: Array<QuestionFields> = await Question.dataFromIds(questionIds)
+        const questions = await Question.dataFromIds(questionIds)
         const entries = questions.map<EntryFields>((question: QuestionFields) => {
             const { order, id, ...restOfQuestion } = question
             return { ...restOfQuestion, questionId: question.id, header: name }
@@ -62,7 +63,8 @@ class ActivityModel extends Model {
                     activitySkeletons.push(activitySkeleton)
                 })
             )
-            onActivitySkeletonData(activitySkeletons)
+            const activities = sortBy(activitySkeletons, 'order')
+            onActivitySkeletonData(activities)
         }
         return this.listenToPublished(onActivitiesData, onError)
     }
