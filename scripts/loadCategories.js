@@ -7,7 +7,7 @@ const ACTIVITY_SHEET_INDEX = 1
 const EMOJI_SHEET_INDEX = 2
 const waterfall = require('async/waterfall')
 
-const DEV = false // set this to false to ship to prod
+const DEV = true // set this to false to ship to prod
 
 // firebase collections
 let CATEGORIES = 'categories'
@@ -78,34 +78,78 @@ const stringToIdList = str => {
     return str.split(',').map(id => id.trim())
 }
 
-const deleteCollection = async (db, collection) => {
-    let batch = db.batch()
-    await db
-        .collection(collection)
-        .listDocuments()
-        .then(val => {
-            val.map(val => {
-                batch.delete(val)
+// const deleteCollection = async (db, collection) => {
+//     let batch = db.batch()
+//     await db
+//         .collection(collection)
+//         .listDocuments()
+//         .then(val => {
+//             val.map(val => {
+//                 batch.delete(val)
+//             })
+//             batch.commit()
+//         })
+// }
+
+function deleteCollection(db, collectionPath, batchSize = 50) {
+    let collectionRef = db.collection(collectionPath)
+    let query = collectionRef.orderBy('__name__').limit(batchSize)
+
+    return new Promise((resolve, reject) => {
+        deleteQueryBatch(db, query, resolve, reject)
+    })
+}
+
+function deleteQueryBatch(db, query, resolve, reject) {
+    query
+        .get()
+        .then(snapshot => {
+            // When there are no documents left, we are done
+            if (snapshot.size === 0) {
+                return 0
+            }
+
+            // Delete documents in a batch
+            let batch = db.batch()
+            snapshot.docs.forEach(doc => {
+                batch.delete(doc.ref)
             })
 
-            batch.commit()
+            return batch.commit().then(() => {
+                return snapshot.size
+            })
         })
+        .then(numDeleted => {
+            if (numDeleted === 0) {
+                resolve()
+                return
+            }
+
+            // Recurse on the next process tick, to avoid
+            // exploding the stack.
+            process.nextTick(() => {
+                deleteQueryBatch(db, query, resolve, reject)
+            })
+        })
+        .catch(reject)
 }
 
 const processCategoryJson = raw => {
-    return raw.map(category => ({
+    return raw.map((category, index) => ({
         ...category,
         isPro: intStringToBool(category.isPro),
-        ama: intStringToBool(category.ama)
+        ama: intStringToBool(category.ama),
+        order: index
     }))
 }
 
 const processActivityJson = raw => {
-    return raw.map(activity => ({
+    return raw.map((activity, index) => ({
         ...activity,
         isPro: intStringToBool(activity.isPro),
         published: intStringToBool(activity.published),
-        questionIds: stringToIdList(activity.questionIds)
+        questionIds: stringToIdList(activity.questionIds),
+        order: index
     }))
 }
 
@@ -175,6 +219,9 @@ const fetchQuestions = async doc => {
 // }
 
 const upsertCategories = async (db, categories) => {
+    // wipe emojis
+    await deleteCollection(db, CATEGORIES)
+
     await Promise.all(
         categories.map(async ({ id, ...rest }) => {
             const docRef = db.collection(CATEGORIES).doc(id)
@@ -184,6 +231,9 @@ const upsertCategories = async (db, categories) => {
 }
 
 const upsertActivities = async (db, activities) => {
+    // wipe emojis
+    await deleteCollection(db, ACTIVITIES)
+
     await Promise.all(
         activities.map(async ({ id, ...rest }) => {
             const docRef = db.collection(ACTIVITIES).doc(id)
@@ -200,9 +250,6 @@ const upsertEmojis = async (db, emojis) => {
     await Promise.all(
         emojis.map(async emoji => {
             const docRef = db.collection(EMOJIS).doc(emoji.emoji)
-            if (docRef.exists) {
-                console.log(`👨‍🌾 => `, emoji.emoji)
-            }
             await docRef.set(emoji)
         })
     )
@@ -213,15 +260,14 @@ const loadCategoriesActivitiesEmojisQuestions = async () => {
     const doc = await fetchMasterSheet()
 
     const categories = await fetchCategories(doc)
-    // upsertCategories(db, categories)
+    upsertCategories(db, categories)
 
-    // const activities = await fetchActivities(doc)
-    // upsertActivities(db, activities)
+    const activities = await fetchActivities(doc)
+    upsertActivities(db, activities)
 
-    const emojis = await fetchEmojis(doc)
-    await upsertEmojis(db, emojis)
+    // const emojis = await fetchEmojis(doc)
+    // await upsertEmojis(db, emojis)
 
-    return
     // now for each categoryId, get the question sheet, go row by row saving each to firestore & updating id column
     const questionSheets = fetchQuestionSheetsByTitle(doc)
 
@@ -229,12 +275,12 @@ const loadCategoriesActivitiesEmojisQuestions = async () => {
         categories.map(({ id: categoryId }) => async () => {
             const questionSheet = questionSheets[categoryId]
             // to do it just for one category:
-            // if (questionSheet.title !== 'activity') {
-            //     return
-            // }
-            if (!['career', 'school', 'travel', 'dreams'].includes(questionSheet.title)) {
+            if (questionSheet.title !== 'activity') {
                 return
             }
+            // if (!['career', 'school', 'travel', 'dreams'].includes(questionSheet.title)) {
+            //     return
+            // }
             const questions = await questionSheet.getRows()
             await new Promise(r => setTimeout(r, 2000))
             await waterfall(
