@@ -27,7 +27,7 @@ export type ActivitySkeletonFields = {
 
 class ActivityModel extends Model {
     publishedQuery(): firestore.Query {
-        return this.collectionRef.where('published', '==', true).orderBy('order')
+        return this.collectionRef.where('published', '==', true)
     }
 
     published(): Promise<Array<ActivityFields>> {
