@@ -7,6 +7,7 @@ import Touchable from 'Components/Touchable'
 import Card from 'MellowComponents/Card'
 import { withNavigation } from 'react-navigation'
 import Profile from 'Firebase/models/Profile'
+import useUser from 'Hooks/useUser'
 
 const ProfileRow = ({ leftImage, title, onPress }) => {
     return (
@@ -49,6 +50,7 @@ const Seperator = () => {
 }
 
 const ProfileCard = ({ navigation, profile }) => {
+    const { hasPro } = useUser()
     const navigateToEditName = () => {
         navigation.navigate('EditProfile')
     }
@@ -59,6 +61,13 @@ const ProfileCard = ({ navigation, profile }) => {
 
     const navigateToResetPassword = () => {
         navigation.navigate('ResetPasswordLoggedIn')
+    }
+    const navigateToSetPin = () => {
+        if (hasPro) {
+            navigation.navigate('SetPin')
+        } else {
+            navigation.navigate('MellowPaywall')
+        }
     }
 
     const logout = () => {
@@ -82,6 +91,14 @@ const ProfileCard = ({ navigation, profile }) => {
                             title: 'Setup a daily reminder time',
                             leftImage: Images.bell,
                             onPress: navigateToEditDailyReminder
+                        }}
+                    />
+                    <Seperator />
+                    <ProfileRow
+                        {...{
+                            title: 'Lock your journals',
+                            leftImage: Images.shieldLock,
+                            onPress: navigateToSetPin
                         }}
                     />
                     <Seperator />

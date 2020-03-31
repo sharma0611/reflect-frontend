@@ -15,6 +15,7 @@ import { NavigationEvents } from 'react-navigation'
 import useJourneyScreenData from 'Hooks/useJourneyScreenData'
 import Loading from 'MellowComponents/Loading'
 import ErrorScreen from 'MellowContainers/ErrorScreen'
+import withPinProtection from 'HOC/withPinProtection'
 
 // mood filters
 const DAILY = 0
@@ -115,4 +116,4 @@ JourneyScreen.navigationOptions = {
     header: null
 }
 
-export default JourneyScreen
+export default withPinProtection(JourneyScreen)

@@ -10,7 +10,8 @@ const COLLECTION_NAME = 'profiles'
 export type ProfileFields = {
     displayName: string,
     email: string,
-    uid: string
+    uid: string,
+    pin?: string
 }
 
 // Note
@@ -48,6 +49,24 @@ class ProfileModel extends Model {
         await this.updateByRef(this._ref(), { displayName })
     }
 
+    async updatePin(pin: string): Promise<void> {
+        await this.updateByRef(this._ref(), { pin })
+    }
+
+    async getPin(uid?: string): Promise<string | void> {
+        const { pin } = await this.dataFromDocRef(this._ref(uid))
+        return pin
+    }
+
+    async unsetPin(): Promise<void> {
+        await this.deleteFieldsByRef(this._ref(), ['pin'])
+    }
+
+    async checkPin(pin: string): Promise<boolean> {
+        const { pin: correctPin } = await this.dataFromDocRef(this._ref())
+        return pin === correctPin
+    }
+
     async delete(): Promise<void> {
         await super.deleteByRef(this._ref())
         await auth().currentUser.delete()
@@ -62,12 +81,14 @@ class ProfileModel extends Model {
         return auth().onAuthStateChanged(listener)
     }
 
-    uid(): string {
+    uid(): string | void {
         const user = auth().currentUser
-        return user.uid
+        if (user) {
+            return user.uid
+        }
     }
 
-    _ref = (uid?: string = this.uid()): firestore.DocumentReference => {
+    _ref = (uid?: string | void = this.uid()): firestore.DocumentReference => {
         return this.docRef(uid)
     }
 

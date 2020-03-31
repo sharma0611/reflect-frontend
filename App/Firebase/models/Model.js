@@ -22,7 +22,7 @@ export default class Model {
         this.collectionRef = firestore().collection(name)
     }
 
-    docRef(id: string): firestore.DocumentReference {
+    docRef(id?: string): firestore.DocumentReference {
         return this.collectionRef.doc(id)
     }
 
@@ -154,6 +154,21 @@ export default class Model {
     async deleteById(id: string): Promise<void> {
         const docRef = this.docRef(id)
         await this.deleteByRef(docRef)
+    }
+
+    async deleteFieldsByRef(
+        docRef: firestore.DocumentReference,
+        fields: Array<string>
+    ): Promise<void> {
+        const doc = await docRef.get()
+        if (!doc.exists) {
+            console.warn(`document in ${this.collectionName} does not exist`)
+            return // TODO throw does not exist error
+        }
+        const update = fields
+            .map(field => ({ [field]: firestore.FieldValue.delete() }))
+            .reduce((prevVal, currVal) => ({ ...prevVal, ...currVal }))
+        await docRef.update(update)
     }
 
     deleteByIds = async (ids: Array<string>): Promise<void> => {
