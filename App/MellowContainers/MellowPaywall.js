@@ -19,7 +19,11 @@ import SecondaryButton from 'MellowComponents/SecondaryButton'
 const CIRCLE_DIAMETER = 25
 const NEXT_CIRCLE_DIAMETER = 40
 
-const VALUE_PROPS = ['Unlimited Mood Data', 'Personalized Reflections', '1000+ Journal Prompts']
+const VALUE_PROPS = [
+    'Personalized Reflections',
+    '1000+ Journal Prompts',
+    'Lock your journals and more!'
+]
 
 const MellowPaywall = ({ navigation }) => {
     const { loading, error, prices } = usePrices()
