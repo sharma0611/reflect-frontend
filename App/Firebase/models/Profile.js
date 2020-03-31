@@ -82,7 +82,7 @@ class ProfileModel extends Model {
             await auth().currentUser.updateProfile({ displayName: newDisplayName })
         }
         const { uid, email, displayName } = auth().currentUser
-        const newDocRef = await super.createById(uid, { displayName, email, uid })
+        const newDocRef = await this.createById(uid, { displayName, email, uid })
         this._aliasOrIdentify(!!newDocRef)
     }
 

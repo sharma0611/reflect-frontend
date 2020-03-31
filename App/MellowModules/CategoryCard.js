@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { Image } from 'react-native'
-import { Images, Metrics } from 'Themes'
+import { Images, Metrics, Colors } from 'Themes'
 import V from 'Components/V'
 import T from 'Components/T'
 import Touchable from 'Components/Touchable'
@@ -30,7 +30,7 @@ const CategoryCard = ({ name, onPress, color, locked }) => {
             >
                 {!!locked && (
                     <V pabs style={{ top: 10, right: 10 }}>
-                        <Image source={Images.lock} />
+                        <Image source={Images.lock} style={{ tintColor: Colors.PastelGold }} />
                     </V>
                 )}
                 <V ai="flex-end" pt={5} pb={4} />
