@@ -46,6 +46,7 @@ import SplashScreen from '../MellowContainers/SplashScreen'
 import MellowPaywall from '../MellowContainers/MellowPaywall'
 import { setupUser } from '../Hooks/useUser'
 import MoodCalendarScreen from '../MellowContainers/MoodCalendarScreen'
+import SetPinScreen from '../MellowContainers/SetPinScreen'
 import Splash from 'react-native-splash-screen'
 
 const styles = StyleSheet.create({
@@ -175,6 +176,9 @@ const TabsStack = createStackNavigator(
         },
         EditDailyReminder: {
             screen: EditDailyReminderScreen
+        },
+        SetPin: {
+            screen: SetPinScreen
         },
         ResetPasswordLoggedIn: {
             screen: ResetPassword

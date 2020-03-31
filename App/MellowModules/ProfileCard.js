@@ -60,6 +60,9 @@ const ProfileCard = ({ navigation, profile }) => {
     const navigateToResetPassword = () => {
         navigation.navigate('ResetPasswordLoggedIn')
     }
+    const navigateToSetPin = () => {
+        navigation.navigate('SetPin')
+    }
 
     const logout = () => {
         Profile.signOut()
@@ -82,6 +85,14 @@ const ProfileCard = ({ navigation, profile }) => {
                             title: 'Setup a daily reminder time',
                             leftImage: Images.bell,
                             onPress: navigateToEditDailyReminder
+                        }}
+                    />
+                    <Seperator />
+                    <ProfileRow
+                        {...{
+                            title: 'Lock your journals',
+                            leftImage: Images.shieldLock,
+                            onPress: navigateToSetPin
                         }}
                     />
                     <Seperator />

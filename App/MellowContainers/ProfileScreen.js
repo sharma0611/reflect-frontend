@@ -10,6 +10,7 @@ import MissionCard from '../MellowModules/MissionCard'
 import Loading from '../MellowComponents/Loading'
 import ErrorScreen from '../MellowContainers/ErrorScreen'
 import useProfile from '../Hooks/useProfile'
+import withPinProtection from 'HOC/withPinProtection'
 
 const ProfileScreen = () => {
     const { loading, error, profile } = useProfile()
@@ -48,4 +49,4 @@ ProfileScreen.navigationOptions = {
     header: null
 }
 
-export default ProfileScreen
+export default withPinProtection(ProfileScreen)

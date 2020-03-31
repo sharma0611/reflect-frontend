@@ -50,5 +50,6 @@ export default {
     insta: require('Images/insta.png'),
     trash: require('Images/trash.png'),
     cloudAndSun: require('Images/cloudAndSun.png'),
-    lock: require('Images/smalllock.png')
+    lock: require('Images/smalllock.png'),
+    shieldLock: require('../Images/shieldLock.png')
 }
