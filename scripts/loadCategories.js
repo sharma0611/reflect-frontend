@@ -7,7 +7,7 @@ const ACTIVITY_SHEET_INDEX = 1
 const EMOJI_SHEET_INDEX = 2
 const waterfall = require('async/waterfall')
 
-const DEV = true // set this to false to ship to prod
+const DEV = false // set this to false to ship to prod
 
 // firebase collections
 let CATEGORIES = 'categories'
@@ -262,8 +262,8 @@ const loadCategoriesActivitiesEmojisQuestions = async () => {
     const categories = await fetchCategories(doc)
     upsertCategories(db, categories)
 
-    const activities = await fetchActivities(doc)
-    upsertActivities(db, activities)
+    // const activities = await fetchActivities(doc)
+    // upsertActivities(db, activities)
 
     // const emojis = await fetchEmojis(doc)
     // await upsertEmojis(db, emojis)
@@ -275,12 +275,12 @@ const loadCategoriesActivitiesEmojisQuestions = async () => {
         categories.map(({ id: categoryId }) => async () => {
             const questionSheet = questionSheets[categoryId]
             // to do it just for one category:
-            if (questionSheet.title !== 'activity') {
-                return
-            }
-            // if (!['career', 'school', 'travel', 'dreams'].includes(questionSheet.title)) {
+            // if (questionSheet.title !== 'activity') {
             //     return
             // }
+            if (!['career', 'school', 'travel', 'dreams'].includes(questionSheet.title)) {
+                return
+            }
             const questions = await questionSheet.getRows()
             await new Promise(r => setTimeout(r, 2000))
             await waterfall(
