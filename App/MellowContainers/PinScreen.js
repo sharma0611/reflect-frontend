@@ -6,29 +6,26 @@ import WaveBackground from 'MellowComponents/WaveBackground'
 import SecondaryButton from 'MellowComponents/SecondaryButton'
 import Profile from 'Firebase/models/Profile'
 import PinInput from 'MellowComponents/PinInput'
+import { usePin } from 'Hooks/useUser'
 
-const Pin = ({ login, pin: correctPin }) => {
-    const [pin, setPin] = React.useState('')
+const Pin = ({ login }) => {
+    const [pinGuess, setPinGuess] = React.useState('')
+    const [{ isProtected }, setPin, unsetPin, checkPin] = usePin()
     const pinRef = React.useRef(null)
 
-    const checkPin = async pin => {
-        let success
-        if (correctPin) {
-            success = correctPin === pin
-        } else {
-            success = await Profile.checkPin(pin)
-        }
+    const checkPinGuess = currPinGuess => {
+        const success = checkPin(currPinGuess)
         if (success) {
             login()
         } else {
             pinRef.current.shake()
-            setPin('')
+            setPinGuess('')
         }
     }
 
-    const logoutAndUnset = async () => {
-        await Profile.unsetPin()
+    const logoutAndUnset = () => {
         Profile.signOut()
+        unsetPin()
     }
 
     return (
@@ -38,7 +35,9 @@ const Pin = ({ login, pin: correctPin }) => {
                     Enter your pin
                 </T>
             </V>
-            <PinInput {...{ pin, setPin, pinRef, onFulfill: checkPin }} />
+            <PinInput
+                {...{ pin: pinGuess, setPin: setPinGuess, pinRef, onFulfill: checkPinGuess }}
+            />
             <V p={4} pt={6}>
                 <T>Forgot your pin? Just logout and unset your pin below.</T>
             </V>

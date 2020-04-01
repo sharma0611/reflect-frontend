@@ -7,24 +7,16 @@ import MainButton from 'MellowComponents/MainButton'
 import SecondaryButton from 'MellowComponents/SecondaryButton'
 import WaveBackground from 'MellowComponents/WaveBackground'
 import LeftChevron from 'MellowComponents/LeftChevron'
-import Profile from 'Firebase/models/Profile'
 import PinInput from 'MellowComponents/PinInput'
 import { usePin } from 'Hooks/useUser'
 
 const SetPin = ({ navigation }) => {
-    const [{}, setGlobalPin] = usePin()
-    const [pin, setLocalPin] = React.useState('')
+    const [{ isProtected }, setPin, unsetPin, checkPin] = usePin()
+    const [newPin, setNewPin] = React.useState('')
     const pinRef = React.useRef(null)
 
     const submitPin = async () => {
-        await Profile.updatePin(pin)
-        setGlobalPin(pin)
-        await navigation.goBack()
-    }
-
-    const unsetPin = async () => {
-        await Profile.unsetPin()
-        await navigation.goBack()
+        await setPin(newPin)
     }
 
     return (
@@ -37,9 +29,9 @@ const SetPin = ({ navigation }) => {
                     Set your pin
                 </T>
             </V>
-            <PinInput {...{ pin, setPin: setLocalPin, pinRef }} />
+            <PinInput {...{ pin: newPin, setPin: setNewPin, pinRef }} />
             <V ai="center" pt={5}>
-                <MainButton text="Set Pin" disabled={pin.length !== 4} onPress={submitPin} />
+                <MainButton text="Set Pin" disabled={newPin.length !== 4} onPress={submitPin} />
             </V>
             <V ai="center" pt={2}>
                 <SecondaryButton text="Unset Pin" onPress={unsetPin} />

@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { createSwitchNavigator } from 'react-navigation'
+import React, { useState } from 'react'
 import PinScreen from '../MellowContainers/PinScreen'
-import Profile from 'Firebase/models/Profile'
-import V from 'Components/V'
-import T from 'Components/T'
 import useAppState from 'react-native-appstate-hook'
 import { usePin } from 'Hooks/useUser'
 
 const withPinProtection = Screen => props => {
-    const [{ hasPro, pin }, setPin] = usePin()
-    const isProtected = hasPro && pin
+    const [{ isProtected }] = usePin()
     const [loggedIn, setLoggedIn] = useState(!isProtected)
 
     const login = () => {
@@ -17,14 +12,14 @@ const withPinProtection = Screen => props => {
     }
 
     const logout = () => {
-        setLoggedIn(false)
+        isProtected && setLoggedIn(false)
     }
 
     const { appState } = useAppState({
         onBackground: logout
     })
 
-    return loggedIn ? <Screen {...props} /> : <PinScreen {...{ pin, login }} />
+    return loggedIn ? <Screen {...props} /> : <PinScreen {...{ login }} />
 }
 
 export default withPinProtection
