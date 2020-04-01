@@ -11,8 +11,7 @@ export function setupUser() {
         let { hasPro, uid, pin } = initialUserState
         if (user) {
             const { uid } = user
-            // const hasPro = await Profile.pro(uid)
-            const hasPro = true
+            const hasPro = await Profile.pro(uid)
             const pin = await Profile.getPin(uid)
             return setUser({ loading: false, hasPro, uid, pin })
         } else {
