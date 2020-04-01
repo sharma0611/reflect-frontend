@@ -11,7 +11,8 @@ export function setupUser() {
         let { hasPro, uid, pin } = initialUserState
         if (user) {
             const { uid } = user
-            const hasPro = await Profile.pro(uid)
+            // const hasPro = await Profile.pro(uid)
+            const hasPro = true
             const pin = await Profile.getPin(uid)
             return setUser({ loading: false, hasPro, uid, pin })
         } else {
@@ -34,8 +35,19 @@ const useUser = () => {
 
 export const usePin = () => {
     const [{ loading, hasPro, uid, pin }, setUser] = useGlobal(USER)
-    const setPin = newPin => setUser({ loading, hasPro, uid, pin: newPin })
-    return [{ hasPro, pin }, setPin]
+    const setPin = async newPin => {
+        await Profile.updatePin(newPin)
+        setUser({ loading, hasPro, uid, pin: newPin })
+    }
+    const unsetPin = async () => {
+        await Profile.unsetPin()
+        setUser({ loading, hasPro, uid, pin: undefined })
+    }
+    const checkPin = pinGuess => {
+        return pinGuess === pin
+    }
+    const isProtected = hasPro && pin
+    return [{ isProtected }, setPin, unsetPin, checkPin]
 }
 
 export default useUser
