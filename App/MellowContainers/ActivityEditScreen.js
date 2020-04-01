@@ -21,23 +21,22 @@ const ActivityEditScreen = ({ navigation }) => {
     const { entries, color, name: activityTitle, legacy } = activity
 
     const initialResponseState = entries
-        .map(({ responseText }, i) => ({
-            [i]: responseText
+        .map(({ responseText, positivity }, i) => ({
+            [i]: { response: responseText, positivity }
         }))
         .reduce((prevVal, currVal) => ({ ...prevVal, ...currVal }))
     const [responses, setResponses] = useState(initialResponseState)
-
     const setResponse = (i, response) => {
         setResponses({
             ...responses,
             [i]: response
         })
     }
-
     const persistEntries = () => {
         const updatedJournalEntries = entries.map((journal, ind) => ({
             ...journal,
-            responseText: responses[ind]
+            responseText: responses[ind].response,
+            ...(responses[ind].positivity && { positivity: responses[ind].positivity })
         }))
         return updatedJournalEntries
     }
@@ -81,7 +80,7 @@ const ActivityEditScreen = ({ navigation }) => {
                             {...{
                                 questionText,
                                 useEmoji,
-                                response: responses[index],
+                                response: responses[index].response,
                                 setResponse: r => setResponse(index, r),
                                 disabled: !!legacy
                             }}

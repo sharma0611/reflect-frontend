@@ -38,7 +38,8 @@ const JournalActivityCard = ({ activity, navigation }) => {
                     <V pt={1}>
                         {!!responseText && (
                             <T caption color="Gray1">
-                                {responseText.slice(0, 40)}
+                                {/* accidentally fucked this in prod so some users may not be able to go back to their journals, delete this later */}
+                                {typeof responseText === 'string' && responseText.slice(0, 40)}
                                 {responseText.length > 40 && '...'}
                             </T>
                         )}
