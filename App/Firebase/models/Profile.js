@@ -4,6 +4,8 @@ import auth from '@react-native-firebase/auth'
 import Model from './Model'
 import Analytics from 'Controllers/AnalyticsController'
 import { hasProByUid } from 'Controllers/PurchasesController'
+import Referral from './Referral'
+import { inFuture } from '../helpers'
 
 const COLLECTION_NAME = 'profiles'
 
@@ -11,7 +13,11 @@ export type ProfileFields = {
     displayName: string,
     email: string,
     uid: string,
-    pin?: string
+    createdAt: Date,
+    pin?: string,
+    isPro?: boolean,
+    trialEnd?: Date,
+    referralId?: boolean
 }
 
 // Note
@@ -93,18 +99,25 @@ class ProfileModel extends Model {
     }
 
     pro = async (uid?: string): Promise<boolean> => {
-        const { isPro: provisionedPro } = await this.dataFromDocRef(this._ref(uid))
+        const { isPro: provisionedPro, trialEnd } = await this.dataFromDocRef(this._ref(uid))
         const boughtPro = await hasProByUid(this.uid())
-        return boughtPro || provisionedPro
+        const trialPro = trialEnd && inFuture(trialEnd)
+        return boughtPro || provisionedPro || trialPro
     }
 
-    async _finishSignUp(newDisplayName?: string = ''): Promise<void> {
-        if (!auth().currentUser.displayName || newDisplayName) {
-            await auth().currentUser.updateProfile({ displayName: newDisplayName })
-        }
+    async _finishSignUp(newDisplayName?: string = '', referralId = ''): Promise<void> {
+        await this._setCurrentUserDisplayName(newDisplayName)
         const { uid, email, displayName } = auth().currentUser
-        const newDocRef = await this.createById(uid, { displayName, email, uid })
+        const { trialEnd } = Referral.dataFromActiveId(id)
+        const newFields = { displayName, email, uid, referralId, trialEnd }
+        const newDocRef = await this.createById(uid, newFields)
         this._aliasOrIdentify(!!newDocRef)
+    }
+
+    async _setCurrentUserDisplayName(displayName: string): Promise<void> {
+        if (!auth().currentUser.displayName || displayName) {
+            await auth().currentUser.updateProfile({ displayName })
+        }
     }
 
     _aliasOrIdentify(existing: boolean) {
