@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { Image, StyleSheet } from 'react-native'
-import { AppStyles, Metrics } from 'Themes'
+import { AppStyles, Metrics, Colors } from 'Themes'
 import T from 'Components/T'
 import V from 'Components/V'
 import Touchable from 'Components/Touchable'
@@ -54,7 +54,8 @@ const styles = StyleSheet.create({
     },
     leftIcon: {
         width: 20,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
+        tintColor: Colors.WhiteM
     }
 })
 

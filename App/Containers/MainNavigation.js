@@ -8,7 +8,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { Images, Colors, AppStyles, Fonts } from 'Themes'
 import { modalFriendlyTransition } from './transitions'
-import { fadeIn, fromRight } from 'react-navigation-transitions'
+import { fadeIn, fromRight, fromBottom } from 'react-navigation-transitions'
 
 // Screens
 import JournalsScreen from './JournalsScreen'
@@ -31,6 +31,7 @@ import PersonalizeA from '../MellowContainers/PersonalizeA'
 import PersonalizeB from '../MellowContainers/PersonalizeB'
 import PersonalizeC from '../MellowContainers/PersonalizeC'
 import CreateAccount from '../MellowContainers/CreateAccount'
+import EmailSignUp from '../MellowContainers/EmailSignUp'
 import ReflectionQuestionScreen from '../MellowContainers/ReflectionQuestionScreen'
 import SignIn from '../MellowContainers/SignIn'
 import ResetPassword from '../MellowContainers/ResetPassword'
@@ -259,7 +260,8 @@ const OnboardingStack = createStackNavigator(
         PersonalizeC,
         CreateAccount,
         SignIn,
-        ResetPassword
+        ResetPassword,
+        EmailSignUp
     },
     {
         ...modalFriendlyTransition,
