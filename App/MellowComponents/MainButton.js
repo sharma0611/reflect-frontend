@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React, { useState } from 'react'
 import { Image, StyleSheet } from 'react-native'
 import { AppStyles, Metrics, Colors } from 'Themes'
 import T from 'Components/T'
@@ -14,40 +14,46 @@ type Props = {
     fullWidth?: boolean,
     buttonColor?: string,
     leftImage?: number,
-    loading?: boolean
+    loading?: boolean,
+    onePress?: boolean
 }
 
-type State = {}
+const MainButton = (props: Props) => {
+    const [pressed, setPressed] = useState(false)
+    const { onPress, text, disabled, fullWidth, buttonColor, leftImage, loading, onePress } = props
 
-class MainButton extends React.Component<Props, State> {
-    render() {
-        const { onPress, text, disabled, fullWidth, buttonColor, leftImage, loading } = this.props
-
-        if (loading) {
-            return <Spinner size={30} color={Colors.Blue3} type="Circle" />
-        }
-
-        const color = buttonColor ? buttonColor : 'Blue2'
-        return (
-            <Touchable {...{ onPress, disabled }} style={[fullWidth && styles.fullWidth]}>
-                <V
-                    bg={disabled ? 'Gray4' : color}
-                    style={[styles.mainButton, fullWidth && styles.fullWidth]}
-                    p={2}
-                    br={4}
-                >
-                    {leftImage && (
-                        <V pabs style={styles.leftIconContainer} jc="center">
-                            <Image source={leftImage} style={styles.leftIcon} />
-                        </V>
-                    )}
-                    <T button ta="center" color="WhiteM" p={1}>
-                        {text}
-                    </T>
-                </V>
-            </Touchable>
-        )
+    const onPressWithState = () => {
+        onePress && setPressed(true)
+        onPress()
     }
+
+    if (loading || pressed) {
+        return <Spinner size={30} color={Colors.Blue3} type="Circle" />
+    }
+
+    const color = buttonColor ? buttonColor : 'Blue2'
+    return (
+        <Touchable
+            {...{ onPress: onPressWithState, disabled }}
+            style={[fullWidth && styles.fullWidth]}
+        >
+            <V
+                bg={disabled ? 'Gray4' : color}
+                style={[styles.mainButton, fullWidth && styles.fullWidth]}
+                p={2}
+                br={4}
+            >
+                {leftImage && (
+                    <V pabs style={styles.leftIconContainer} jc="center">
+                        <Image source={leftImage} style={styles.leftIcon} />
+                    </V>
+                )}
+                <T button ta="center" color="WhiteM" p={1}>
+                    {text}
+                </T>
+            </V>
+        </Touchable>
+    )
 }
 
 const styles = StyleSheet.create({

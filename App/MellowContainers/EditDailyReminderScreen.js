@@ -116,7 +116,7 @@ const EditDailyReminderScreen = ({ navigation }) => {
                                 <T h5>Selected time: {moment(value).format('hh:mm a')}</T>
                             </V> */}
                             <V ai="center" pt={2}>
-                                <MainButton onPress={onSubmit} text={`Set time`} />
+                                <MainButton onPress={onSubmit} text={`Set time`} onePress />
                             </V>
                         </>
                     )

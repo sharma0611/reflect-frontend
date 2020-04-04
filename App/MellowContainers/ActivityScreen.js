@@ -41,7 +41,6 @@ const ActivityScreen = ({ navigation }) => {
         response: responseText,
         positivity: initialPositivity
     })
-    const [loading, setLoading] = useState(false)
 
     const nextQuestionExists = index < entries.length - 1
 
@@ -77,7 +76,6 @@ const ActivityScreen = ({ navigation }) => {
     }
 
     const submitQuestion = async () => {
-        setLoading(true)
         Analytics.saveActivity(activityType)
         const updatedEntries = persistResponse()
         let newActivity
@@ -159,7 +157,7 @@ const ActivityScreen = ({ navigation }) => {
                     </Touchable>
                 ) : (
                     <V ai="center" pt={2}>
-                        <MainButton onPress={submitQuestion} text={`Submit`} loading={loading} />
+                        <MainButton onPress={submitQuestion} text={`Submit`} onePress />
                     </V>
                 )}
             </KeyboardAwareScrollView>
