@@ -39,6 +39,8 @@ target 'ReflectApp' do
 
 
 
+  pod 'react-native-spinkit', :path => '../node_modules/react-native-spinkit'
+
   target 'ReflectAppTests' do
     inherit! :search_paths
     # Pods for testing
