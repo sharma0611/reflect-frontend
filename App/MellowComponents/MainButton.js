@@ -5,16 +5,27 @@ import { AppStyles, Metrics, Colors } from 'Themes'
 import T from 'Components/T'
 import V from 'Components/V'
 import Touchable from 'Components/Touchable'
+import Spinner from 'react-native-spinkit'
 
 type Props = {
-    disabled: boolean
+    onPress: Function,
+    text: string,
+    disabled?: boolean,
+    fullWidth?: boolean,
+    buttonColor?: string,
+    leftImage?: number,
+    loading?: boolean
 }
 
 type State = {}
 
 class MainButton extends React.Component<Props, State> {
     render() {
-        const { onPress, text, disabled, fullWidth, buttonColor, leftImage } = this.props
+        const { onPress, text, disabled, fullWidth, buttonColor, leftImage, loading } = this.props
+
+        if (loading) {
+            return <Spinner size={30} color={Colors.Blue3} type="Circle" />
+        }
 
         const color = buttonColor ? buttonColor : 'Blue2'
         return (
