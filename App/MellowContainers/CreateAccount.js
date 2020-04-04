@@ -69,9 +69,9 @@ class CreateAccount extends React.Component<Props, State> {
         const { referralCode } = this.state
         try {
             const success = await Referral.isActive(referralCode)
-            await this.setState({ error: '', success })
+            await this.setState({ error: '', success, dirty: false })
         } catch (e) {
-            await this.setState({ error: e.message })
+            await this.setState({ error: e.message, dirty: false })
         }
     }
 
@@ -79,7 +79,6 @@ class CreateAccount extends React.Component<Props, State> {
         const { dirty, typing } = this.state
         if (dirty && !typing) {
             this.submitReferralCode()
-            this.setState({ dirty: false })
         } else if (dirty) {
             this.setState({ typing: false })
         }
@@ -152,7 +151,8 @@ class CreateAccount extends React.Component<Props, State> {
                                             this.setState({
                                                 referralCode: text,
                                                 dirty: true,
-                                                typing: true
+                                                typing: true,
+                                                success: false
                                             })
                                         }
                                         value={this.state.referralCode}
