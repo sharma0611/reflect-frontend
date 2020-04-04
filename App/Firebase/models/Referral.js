@@ -1,5 +1,4 @@
 // @flow
-import firestore from '@react-native-firebase/firestore'
 import Model from './Model'
 import moment from 'moment'
 
@@ -13,14 +12,21 @@ export type ReferralFields = {
 }
 
 class ReferralModel extends Model {
-    async dataFromActiveId(id: string): Promise<Date | void> {
+    async isActive(id: string): Promise<boolean> {
+        const { start, end, days } = await this.dataFromId(id)
+        if (!start || !end || !days) return false
+        if (!moment().isBetween(start, end)) return false
+        return true
+    }
+
+    async getTrialEnd(id: string): Promise<Date | void> {
         const { start, end, days } = await this.dataFromId(id)
         if (!start || !end || !days) return
         if (!moment().isBetween(start, end)) return
         const trialEnd = moment()
             .add(days, 'days')
             .toDate()
-        return { start, end, days, trialEnd }
+        return trialEnd
     }
 }
 

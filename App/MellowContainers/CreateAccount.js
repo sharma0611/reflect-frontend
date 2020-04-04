@@ -12,6 +12,7 @@ import FIcon from 'react-native-vector-icons/Feather'
 import { LoginManager, AccessToken } from 'react-native-fbsdk'
 import { GoogleSignin } from '@react-native-community/google-signin'
 import Profile from 'Firebase/models/Profile'
+import Referral from 'Firebase/models/Referral'
 import Spinner from 'react-native-spinkit'
 
 type Props = {}
@@ -52,7 +53,7 @@ class CreateAccount extends React.Component<Props, State> {
     }
 
     navigateToEmail = () => {
-        this.props.navigation.navigate('EmailSignUp')
+        this.props.navigation.navigate('EmailSignUp', { referralCode: this.state.referralCode })
     }
 
     componentDidMount() {
@@ -67,7 +68,7 @@ class CreateAccount extends React.Component<Props, State> {
     submitReferralCode = async () => {
         const { referralCode } = this.state
         try {
-            const success = referralCode === 'shiv'
+            const success = await Referral.isActive(referralCode)
             await this.setState({ error: '', success })
         } catch (e) {
             await this.setState({ error: e.message })
@@ -100,13 +101,13 @@ class CreateAccount extends React.Component<Props, State> {
             this.setState({ error: 'Error: Something went wrong getting the access token.' })
         }
 
-        await Profile.signInWithFacebook(accessToken, displayName)
+        await Profile.signInWithFacebook(accessToken, displayName, this.state.referralCode)
     }
 
     googleSignIn = async () => {
         const { name: displayName } = this.global
         const { idToken, accessToken } = await GoogleSignin.signIn()
-        await Profile.signInWithGoogle(idToken, accessToken, displayName)
+        await Profile.signInWithGoogle(idToken, accessToken, displayName, this.state.referralCode)
     }
 
     rightIcon = () => {

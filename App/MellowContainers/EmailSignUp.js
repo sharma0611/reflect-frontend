@@ -58,9 +58,12 @@ class CreateAccount extends React.Component<Props, State> {
     submit = async formData => {
         const { email, password } = formData
         const { name: displayName } = this.global
+        const { state } = this.props.navigation
+        const params = state.params
+        let { referralCode } = params
         try {
             await this.setState({ error: '' })
-            Profile.createWithEmail(email, password, displayName)
+            Profile.createWithEmail(email, password, displayName, referralCode)
         } catch (e) {
             await this.setState({ error: e.message })
         }
@@ -68,31 +71,6 @@ class CreateAccount extends React.Component<Props, State> {
 
     toggleShowPassword = () => {
         this.setState(prevState => ({ showPassword: !prevState.showPassword }))
-    }
-
-    fbSignIn = async () => {
-        const { name: displayName } = this.global
-        const result = await LoginManager.logInWithPermissions(['public_profile', 'email'])
-
-        if (result.isCancelled) {
-            // throw new Error('Error: login cancelled')
-            this.setState({ error: 'Error: Login Cancelled.' })
-        }
-
-        const { accessToken } = await AccessToken.getCurrentAccessToken()
-
-        if (!accessToken) {
-            // throw new Error('Something went wrong obtaining access token')
-            this.setState({ error: 'Error: Something went wrong getting the access token.' })
-        }
-
-        await Profile.signInWithFacebook(accessToken, displayName)
-    }
-
-    googleSignIn = async () => {
-        const { name: displayName } = this.global
-        const { idToken, accessToken } = await GoogleSignin.signIn()
-        await Profile.signInWithGoogle(idToken, accessToken, displayName)
     }
 
     render() {
