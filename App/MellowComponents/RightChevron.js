@@ -6,13 +6,10 @@ import T from 'Components/T'
 import V from 'Components/V'
 
 type Props = {
-    tintColor: string,
-    onPress: any
+    tintColor: string
 }
 
-type State = {}
-
-class RightChevron extends React.Component<Props, State> {
+class RightChevron extends React.Component<Props> {
     render() {
         const tintColorName = this.props.tintColor ? this.props.tintColor : 'Gray2'
         const tintColor = Colors.getColor(tintColorName)

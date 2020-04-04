@@ -31,7 +31,12 @@ const SetPin = ({ navigation }) => {
             </V>
             <PinInput {...{ pin: newPin, setPin: setNewPin, pinRef }} />
             <V ai="center" pt={5}>
-                <MainButton text="Set Pin" disabled={newPin.length !== 4} onPress={submitPin} />
+                <MainButton
+                    text="Set Pin"
+                    disabled={newPin.length !== 4}
+                    onPress={submitPin}
+                    onePress
+                />
             </V>
             <V ai="center" pt={2}>
                 <SecondaryButton text="Unset Pin" onPress={unsetPin} />

@@ -157,7 +157,7 @@ const ActivityScreen = ({ navigation }) => {
                     </Touchable>
                 ) : (
                     <V ai="center" pt={2}>
-                        <MainButton onPress={submitQuestion} text={`Submit`} />
+                        <MainButton onPress={submitQuestion} text={`Submit`} onePress />
                     </V>
                 )}
             </KeyboardAwareScrollView>
