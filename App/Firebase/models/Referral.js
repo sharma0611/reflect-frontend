@@ -13,10 +13,14 @@ export type ReferralFields = {
 
 class ReferralModel extends Model {
     async isActive(id: string): Promise<boolean> {
-        const { start, end, days } = await this.dataFromId(id)
-        if (!start || !end || !days) return false
-        if (!moment().isBetween(start, end)) return false
-        return true
+        try {
+            const { start, end, days } = await this.dataFromId(id)
+            if (!start || !end || !days) return false
+            if (!moment().isBetween(start, end)) return false
+            return true
+        } catch (e) {
+            return false
+        }
     }
 
     async getTrialEnd(id: string): Promise<Date | void> {
