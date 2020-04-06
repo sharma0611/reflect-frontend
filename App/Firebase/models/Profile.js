@@ -28,9 +28,14 @@ class ProfileModel extends Model {
         return auth().signOut()
     }
 
-    async createWithEmail(email: string, password: string, displayName?: string): Promise<void> {
+    async createWithEmail(
+        email: string,
+        password: string,
+        displayName?: string,
+        referralId?: string
+    ): Promise<void> {
         await auth().createUserWithEmailAndPassword(email, password)
-        await this._finishSignUp(displayName)
+        await this._finishSignUp(displayName, referralId)
     }
 
     async signInWithEmail(email: string, password: string, displayName?: string): Promise<void> {
@@ -38,16 +43,25 @@ class ProfileModel extends Model {
         await this._finishSignUp(displayName)
     }
 
-    async signInWithFacebook(accessToken: any, displayName?: string): Promise<void> {
+    async signInWithFacebook(
+        accessToken: any,
+        displayName?: string,
+        referralId?: string
+    ): Promise<void> {
         const credential = auth.FacebookAuthProvider.credential(accessToken)
         await auth().signInWithCredential(credential)
-        await this._finishSignUp(displayName)
+        await this._finishSignUp(displayName, referralId)
     }
 
-    async signInWithGoogle(idToken: any, accessToken: any, displayName?: string): Promise<void> {
+    async signInWithGoogle(
+        idToken: any,
+        accessToken: any,
+        displayName?: string,
+        referralId?: string
+    ): Promise<void> {
         const credential = auth.GoogleAuthProvider.credential(idToken, accessToken)
         await auth().signInWithCredential(credential)
-        await this._finishSignUp(displayName)
+        await this._finishSignUp(displayName, referralId)
     }
 
     async updateDisplayName(displayName: string): Promise<void> {
@@ -100,16 +114,19 @@ class ProfileModel extends Model {
 
     pro = async (uid?: string): Promise<boolean> => {
         const { isPro: provisionedPro, trialEnd } = await this.dataFromDocRef(this._ref(uid))
-        const boughtPro = await hasProByUid(this.uid())
+        const boughtPro = await hasProByUid(uid ? uid : this.uid())
         const trialPro = trialEnd && inFuture(trialEnd)
         return boughtPro || provisionedPro || trialPro
     }
 
-    async _finishSignUp(newDisplayName?: string = '', referralId = ''): Promise<void> {
+    async _finishSignUp(newDisplayName?: string = '', referralId? = ''): Promise<void> {
         await this._setCurrentUserDisplayName(newDisplayName)
         const { uid, email, displayName } = auth().currentUser
-        const { trialEnd } = Referral.dataFromActiveId(id)
-        const newFields = { displayName, email, uid, referralId, trialEnd }
+        let newFields = { displayName, email, uid }
+        const trialEnd = await Referral.getTrialEnd(referralId)
+        if (trialEnd) {
+            newFields = { ...newFields, referralId, trialEnd }
+        }
         const newDocRef = await this.createById(uid, newFields)
         this._aliasOrIdentify(!!newDocRef)
     }

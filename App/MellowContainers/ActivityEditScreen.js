@@ -88,7 +88,12 @@ const ActivityEditScreen = ({ navigation }) => {
                     </V>
                 ))}
                 <V ai="center" pt={2} pb={6}>
-                    <MainButton onPress={submitResponses} text={`Save`} disabled={!!legacy} />
+                    <MainButton
+                        onPress={submitResponses}
+                        text={`Save`}
+                        disabled={!!legacy}
+                        onePress
+                    />
                     {legacy && (
                         <V pt={3} px={4}>
                             <T tiny ta="center" color="BlackM">

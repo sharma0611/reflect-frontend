@@ -7,7 +7,7 @@ import Touchable from 'Components/Touchable'
 import Card from 'MellowComponents/Card'
 import { withNavigation } from 'react-navigation'
 import Profile from 'Firebase/models/Profile'
-import useUser from 'Hooks/useUser'
+import useProfile from 'Hooks/useProfile'
 
 const ProfileRow = ({ leftImage, title, onPress }) => {
     return (
@@ -50,7 +50,7 @@ const Seperator = () => {
 }
 
 const ProfileCard = ({ navigation, profile }) => {
-    const { hasPro } = useUser()
+    const { hasPro } = useProfile()
     const navigateToEditName = () => {
         navigation.navigate('EditProfile')
     }

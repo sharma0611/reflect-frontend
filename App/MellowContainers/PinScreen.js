@@ -6,7 +6,7 @@ import WaveBackground from 'MellowComponents/WaveBackground'
 import SecondaryButton from 'MellowComponents/SecondaryButton'
 import Profile from 'Firebase/models/Profile'
 import PinInput from 'MellowComponents/PinInput'
-import { usePin } from 'Hooks/useUser'
+import { usePin } from 'Hooks/useProfile'
 
 const Pin = ({ login }) => {
     const [pinGuess, setPinGuess] = React.useState('')

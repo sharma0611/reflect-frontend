@@ -51,5 +51,6 @@ export default {
     trash: require('Images/trash.png'),
     cloudAndSun: require('Images/cloudAndSun.png'),
     lock: require('Images/smalllock.png'),
-    shieldLock: require('../Images/shieldLock.png')
+    shieldLock: require('../Images/shieldLock.png'),
+    mail: require('../Images/mail.png')
 }
