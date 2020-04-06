@@ -89,7 +89,7 @@ const EntryScreen = ({ navigation }) => {
                     }}
                 />
                 <V ai="center" pt={2}>
-                    <MainButton onPress={submit} text={`Submit`} />
+                    <MainButton onPress={submit} text={`Submit`} onePress />
                 </V>
             </KeyboardAwareScrollView>
             <Header headerTitle={header} exit color={color} LeftIcon={id && LeftIcon} />

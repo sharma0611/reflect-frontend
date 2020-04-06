@@ -16,6 +16,9 @@ export const endOfDay = (date: Date) =>
         .endOf('day')
         .toDate()
 
+export const inPast = (date: Date) => date && date < nowDate()
+export const inFuture = (date: Date) => date && date > nowDate()
+
 export const mapDateValuesToTimestamp = (obj: {}): {} => mapValues(obj, dateToTimestamp)
 export const mapTimestampValuesToDate = (obj: {}): {} => mapValues(obj, timestampToDate)
 

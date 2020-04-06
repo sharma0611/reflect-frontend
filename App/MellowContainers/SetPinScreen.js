@@ -8,7 +8,7 @@ import SecondaryButton from 'MellowComponents/SecondaryButton'
 import WaveBackground from 'MellowComponents/WaveBackground'
 import LeftChevron from 'MellowComponents/LeftChevron'
 import PinInput from 'MellowComponents/PinInput'
-import { usePin } from 'Hooks/useUser'
+import { usePin } from 'Hooks/useProfile'
 
 const SetPin = ({ navigation }) => {
     const [{ isProtected }, setPin, unsetPin, checkPin] = usePin()
@@ -17,6 +17,12 @@ const SetPin = ({ navigation }) => {
 
     const submitPin = async () => {
         await setPin(newPin)
+        navigation.goBack()
+    }
+
+    const resetPin = async () => {
+        await unsetPin()
+        navigation.goBack()
     }
 
     return (
@@ -31,10 +37,15 @@ const SetPin = ({ navigation }) => {
             </V>
             <PinInput {...{ pin: newPin, setPin: setNewPin, pinRef }} />
             <V ai="center" pt={5}>
-                <MainButton text="Set Pin" disabled={newPin.length !== 4} onPress={submitPin} />
+                <MainButton
+                    text="Set Pin"
+                    disabled={newPin.length !== 4}
+                    onPress={submitPin}
+                    onePress
+                />
             </V>
             <V ai="center" pt={2}>
-                <SecondaryButton text="Unset Pin" onPress={unsetPin} />
+                <SecondaryButton text="Unset Pin" onPress={resetPin} />
             </V>
         </WaveBackground>
     )

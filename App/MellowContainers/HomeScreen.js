@@ -30,7 +30,7 @@ const HomeScreen = () => {
         <ScrollingScreen>
             <Section>
                 <T heading3 color="Gray2">
-                    {`Hi ${profile.displayName}!`}
+                    {`Hi ${profile.displayName || ''}!`}
                 </T>
                 <SectionHeader
                     {...{ header: 'Today', subtitle: 'Hit pause. Reflect on what happened.' }}

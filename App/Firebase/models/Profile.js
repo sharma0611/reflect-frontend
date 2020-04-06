@@ -4,6 +4,8 @@ import auth from '@react-native-firebase/auth'
 import Model from './Model'
 import Analytics from 'Controllers/AnalyticsController'
 import { hasProByUid } from 'Controllers/PurchasesController'
+import Referral from './Referral'
+import { inFuture } from '../helpers'
 
 const COLLECTION_NAME = 'profiles'
 
@@ -11,7 +13,11 @@ export type ProfileFields = {
     displayName: string,
     email: string,
     uid: string,
-    pin?: string
+    createdAt: Date,
+    pin?: string,
+    isPro?: boolean,
+    trialEnd?: Date,
+    referralId?: boolean
 }
 
 // Note
@@ -22,9 +28,14 @@ class ProfileModel extends Model {
         return auth().signOut()
     }
 
-    async createWithEmail(email: string, password: string, displayName?: string): Promise<void> {
+    async createWithEmail(
+        email: string,
+        password: string,
+        displayName?: string,
+        referralId?: string
+    ): Promise<void> {
         await auth().createUserWithEmailAndPassword(email, password)
-        await this._finishSignUp(displayName)
+        await this._finishSignUp(displayName, referralId)
     }
 
     async signInWithEmail(email: string, password: string, displayName?: string): Promise<void> {
@@ -32,16 +43,25 @@ class ProfileModel extends Model {
         await this._finishSignUp(displayName)
     }
 
-    async signInWithFacebook(accessToken: any, displayName?: string): Promise<void> {
+    async signInWithFacebook(
+        accessToken: any,
+        displayName?: string,
+        referralId?: string
+    ): Promise<void> {
         const credential = auth.FacebookAuthProvider.credential(accessToken)
         await auth().signInWithCredential(credential)
-        await this._finishSignUp(displayName)
+        await this._finishSignUp(displayName, referralId)
     }
 
-    async signInWithGoogle(idToken: any, accessToken: any, displayName?: string): Promise<void> {
+    async signInWithGoogle(
+        idToken: any,
+        accessToken: any,
+        displayName?: string,
+        referralId?: string
+    ): Promise<void> {
         const credential = auth.GoogleAuthProvider.credential(idToken, accessToken)
         await auth().signInWithCredential(credential)
-        await this._finishSignUp(displayName)
+        await this._finishSignUp(displayName, referralId)
     }
 
     async updateDisplayName(displayName: string): Promise<void> {
@@ -93,18 +113,28 @@ class ProfileModel extends Model {
     }
 
     pro = async (uid?: string): Promise<boolean> => {
-        const { isPro: provisionedPro } = await this.dataFromDocRef(this._ref(uid))
-        const boughtPro = await hasProByUid(this.uid())
-        return boughtPro || provisionedPro
+        const { isPro: provisionedPro, trialEnd } = await this.dataFromDocRef(this._ref(uid))
+        const boughtPro = await hasProByUid(uid ? uid : this.uid())
+        const trialPro = trialEnd && inFuture(trialEnd)
+        return boughtPro || provisionedPro || trialPro
     }
 
-    async _finishSignUp(newDisplayName?: string = ''): Promise<void> {
-        if (!auth().currentUser.displayName || newDisplayName) {
-            await auth().currentUser.updateProfile({ displayName: newDisplayName })
-        }
+    async _finishSignUp(newDisplayName?: string = '', referralId? = ''): Promise<void> {
+        await this._setCurrentUserDisplayName(newDisplayName)
         const { uid, email, displayName } = auth().currentUser
-        const newDocRef = await this.createById(uid, { displayName, email, uid })
+        let newFields = { displayName, email, uid }
+        const trialEnd = await Referral.getTrialEnd(referralId)
+        if (trialEnd) {
+            newFields = { ...newFields, referralId, trialEnd }
+        }
+        const newDocRef = await this.createById(uid, newFields)
         this._aliasOrIdentify(!!newDocRef)
+    }
+
+    async _setCurrentUserDisplayName(displayName: string): Promise<void> {
+        if (!auth().currentUser.displayName || displayName) {
+            await auth().currentUser.updateProfile({ displayName })
+        }
     }
 
     _aliasOrIdentify(existing: boolean) {
