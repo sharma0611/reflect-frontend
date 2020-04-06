@@ -125,6 +125,7 @@ class ProfileModel extends Model {
         let newFields = { displayName, email, uid }
         const trialEnd = await Referral.getTrialEnd(referralId)
         if (trialEnd) {
+            Analytics.usedReferral(referralId)
             newFields = { ...newFields, referralId, trialEnd }
         }
         const newDocRef = await this.createById(uid, newFields)
