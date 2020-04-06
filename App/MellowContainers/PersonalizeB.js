@@ -45,7 +45,7 @@ class PersonalizeB extends React.Component<Props, State> {
 
     submit = () => {
         Analytics.submitFeels(this.state.wantToFeel)
-        this.props.navigation.navigate('PersonalizeC')
+        this.props.navigation.navigate('CreateAccount')
     }
 
     renderCategory = category => {
