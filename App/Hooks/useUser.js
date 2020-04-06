@@ -2,20 +2,18 @@ import { useGlobal, useEffect } from 'reactn'
 import Profile from 'Firebase/models/Profile'
 
 export const USER = 'user'
-export const initialUserState = { loading: true, hasPro: false, pin: undefined, uid: undefined }
+export const initialUserState = { loading: true, uid: undefined }
 
 export function setupUser() {
-    const [{ loading, hasPro, uid, pin }, setUser] = useGlobal(USER)
+    const [{ loading, uid }, setUser] = useGlobal(USER)
 
-    const refetch = async user => {
-        let { hasPro, uid, pin } = initialUserState
+    const refetch = user => {
+        let { uid } = initialUserState
         if (user) {
             const { uid } = user
-            const hasPro = await Profile.pro(uid)
-            const pin = await Profile.getPin(uid)
-            return setUser({ loading: false, hasPro, uid, pin })
+            return setUser({ loading: false, uid })
         } else {
-            return setUser({ loading: false, hasPro, uid, pin })
+            return setUser({ loading: false, uid })
         }
     }
 
@@ -24,29 +22,12 @@ export function setupUser() {
         return unsubscribe
     }, [])
 
-    return { loading, uid, hasPro, pin }
+    return { loading, uid }
 }
 
 const useUser = () => {
-    const [{ loading, hasPro, uid, pin }, setUser] = useGlobal(USER)
-    return { loading, uid, hasPro, pin }
-}
-
-export const usePin = () => {
-    const [{ loading, hasPro, uid, pin }, setUser] = useGlobal(USER)
-    const setPin = async newPin => {
-        await Profile.updatePin(newPin)
-        setUser({ loading, hasPro, uid, pin: newPin })
-    }
-    const unsetPin = async () => {
-        await Profile.unsetPin()
-        setUser({ loading, hasPro, uid, pin: undefined })
-    }
-    const checkPin = pinGuess => {
-        return pinGuess === pin
-    }
-    const isProtected = hasPro && pin
-    return [{ isProtected }, setPin, unsetPin, checkPin]
+    const [{ loading, uid }, setUser] = useGlobal(USER)
+    return { loading, uid }
 }
 
 export default useUser

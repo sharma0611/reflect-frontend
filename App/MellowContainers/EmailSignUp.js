@@ -9,15 +9,10 @@ import MainButton from 'MellowComponents/MainButton'
 import SecondaryButton from 'MellowComponents/SecondaryButton'
 import WaveBackground from 'MellowComponents/WaveBackground'
 import LeftChevron from 'MellowComponents/LeftChevron'
-import Card from 'MellowComponents/Card'
 import { withNavigation } from 'react-navigation'
 import Touchable from 'Components/Touchable'
-import Analytics from 'Controllers/AnalyticsController'
-import BlueBackground from 'MellowComponents/BlueBackground'
 import { Formik } from 'formik'
 import FIcon from 'react-native-vector-icons/Feather'
-import { LoginManager, AccessToken } from 'react-native-fbsdk'
-import { GoogleSignin } from '@react-native-community/google-signin'
 import Profile from 'Firebase/models/Profile'
 import ScrollingScreen from 'MellowComponents/ScrollingScreen'
 
@@ -63,7 +58,7 @@ class CreateAccount extends React.Component<Props, State> {
         let { referralCode } = params
         try {
             await this.setState({ error: '' })
-            Profile.createWithEmail(email, password, displayName, referralCode)
+            await Profile.createWithEmail(email, password, displayName, referralCode)
         } catch (e) {
             await this.setState({ error: e.message })
         }
