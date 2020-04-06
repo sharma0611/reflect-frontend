@@ -232,6 +232,12 @@ class Tracking {
             Activity: activity
         })
     }
+
+    usedReferral = (referralCode: string) => {
+        this._trackWithProperties('Referral Sign Up', {
+            referralCode
+        })
+    }
 }
 
 const instance = new Tracking()

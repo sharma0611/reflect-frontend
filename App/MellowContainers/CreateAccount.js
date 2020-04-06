@@ -68,8 +68,8 @@ class CreateAccount extends React.Component<Props, State> {
     submitReferralCode = async () => {
         const { referralCode } = this.state
         try {
-            const success = await Referral.isActive(referralCode)
-            await this.setState({ error: '', success, dirty: false })
+            const { active, days } = await Referral.isActive(referralCode)
+            await this.setState({ error: '', success: active, dirty: false, days })
         } catch (e) {
             await this.setState({ error: e.message, dirty: false })
         }
@@ -159,6 +159,11 @@ class CreateAccount extends React.Component<Props, State> {
                                         RightIcon={this.rightIcon()}
                                         autoCapitalize="characters"
                                     />
+                                    {this.state.success && (
+                                        <T pt={2} color="Gray2">
+                                            You unlocked {this.state.days} days of free premium! 😛
+                                        </T>
+                                    )}
                                     <V pt={4}>
                                         <T b1 color="Gray3">
                                             Sign up with
