@@ -1,5 +1,6 @@
 import React from 'react'
-import { Image, Share, Linking } from 'react-native'
+import { Image, Linking } from 'react-native'
+import Share from 'react-native-share'
 import { Images, Metrics, Colors } from 'Themes'
 import V from 'Components/V'
 import T from 'Components/T'
@@ -18,10 +19,9 @@ My least favorite part of the app is...
 const MESSAGING_URL = `sms:+16479380024&body=${encodeURIComponent(FEEDBACK_TEXT)}`
 
 const SHARE_COPY = {
-    APP_URL: '',
     SHARE_TEXT: 'Hey 👋 – you should check out the Reflect app',
     SUBJECT: 'Hey 👋 – you should check out the Reflect app',
-    MESSAGE: `Hey 👋, check out Reflect. It's a meditative journaling app. Through daily self-review and mood tracking, this app helps you be more mindful of your goals. Try it out and let me know what you think.
+    MESSAGE: `Hey 👋, check out Reflect. It's a journaling app for mindfulness. Through daily self-reflections and mood tracking, this app helps you take control. Try it out!
     IOS: https://apps.apple.com/app/id1467087641
     Android: https://play.google.com/store/apps/details?id=com.reflectapp`
 }
@@ -78,12 +78,11 @@ const MissionCard = ({ navigation }) => {
     const shareTheApp = async () => {
         const shareContent = {
             title: SHARE_COPY.SHARE_TEXT,
-            url: SHARE_COPY.APP_URL,
             subject: SHARE_COPY.SUBJECT,
             message: SHARE_COPY.MESSAGE
         }
         Analytics.openShare()
-        const shared = await Share.share(shareContent)
+        const shared = await Share.open(shareContent)
         const { action } = shared
         if (action !== Share.dismissedAction) {
             Analytics.hasShared()
