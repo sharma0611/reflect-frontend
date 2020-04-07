@@ -261,7 +261,8 @@ const OnboardingStack = createStackNavigator(
         CreateAccount,
         SignIn,
         ResetPassword,
-        EmailSignUp
+        EmailSignUp,
+        LoggedOutWebView: WebView
     },
     {
         ...modalFriendlyTransition,
