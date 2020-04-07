@@ -56,7 +56,7 @@ class Header extends React.Component<Props, State> {
                                     if (onClose) {
                                         onClose()
                                     } else {
-                                        this.props.navigation.goBack('Tabs')
+                                        this.props.navigation.goBack(null)
                                     }
                                 }}
                             />
