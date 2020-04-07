@@ -1,19 +1,30 @@
 // @flow
 import React, { useState, useEffect } from 'react'
+import { withNavigation } from 'react-navigation'
 import V from 'Components/V'
 import T from 'Components/T'
 import WaveCard from 'MellowComponents/WaveCard'
 import Touchable from 'Components/Touchable'
 import moment from 'moment'
 import MonthlyMoodGraph from './MonthlyMoodGraph'
+import useProfile from 'Hooks/useProfile'
 
-const MonthlyMoodCard = () => {
+const MonthlyMoodCard = ({ navigation }) => {
+    const { hasPro } = useProfile()
     const [year, setYear] = useState(moment())
     const decrementYear = () => {
-        setYear(year.clone().subtract(1, 'years'))
+        if (hasPro) {
+            setYear(year.clone().subtract(1, 'years'))
+        } else {
+            navigation.navigate('MellowPaywall')
+        }
     }
     const incrementYear = () => {
-        setYear(year.clone().add(1, 'years'))
+        if (hasPro) {
+            setYear(year.clone().add(1, 'years'))
+        } else {
+            navigation.navigate('MellowPaywall')
+        }
     }
     return (
         <WaveCard>
@@ -40,4 +51,4 @@ const MonthlyMoodCard = () => {
     )
 }
 
-export default MonthlyMoodCard
+export default withNavigation(MonthlyMoodCard)
