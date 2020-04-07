@@ -17,7 +17,8 @@ export type ProfileFields = {
     pin?: string,
     isPro?: boolean,
     trialEnd?: Date,
-    referralId?: boolean
+    referralId?: boolean,
+    reviewAsked?: boolean
 }
 
 // Note
@@ -101,11 +102,9 @@ class ProfileModel extends Model {
         return auth().onAuthStateChanged(listener)
     }
 
-    uid(): string | void {
+    uid(): string {
         const user = auth().currentUser
-        if (user) {
-            return user.uid
-        }
+        return user.uid
     }
 
     _ref = (uid?: string | void = this.uid()): firestore.DocumentReference => {
@@ -152,6 +151,15 @@ class ProfileModel extends Model {
         const uid = this.uid()
         if (!uid) return
         Analytics.identifyByUid(uid)
+    }
+
+    isReviewAsked = async (): Promise<boolean> => {
+        const { reviewAsked } = await this.dataFromDocRef(this._ref())
+        return !!reviewAsked
+    }
+
+    setReviewAsked = (): Promise<void> => {
+        return this.updateById(this.uid(), { reviewAsked: true })
     }
 }
 

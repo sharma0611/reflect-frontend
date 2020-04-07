@@ -66,6 +66,11 @@ class ActivityResponseModel extends Model {
         return this.collectionRef.where('uid', '==', uid).where('activityType', '==', DAILY)
     }
 
+    numberSaved = async (): Promise<number> => {
+        const data = await this.dataFromQuery(this.userActivityResponsesQuery())
+        return data.length
+    }
+
     dailyReflectionQuery(date: Date): firestore.Query {
         const uid = Profile.uid()
         const start = moment(date)
