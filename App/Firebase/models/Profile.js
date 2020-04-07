@@ -6,6 +6,7 @@ import Analytics from 'Controllers/AnalyticsController'
 import { hasProByUid } from 'Controllers/PurchasesController'
 import Referral from './Referral'
 import { inFuture } from '../helpers'
+import ActivityResponse from './ActivityResponse'
 
 const COLLECTION_NAME = 'profiles'
 
@@ -116,6 +117,14 @@ class ProfileModel extends Model {
         const boughtPro = await hasProByUid(uid ? uid : this.uid())
         const trialPro = trialEnd && inFuture(trialEnd)
         return boughtPro || provisionedPro || trialPro
+    }
+
+    reflectionSchema = async () => {
+        const { reflectionSchema } = await this.dataFromDocRef(this._ref())
+        if (reflectionSchema) {
+            return reflectionSchema
+        }
+        return ActivityResponse.defaultReflectionSchema()
     }
 
     async _finishSignUp(newDisplayName?: string = '', referralId? = ''): Promise<void> {

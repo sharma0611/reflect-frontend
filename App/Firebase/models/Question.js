@@ -12,8 +12,8 @@ export type QuestionFields = {
 }
 
 // Category Ids
-const POSITIVE = 'positive'
-const NEGATIVE = 'negative'
+export const POSITIVE = 'positive'
+export const NEGATIVE = 'negative'
 
 class QuestionModel extends Model {
     greaterRandomQuery(key: firestore.DocumentId, categoryId: string): firestore.Query {

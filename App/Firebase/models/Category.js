@@ -28,6 +28,11 @@ class CategoryModel extends Model {
     listenToAMAs(onData: (data: Array<CategoryFields>) => void, onError: (error: Error) => void) {
         return this.listenToQuery(this.amasQuery(), onData, onError)
     }
+
+    getCategoryName = async (id: string) => {
+        const { name } = await this.dataFromId(id)
+        return name
+    }
 }
 
 const Category = new CategoryModel(COLLECTION_NAME)
