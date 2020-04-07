@@ -15,6 +15,7 @@ import ActivityResponse from 'Firebase/models/ActivityResponse'
 import Analytics from 'Controllers/AnalyticsController'
 import Modal from 'react-native-modal'
 import SecondaryButton from 'MellowComponents/SecondaryButton'
+import { triggerReview } from 'Controllers/PromptController'
 
 const WaveHeightRatio = 0.3
 const CIRCLE_WIDTH = 60
@@ -82,6 +83,7 @@ const ActivityScreen = ({ navigation }) => {
         newActivity = { ...activity, entries: updatedEntries }
         await ActivityResponse.upsert(newActivity)
         navigate('Tabs')
+        triggerReview()
     }
 
     // When we add a back button, use this. (or when we navigate directly to journal)

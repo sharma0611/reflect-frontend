@@ -14,6 +14,7 @@ import { GoogleSignin } from '@react-native-community/google-signin'
 import Profile from 'Firebase/models/Profile'
 import Referral from 'Firebase/models/Referral'
 import Spinner from 'react-native-spinkit'
+import Terms from 'MellowComponents/Terms'
 
 type Props = {}
 
@@ -200,12 +201,13 @@ class CreateAccount extends React.Component<Props, State> {
                                             {this.state.error}
                                         </T>
                                     )}
-                                    <V pt={3}>
+                                    <V pt={3} pb={2}>
                                         <T b1 color="Gray3">
                                             By signing up, you agree to Reflect’s Terms of Service
-                                            and Privacy Policy
+                                            and Privacy Policy below
                                         </T>
                                     </V>
+                                    <Terms />
                                 </V>
                             </V>
                         </V>
