@@ -1,23 +1,35 @@
 // @flow
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import { withNavigation } from 'react-navigation'
 import V from 'Components/V'
 import T from 'Components/T'
 import WaveCard from 'MellowComponents/WaveCard'
 import Touchable from 'Components/Touchable'
 import moment from 'moment'
 import WeeklyMoodGraph from './WeeklyMoodGraph'
+import useProfile from 'Hooks/useProfile'
 
-const WeeklyMoodCard = () => {
+const WeeklyMoodCard = ({ navigation }) => {
+    const { hasPro } = useProfile()
     const [month, setMonth] = useState(moment())
     const decrementMonth = () => {
-        setMonth(month.clone().subtract(1, 'months'))
+        if (hasPro) {
+            setMonth(month.clone().subtract(1, 'months'))
+        } else {
+            navigation.navigate('MellowPaywall')
+        }
     }
     const incrementMonth = () => {
-        setMonth(month.clone().add(1, 'months'))
+        if (hasPro) {
+            setMonth(month.clone().add(1, 'months'))
+        } else {
+            navigation.navigate('MellowPaywall')
+        }
     }
+
     return (
         <WaveCard>
-            <V p={2} pt={2}>
+            <V p={2}>
                 <WeeklyMoodGraph {...{ month }} />
                 <V row jc="space-between">
                     <Touchable onPress={decrementMonth}>
@@ -40,4 +52,4 @@ const WeeklyMoodCard = () => {
     )
 }
 
-export default WeeklyMoodCard
+export default withNavigation(WeeklyMoodCard)
