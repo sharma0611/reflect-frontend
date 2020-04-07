@@ -1,5 +1,7 @@
 // @flow
 import React, { useState, useEffect } from 'react'
+import { Image } from 'react-native'
+import { Images } from 'Themes'
 import V from 'Components/V'
 import T from 'Components/T'
 import Section from 'MellowComponents/Section'
@@ -12,6 +14,20 @@ import useHomeScreenData from '../Hooks/useHomeScreenData'
 import Loading from 'MellowComponents/Loading'
 import ErrorScreen from 'MellowContainers/ErrorScreen'
 import DailyReflectionCompletedCard from 'MellowModules/DailyReflectionCompletedCard'
+import { withNavigation } from 'react-navigation'
+import Touchable from 'Components/Touchable'
+
+const CustomizeReflection = ({ navigation }) => {
+    const navigateToCustomize = () => {
+        navigation.navigate('EditDailyReflection')
+    }
+
+    return (
+        <Touchable onPress={navigateToCustomize}>
+            <Image source={Images.gear} style={{ height: 25, width: 25, resizeMode: 'contain' }} />
+        </Touchable>
+    )
+}
 
 const HomeScreen = () => {
     const {
@@ -33,7 +49,7 @@ const HomeScreen = () => {
                     {`Hi ${profile.displayName || ''}!`}
                 </T>
                 <SectionHeader
-                    {...{ header: 'Today', subtitle: 'Hit pause. Reflect on what happened.' }}
+                    {...{ header: 'Today', RightComponent: withNavigation(CustomizeReflection) }}
                 />
                 <V pt={3} p={2}>
                     {completedDailyReflection ? (

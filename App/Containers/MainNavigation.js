@@ -43,6 +43,7 @@ import EntryScreen from '../MellowContainers/EntryScreen'
 import ProfileScreen from '../MellowContainers/ProfileScreen'
 import EditProfileScreen from '../MellowContainers/EditProfileScreen'
 import EditDailyReminderScreen from '../MellowContainers/EditDailyReminderScreen'
+import EditDailyReflectionScreen from '../MellowContainers/EditDailyReflectionScreen'
 import SplashScreen from '../MellowContainers/SplashScreen'
 import MellowPaywall from '../MellowContainers/MellowPaywall'
 import { setupUser } from '../Hooks/useUser'
@@ -177,6 +178,9 @@ const TabsStack = createStackNavigator(
         },
         EditDailyReminder: {
             screen: EditDailyReminderScreen
+        },
+        EditDailyReflection: {
+            screen: EditDailyReflectionScreen
         },
         SetPin: {
             screen: SetPinScreen
