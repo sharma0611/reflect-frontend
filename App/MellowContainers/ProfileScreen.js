@@ -11,6 +11,7 @@ import Loading from '../MellowComponents/Loading'
 import ErrorScreen from '../MellowContainers/ErrorScreen'
 import useProfile from '../Hooks/useProfile'
 import withPinProtection from 'HOC/withPinProtection'
+import Terms from 'MellowComponents/Terms'
 
 const ProfileScreen = () => {
     const { loading, error, profile } = useProfile()
@@ -36,10 +37,13 @@ const ProfileScreen = () => {
                     <MissionCard />
                 </V>
             </Section>
-            <V flex={1} jc="flex-end" pb={3} pt={2}>
+            <V flex={1} jc="flex-end" pb={3} pt={3}>
                 <T ta="center" b1 color="Gray3">
                     Made with ❤️ in Waterloo, Canada
                 </T>
+                <V pt={2}>
+                    <Terms />
+                </V>
             </V>
         </ScrollingScreen>
     )
