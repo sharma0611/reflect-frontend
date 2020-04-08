@@ -11,6 +11,7 @@ import Loading from '../MellowComponents/Loading'
 import ErrorScreen from '../MellowContainers/ErrorScreen'
 import useProfile from '../Hooks/useProfile'
 import withPinProtection from 'HOC/withPinProtection'
+import Terms from 'MellowComponents/Terms'
 
 const ProfileScreen = () => {
     const { loading, error, profile } = useProfile()
@@ -40,6 +41,9 @@ const ProfileScreen = () => {
                 <T ta="center" b1 color="Gray3">
                     Made with ❤️ in Waterloo, Canada
                 </T>
+                <V>
+                    <Terms />
+                </V>
             </V>
         </ScrollingScreen>
     )
