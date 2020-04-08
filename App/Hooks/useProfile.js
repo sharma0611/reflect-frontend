@@ -11,8 +11,7 @@ export default function useProfile() {
     })
     useEffect(() => {
         async function onData(data) {
-            // const hasPro = await Profile.pro(uid)
-            const hasPro = false
+            const hasPro = await Profile.pro(uid)
             const pin = await Profile.getPin(uid)
             setProfile({ profile: data, hasPro, pin, loading: false, error: false })
         }
