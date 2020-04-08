@@ -7,7 +7,7 @@ const ACTIVITY_SHEET_INDEX = 1
 const EMOJI_SHEET_INDEX = 2
 const waterfall = require('async/waterfall')
 
-const DEV = false // set this to false to ship to prod
+const DEV = true // set this to false to ship to prod
 
 // firebase collections
 let CATEGORIES = 'categories'
@@ -139,6 +139,7 @@ const processCategoryJson = raw => {
         ...category,
         isPro: intStringToBool(category.isPro),
         ama: intStringToBool(category.ama),
+        reflection: intStringToBool(category.reflection),
         order: index
     }))
 }
@@ -262,6 +263,7 @@ const loadCategoriesActivitiesEmojisQuestions = async () => {
     const categories = await fetchCategories(doc)
     upsertCategories(db, categories)
 
+    return
     // const activities = await fetchActivities(doc)
     // upsertActivities(db, activities)
 
