@@ -37,11 +37,11 @@ const ProfileScreen = () => {
                     <MissionCard />
                 </V>
             </Section>
-            <V flex={1} jc="flex-end" pb={3} pt={2}>
+            <V flex={1} jc="flex-end" pb={3} pt={3}>
                 <T ta="center" b1 color="Gray3">
                     Made with ❤️ in Waterloo, Canada
                 </T>
-                <V>
+                <V pt={2}>
                     <Terms />
                 </V>
             </V>
