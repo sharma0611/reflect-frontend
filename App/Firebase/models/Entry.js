@@ -78,6 +78,7 @@ class EntryModel extends Model {
             questionText: 'How am I feeling today?',
             useEmoji: true,
             categoryId: DAILY_MOOD,
+            type: DAILY_MOOD, // I missed using categoryId instead, so now we gotta use this for dailyMood
             timestamp: date
         }
     }
