@@ -10,7 +10,8 @@ export type CategoryFields = {
     ama: boolean,
     color: string,
     isPro: boolean,
-    name: string
+    name: string,
+    reflection?: boolean
 }
 
 class CategoryModel extends Model {
@@ -19,6 +20,10 @@ class CategoryModel extends Model {
             .where('ama', '==', true)
             .orderBy('isPro')
             .orderBy('order')
+    }
+
+    reflectionQuery(): firestore.Query {
+        return this.collectionRef.where('reflection', '==', true).orderBy('order')
     }
 
     amas(): Promise<Array<CategoryFields>> {
@@ -32,6 +37,10 @@ class CategoryModel extends Model {
     getCategoryName = async (id: string) => {
         const { name } = await this.dataFromId(id)
         return name
+    }
+
+    getReflectionCategories = (): Promise<Array<CategoryFields>> => {
+        return this.dataFromQuery(this.reflectionQuery())
     }
 }
 

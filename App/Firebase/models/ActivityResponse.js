@@ -150,10 +150,21 @@ class ActivityResponseModel extends Model {
     defaultReflectionSchema = (): Array<Scheme> => {
         return [
             { question: DAILY_MOOD, header: 'Daily Mood' },
-            { question: DAILY_MOOD_FOLLOW_UP, header: 'Daily Mood' },
+            { question: DAILY_MOOD_FOLLOW_UP, header: 'Mood Follow Up' },
             { category: NEGATIVE, header: 'Retrospective' },
             { category: POSITIVE, header: 'Positive' }
         ]
+    }
+
+    proCategorySchemaOptions = async (): Promise<Array<Scheme>> => {
+        const reflectionCategories = await Category.getReflectionCategories()
+        return reflectionCategories.map(({ id: category, name: header }) => ({ category, header }))
+    }
+
+    allSchemaOptions = async (): Promise<Array<Scheme>> => {
+        const defaultSchema = this.defaultReflectionSchema()
+        const categorySchema = await this.proCategorySchemaOptions()
+        return [...defaultSchema, ...categorySchema]
     }
 
     _resolveSchemeToEntry = async (scheme: Scheme, date: Date): Promise<EntryFields | void> => {

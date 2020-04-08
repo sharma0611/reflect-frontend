@@ -6,6 +6,7 @@ import WaveBackground from 'MellowComponents/WaveBackground'
 import LeftChevron from 'MellowComponents/LeftChevron'
 import { withNavigation } from 'react-navigation'
 import Card from 'MellowComponents/Card'
+import ActivityResponse from 'Firebase/models/ActivityResponse'
 
 const CIRCLE_SIZE = 10
 
@@ -52,6 +53,7 @@ const Seperator = () => {
 }
 
 const EditDailyReflectionScreen = ({ navigation }) => {
+    // const schemaOptions = ActivityResponse.defaultReflectionSchema()
     return (
         <WaveBackground>
             <V p={4}>
