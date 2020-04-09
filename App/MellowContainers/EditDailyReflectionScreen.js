@@ -15,77 +15,10 @@ import Profile from 'Firebase/models/Profile'
 import Spinner from 'MellowComponents/Spinner'
 import MainButton from 'MellowComponents/MainButton'
 import ScrollingScreen from 'MellowComponents/ScrollingScreen'
+import Switch from 'MellowComponents/Switch'
+import useProfile from '../Hooks/useProfile'
 
 const CIRCLE_SIZE = 12
-
-type SwitchProps = {
-    toggle: boolean,
-    onPress: Function
-}
-
-type SwitchUIProps = {
-    value: AnimatedValue
-}
-
-const Switch = ({ toggle, onPress }: SwitchProps) => {
-    const [switchAnimation] = useState(new Animated.Value(+toggle))
-    useEffect(() => {
-        Animated.timing(switchAnimation, {
-            toValue: +toggle,
-            duration: 300
-        }).start()
-    }, [toggle])
-    return (
-        <Touchable onPress={onPress}>
-            <V p={2} px={3}>
-                <SwitchUI value={switchAnimation} />
-            </V>
-        </Touchable>
-    )
-}
-
-const SwitchUI = ({ value }: SwitchUIProps) => {
-    const SWITCH_HEIGHT = 7
-    const SWITCH_WIDTH = 35
-    const CIRCLE = 15
-    return (
-        <Animated.View
-            style={{
-                height: 7,
-                width: SWITCH_WIDTH,
-                borderRadius: SWITCH_HEIGHT,
-                backgroundColor: value.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: ['rgba(224, 224, 224, 1)', 'rgba(168, 231, 193, 1)']
-                }),
-                alignItems: 'center',
-                flexDirection: 'row'
-            }}
-        >
-            <Animated.View
-                pabs
-                style={{
-                    backgroundColor: value.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: ['rgba(146, 168, 186, 1)', 'rgba(111, 207, 151, 1)']
-                    }),
-                    height: CIRCLE,
-                    width: CIRCLE,
-                    borderRadius: CIRCLE / 2,
-                    left: 0,
-                    transform: [
-                        {
-                            translateX: value.interpolate({
-                                inputRange: [0, 1],
-                                outputRange: [0, SWITCH_WIDTH - CIRCLE]
-                            })
-                        }
-                    ]
-                }}
-            />
-        </Animated.View>
-    )
-}
 
 const Row = ({ leftDotColor, title, active, onPress }) => {
     return (
@@ -131,6 +64,7 @@ const EditDailyReflectionScreen = ({ navigation }) => {
         userSchema: [],
         schemaOptions: []
     })
+    const { hasPro } = useProfile()
     useEffect(() => {
         const loadSchema = async () => {
             const schemaOptions = await ActivityResponse.allSchemaOptions()
@@ -148,18 +82,22 @@ const EditDailyReflectionScreen = ({ navigation }) => {
         )
 
     const toggleOption = (index, active) => {
-        const newUserSchema = schemaOptions
-            .map((scheme, schemeInd) => {
-                if (index === schemeInd) {
-                    return { ...scheme, active: !active }
-                } else {
-                    const active = isActive(scheme)
-                    return { ...scheme, active }
-                }
-            })
-            .filter(({ active }) => active)
-            .map(({ active, color, ...rest }) => rest)
-        setUserSchema({ loading: false, dirty: true, schemaOptions, userSchema: newUserSchema })
+        if (!hasPro) {
+            navigation.navigate('MellowPaywall')
+        } else {
+            const newUserSchema = schemaOptions
+                .map((scheme, schemeInd) => {
+                    if (index === schemeInd) {
+                        return { ...scheme, active: !active }
+                    } else {
+                        const active = isActive(scheme)
+                        return { ...scheme, active }
+                    }
+                })
+                .filter(({ active }) => active)
+                .map(({ active, color, ...rest }) => rest)
+            setUserSchema({ loading: false, dirty: true, schemaOptions, userSchema: newUserSchema })
+        }
     }
 
     const options = schemaOptions.map(scheme => {
@@ -169,7 +107,7 @@ const EditDailyReflectionScreen = ({ navigation }) => {
 
     const submit = async () => {
         await Profile.setReflectionScheme(userSchema)
-        navigation.goBack()
+        setTimeout(() => navigation.goBack(), 800)
     }
 
     return (
