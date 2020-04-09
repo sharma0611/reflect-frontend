@@ -3,12 +3,13 @@ import firestore from '@react-native-firebase/firestore'
 import moment from 'moment'
 import Model from './Model'
 import Profile from './Profile'
-import Entry from './Entry'
-import Question from './Question'
+import Entry, { DAILY_MOOD, DAILY_MOOD_FOLLOW_UP } from './Entry'
+import Question, { POSITIVE, NEGATIVE } from './Question'
 import { Colors } from 'Themes'
 import { summary } from 'date-streaks'
 import type { PaginatedResponse } from './Types'
 import type { EntryFields } from './Entry'
+import Category from './Category'
 
 const COLLECTION_NAME = 'activity_responses'
 
@@ -31,6 +32,19 @@ export type ActivityResponseWithEntriesFields = {
     // post save
     id?: string
 }
+
+// disjoint union with exact types
+export type QuestionScheme = {|
+    question: string,
+    header: string
+|}
+
+export type CategoryScheme = {|
+    category: string,
+    header?: string
+|}
+
+export type Scheme = QuestionScheme | CategoryScheme
 
 // Activity Types
 const DAILY = 'daily'
@@ -133,6 +147,69 @@ class ActivityResponseModel extends Model {
         return data.length === 1
     }
 
+    defaultReflectionSchema = (): Array<Scheme> => {
+        return [
+            { question: DAILY_MOOD, header: 'Daily Mood' },
+            { question: DAILY_MOOD_FOLLOW_UP, header: 'Mood Follow Up' },
+            { category: NEGATIVE, header: 'Retrospective' },
+            { category: POSITIVE, header: 'Positive' }
+        ]
+    }
+
+    proCategorySchemaOptions = async (): Promise<Array<Scheme>> => {
+        const reflectionCategories = await Category.getReflectionCategories()
+        return reflectionCategories.map(({ id: category, name: header, color }) => ({
+            category,
+            header,
+            color
+        }))
+    }
+
+    allSchemaOptions = async (): Promise<Array<Scheme>> => {
+        const defaultSchema = this.defaultReflectionSchema()
+        const categorySchema = await this.proCategorySchemaOptions()
+        return [...defaultSchema, ...categorySchema]
+    }
+
+    _resolveSchemeToEntry = async (scheme: Scheme, date: Date): Promise<EntryFields | void> => {
+        if (scheme.question) {
+            const { question, header } = scheme
+            if (question === DAILY_MOOD) {
+                let moodEntry = await Entry.mood(date)
+                if (!moodEntry) {
+                    moodEntry = Entry.emptyMood(date)
+                }
+                return { ...moodEntry, header }
+            } else if (question === DAILY_MOOD_FOLLOW_UP) {
+                const entry = {
+                    questionText: 'What made me feel this way?',
+                    categoryId: DAILY_MOOD_FOLLOW_UP,
+                    header
+                }
+                return entry
+            }
+        }
+        if (scheme.category) {
+            const { category, header } = scheme
+            const { id, order, ...question } = await Question.getRandomQuestion(category)
+            let useHeader
+            if (header) {
+                useHeader = header
+            } else {
+                useHeader = await Category.getCategoryName(category)
+            }
+            const entry = { ...question, header: useHeader }
+            return entry
+        }
+    }
+
+    _resolveSchemaToEntries = (
+        schema: Array<Scheme>,
+        date: Date
+    ): Promise<Array<EntryFields | void>> => {
+        return new Promise.all(schema.map(scheme => this._resolveSchemeToEntry(scheme, date)))
+    }
+
     dailyReflection = async (date: Date) => {
         // check if daily reflection exists
         const data = await this.dataFromQuery(this.dailyReflectionQuery(date))
@@ -141,37 +218,8 @@ class ActivityResponseModel extends Model {
             return data[0]
         } else {
             // otherwise create one
-            // first check if daily mood exists, if it does, add it to the daily reflection
-            let moodEntry = await Entry.mood(date)
-            if (!moodEntry) {
-                moodEntry = Entry.emptyMood(date)
-            }
-            const {
-                id: positiveQid,
-                order: positiveOrder,
-                ...positive
-            } = await Question.getRandomPositive()
-            const {
-                id: retroQid,
-                order: negativeOrder,
-                ...retro
-            } = await Question.getRandomNegative()
-            const entries = [
-                moodEntry,
-                {
-                    header: 'Daily Mood',
-                    questionText: 'What made me feel this way?'
-                },
-                {
-                    header: 'Retrospective',
-                    ...retro
-                },
-                {
-                    header: 'Positive',
-                    ...positive
-                }
-            ]
-
+            const schema = await Profile.reflectionSchema()
+            const entries = await this._resolveSchemaToEntries(schema, date)
             const dailyReflection = {
                 entries,
                 name: 'Daily Reflection',

@@ -6,15 +6,17 @@ import ActivityResponse from './ActivityResponse'
 import { startOfDay, endOfDay } from '../helpers'
 
 const COLLECTION_NAME = 'entries'
-const DAILY_MOOD = 'dailyMood'
+export const DAILY_MOOD = 'dailyMood'
+export const DAILY_MOOD_FOLLOW_UP = 'dailyMoodFollowUp'
 
 export type EntryFields = {
     caption?: string,
     categoryId: string,
     header: string,
-    questionId: string,
     questionText: string,
+    questionId?: string,
     positivity?: number,
+    useEmoji?: boolean,
     // Post Save Fields
     responseText?: string,
     timestamp?: Date,
@@ -39,7 +41,7 @@ class EntryModel extends Model {
         return this.dataFromQuery(this.moodsQuery(startDate, endDate))
     }
 
-    mood = async (date: Date) => {
+    mood = async (date: Date): Promise<EntryFields | void> => {
         const moods = await this.moods(date, date)
         if (moods.length === 1) {
             return moods[0]
@@ -70,12 +72,13 @@ class EntryModel extends Model {
         return this.listenToQuery(this.moodsQuery(date, date), onMoodsData, onError)
     }
 
-    emptyMood = (date: Date) => {
+    emptyMood = (date: Date): EntryFields => {
         return {
             header: 'Daily Mood',
             questionText: 'How am I feeling today?',
             useEmoji: true,
-            type: DAILY_MOOD,
+            categoryId: DAILY_MOOD,
+            type: DAILY_MOOD, // I missed using categoryId instead, so now we gotta use this for dailyMood
             timestamp: date
         }
     }

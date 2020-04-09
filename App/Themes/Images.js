@@ -52,5 +52,6 @@ export default {
     cloudAndSun: require('Images/cloudAndSun.png'),
     lock: require('Images/smalllock.png'),
     shieldLock: require('../Images/shieldLock.png'),
-    mail: require('../Images/mail.png')
+    mail: require('../Images/mail.png'),
+    gear: require('../Images/gear.png')
 }

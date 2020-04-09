@@ -6,6 +6,8 @@ import Analytics from 'Controllers/AnalyticsController'
 import { hasProByUid } from 'Controllers/PurchasesController'
 import Referral from './Referral'
 import { inFuture } from '../helpers'
+import ActivityResponse from './ActivityResponse'
+import type { Scheme } from './ActivityResponse'
 
 const COLLECTION_NAME = 'profiles'
 
@@ -18,7 +20,8 @@ export type ProfileFields = {
     isPro?: boolean,
     trialEnd?: Date,
     referralId?: boolean,
-    reviewAsked?: boolean
+    reviewAsked?: boolean,
+    reflectionSchema?: Array<Scheme>
 }
 
 // Note
@@ -98,6 +101,13 @@ class ProfileModel extends Model {
         return this.listenToDocRef(this._ref(uid), onData, onError)
     }
 
+    listenToSchema(onData: (data: Array<Scheme> | void) => void, onError: () => void) {
+        const onProfileData = ({ reflectionSchema }) => {
+            onData(reflectionSchema)
+        }
+        this.listen(onProfileData, onError, this.uid())
+    }
+
     listenToAuthState(listener: (user: any | void) => void) {
         return auth().onAuthStateChanged(listener)
     }
@@ -116,6 +126,18 @@ class ProfileModel extends Model {
         const boughtPro = await hasProByUid(uid ? uid : this.uid())
         const trialPro = trialEnd && inFuture(trialEnd)
         return boughtPro || provisionedPro || trialPro
+    }
+
+    reflectionSchema = async (): Promise<Array<Schema>> => {
+        const { reflectionSchema } = await this.dataFromDocRef(this._ref())
+        if (reflectionSchema) {
+            return reflectionSchema
+        }
+        return ActivityResponse.defaultReflectionSchema()
+    }
+
+    setReflectionScheme = async (reflectionSchema: Array<Scheme>) => {
+        await this.updateByRef(this._ref(), { reflectionSchema })
     }
 
     async _finishSignUp(newDisplayName?: string = '', referralId? = ''): Promise<void> {

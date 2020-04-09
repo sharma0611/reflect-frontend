@@ -1,10 +1,15 @@
 // @flow
 import React from 'react'
-import Spinner from 'react-native-spinkit'
 import { Colors } from 'Themes'
+import V from 'Components/V'
+import Spinner from 'react-native-spinkit'
 
-const LoadingSpinner = () => {
-    return <Spinner size={30} color={Colors.Blue3} type="Circle" />
+const Spin = () => {
+    return (
+        <V flex={1} jc="center" ai="center">
+            <Spinner size={30} color={Colors.Blue3} type="Circle" />
+        </V>
+    )
 }
 
-export default LoadingSpinner
+export default Spin

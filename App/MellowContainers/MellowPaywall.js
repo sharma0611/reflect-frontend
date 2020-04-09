@@ -20,7 +20,7 @@ const CIRCLE_DIAMETER = 25
 const NEXT_CIRCLE_DIAMETER = 40
 
 const VALUE_PROPS = [
-    'Personalized Reflections',
+    'Customized Reflections',
     '1000+ Journal Prompts',
     'Lock your journals and more!'
 ]
