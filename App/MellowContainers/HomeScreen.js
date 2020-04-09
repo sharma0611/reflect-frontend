@@ -40,6 +40,8 @@ const HomeScreen = () => {
         completedDailyReflection,
         streak
     } = useHomeScreenData()
+    console.log(`👨‍🌾 => `, streak)
+    console.log(`👨‍🌾 => `, completedDailyReflection)
     if (loading) return <Loading />
     if (error) return <ErrorScreen {...{ error }} />
     return (

@@ -158,7 +158,11 @@ class ActivityResponseModel extends Model {
 
     proCategorySchemaOptions = async (): Promise<Array<Scheme>> => {
         const reflectionCategories = await Category.getReflectionCategories()
-        return reflectionCategories.map(({ id: category, name: header }) => ({ category, header }))
+        return reflectionCategories.map(({ id: category, name: header, color }) => ({
+            category,
+            header,
+            color
+        }))
     }
 
     allSchemaOptions = async (): Promise<Array<Scheme>> => {
@@ -214,7 +218,7 @@ class ActivityResponseModel extends Model {
             return data[0]
         } else {
             // otherwise create one
-            const schema = this.defaultReflectionSchema()
+            const schema = await Profile.reflectionSchema()
             const entries = await this._resolveSchemaToEntries(schema, date)
             const dailyReflection = {
                 entries,

@@ -1,38 +1,110 @@
+//@flow
 import React, { useState, useEffect } from 'react'
-import { Images, Metrics, Colors } from 'Themes'
+import { Animated } from 'react-native'
+import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue'
+import { Metrics, Colors } from 'Themes'
 import T from 'Components/T'
 import V from 'Components/V'
+import Touchable from 'Components/Touchable'
 import WaveBackground from 'MellowComponents/WaveBackground'
 import LeftChevron from 'MellowComponents/LeftChevron'
 import { withNavigation } from 'react-navigation'
 import Card from 'MellowComponents/Card'
 import ActivityResponse from 'Firebase/models/ActivityResponse'
+import Profile from 'Firebase/models/Profile'
+import Spinner from 'MellowComponents/Spinner'
+import MainButton from 'MellowComponents/MainButton'
+import ScrollingScreen from 'MellowComponents/ScrollingScreen'
 
-const CIRCLE_SIZE = 10
+const CIRCLE_SIZE = 12
 
-const Row = ({ leftDotColor, title, onPress }) => {
+type SwitchProps = {
+    toggle: boolean,
+    onPress: Function
+}
+
+type SwitchUIProps = {
+    value: AnimatedValue
+}
+
+const Switch = ({ toggle, onPress }: SwitchProps) => {
+    const [switchAnimation] = useState(new Animated.Value(+toggle))
+    useEffect(() => {
+        Animated.timing(switchAnimation, {
+            toValue: +toggle,
+            duration: 300
+        }).start()
+    }, [toggle])
     return (
-        <V p={2} row ai="center" jc="center">
+        <Touchable onPress={onPress}>
+            <V p={2} px={3}>
+                <SwitchUI value={switchAnimation} />
+            </V>
+        </Touchable>
+    )
+}
+
+const SwitchUI = ({ value }: SwitchUIProps) => {
+    const SWITCH_HEIGHT = 7
+    const SWITCH_WIDTH = 35
+    const CIRCLE = 15
+    return (
+        <Animated.View
+            style={{
+                height: 7,
+                width: SWITCH_WIDTH,
+                borderRadius: SWITCH_HEIGHT,
+                backgroundColor: value.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: ['rgba(224, 224, 224, 1)', 'rgba(168, 231, 193, 1)']
+                }),
+                alignItems: 'center',
+                flexDirection: 'row'
+            }}
+        >
+            <Animated.View
+                pabs
+                style={{
+                    backgroundColor: value.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: ['rgba(146, 168, 186, 1)', 'rgba(111, 207, 151, 1)']
+                    }),
+                    height: CIRCLE,
+                    width: CIRCLE,
+                    borderRadius: CIRCLE / 2,
+                    left: 0,
+                    transform: [
+                        {
+                            translateX: value.interpolate({
+                                inputRange: [0, 1],
+                                outputRange: [0, SWITCH_WIDTH - CIRCLE]
+                            })
+                        }
+                    ]
+                }}
+            />
+        </Animated.View>
+    )
+}
+
+const Row = ({ leftDotColor, title, active, onPress }) => {
+    return (
+        <V p={2} row ai="center" jc="center" key={title}>
             <V px={2}>
                 <V
-                    bg={leftDotColor}
                     style={{
                         height: CIRCLE_SIZE,
                         width: CIRCLE_SIZE,
-                        borderRadius: CIRCLE_SIZE / 2
+                        borderRadius: CIRCLE_SIZE / 2,
+                        backgroundColor: leftDotColor
                     }}
                 />
             </V>
-            <T b1 color="Gray2">
+            <T b1 color="Gray2" pl={1}>
                 {title}
             </T>
             <V flex={1} />
-            <V px={2}>
-                {/* <Image
-                    source={Images.smallRightChevron}
-                    style={{ height: 12, width: 12, resizeMode: 'contain' }}
-                /> */}
-            </V>
+            <Switch toggle={active} onPress={onPress} />
         </V>
     )
 }
@@ -53,25 +125,94 @@ const Seperator = () => {
 }
 
 const EditDailyReflectionScreen = ({ navigation }) => {
-    // const schemaOptions = ActivityResponse.defaultReflectionSchema()
+    const [{ loading, userSchema, dirty, schemaOptions }, setUserSchema] = useState({
+        loading: true,
+        dirty: false,
+        userSchema: [],
+        schemaOptions: []
+    })
+    useEffect(() => {
+        const loadSchema = async () => {
+            const schemaOptions = await ActivityResponse.allSchemaOptions()
+            const userSchema = await Profile.reflectionSchema()
+            setUserSchema({ loading: false, schemaOptions, userSchema })
+        }
+        loadSchema()
+    }, [])
+
+    const isActive = scheme =>
+        userSchema.some(
+            userScheme =>
+                (scheme.category && scheme.category === userScheme.category) ||
+                (scheme.question && scheme.question === userScheme.question)
+        )
+
+    const toggleOption = (index, active) => {
+        const newUserSchema = schemaOptions
+            .map((scheme, schemeInd) => {
+                if (index === schemeInd) {
+                    return { ...scheme, active: !active }
+                } else {
+                    const active = isActive(scheme)
+                    return { ...scheme, active }
+                }
+            })
+            .filter(({ active }) => active)
+            .map(({ active, color, ...rest }) => rest)
+        setUserSchema({ loading: false, dirty: true, schemaOptions, userSchema: newUserSchema })
+    }
+
+    const options = schemaOptions.map(scheme => {
+        const active = isActive(scheme)
+        return { active, ...scheme }
+    })
+
+    const submit = async () => {
+        await Profile.setReflectionScheme(userSchema)
+        navigation.goBack()
+    }
+
     return (
-        <WaveBackground>
+        <ScrollingScreen>
             <V p={4}>
                 <LeftChevron />
             </V>
             <V p={4} pt={0}>
-                <T heading3 color="Gray1" pb={3}>
-                    Customize your reflection
-                </T>
-                <Card alt bg="WhiteM">
-                    <V p={1} py={2}>
-                        <V py={1}>
-                            <Row {...{ leftDotColor: 'PastelPurple' }} />
+                {loading ? (
+                    <Spinner />
+                ) : (
+                    <>
+                        <T heading3 color="Gray1" pb={3}>
+                            Customize your reflection
+                        </T>
+                        <Card alt bg="WhiteM">
+                            <V p={1} py={2}>
+                                <V py={1}>
+                                    {options.map(({ header, active, color }, index) => (
+                                        <Row
+                                            {...{
+                                                leftDotColor: color ? color : Colors.PastelPurple,
+                                                title: header,
+                                                active,
+                                                onPress: () => toggleOption(index, active)
+                                            }}
+                                        />
+                                    ))}
+                                </V>
+                            </V>
+                        </Card>
+                        <V pt={4} ai="center">
+                            <MainButton
+                                onPress={submit}
+                                disabled={!dirty || userSchema.length === 0}
+                                text={`Submit`}
+                                onePress
+                            />
                         </V>
-                    </V>
-                </Card>
+                    </>
+                )}
             </V>
-        </WaveBackground>
+        </ScrollingScreen>
     )
 }
 
