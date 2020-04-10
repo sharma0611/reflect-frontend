@@ -128,9 +128,10 @@ class ProfileModel extends Model {
         return boughtPro || provisionedPro || trialPro
     }
 
-    reflectionSchema = async (): Promise<Array<Schema>> => {
+    reflectionSchema = async (): Promise<Array<Scheme>> => {
         const { reflectionSchema } = await this.dataFromDocRef(this._ref())
-        if (reflectionSchema) {
+        const pro = await this.pro()
+        if (reflectionSchema && pro) {
             return reflectionSchema
         }
         return ActivityResponse.defaultReflectionSchema()
