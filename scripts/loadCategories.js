@@ -263,8 +263,6 @@ const loadCategoriesActivitiesEmojisQuestions = async () => {
     const categories = await fetchCategories(doc)
     upsertCategories(db, categories)
 
-    return
-    // const activities = await fetchActivities(doc)
     // upsertActivities(db, activities)
 
     // const emojis = await fetchEmojis(doc)

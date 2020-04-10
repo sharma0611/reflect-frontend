@@ -1063,4 +1063,8 @@ const writeQuestions = (name, questions) => {
 // writeQuestions('physical.csv', PROMPTS_COPY.PHYSICAL)
 // writeQuestions('social.csv', PROMPTS_COPY.SOCIAL)
 
-writeFile('emoji.csv', emojis)
+// writeFile('emoji.csv', emojis)
+
+module.exports = {
+    writeFile
+}
