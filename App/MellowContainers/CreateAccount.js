@@ -207,7 +207,7 @@ class CreateAccount extends React.Component<Props, State> {
                                             and Privacy Policy below
                                         </T>
                                     </V>
-                                    <Terms />
+                                    <Terms loggedOut />
                                 </V>
                             </V>
                         </V>

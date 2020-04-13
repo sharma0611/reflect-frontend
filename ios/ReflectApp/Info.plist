@@ -43,6 +43,16 @@
 	<string>504815840167763</string>
 	<key>FacebookDisplayName</key>
 	<string>Reflect</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>facebook</string>
+		<string>whatsapp</string>
+		<string>twitter</string>
+		<string>googleplus</string>
+		<string>instagram</string>
+		<string>instagram-stories</string>
+		<string>email</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -99,15 +109,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>facebook</string>
-		<string>whatsapp</string>
-		<string>twitter</string>
-		<string>googleplus</string>
-		<string>instagram</string>
-		<string>instagram-stories</string>
-		<string>email</string>
-	</array>
 </dict>
 </plist>

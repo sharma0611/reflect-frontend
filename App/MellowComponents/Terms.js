@@ -6,12 +6,13 @@ import T from 'Components/T'
 import Touchable from 'Components/Touchable'
 import { PRIVACY_POLICY_URL, TERMS_OF_USE_URL } from 'Data/urls'
 
-const Terms = ({ navigation }) => {
+const Terms = ({ navigation, loggedOut }) => {
+    const webview = loggedOut ? 'LoggedOutWebView' : 'WebView'
     return (
         <>
             <Touchable
                 onPress={() =>
-                    navigation.navigate('LoggedOutWebView', {
+                    navigation.navigate(webview, {
                         url: TERMS_OF_USE_URL
                     })
                 }
@@ -22,7 +23,7 @@ const Terms = ({ navigation }) => {
             </Touchable>
             <Touchable
                 onPress={() =>
-                    navigation.navigate('LoggedOutWebView', {
+                    navigation.navigate(webview, {
                         url: PRIVACY_POLICY_URL
                     })
                 }

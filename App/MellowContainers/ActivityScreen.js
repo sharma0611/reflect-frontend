@@ -28,7 +28,7 @@ const ActivityScreen = ({ navigation }) => {
     if (indexSet) {
         index = indexSet
     }
-    const { color, entries, activityType } = activity
+    const { color, entries, activityType, timestamp } = activity
     const currentQuestion = entries[index]
     const {
         header,
@@ -44,7 +44,6 @@ const ActivityScreen = ({ navigation }) => {
     })
 
     const nextQuestionExists = index < entries.length - 1
-
     const [showModal, setShowModal] = useState(false)
     const persistResponse = () => {
         const questionWithText = {
@@ -81,7 +80,7 @@ const ActivityScreen = ({ navigation }) => {
         const updatedEntries = persistResponse()
         let newActivity
         newActivity = { ...activity, entries: updatedEntries }
-        await ActivityResponse.upsert(newActivity)
+        await ActivityResponse.upsert(newActivity, timestamp)
         navigate('Tabs')
         triggerReview()
     }

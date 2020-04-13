@@ -215,7 +215,7 @@ class ActivityResponseModel extends Model {
         const data = await this.dataFromQuery(this.dailyReflectionQuery(date))
 
         if (data.length === 1) {
-            return data[0]
+            return this._getResponseWithEntries(data[0])
         } else {
             // otherwise create one
             const schema = await Profile.reflectionSchema()
@@ -224,7 +224,8 @@ class ActivityResponseModel extends Model {
                 entries,
                 name: 'Daily Reflection',
                 color: Colors.PastelPurple,
-                activityType: DAILY
+                activityType: DAILY,
+                timestamp: date
             }
             return dailyReflection
         }

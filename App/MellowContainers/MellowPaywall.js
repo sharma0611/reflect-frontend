@@ -19,11 +19,7 @@ import SecondaryButton from 'MellowComponents/SecondaryButton'
 const CIRCLE_DIAMETER = 25
 const NEXT_CIRCLE_DIAMETER = 40
 
-const VALUE_PROPS = [
-    'Customized Reflections',
-    '1000+ Journal Prompts',
-    'Lock your journals and more!'
-]
+const VALUE_PROPS = ['Customized Reflections', 'Mood Analytics', 'Lock your journals and more!']
 
 const MellowPaywall = ({ navigation }) => {
     const { loading, error, prices } = usePrices()
@@ -101,7 +97,6 @@ const MellowPaywall = ({ navigation }) => {
                                     {monthly}
                                 </T>
                                 <T subtitle1 color="Gray1">
-                                    {' '}
                                     monthly
                                 </T>
                             </T>
