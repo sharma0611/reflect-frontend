@@ -15,6 +15,7 @@ import Touchable from 'Components/Touchable'
 import { withNavigation } from 'react-navigation'
 import { purchaseMonthly, purchaseYearly } from 'Controllers/PurchasesController'
 import SecondaryButton from 'MellowComponents/SecondaryButton'
+import Analytics from 'Controllers/AnalyticsController'
 
 const CIRCLE_DIAMETER = 25
 const NEXT_CIRCLE_DIAMETER = 40
@@ -28,12 +29,18 @@ const MellowPaywall = ({ navigation }) => {
     const { yearly, monthly } = prices
 
     const buyYearly = async () => {
-        await purchaseYearly()
-        navigation.goBack()
+        try {
+            await purchaseYearly()
+            Analytics.unlockPro()
+            navigation.goBack()
+        } catch {}
     }
     const buyMonthly = async () => {
-        await purchaseMonthly()
-        navigation.goBack()
+        try {
+            await purchaseMonthly()
+            Analytics.unlockPro()
+            navigation.goBack()
+        } catch {}
     }
 
     return (
