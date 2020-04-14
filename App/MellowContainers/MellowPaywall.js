@@ -15,15 +15,12 @@ import Touchable from 'Components/Touchable'
 import { withNavigation } from 'react-navigation'
 import { purchaseMonthly, purchaseYearly } from 'Controllers/PurchasesController'
 import SecondaryButton from 'MellowComponents/SecondaryButton'
+import Analytics from 'Controllers/AnalyticsController'
 
 const CIRCLE_DIAMETER = 25
 const NEXT_CIRCLE_DIAMETER = 40
 
-const VALUE_PROPS = [
-    'Customized Reflections',
-    '1000+ Journal Prompts',
-    'Lock your journals and more!'
-]
+const VALUE_PROPS = ['Customized Reflections', 'Mood Analytics', 'Lock your journals and more!']
 
 const MellowPaywall = ({ navigation }) => {
     const { loading, error, prices } = usePrices()
@@ -32,12 +29,18 @@ const MellowPaywall = ({ navigation }) => {
     const { yearly, monthly } = prices
 
     const buyYearly = async () => {
-        await purchaseYearly()
-        navigation.goBack()
+        try {
+            await purchaseYearly()
+            Analytics.unlockPro()
+            navigation.goBack()
+        } catch {}
     }
     const buyMonthly = async () => {
-        await purchaseMonthly()
-        navigation.goBack()
+        try {
+            await purchaseMonthly()
+            Analytics.unlockPro()
+            navigation.goBack()
+        } catch {}
     }
 
     return (
@@ -101,7 +104,6 @@ const MellowPaywall = ({ navigation }) => {
                                     {monthly}
                                 </T>
                                 <T subtitle1 color="Gray1">
-                                    {' '}
                                     monthly
                                 </T>
                             </T>

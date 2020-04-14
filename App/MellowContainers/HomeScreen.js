@@ -16,6 +16,7 @@ import ErrorScreen from 'MellowContainers/ErrorScreen'
 import DailyReflectionCompletedCard from 'MellowModules/DailyReflectionCompletedCard'
 import { withNavigation } from 'react-navigation'
 import Touchable from 'Components/Touchable'
+import MissedReflection from 'MellowComponents/MissedReflection'
 
 const CustomizeReflection = ({ navigation }) => {
     const navigateToCustomize = () => {
@@ -57,6 +58,7 @@ const HomeScreen = () => {
                     ) : (
                         <DailyReflectionCard {...{ dailyReflection }} />
                     )}
+                    <MissedReflection />
                 </V>
             </Section>
             <Section>

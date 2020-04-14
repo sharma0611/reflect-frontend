@@ -48,6 +48,7 @@ import SplashScreen from '../MellowContainers/SplashScreen'
 import MellowPaywall from '../MellowContainers/MellowPaywall'
 import { setupUser } from '../Hooks/useUser'
 import MoodCalendarScreen from '../MellowContainers/MoodCalendarScreen'
+import ReflectionCalendarScreen from '../MellowContainers/ReflectionCalendarScreen'
 import SetPinScreen from '../MellowContainers/SetPinScreen'
 import Splash from 'react-native-splash-screen'
 
@@ -172,6 +173,9 @@ const TabsStack = createStackNavigator(
         },
         MoodCalendar: {
             screen: MoodCalendarScreen
+        },
+        ReflectionCalendar: {
+            screen: ReflectionCalendarScreen
         },
         EditProfile: {
             screen: EditProfileScreen
