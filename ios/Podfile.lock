@@ -195,6 +195,8 @@ PODS:
     - FBSDKShareKit/Share (= 5.8.0)
   - FBSDKShareKit/Share (5.8.0):
     - FBSDKCoreKit (~> 5.0)
+  - Firebase/Analytics (6.13.0):
+    - Firebase/Core
   - Firebase/Auth (6.13.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 6.4.0)
@@ -556,15 +558,20 @@ PODS:
     - React
   - RNDeviceInfo (3.1.4):
     - React
-  - RNFBApp (6.3.4):
+  - RNFBAnalytics (6.4.0):
+    - Firebase/Analytics (~> 6.13.0)
     - Firebase/Core (~> 6.13.0)
     - React
-  - RNFBAuth (6.3.4):
+    - RNFBApp
+  - RNFBApp (6.4.0):
+    - Firebase/Core (~> 6.13.0)
+    - React
+  - RNFBAuth (6.4.0):
     - Firebase/Auth (~> 6.13.0)
     - Firebase/Core (~> 6.13.0)
     - React
     - RNFBApp
-  - RNFBFirestore (6.3.4):
+  - RNFBFirestore (6.4.0):
     - Firebase/Core (~> 6.13.0)
     - Firebase/Firestore (~> 6.13.0)
     - React
@@ -634,6 +641,7 @@ DEPENDENCIES:
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
+  - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
@@ -752,6 +760,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
+  RNFBAnalytics:
+    :path: "../node_modules/@react-native-firebase/analytics"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAuth:
@@ -844,9 +854,10 @@ SPEC CHECKSUMS:
   RNCPushNotificationIOS: ec3e8c17cda6a92a0bb97a53ec5ecf5771d94d21
   RNDateTimePicker: 65eadfa62b069b415a6ac1d20a81cacfa26cb37a
   RNDeviceInfo: 88099e84466f053bae3f34c307b506738b2b6946
-  RNFBApp: 7d4006751de8bb5cafa2e8d2e7d94ee250df81db
-  RNFBAuth: ed8b865db45f7ded9dbf535e390cba2ba672aede
-  RNFBFirestore: 04c1eb90463c208ee072988d463c74bec09d08c1
+  RNFBAnalytics: 2a5adf3a6331dfd232ac9661108e491b832be6e9
+  RNFBApp: 69781cf10ce41f6f6db789e6264dd80119ef2fb7
+  RNFBAuth: 50fcc7826344dc96caad8bc4f5b40a64904297b8
+  RNFBFirestore: 69e59e5266927857fa3629715111ee65f4de1cd0
   RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
   RNGoogleSignin: a00f87261ea13df9a5cea8deafa6927d6f2c3562
   RNPurchases: 041eaff4db58e381ae3d55e7b4fad91834b1fe82
@@ -861,4 +872,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: f142ecb1b2687470c74fb3828af20ca04c4ee28d
 
-COCOAPODS: 1.8.3
+COCOAPODS: 1.9.1
