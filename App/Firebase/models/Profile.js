@@ -2,8 +2,8 @@
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import Model from './Model'
-import Analytics from 'Controllers/AnalyticsController'
-import { hasProByUid } from 'Controllers/PurchasesController'
+import Analytics from '../../Controllers/AnalyticsController'
+import { hasProByUid } from '../../Controllers/PurchasesController'
 import Referral from './Referral'
 import { inFuture } from '../helpers'
 import ActivityResponse from './ActivityResponse'
@@ -39,12 +39,12 @@ class ProfileModel extends Model {
         referralId?: string
     ): Promise<void> {
         await auth().createUserWithEmailAndPassword(email, password)
-        await this._finishSignUp(displayName, referralId)
+        await this._finishSignUp(displayName, referralId, 'method')
     }
 
     async signInWithEmail(email: string, password: string, displayName?: string): Promise<void> {
         await auth().signInWithEmailAndPassword(email, password)
-        await this._finishSignUp(displayName)
+        await this._finishSignUp(displayName, '', 'email')
     }
 
     async signInWithFacebook(
@@ -54,7 +54,7 @@ class ProfileModel extends Model {
     ): Promise<void> {
         const credential = auth.FacebookAuthProvider.credential(accessToken)
         await auth().signInWithCredential(credential)
-        await this._finishSignUp(displayName, referralId)
+        await this._finishSignUp(displayName, referralId, 'facebook')
     }
 
     async signInWithGoogle(
@@ -65,7 +65,7 @@ class ProfileModel extends Model {
     ): Promise<void> {
         const credential = auth.GoogleAuthProvider.credential(idToken, accessToken)
         await auth().signInWithCredential(credential)
-        await this._finishSignUp(displayName, referralId)
+        await this._finishSignUp(displayName, referralId, 'google')
     }
 
     async updateDisplayName(displayName: string): Promise<void> {
@@ -141,9 +141,14 @@ class ProfileModel extends Model {
         await this.updateByRef(this._ref(), { reflectionSchema })
     }
 
-    async _finishSignUp(newDisplayName?: string = '', referralId? = ''): Promise<void> {
+    async _finishSignUp(
+        newDisplayName?: string = '',
+        referralId?: string = '',
+        method?: string = 'undefined'
+    ): Promise<void> {
         await this._setCurrentUserDisplayName(newDisplayName)
         const { uid, email, displayName } = auth().currentUser
+        await Analytics.setUserId(uid)
         let newFields = { displayName, email, uid }
         const trialEnd = await Referral.getTrialEnd(referralId)
         if (trialEnd) {
@@ -151,7 +156,7 @@ class ProfileModel extends Model {
             newFields = { ...newFields, referralId, trialEnd }
         }
         const newDocRef = await this.createById(uid, newFields)
-        this._aliasOrIdentify(!!newDocRef)
+        this._aliasOrIdentify(!!newDocRef, method)
     }
 
     async _setCurrentUserDisplayName(displayName: string): Promise<void> {
@@ -160,20 +165,15 @@ class ProfileModel extends Model {
         }
     }
 
-    _aliasOrIdentify(existing: boolean) {
-        return existing ? this._identify() : this._alias()
-    }
-
-    _alias(): void {
+    _aliasOrIdentify(existing: boolean, method: string): void {
         const uid = this.uid()
         if (!uid) return
-        Analytics.aliasByUid(uid)
-    }
 
-    _identify(): void {
-        const uid = this.uid()
-        if (!uid) return
-        Analytics.identifyByUid(uid)
+        if (existing) {
+            Analytics.identifyByUid(uid, method)
+        } else {
+            Analytics.aliasByUid(uid, method)
+        }
     }
 
     isReviewAsked = async (): Promise<boolean> => {
