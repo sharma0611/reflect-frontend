@@ -39,7 +39,7 @@ class ProfileModel extends Model {
         referralId?: string
     ): Promise<void> {
         await auth().createUserWithEmailAndPassword(email, password)
-        await this._finishSignUp(displayName, referralId, 'method')
+        await this._finishSignUp(displayName, referralId, 'email')
     }
 
     async signInWithEmail(email: string, password: string, displayName?: string): Promise<void> {
