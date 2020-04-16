@@ -1,8 +1,12 @@
 // @flow
+import { Platform } from 'react-native'
 import Mixpanel from 'react-native-mixpanel'
 import { AppEventsLogger } from 'react-native-fbsdk'
 import config from 'Config/AppConfig'
 import moment from 'moment'
+import firebaseAnalytics from '@react-native-firebase/analytics'
+import snakeCase from 'lodash-es/snakeCase'
+import mapKeys from 'lodash-es/mapKeys'
 
 class Tracking {
     constructor() {
@@ -13,15 +17,17 @@ class Tracking {
         // )
     }
     // Send and event name with no properties
-    _track = (eventName: string) => {
+    _track = (eventName: string, logToFirebase = true) => {
         Mixpanel.track(eventName)
         AppEventsLogger.logEvent(eventName)
+        if (logToFirebase) this.logEvent(eventName)
     }
 
     // Track event with properties
-    _trackWithProperties = (eventName: string, props: any) => {
+    _trackWithProperties = (eventName: string, props: any, logToFirebase = true) => {
         Mixpanel.trackWithProperties(eventName, props)
         AppEventsLogger.logEvent(eventName, null, props)
+        if (logToFirebase) this.logEvent(eventName, props)
     }
 
     // set people properties
@@ -29,6 +35,7 @@ class Tracking {
     // { ['Has Robo']: true }
     _set = (props: any) => {
         Mixpanel.set(props)
+        this.setUserProperties(props)
     }
 
     //Set the email people propertiy Once
@@ -52,16 +59,22 @@ class Tracking {
         Mixpanel.createAlias(identity)
     }
 
-    identifyByUid = (uid: string) => {
+    identifyByUid = (uid: string, method?: string = 'undefined') => {
         this._identify(uid)
+        this.setUserId(uid)
+        firebaseAnalytics().logLogin({ method })
     }
 
-    aliasByUid = (uid: string) => {
+    aliasByUid = (uid: string, method?: string = 'undefined') => {
         this._alias(uid)
+        this.setUserId(uid)
+        firebaseAnalytics().logSignUp({ method })
     }
 
     viewScreen = (screenName: string) => {
-        this._track('View ' + screenName)
+        this._track('View ' + screenName, false)
+        // console.log('viewScreen', screenName)
+        firebaseAnalytics().setCurrentScreen(screenName, screenName)
     }
 
     saveJournal = (journalType: string, journalLength: number, title: string) => {
@@ -237,6 +250,26 @@ class Tracking {
         this._trackWithProperties('Referral Sign Up', {
             referralCode
         })
+        this.logEvent('used_referral', { referral: referralCode })
+    }
+
+    setUserId = async (id: string): Promise<void> => {
+        // console.log('setUserId', id)
+        await this.setUserProperties({ uid: id, os: Platform.OS })
+        return firebaseAnalytics().setUserId(id)
+    }
+
+    setUserProperties = (properties: { [key: string]: string | null }): Promise<void> => {
+        const cleanProperties = properties && mapKeys(properties, (value, key) => snakeCase(key))
+        // console.log('setUserProperties', cleanProperties)
+        return firebaseAnalytics().setUserProperties(cleanProperties)
+    }
+
+    logEvent = (name: string, params?: undefined | { [key: string]: any }): Promise<void> => {
+        const cleanName = snakeCase(name)
+        const cleanParams = params && mapKeys(params, (value, key) => snakeCase(key))
+        // console.log('logEvent', cleanName, cleanParams)
+        return firebaseAnalytics().logEvent(cleanName, cleanParams)
     }
 }
 

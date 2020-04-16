@@ -1,5 +1,6 @@
 import { useGlobal, useEffect } from 'reactn'
 import Profile from 'Firebase/models/Profile'
+import Analytics from '../Controllers/AnalyticsController'
 
 export const USER = 'user'
 export const initialUserState = { loading: true, uid: undefined }
@@ -8,11 +9,13 @@ export function setupUser() {
     const [{ loading, uid }, setUser] = useGlobal(USER)
 
     const refetch = user => {
-        let { uid } = initialUserState
         if (user) {
-            const { uid } = user
+            const uid = user && user.uid
+            Analytics.setUserId(uid)
             return setUser({ loading: false, uid })
         } else {
+            const uid = undefined
+            Analytics.setUserId(uid)
             return setUser({ loading: false, uid })
         }
     }
