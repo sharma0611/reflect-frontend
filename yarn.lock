@@ -1035,6 +1035,16 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-6.4.0.tgz#b45a3a7649ebc6fa4be8b3d4051dea8b8b9ea55b"
   integrity sha512-iiR0hJ1d1Ka6n23fczfWHjfX0j7mLAFqSJFBA252yKKcOxN7Z7fe8rx/Ueq+gDwquc3lWo7aITzWHrE1u1TQxw==
 
+"@react-native-firebase/in-app-messaging@^6.4.0":
+  version "6.4.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/in-app-messaging/-/in-app-messaging-6.4.0.tgz#c4569b6b41988bcb9d8a36542a5c6c76f4ca73e7"
+  integrity sha512-ul2z/oEuLHZeUiGnSJ3biSNGt5uYTwBI0K7dup5n6ajgm5JXfew981GkxvGX3WUQRs75v6I/UcjRit2d1mkYTA==
+
+"@react-native-firebase/messaging@^6.4.0":
+  version "6.4.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-6.4.0.tgz#712a7d2ea406f7f3d63fe2618f70f4f584b6d047"
+  integrity sha512-Ko+jAF7jgNZnGu697RE+o4RUB1Rqsqfk6+p+K2xuGFlorWLHFYrpqWuKyMZ13jieMp+NGg2C19PWzUJ0ozcdNg==
+
 "@react-navigation/core@^3.5.1":
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-3.5.1.tgz#7a2339fca3496979305fb3a8ab88c2ca8d8c214d"

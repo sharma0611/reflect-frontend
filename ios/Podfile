@@ -1,6 +1,9 @@
 platform :ios, '9.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
+# Override Firebase SDK Version - https://rnfirebase.io/#overriding-native-sdk-versions
+$FirebaseSDKVersion = '6.22.0'
+
 target 'ReflectApp' do
   # Pods for ReflectApp
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
