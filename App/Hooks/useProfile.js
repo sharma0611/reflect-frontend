@@ -9,6 +9,9 @@ export default function useProfile() {
         loading: true,
         error: false
     })
+    const unlockPro = () => {
+        setProfile({ profile, hasPro: true, pin, loading, error })
+    }
     useEffect(() => {
         async function onData(data) {
             const hasPro = await Profile.pro(uid)
@@ -32,7 +35,7 @@ export default function useProfile() {
             onError(e)
         }
     }, [])
-    return { loading, error, profile, hasPro, pin, uid }
+    return { loading, error, profile, hasPro, pin, uid, unlockPro }
 }
 
 export const usePin = () => {

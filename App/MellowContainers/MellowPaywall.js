@@ -9,11 +9,12 @@ import Card from 'MellowComponents/Card'
 import WaveCard from 'MellowComponents/WaveCard'
 import ScrollingScreen from 'MellowComponents/ScrollingScreen'
 import usePrices from '../Hooks/usePrices'
+import useProfile from '../Hooks/useProfile'
 import Loading from '../MellowComponents/Loading'
 import ErrorScreen from '../MellowContainers/ErrorScreen'
 import Touchable from 'Components/Touchable'
 import { withNavigation } from 'react-navigation'
-import { purchaseMonthly, purchaseYearly } from 'Controllers/PurchasesController'
+import { purchasePackage } from 'Controllers/PurchasesController'
 import SecondaryButton from 'MellowComponents/SecondaryButton'
 import Analytics from 'Controllers/AnalyticsController'
 
@@ -24,20 +25,26 @@ const VALUE_PROPS = ['Customized Reflections', 'Mood Analytics', 'Lock your jour
 
 const MellowPaywall = ({ navigation }) => {
     const { loading, error, prices } = usePrices()
+    const { unlockPro } = useProfile()
     if (loading) return <Loading />
     if (error) return <ErrorScreen {...{ error }} />
-    const { yearly, monthly } = prices
+    const {
+        yearly: { price: yearlyPrice, package: yearlyPackage },
+        monthly: { price: monthlyPrice, package: monthlyPackage }
+    } = prices
 
     const buyYearly = async () => {
+        Analytics.selectAnnualSubscription()
         try {
-            await purchaseYearly()
+            await purchasePackage(yearlyPackage, unlockPro)
             Analytics.unlockPro()
             navigation.goBack()
         } catch {}
     }
     const buyMonthly = async () => {
+        Analytics.selectMonthlySubscription()
         try {
-            await purchaseMonthly()
+            await purchasePackage(monthlyPackage, unlockPro)
             Analytics.unlockPro()
             navigation.goBack()
         } catch {}
@@ -101,9 +108,10 @@ const MellowPaywall = ({ navigation }) => {
                         <V row p={3} ai="center" jc="space-between" flex={1}>
                             <T>
                                 <T heading3 color="Gray2">
-                                    {monthly}
+                                    {monthlyPrice}
                                 </T>
                                 <T subtitle1 color="Gray1">
+                                    {' '}
                                     monthly
                                 </T>
                             </T>
@@ -139,7 +147,7 @@ const MellowPaywall = ({ navigation }) => {
                         <V row p={3} ai="center" jc="space-between" flex={1}>
                             <T>
                                 <T heading3 color="Gray2">
-                                    {yearly}
+                                    {yearlyPrice}
                                 </T>
                                 <T subtitle1 color="Gray1">
                                     {' '}

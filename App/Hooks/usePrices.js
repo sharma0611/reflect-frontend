@@ -13,6 +13,7 @@ export default function usePrices() {
                 const prices = await getPrices()
                 setPrices({ prices, loading: false, error: false })
             } catch (e) {
+                console.warn(e)
                 setPrices({
                     entitlements: undefined,
                     loading: false,

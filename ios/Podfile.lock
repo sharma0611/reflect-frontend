@@ -326,7 +326,7 @@ PODS:
     - nanopb/encode (= 0.3.9011)
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
-  - Purchases (2.6.1)
+  - Purchases (3.2.2)
   - RCTRequired (0.61.2)
   - RCTTypeSafety (0.61.2):
     - FBLazyVector (= 0.61.2)
@@ -581,8 +581,8 @@ PODS:
   - RNGoogleSignin (3.0.4):
     - GoogleSignIn (~> 5.0.0)
     - React
-  - RNPurchases (2.4.1):
-    - Purchases (~> 2.6.0)
+  - RNPurchases (3.2.0):
+    - Purchases (~> 3.2.1)
     - React
   - RNReanimated (1.3.0):
     - React
@@ -824,7 +824,7 @@ SPEC CHECKSUMS:
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   Mixpanel: 5aca6e506b34650b96dc759a208513d86650fac7
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
-  Purchases: 2849fdd91b80be769ca25a054d95ab730912311e
+  Purchases: 392c729893c011c7d4d37d7f7c9f863e597d4a9b
   RCTRequired: c639d59ed389cfb1f1203f65c2ea946d8ec586e2
   RCTTypeSafety: dc23fb655d6c77667c78e327bf661bc11e3b8aec
   React: 7e586e5d7bec12b91c1a096826b0fc9ab1da7865
@@ -860,7 +860,7 @@ SPEC CHECKSUMS:
   RNFBFirestore: 69e59e5266927857fa3629715111ee65f4de1cd0
   RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
   RNGoogleSignin: a00f87261ea13df9a5cea8deafa6927d6f2c3562
-  RNPurchases: 041eaff4db58e381ae3d55e7b4fad91834b1fe82
+  RNPurchases: 212ea04fb3eba32c7cfe40192cb9888dc410fb93
   RNReanimated: 6abbbae2e5e72609d85aabd92a982a94566885f1
   RNSentry: 9b1d983b2d5d1c215ba6490348fd2a4cc23a8a9d
   RNShare: c19dbe4a7224098cd3cfc4d3b92c886ca817b3f0
@@ -872,4 +872,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: f142ecb1b2687470c74fb3828af20ca04c4ee28d
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.8.3
