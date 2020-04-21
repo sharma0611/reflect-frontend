@@ -10,46 +10,43 @@ export const hasProByUid = async uid => {
     return !!pro
 }
 
-export const getPrices = async () => {
-    const entitlements = await Purchases.getEntitlements()
-    let monthlyPriceString, yearlyPriceString
-    let {
-        pro: {
-            monthly: { price_string: mPriceString },
-            yearly: { price_string: yPriceString }
-        }
-    } = entitlements
-    monthlyPriceString = mPriceString
-    yearlyPriceString = yPriceString
-    return { yearly: yearlyPriceString, monthly: monthlyPriceString }
+export const identify = async uid => {
+    await Purchases.identify(uid)
 }
 
-export const purchaseMonthly = async onSuccess => {
-    const entitlements = await Purchases.getEntitlements()
+export const getPrices = async () => {
+    const offerings = await Purchases.getOfferings()
     const {
-        pro: {
-            monthly: { identifier: monthlyIdentifier }
+        all: {
+            monthly: {
+                availablePackages: [mPackage],
+                monthly: {
+                    product: { price_string: mPriceString }
+                }
+            },
+            yearly: {
+                availablePackages: [yPackage],
+                annual: {
+                    product: { price_string: yPriceString }
+                }
+            }
         }
-    } = entitlements
-    Analytics.selectMonthlySubscription()
-    const purchaseMade = await Purchases.makePurchase(monthlyIdentifier)
-    if (typeof purchaseMade.purchaserInfo.entitlements.active.pro !== 'undefined') {
-        Analytics.unlockPro()
-        onSuccess && onSuccess()
+    } = offerings
+    return {
+        yearly: { price: yPriceString, package: yPackage },
+        monthly: { price: mPriceString, package: mPackage }
     }
 }
 
-export const purchaseYearly = async onSuccess => {
-    const entitlements = await Purchases.getEntitlements()
-    const {
-        pro: {
-            yearly: { identifier: yearlyIdentifier }
+export const purchasePackage = async (pkg, onSuccess) => {
+    try {
+        const { purchaserInfo } = await Purchases.purchasePackage(pkg)
+        if (typeof purchaserInfo.entitlements.active.pro !== 'undefined') {
+            onSuccess && onSuccess()
         }
-    } = entitlements
-    Analytics.selectAnnualSubscription()
-    const purchaseMade = await Purchases.makePurchase(yearlyIdentifier)
-    if (typeof purchaseMade.purchaserInfo.entitlements.active.pro !== 'undefined') {
-        Analytics.unlockPro()
-        onSuccess && onSuccess()
+    } catch (e) {
+        if (!e.userCancelled) {
+            throw e
+        }
     }
 }

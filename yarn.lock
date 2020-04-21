@@ -6955,10 +6955,10 @@ react-native-modal@^11.5.6:
     prop-types "^15.6.2"
     react-native-animatable "1.3.3"
 
-react-native-purchases@^2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/react-native-purchases/-/react-native-purchases-2.4.1.tgz#228dd67897e3cb2d87a76d81fbd3c244e79370ca"
-  integrity sha512-2ojPADE1eT6RK2AuDtR16u1O8F/QzoYqgGgz+FYNKjepMNljfHiNPlCWh+IKvxonU54qr14Qv7Uk47cU+oRh6Q==
+react-native-purchases@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-purchases/-/react-native-purchases-3.2.0.tgz#06e03116965169da36611dd99693c783049c8159"
+  integrity sha512-jy7wDNqaHJ6q5iI0TMwIfFMU/vDEWR+3vN5ECexgl0cpxCy/cOxXkD6NIGnIAGQdvdMjaThnUefd8NpTNZT9PA==
 
 react-native-push-notification@^3.1.9:
   version "3.1.9"
