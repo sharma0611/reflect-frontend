@@ -7,6 +7,8 @@ import moment from 'moment'
 import firebaseAnalytics from '@react-native-firebase/analytics'
 import snakeCase from 'lodash-es/snakeCase'
 import mapKeys from 'lodash-es/mapKeys'
+import isPlainObject from 'lodash-es/isPlainObject'
+import toString from 'lodash-es/toString'
 
 class Tracking {
     constructor() {
@@ -259,15 +261,20 @@ class Tracking {
         return firebaseAnalytics().setUserId(id)
     }
 
-    setUserProperties = (properties: { [key: string]: string | null }): Promise<void> => {
-        const cleanProperties = properties && mapKeys(properties, (value, key) => snakeCase(key))
+    _snakeCaseObject = (obj: any): { [key: string]: string } => {
+        if (!obj || !isPlainObject(obj)) return {}
+        return mapKeys(obj, (val, key) => snakeCase(toString(key)))
+    }
+
+    setUserProperties = (properties: any): Promise<void> => {
+        const cleanProperties = this._snakeCaseObject(properties)
         // console.log('setUserProperties', cleanProperties)
         return firebaseAnalytics().setUserProperties(cleanProperties)
     }
 
-    logEvent = (name: string, params?: undefined | { [key: string]: any }): Promise<void> => {
+    logEvent = (name: string, params?: any): Promise<void> => {
         const cleanName = snakeCase(name)
-        const cleanParams = params && mapKeys(params, (value, key) => snakeCase(key))
+        const cleanParams = params && this._snakeCaseObject(params)
         // console.log('logEvent', cleanName, cleanParams)
         return firebaseAnalytics().logEvent(cleanName, cleanParams)
     }

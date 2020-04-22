@@ -16,6 +16,7 @@ import { AppearanceProvider } from 'react-native-appearance'
 import * as Sentry from '@sentry/react-native'
 import { GoogleSignin } from '@react-native-community/google-signin'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
+import { requestUserPermission, registerAppWithFCM } from '../Controllers/NotificationsController'
 
 function getActiveRouteName(navigationState) {
     if (!navigationState) {
@@ -79,6 +80,8 @@ function RootContainer() {
             PushNotification.cancelAllLocalNotifications()
             PushNotification.setApplicationIconBadgeNumber(0)
             await setupGoogle()
+            await requestUserPermission()
+            await registerAppWithFCM()
             const { data } = await legacyLoginUser()
             try {
                 let {
