@@ -8,7 +8,7 @@ import Card from 'MellowComponents/Card'
 
 const DailyReflectionCompletedCard = ({ streak }) => {
     return (
-        <Card bg="WhiteM" style={{ width: '100%' }}>
+        <Card bg="WhiteM" style={{ width: '100%' }} mb={3}>
             <Image
                 source={Images.cardWaveF}
                 style={{
