@@ -115,23 +115,10 @@ function RootContainer() {
         bootstrapData()
     }, [])
 
-    const renderAppContainer = loggedIn => {
-        const MainNavigation = createMainNav(loggedIn)
+    const renderAppContainer = () => {
+        const MainNavigation = createMainNav()
         const AppContainer = createAppContainer(MainNavigation)
-        return (
-            <AppContainer
-                onNavigationStateChange={(prevState, currentState, action) => {
-                    const currentScreen = getActiveRouteName(currentState)
-                    const prevScreen = getActiveRouteName(prevState)
-
-                    if (prevScreen !== currentScreen) {
-                        // the line below uses the Google Analytics tracker
-                        // change the tracker here to use other Mobile analytics SDK.
-                        Analytics.viewScreen(currentScreen)
-                    }
-                }}
-            />
-        )
+        return <AppContainer />
     }
 
     return (

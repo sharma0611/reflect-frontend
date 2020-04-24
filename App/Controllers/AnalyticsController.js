@@ -1,80 +1,55 @@
 // @flow
 import { Platform } from 'react-native'
-import Mixpanel from 'react-native-mixpanel'
 import { AppEventsLogger } from 'react-native-fbsdk'
-import config from 'Config/AppConfig'
 import moment from 'moment'
-import firebaseAnalytics from '@react-native-firebase/analytics'
-import snakeCase from 'lodash-es/snakeCase'
-import mapKeys from 'lodash-es/mapKeys'
+import camelCase from 'lodash-es/camelCase'
+import Segment from '@segment/analytics-react-native'
+import Profile from 'Firebase/models/Profile'
+
+const safeCamelCase = item => {
+    if (typeof item === 'string') {
+        return camelCase(item)
+    } else {
+        return item
+    }
+}
+
+const camelCaseProps = props => {
+    const cleanParams = Object.entries(props)
+        .map(([key, value]) => ({
+            [camelCase(key)]: safeCamelCase(value)
+        }))
+        .reduce((prevVal, currVal) => ({ ...prevVal, ...currVal }))
+    return cleanParams
+}
 
 class Tracking {
-    constructor() {
-        Mixpanel.sharedInstanceWithToken(config.MIXPANEL_TOKEN)
-        // .then(
-        // () =>
-        //     Mixpanel.identify(config.getDeviceId())
-        // )
-    }
     // Send and event name with no properties
-    _track = (eventName: string, logToFirebase = true) => {
-        Mixpanel.track(eventName)
+    _track = (eventName: string) => {
         AppEventsLogger.logEvent(eventName)
-        if (logToFirebase) this.logEvent(eventName)
+        Segment.track(camelCase(eventName))
     }
 
     // Track event with properties
-    _trackWithProperties = (eventName: string, props: any, logToFirebase = true) => {
-        Mixpanel.trackWithProperties(eventName, props)
+    _trackWithProperties = (eventName: string, props: any) => {
         AppEventsLogger.logEvent(eventName, null, props)
-        if (logToFirebase) this.logEvent(eventName, props)
+        const cleanProps = camelCaseProps(props)
+        Segment.track(camelCase(eventName), cleanProps)
     }
 
-    // set people properties
-    // You should pass in any props with spacing, e.g:
-    // { ['Has Robo']: true }
     _set = (props: any) => {
-        Mixpanel.set(props)
-        this.setUserProperties(props)
+        const uid = Profile.uid()
+        const cleanProps = camelCaseProps(props)
+        if (uid) {
+            Segment.identify(uid, cleanProps)
+        } else {
+            Segment.identify(cleanProps)
+        }
     }
 
-    //Set the email people propertiy Once
-    _setOnce = (email: string) => {
-        Mixpanel.setOnce({ $email: email, Created: new Date().toISOString() })
-    }
-
-    _registerSuperProperties = (props: any) => {
-        Mixpanel.registerSuperProperties(props)
-    }
-
-    _increment = (eventName: string, value: number) => {
-        Mixpanel.increment(eventName, value)
-    }
-
-    _identify = (identity: string) => {
-        Mixpanel.identify(identity)
-    }
-
-    _alias = (identity: string) => {
-        Mixpanel.createAlias(identity)
-    }
-
-    identifyByUid = (uid: string, method?: string = 'undefined') => {
-        this._identify(uid)
-        this.setUserId(uid)
-        firebaseAnalytics().logLogin({ method })
-    }
-
-    aliasByUid = (uid: string, method?: string = 'undefined') => {
-        this._alias(uid)
-        this.setUserId(uid)
-        firebaseAnalytics().logSignUp({ method })
-    }
-
-    viewScreen = (screenName: string) => {
-        this._track('View ' + screenName, false)
-        // console.log('viewScreen', screenName)
-        firebaseAnalytics().setCurrentScreen(screenName, screenName)
+    setUserPropertiesOnce = ({ email, name }: { email: string, name: string }) => {
+        const createdAt = new Date().toISOString()
+        this._set({ os: Platform.OS, email, name, createdAt })
     }
 
     saveJournal = (journalType: string, journalLength: number, title: string) => {
@@ -198,6 +173,7 @@ class Tracking {
 
     unlockPro() {
         this._track('Unlock Pro')
+        this._set({ pro: true })
     }
 
     lockPro() {
@@ -250,26 +226,7 @@ class Tracking {
         this._trackWithProperties('Referral Sign Up', {
             referralCode
         })
-        this.logEvent('used_referral', { referral: referralCode })
-    }
-
-    setUserId = async (id: string): Promise<void> => {
-        // console.log('setUserId', id)
-        await this.setUserProperties({ uid: id, os: Platform.OS })
-        return firebaseAnalytics().setUserId(id)
-    }
-
-    setUserProperties = (properties: { [key: string]: string | null }): Promise<void> => {
-        const cleanProperties = properties && mapKeys(properties, (value, key) => snakeCase(key))
-        // console.log('setUserProperties', cleanProperties)
-        return firebaseAnalytics().setUserProperties(cleanProperties)
-    }
-
-    logEvent = (name: string, params?: undefined | { [key: string]: any }): Promise<void> => {
-        const cleanName = snakeCase(name)
-        const cleanParams = params && mapKeys(params, (value, key) => snakeCase(key))
-        // console.log('logEvent', cleanName, cleanParams)
-        return firebaseAnalytics().logEvent(cleanName, cleanParams)
+        this._set({ referredBy: referralCode })
     }
 }
 

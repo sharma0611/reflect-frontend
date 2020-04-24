@@ -11,11 +11,9 @@ export function setupUser() {
     const refetch = user => {
         if (user) {
             const uid = user && user.uid
-            Analytics.setUserId(uid)
             return setUser({ loading: false, uid })
         } else {
             const uid = undefined
-            Analytics.setUserId(uid)
             return setUser({ loading: false, uid })
         }
     }
