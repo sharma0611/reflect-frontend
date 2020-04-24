@@ -24,6 +24,15 @@ export const currentUser = () => firebase.auth().currentUser
 
 // db
 export const adminsRef = db.collection('admins')
+export const activitiesRef = db.collection('activities')
+export const activityResponsesRef = db.collection('activity_responses')
+export const categoriesRef = db.collection('categories')
+export const emojisRef = db.collection('emojis')
+export const entriesRef = db.collection('entries')
+export const profilesRef = db.collection('profiles')
+export const questionsRef = db.collection('questions')
+export const referralsRef = db.collection('referrals')
+
 export const adminRef = () => currentUser() && adminsRef.doc(currentUser().uid)
 export const adminRefFromId = id => id && adminsRef.doc(id)
 

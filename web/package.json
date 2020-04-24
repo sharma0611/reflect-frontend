@@ -1,14 +1,18 @@
 {
     "name": "reflect_web",
     "version": "0.0.1",
-    "main": "index.js",
+    "main": "src/index.html",
     "scripts": {
         "start": "parcel src/index.html",
         "build": "parcel build src/index.html",
-        "deploy": "parcel build src/index.html && firebase deploy",
+        "deploy": "parcel build src/index.html && firebase deploy --only hosting",
+        "deployAll": "parcel build src/index.html && firebase deploy",
         "local": "LOCAL=true parcel src/index.html",
         "shell": "firebase functions:shell",
-        "emulators": "firebase emulators:start"
+        "emulators": "firebase emulators:start",
+        "importIndexes": "firebase firestore:indexes > firestore.indexes.json",
+        "importRules": "open \"https://console.firebase.google.com/u/1/project/reflect-78453/database/firestore/rules\" && code firestore.rules",
+        "import": "yarn run importIndexes && yarn run importRules"
     },
     "dependencies": {
         "@reach/router": "^1.3.3",
