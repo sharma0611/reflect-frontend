@@ -158,6 +158,7 @@ PODS:
     - abseil/base/base_internal
     - abseil/base/config
     - abseil/meta/type_traits
+  - Analytics (3.7.1)
   - AppAuth (1.3.0):
     - AppAuth/Core (= 1.3.0)
     - AppAuth/ExternalUserAgent (= 1.3.0)
@@ -195,8 +196,6 @@ PODS:
     - FBSDKShareKit/Share (= 5.8.0)
   - FBSDKShareKit/Share (5.8.0):
     - FBSDKCoreKit (~> 5.0)
-  - Firebase/Analytics (6.13.0):
-    - Firebase/Core
   - Firebase/Auth (6.13.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 6.4.0)
@@ -320,7 +319,6 @@ PODS:
   - GTMSessionFetcher/Full (1.3.1):
     - GTMSessionFetcher/Core (= 1.3.1)
   - leveldb-library (1.22)
-  - Mixpanel (3.4.9)
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
     - nanopb/encode (= 0.3.9011)
@@ -506,9 +504,6 @@ PODS:
   - react-native-fbsdk/Share (1.1.1):
     - FBSDKShareKit (= 5.8)
     - React
-  - react-native-mixpanel (0.0.6):
-    - Mixpanel (~> 3.4.5)
-    - React
   - react-native-spinkit (1.4.1):
     - React
   - react-native-splash-screen (3.2.0):
@@ -550,6 +545,9 @@ PODS:
     - React-cxxreact (= 0.61.2)
     - React-jsi (= 0.61.2)
     - ReactCommon/jscallinvoker (= 0.61.2)
+  - RNAnalytics (1.1.1-beta.2):
+    - Analytics
+    - React
   - RNCAsyncStorage (1.6.2):
     - React
   - RNCPushNotificationIOS (1.1.0):
@@ -558,11 +556,6 @@ PODS:
     - React
   - RNDeviceInfo (3.1.4):
     - React
-  - RNFBAnalytics (6.4.0):
-    - Firebase/Analytics (~> 6.13.0)
-    - Firebase/Core (~> 6.13.0)
-    - React
-    - RNFBApp
   - RNFBApp (6.4.0):
     - Firebase/Core (~> 6.13.0)
     - React
@@ -622,7 +615,6 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-appearance (from `../node_modules/react-native-appearance`)
   - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
-  - react-native-mixpanel (from `../node_modules/react-native-mixpanel`)
   - react-native-spinkit (from `../node_modules/react-native-spinkit`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -637,11 +629,11 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/jscallinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNAnalytics (from `../node_modules/@segment/analytics-react-native`)"
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
-  - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
@@ -659,6 +651,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - abseil
+    - Analytics
     - AppAuth
     - boost-for-react-native
     - BoringSSL-GRPC
@@ -684,7 +677,6 @@ SPEC REPOS:
     - GTMAppAuth
     - GTMSessionFetcher
     - leveldb-library
-    - Mixpanel
     - nanopb
     - Purchases
     - Sentry
@@ -724,8 +716,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-appearance"
   react-native-fbsdk:
     :path: "../node_modules/react-native-fbsdk"
-  react-native-mixpanel:
-    :path: "../node_modules/react-native-mixpanel"
   react-native-spinkit:
     :path: "../node_modules/react-native-spinkit"
   react-native-splash-screen:
@@ -752,6 +742,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNAnalytics:
+    :path: "../node_modules/@segment/analytics-react-native"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
   RNCPushNotificationIOS:
@@ -760,8 +752,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
-  RNFBAnalytics:
-    :path: "../node_modules/@react-native-firebase/analytics"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAuth:
@@ -791,6 +781,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   abseil: 18063d773f5366ff8736a050fe035a28f635fd27
+  Analytics: f82f3cd6d3c8fbfd76ce25773199576656981a4a
   AppAuth: 73574f3013a1e65b9601a3ddc8b3158cce68c09d
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
@@ -822,7 +813,6 @@ SPEC CHECKSUMS:
   GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
   GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
-  Mixpanel: 5aca6e506b34650b96dc759a208513d86650fac7
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   Purchases: 392c729893c011c7d4d37d7f7c9f863e597d4a9b
   RCTRequired: c639d59ed389cfb1f1203f65c2ea946d8ec586e2
@@ -836,7 +826,6 @@ SPEC CHECKSUMS:
   React-jsinspector: 111d7d342b07a904c400592e02a2b958f1098b60
   react-native-appearance: 98e4530857c366de634f58e5db91bf97feaa96ff
   react-native-fbsdk: b94a83971c496a35803f38b921aec6d637ba07b5
-  react-native-mixpanel: f7ca1a4a436f1d3c19d9ca5d57aa47b848e97292
   react-native-spinkit: da294fd828216ad211fe36a5c14c1e09f09e62db
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-webview: d143130e6993ea015098add115c19a765a7e1422
@@ -850,11 +839,11 @@ SPEC CHECKSUMS:
   React-RCTText: e3ef6191cdb627855ff7fe8fa0c1e14094967fb8
   React-RCTVibration: fb54c732fd20405a76598e431aa2f8c2bf527de9
   ReactCommon: 5848032ed2f274fcb40f6b9ec24067787c42d479
+  RNAnalytics: bf9743995acee035396822c40bcdd1b87e90ba76
   RNCAsyncStorage: 60a80e72d95bf02a01cace55d3697d9724f0d77f
   RNCPushNotificationIOS: ec3e8c17cda6a92a0bb97a53ec5ecf5771d94d21
   RNDateTimePicker: 65eadfa62b069b415a6ac1d20a81cacfa26cb37a
   RNDeviceInfo: 88099e84466f053bae3f34c307b506738b2b6946
-  RNFBAnalytics: 2a5adf3a6331dfd232ac9661108e491b832be6e9
   RNFBApp: 69781cf10ce41f6f6db789e6264dd80119ef2fb7
   RNFBAuth: 50fcc7826344dc96caad8bc4f5b40a64904297b8
   RNFBFirestore: 69e59e5266927857fa3629715111ee65f4de1cd0

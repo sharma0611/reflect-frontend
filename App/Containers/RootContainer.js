@@ -16,6 +16,7 @@ import { AppearanceProvider } from 'react-native-appearance'
 import * as Sentry from '@sentry/react-native'
 import { GoogleSignin } from '@react-native-community/google-signin'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
+import Segment from '@segment/analytics-react-native'
 
 function getActiveRouteName(navigationState) {
     if (!navigationState) {
@@ -73,12 +74,22 @@ function RootContainer() {
         })
     }
 
+    const setupSegment = async () => {
+        await Segment.setup('PBfPi6ZYKqm3XFDKFivm0pt19bJTjZgU', {
+            // Record screen views automatically!
+            recordScreenViews: true,
+            // Record certain application events automatically!
+            trackAppLifecycleEvents: true
+        })
+    }
+
     const bootstrapData = async () => {
         try {
             // online
             PushNotification.cancelAllLocalNotifications()
             PushNotification.setApplicationIconBadgeNumber(0)
             await setupGoogle()
+            await setupSegment()
             const { data } = await legacyLoginUser()
             try {
                 let {
@@ -104,23 +115,10 @@ function RootContainer() {
         bootstrapData()
     }, [])
 
-    const renderAppContainer = loggedIn => {
-        const MainNavigation = createMainNav(loggedIn)
+    const renderAppContainer = () => {
+        const MainNavigation = createMainNav()
         const AppContainer = createAppContainer(MainNavigation)
-        return (
-            <AppContainer
-                onNavigationStateChange={(prevState, currentState, action) => {
-                    const currentScreen = getActiveRouteName(currentState)
-                    const prevScreen = getActiveRouteName(prevState)
-
-                    if (prevScreen !== currentScreen) {
-                        // the line below uses the Google Analytics tracker
-                        // change the tracker here to use other Mobile analytics SDK.
-                        Analytics.viewScreen(currentScreen)
-                    }
-                }}
-            />
-        )
+        return <AppContainer />
     }
 
     return (

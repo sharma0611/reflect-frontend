@@ -146,17 +146,16 @@ class ProfileModel extends Model {
         referralId?: string = '',
         method?: string = 'undefined'
     ): Promise<void> {
-        await this._setCurrentUserDisplayName(newDisplayName)
         const { uid, email, displayName } = auth().currentUser
-        await Analytics.setUserId(uid)
-        let newFields = { displayName, email, uid }
+        await this._setCurrentUserDisplayName(newDisplayName)
+        let newFields = { newDisplayName, email, uid }
         const trialEnd = await Referral.getTrialEnd(referralId)
         if (trialEnd) {
             Analytics.usedReferral(referralId)
             newFields = { ...newFields, referralId, trialEnd }
         }
         const newDocRef = await this.createById(uid, newFields)
-        this._aliasOrIdentify(!!newDocRef, method)
+        this._aliasOrIdentify(!!newDocRef, method, email, displayName)
     }
 
     async _setCurrentUserDisplayName(displayName: string): Promise<void> {
@@ -165,14 +164,12 @@ class ProfileModel extends Model {
         }
     }
 
-    _aliasOrIdentify(existing: boolean, method: string): void {
+    _aliasOrIdentify(existing: boolean, method: string, email: string, name: string): void {
         const uid = this.uid()
         if (!uid) return
 
         if (existing) {
-            Analytics.identifyByUid(uid, method)
-        } else {
-            Analytics.aliasByUid(uid, method)
+            Analytics.setUserPropertiesOnce({ name, email })
         }
     }
 
